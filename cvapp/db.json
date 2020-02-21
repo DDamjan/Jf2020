@@ -1,0 +1,49 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "test",
+      "password": "test"
+    },
+    {
+      "email": "test2",
+      "password": "test2",
+      "licniPodaci": {
+        "ime": "test2",
+        "prezime": "test2",
+        "imeRoditelja": "",
+        "datumRodjenja": "2",
+        "telefon": "432",
+        "linkedIn": ""
+      },
+      "prebivaliste": {
+        "drzava": "dfsa",
+        "grad": "fsda",
+        "adresa": "fsda"
+      },
+      "boraviste": {
+        "drzava": "",
+        "grad": "",
+        "adresa": ""
+      },
+      "id": 2
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

@@ -1,0 +1,43 @@
+.uiContainer{
+    position: relative;
+}
+.uiInput{
+    height: 30px !important;
+}
+.uiLabel{
+    font-size: large;
+}
+/*TODO: dimenzije slike ne treba da budu fiksne*/
+.profileImg{
+    border-radius: 50%;
+    margin-top: 40px;
+    width: 100px;
+    height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.uiRightCol{
+   text-align: center;
+}
+.changeImageLink{
+    text-decoration: underline;
+    color: white !important;  
+}
+/*TODO: desna margina ne treba da bude 13%, nego treba da bude na dnu uiRightCol centrirano*/
+.pdfFileName{
+    position: absolute;
+    bottom: 0;
+    right: 13%;
+}
+.saveBtn{
+    float: right;
+}
+.saveBtnContainer{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.postCvBtnContainer{
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;    
+}

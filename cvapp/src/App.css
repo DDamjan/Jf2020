@@ -1,0 +1,52 @@
+.App {
+  text-align: center;
+}
+.appContainer{
+  margin-bottom: 0;
+  background-color:  #144173 !important;
+  min-height: 100vh;
+  color: white;
+}
+.levo{
+  padding: 0 0 !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+  height: 100% !important;
+}
+.desno{
+  position: relative;
+  height: 100% !important;
+}
+.modal::-webkit-scrollbar{
+  background-color: #144173;
+  border-radius: 6px;
+  filter: blur(0px) !important;
+  display: none;
+  position: relative;
+}
+.modal {
+  background-color: #144173;
+  border-radius: 6px;
+  filter: blur(0px) !important;
+  -ms-overflow-style: none;
+}
+.modalHeaderContainer{
+  text-align: center;
+}
+.cancelBtn{
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 5%;
+  right: 5%;
+}
+.bestLogo{
+  position: absolute;
+  height: 60px;
+  width: 120px;
+  bottom: 30px;
+  right: 30px;
+}
+#modal2{
+  margin-top: 100px;
+}

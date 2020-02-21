@@ -1,0 +1,41 @@
+.loginContainer{
+    padding: 10% 15%;
+    position: relative;
+}
+.inputContainer{
+    margin-top: 6%;
+}
+.loginLabel{
+    font-size: x-large;
+}
+.loginAndForgotPassContainer{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+.loginBtnContainer{
+    text-align: center;
+}
+.forgotPassLinkContainer{
+    text-align:  center;
+    display: inline-block;
+}
+.forgotPassLink{
+    color: white !important;
+    font-size: 120% !important;
+    margin-left: 5%;
+}
+/*you dont have account*/
+.ydha{
+    text-align: center;
+    font-size: 25px !important;
+    margin-top: 5%;
+}
+.registerBtn{
+    margin: 0 auto !important;
+    position:relative !important;
+}
+.registerBtnContainer{
+    text-align: center ;
+}

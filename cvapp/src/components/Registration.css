@@ -1,0 +1,54 @@
+.registrationContainer{
+    position: relative;
+    min-height: 100vh;
+}
+.regHeader{
+    text-align: center;
+}
+.regInput{
+    height: 30px !important;
+}
+.regLabel{
+    font-size: large;
+}
+.step{
+    background-color: #FAA519;
+    height: 50px;
+    line-height: 50px;
+    width: 50px;
+    border-radius: 30px;
+    text-align: center;
+    font-size: 30px;
+}
+.regInputContainer h4{
+    text-align: center;
+}
+.regInputContainer{
+    width: 60%;
+    margin: auto auto;
+}
+.home{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 5%;
+    right: 5%;
+}
+.progBarContainer{
+    margin: 30px auto;
+    width: 70%;
+}
+.buttonsWrapper{
+    position: absolute;
+    bottom: 15px;
+}
+.buttonsContainer{
+    width: 80%;
+    margin: 0 auto;
+}
+.nextButton{
+    float: right;
+}
+.backButon{
+    float: left;
+}
