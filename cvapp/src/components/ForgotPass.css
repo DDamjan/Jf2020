@@ -1,0 +1,25 @@
+.home{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 40px;
+    right: 40px;
+}
+.forgotPassContainer{
+    position: relative;
+    padding: 10% !important;
+}
+.fpHeaderContainer{
+    text-align: center !important;
+}
+/*Q-question*/
+.forgotPassQ{
+    font-size: 40px;
+}
+.fpLabel{
+    font-size: x-large;
+}
+.resetPassBtnContainer{
+    text-align: center !important;
+    margin-top: 50px; 
+}

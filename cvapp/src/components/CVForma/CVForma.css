@@ -1,0 +1,35 @@
+.cvFormContainer{
+    position: relative;
+    filter: blur(0px);
+}
+.cvFormHome{
+    width: 30px;
+    height: 30px;
+    margin-right: 10px; 
+}
+.logout{
+    width: 30px;
+    height: 30px;
+}
+.logoutAndHomeContainer{
+    position: absolute;
+    right: 4%;
+    top: 4%;
+}
+.tabsContainer{
+    width: 65%;
+    margin: auto auto;
+}
+.tab{
+    float: left;
+    margin-right: 20px; 
+}
+.cvFormaHContainer{
+    text-align: center;
+}
+.activeTabHContainer{
+    text-align: center;
+}
+.okpb{
+    
+}
