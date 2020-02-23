@@ -16,6 +16,7 @@ class UserInfo extends React.Component {
 
     this.onInputChange = this.onInputChange.bind(this);
     this.saveChanges = this.saveChanges.bind(this);
+    this.onChangeProfileImage = this.onChangeProfileImage.bind(this);
 
     // const inputData = Object.keys(this.props.storeData).map( (key) => {
     //   return this.props.storeData[key]
@@ -52,6 +53,10 @@ class UserInfo extends React.Component {
     //this.props.isUserLoggedIn()
   }
 
+  onChangeProfileImage(){
+
+  }
+
   render(){
     return (
       <div>
@@ -68,16 +73,22 @@ class UserInfo extends React.Component {
           <div className = "col s5 uiRightCol">
             <img className = "profileImg" src = "photos/defaultProfileImg.png" alt = "job fair"></img>
             <div className = "col s12 l12 m12 xl12">
-              <a href="#" className = "changeImageLink">Promeni sliku</a>
+              <label className="uploadProfileImage">
+                  <input type="file" onChange = {this.onChangeProfileImage}/>
+                  Postavi sliku
+              </label>
             </div>
           </div>
           <p className = "pdfFileName">Petar_Petrovic.pdf</p>
         </div>
         <div className = "col s7 saveBtnContainer">
-          <Button text = "Sačuvaj" className = "saveBtn" onClick={this.saveChanges}/>
+          <Button text = "Sačuvaj" className = "saveBtn"/>
         </div>
         <div className = "col s5 postCvBtnContainer">
-          <Button text = "Postavi CV"/>
+          <label className="uploadCv">
+              <Button text = "Postavi CV"/>
+              <input type="file" onChange = {this.onChangeProfileImage}/>
+          </label>
         </div>
       </div>
     );

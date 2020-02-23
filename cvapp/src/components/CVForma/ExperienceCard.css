@@ -1,0 +1,13 @@
+.expCardContainer{
+    background-color: #FAA519 !important;
+    border-radius: 6px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    text-align: center;
+}
+.ecRemoveExp{
+    height: 30px;
+    width: 30px;
+}

@@ -2,9 +2,6 @@
 .facInput{
     height: 30px !important;
 }
-.facLabel{
-    font-size: large;
-}
 .facSaveBtn{
     float: right;
     margin-top: 20px;

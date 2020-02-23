@@ -1,0 +1,20 @@
+.awapInput{
+    height: 30px !important;
+}
+.awapDescriptionInput{
+    min-height: 100px;
+}
+.certAndAddBtnContaienr{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.awapRightAddBtnContainer{
+    text-align: right;
+}
+.descriptionArea{
+    background-color: white;
+    border-radius: 6px;
+    resize: none;
+    height: 120px;
+}

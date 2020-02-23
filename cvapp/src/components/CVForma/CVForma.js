@@ -4,6 +4,7 @@ import UserInfo from './UserInfo'
 import Okpb from '../Okpb'
 import FacultyAndHighSchool from './FacultyAndHighSchool'
 import Experience from './Experience' 
+import Button from '../Button'
 import {connect} from 'react-redux';
 import * as userActions from '../../common/actions/userActions';
 
@@ -95,7 +96,12 @@ class CVForma extends React.Component {
                                                                         storeData={this.props.store[`${storeKeys[this.state.currentTab]}`]}/> : null} */}
             { this.state.currentTab === 4 ? <FacultyAndHighSchool setModal = {this.props.setModal} modal = {0}/> : null }
             { this.state.currentTab === 5 ? <FacultyAndHighSchool setModal = {this.props.setModal} modal = {1}/> : null }
-            { this.state.currentTab === 6 ? <Experience/> : null }
+            { this.state.currentTab === 6 ? <Experience  setModal = {this.props.setModal} modal = {2} 
+              setExpModal = {this.props.setExpModal}/> : null }
+              { this.state.currentTab > 0 ?
+              <div className = "col s12 m12 l12 xl12 okpbSaveBtn">
+                <Button text = "Sačuvaj" />
+              </div> : null }
           </div>
         </div>
     );
