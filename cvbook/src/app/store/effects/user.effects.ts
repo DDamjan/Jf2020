@@ -6,13 +6,15 @@ import * as actions from '../actions';
 import { Store } from '@ngrx/store';
 import { ofAction } from 'ngrx-actions/dist';
 import { Router } from '@angular/router';
+import { UserService } from 'app/service/user.service';
 
 @Injectable()
 export class UserEffects {
   constructor(
     private store: Store<any>,
     private update$: Actions,
-    private router: Router) { }
+    private router: Router,
+    private userService: UserService) { }
 
   // @Effect()
   // getUser$ = this.update$.pipe(
@@ -24,82 +26,13 @@ export class UserEffects {
   // );
 
   // @Effect()
-  // registerUser$ = this.update$.pipe(
-  //   ofAction(actions.RegisterUser),
-  //   switchMap(user => this.userService.registerUser(user.payload)),
-  //   map(response => {
-  //     this.router.navigate([`${response.type}/home`]);
-  //     return new actions.RegisterUserSuccess(response);
-  //   })
-  // );
-
-  // @Effect()
   // authUser$ = this.update$.pipe(
   //   ofAction(actions.AuthUser),
   //   switchMap(data => this.userService.authUser(data.payload)),
   //   map(response => {
-  //     if (response.type !== 'error') {
-  //       this.router.navigate([`${response.user.type}/home`]);
-  //       return new actions.AuthUserSuccess(response);
-  //     } else {
-  //       return new actions.AuthUserFail(response);
-  //     }
+  //     console.log('user effects authUser response');
+  //     console.log(response);
+  //     this.router.navigate([`/dashboard`]);
   //   })
   // );
-
-  // @Effect()
-  // requestRide$ = this.update$.pipe(
-  //   ofAction(actions.RequestRide),
-  //   switchMap(ride => this.userService.requestRide(ride.payload)),
-  //   map(response => {
-  //     return new actions.UpdateUserSuccess(response);
-  //   })
-  // );
-
-  // @Effect()
-  // acceptRide$ = this.update$.pipe(
-  //   ofAction(actions.AcceptRide),
-  //   switchMap(ride => this.userService.acceptRide(ride.payload)),
-  //   map(response => {
-  //     return new actions.UpdateUserSuccess(response);
-  //   })
-  // );
-
-
-  // @Effect()
-  // cancelRide$ = this.update$.pipe(
-  //   ofAction(actions.CancelRide),
-  //   switchMap(ride => this.rideService.finishRide(ride.payload)),
-  //   map(response => {
-  //     return new actions.UpdateUserSuccess(response);
-  //   })
-  // );
-
-  // @Effect()
-  // arriveAtPickup$ = this.update$.pipe(
-  //   ofAction(actions.Arrive),
-  //   switchMap(ride => this.rideService.arriveToPickup(ride.payload)),
-  //   map(response => {
-  //     return new actions.ArriveSuccess(response);
-  //   })
-  // );
-
-  //   @Effect()
-  //   updateUser$ = this.update$.pipe(
-  //     ofAction(actions.UpdateUser),
-  //     switchMap(user => this.userService.updateUser(user.payload)),
-  //     map(response => {
-  //       return new actions.UpdateUserSuccess(response);
-  //     },
-  //       catchError(error => error.subscribe().switchMap(err => {
-  //         console.log(err);
-  //       }))));
-
-  //   @Effect()
-  //   deleteUser$ = this.update$.pipe(
-  //     ofAction(actions.DeleteUser),
-  //     switchMap(User => this.userService.deleteUser(User.payload)),
-  //     map(response => {
-  //       return new actions.DeleteUserSuccess(response);
-  //     }));
 }

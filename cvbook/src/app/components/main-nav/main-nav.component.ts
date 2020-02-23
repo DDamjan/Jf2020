@@ -19,17 +19,11 @@ export class MainNavComponent {
 
   constructor(private breakpointObserver: BreakpointObserver,
               private router: Router, private store: Store<any>) {
-    const currentType = localStorage.getItem('currentUserType');
-    if (currentType === 'operator') {
-      this.type = true;
-    } else {
-      this.type = false;
-    }
   }
 
   public onLogout() {
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('currentUserType');
+    localStorage.removeItem('CVBook-CurrentCompany');
+    sessionStorage.removeItem('CVBook-Token');
     this.router.navigate(['/']);
   }
 

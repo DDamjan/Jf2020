@@ -31,13 +31,21 @@ import { MatSnackBarModule, MatTableModule, MatPaginatorModule, MatSortModule } 
 import { LoginComponent } from './components/login/login.component';
 import { reducers } from './store/reducers';
 import { UserEffects } from './store/effects/user.effects';
+import { CompanyEffects } from './store/effects/company.effects';
 import { UserService } from './service/user.service';
+import { CompanyService } from './service/company.service';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DetailExpansionComponent } from './components/detail-expansion/detail-expansion.component';
+import { CvOverviewComponent } from './components/cv-overview/cv-overview.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainNavComponent,
-    LoginComponent
+    LoginComponent,
+    DashboardComponent,
+    DetailExpansionComponent,
+    CvOverviewComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +70,7 @@ import { UserService } from './service/user.service';
     StoreDevtoolsModule.instrument({}),
     RouterModule,
     EffectsModule.forRoot([]),
-    EffectsModule.forFeature([UserEffects]),
+    EffectsModule.forFeature([UserEffects, CompanyEffects]),
     HttpClientModule,
     MatSnackBarModule,
     MatTableModule,
@@ -71,7 +79,7 @@ import { UserService } from './service/user.service';
     MatSortModule,
     MatAutocompleteModule
   ],
-  providers: [UserService],
+  providers: [UserService, CompanyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

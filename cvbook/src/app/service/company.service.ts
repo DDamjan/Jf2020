@@ -11,25 +11,18 @@ const httpOptions = {
 };
 
 @Injectable()
-export class UserService {
+export class CompanyService {
 
-    private serverURL = conn.LOCAL_SERVER + 'user/';
+    private serverURL = conn.LOCAL_SERVER + 'kompanija/';
 
     constructor(
         private http: HttpClient) { }
 
     /* GET user by id. */
-    getUser(payload: any): Observable<any> {
+    getCompany(payload: any): Observable<any> {
         const url = `${this.serverURL}?id=${payload.id}&auth=${payload.auth}`;
         return this.http.get<any>(url).pipe(
-            catchError(this.handleError<any>(`getUser id=${payload.id}`))
-        );
-    }
-
-    getUsers(data: any): Observable<any> {
-        const url = `${this.serverURL}getUsers`;
-        return this.http.post<any>(url, data, httpOptions).pipe(
-            catchError(this.handleError<any>('getUsers'))
+            catchError(this.handleError<any>(`getCompany id=${payload.id}`))
         );
     }
 
@@ -42,10 +35,10 @@ export class UserService {
     // }
 
     /* POST: Authenticate a user */
-    authUser(data: object): Observable<any> {
+    authCompany(data: object): Observable<any> {
         const url = `${this.serverURL}auth`;
         return this.http.post<any>(url, data, httpOptions).pipe(
-            catchError(this.handleError<any>('authUser'))
+            catchError(this.handleError<any>('authCompany'))
         );
     }
 
