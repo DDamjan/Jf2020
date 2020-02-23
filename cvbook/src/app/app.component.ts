@@ -16,6 +16,6 @@ export class AppComponent implements OnInit, DoCheck {
   }
 
   public ngDoCheck() {
-    localStorage.getItem('currentUser') != null ? this.loggedIn = true : this.loggedIn = false;
+    localStorage.getItem('CVBook-CurrentCompany') != null ? this.loggedIn = true : this.loggedIn = false;
   }
 }

@@ -5,16 +5,15 @@ import { User } from '../../models/User';
 
 @Injectable({ providedIn: 'root' })
 export class LoginGuard implements CanActivate {
-    currentUser: User;
     constructor(
         private router: Router,
         private store: Store<any>
     ) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const currentUserType = localStorage.getItem('currentUserType');
-        if (currentUserType != null) {
-            this.router.navigate([`/${currentUserType}/home`]);
+        const currentCompany = localStorage.getItem('currentCompany');
+        if (currentCompany != null) {
+            this.router.navigate([`/login`]);
             return false;
         }
         return true;

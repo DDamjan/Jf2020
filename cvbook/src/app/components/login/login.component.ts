@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import * as actions from '../../store/actions';
 import { selectAllUsers } from '../../store/reducers/user.reducer';
 import { Router } from '@angular/router';
+import { selectAllCompanys } from 'app/store/reducers/company.reducer';
 
 @Component({
   selector: 'app-login',
@@ -21,20 +22,16 @@ export class LoginComponent implements OnInit, DoCheck {
       password: $event.target[1].value
     };
 
-    this.store.dispatch(new actions.AuthUser(payload));
+    this.store.dispatch(new actions.AuthCompany(payload));
   }
 
   ngDoCheck() {
-    this.store.select(selectAllUsers).subscribe(currentUser => {
+    this.store.select(selectAllCompanys).subscribe(currentUser => {
       if (currentUser.length !== 0) {
-        if (currentUser[currentUser.length - 1].type === 'error') {
+        if (currentUser[currentUser.length - 1].username === 'error') {
           this.error = true;
         }
       }
     });
-  }
-
-  onClick() {
-    this.router.navigate(['client/register']);
   }
 }
