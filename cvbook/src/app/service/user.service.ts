@@ -1,0 +1,95 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { catchError, tap, filter } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { User } from '../models/User';
+import * as conn from '../../constants/server-urls';
+
+const httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
+
+@Injectable()
+export class UserService {
+
+    private serverURL = conn.PUBLIC_SERVER_DAMJAN + 'users/';
+    private RserverURL = conn.PUBLIC_SERVER_DAMJAN + 'rides/';
+    // private serverURL = conn.LOCAL_SERVER + 'users/';
+    // private RserverURL = conn.LOCAL_SERVER + 'rides/';
+    // private serverURL = conn.PUBLIC_SERVER_PEDJA + 'users/';
+    // private RserverURL = conn.PUBLIC_SERVER_PEDJA + 'rides/';
+
+    constructor(
+        private http: HttpClient) { }
+
+    /* GET user by id. */
+    getUser(payload: any): Observable<any> {
+        const url = `${this.serverURL}?id=${payload.id}&auth=${payload.auth}`;
+        return this.http.get<any>(url).pipe(
+            catchError(this.handleError<any>(`getUser id=${payload.id}`))
+        );
+    }
+
+    getDriverByRide(payload: any): Observable<any> {
+        const url = `${this.serverURL}driverByRide?clientID=${payload.clientID}&rideID=${payload.rideID}`;
+        return this.http.get<any>(url).pipe(
+            catchError(this.handleError<any>(`getUser id=${payload.id}`))
+        );
+    }
+
+    // /* GET last ID */
+    // getLastID(): Observable<any> {
+    //     const url = `${this.serverURL}currentid`;
+    //     return this.http.get<any>(url).pipe(
+    //         catchError(this.handleError<any>('getLastID'))
+    //     );
+    // }
+
+    //////// Save methods //////////
+
+    /* POST: add a new user to the server */
+    registerUser(user: User): Observable<User> {
+        const url = `${this.serverURL}create`;
+        return this.http.post<User>(url, user, httpOptions).pipe(
+            catchError(this.handleError<User>('registerUser'))
+        );
+    }
+
+    /* POST: Authenticate a user */
+    authUser(data: object): Observable<any> {
+        const url = `${this.serverURL}auth`;
+        return this.http.post<any>(url, data, httpOptions).pipe(
+            catchError(this.handleError<any>('authUser'))
+        );
+    }
+
+     /* POST: Check the username */
+     checkUsername(data: object): Observable<boolean> {
+        const url = `${this.serverURL}checkuser`;
+        return this.http.post<boolean>(url, data, httpOptions).pipe(
+            catchError(this.handleError<boolean>('authUser'))
+        );
+    }
+
+    requestRide(payload: any): Observable<User> {
+        const url = `${this.RserverURL}request`;
+        return this.http.post<User>(url, payload, httpOptions).pipe(
+            catchError(this.handleError<User>('requesttest'))
+        );
+    }
+
+    acceptRide(payload: any): Observable<any> {
+        const url = `${this.RserverURL}accept`;
+        return this.http.post<User>(url, payload, httpOptions).pipe(
+            catchError(this.handleError<User>('requesttest'))
+        );
+    }
+
+    private handleError<T>(operation = 'operation', result?: T) {
+        return (error: any): Observable<T> => {
+            console.error(error);
+            return of(result as T);
+        };
+    }
+}

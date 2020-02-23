@@ -1,0 +1,37 @@
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+a {
+  color:white;
+  text-decoration: none;
+}
+
+a:hover 
+{
+   color:white; 
+   text-decoration:none; 
+   cursor:pointer;  
+}
+
+.logout{
+  align-self: flex-end;
+}
+
+.logout-container{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+
