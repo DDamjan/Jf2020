@@ -35,7 +35,7 @@ function execLogin(res, query, kompanija) {
     });
 }
 
-function exec(req, res, query) {
+function exec(req, res, query, fun) {
     let token = req.headers['x-access-token'] || req.headers['authorization'];
     if (token.startsWith('Bearer ')) {
         token = token.slice(7, token.length);
@@ -49,11 +49,11 @@ function exec(req, res, query) {
                     message: 'Token is not valid'
                 });
             } else {
-                // req.decoded = decoded;
                 mysql.pool.query(query, (err, result) => {
                     if (result.length !== 0) {
-                        res.json(result);
-                        res.send();
+                        fun(res, result);
+                    } else {
+                        fun(res, result);
                     }
                 })
             }
@@ -64,10 +64,15 @@ function exec(req, res, query) {
             message: 'Auth token is not supplied'
         });
     }
+}
 
+function login(res, result) {
+    res.json(result);
+    res.send();
 }
 
 module.exports = {
     execLogin,
-    exec
+    exec,
+    login
 }

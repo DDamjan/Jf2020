@@ -22,7 +22,7 @@ router.post('/auth', async (req, res) => {
 
 router.post('/', async (req, res) => {
 
-  query.exec(req, res, queryString.GET_USERS);
+  query.exec(req, res, queryString.GET_USERS, query.login);
 });
 
 router.get('/checkusername', async (req, res) => {
