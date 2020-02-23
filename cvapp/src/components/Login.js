@@ -1,7 +1,7 @@
 import React from 'react'
 import './Login.css'
 import Button from './Button'
-import {connect} from 'react-redux';
+import {connect} from 'react-redux';    
 import PropTypes from 'prop-types';
 import InputC from './InputC'
 import {loginRequest} from '../common/actions/userActions';
@@ -46,14 +46,14 @@ class LoginComponent extends React.Component{
                 <div className="col s12 loginAndForgotPassContainer">
                     <div className = "col s12 m12 l6 xl6 loginBtnContainer">
                         <Button text = "Uloguj se" onClick = {this.onLoginBtnClick}></Button>
-                        {this.props.proccessing? ( <div class="preloader-wrapper small active">
-                            <div class="spinner-layer spinner-white-only">
-                                <div class="circle-clipper left">
-                                <div class="circle"></div>
-                                </div><div class="gap-patch">
-                                <div class="circle"></div>
-                                </div><div class="circle-clipper right">
-                                <div class="circle"></div>
+                        {this.props.proccessing? ( <div className="preloader-wrapper small active">
+                            <div className="spinner-layer spinner-white-only">
+                                <div className="circle-clipper left">
+                                <div className="circle"></div>
+                                </div><div className="gap-patch">
+                                <div className="circle"></div>
+                                </div><div className="circle-clipper right">
+                                <div className="circle"></div>
                             </div>
                             </div>
                         </div>) : null}

@@ -3,3 +3,7 @@ export const LOGIN_SUCCESSFUL = "LOGIN_SUCCESSFUL";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 
 export const REGISTER_USER = 'REGISTER_USER';
+
+export const IS_USER_LOGGED_IN = "IS USER LOGGED IN";
+
+export const INFO_UPDATE_REQUEST = "UPDATE REQUEST";

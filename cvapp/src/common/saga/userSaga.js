@@ -37,6 +37,8 @@ function *registerUser(action) {
                 prezime: data[2],
                 imeRoditelja: data[1],
                 datumRodjenja: data[3],
+            },
+            kontakt: {
                 telefon: data[4],
                 linkedIn: data[5],
             },
@@ -60,9 +62,20 @@ function *registerUser(action) {
     }
 }
 
+function *infoUpdate(action){
+    try{
+        const { data} = action;
+        console.log( data);
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
 function *userSaga() {
     yield takeEvery(userActionTypes.FETCH_USER, fetchUser);
     yield takeEvery(userActionTypes.REGISTER_USER, registerUser);
+    yield takeEvery(userActionTypes.INFO_UPDATE_REQUEST, infoUpdate)
 }
 
 
