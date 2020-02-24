@@ -16,4 +16,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
   }
 
+  toCVOverview() {
+    this.router.navigate([`/cvoverview`]);
+  }
+
 }

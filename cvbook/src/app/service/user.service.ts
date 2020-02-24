@@ -5,18 +5,22 @@ import { catchError, tap, filter } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { User } from '../models/User';
 import * as conn from '../../constants/server-urls';
-
-const httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+import { CookieService } from './cookie.service';
 
 @Injectable()
 export class UserService {
 
-    private serverURL = conn.LOCAL_SERVER + 'user/';
+    private serverURL = conn.LOCAL_SERVER + 'users/';
+    private httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('CVBook-Token')
+        })
+    };
 
     constructor(
-        private http: HttpClient) { }
+        private http: HttpClient,
+        private cookieService: CookieService) { }
 
     /* GET user by id. */
     getUser(payload: any): Observable<any> {
@@ -27,8 +31,8 @@ export class UserService {
     }
 
     getUsers(data: any): Observable<any> {
-        const url = `${this.serverURL}getUsers`;
-        return this.http.post<any>(url, data, httpOptions).pipe(
+        const url = `${this.serverURL}`;
+        return this.http.post<any>(url, data, this.httpOptions).pipe(
             catchError(this.handleError<any>('getUsers'))
         );
     }
@@ -44,7 +48,7 @@ export class UserService {
     /* POST: Authenticate a user */
     authUser(data: object): Observable<any> {
         const url = `${this.serverURL}auth`;
-        return this.http.post<any>(url, data, httpOptions).pipe(
+        return this.http.post<any>(url, data, this.httpOptions).pipe(
             catchError(this.handleError<any>('authUser'))
         );
     }
@@ -52,7 +56,7 @@ export class UserService {
      /* POST: Check the username */
      checkUsername(data: object): Observable<boolean> {
         const url = `${this.serverURL}checkuser`;
-        return this.http.post<boolean>(url, data, httpOptions).pipe(
+        return this.http.post<boolean>(url, data, this.httpOptions).pipe(
             catchError(this.handleError<boolean>('authUser'))
         );
     }

@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { ofAction } from 'ngrx-actions/dist';
 import { Router } from '@angular/router';
 import { UserService } from 'app/service/user.service';
+import { CookieService } from 'app/service/cookie.service';
 
 @Injectable()
 export class UserEffects {
@@ -14,25 +15,40 @@ export class UserEffects {
     private store: Store<any>,
     private update$: Actions,
     private router: Router,
-    private userService: UserService) { }
+    private userService: UserService,
+    private cookieService: CookieService) { }
 
   // @Effect()
-  // getUser$ = this.update$.pipe(
-  //   ofAction(actions.GetUser),
-  //   switchMap(user => this.userService.getUser(user.payload)),
-  //   map(response => {
-  //     return new actions.GetUserSuccess(response);
-  //   })
-  // );
+  getUser$ = this.update$.pipe(
+    ofAction(actions.GetUser),
+    switchMap(user => this.userService.getUser(user.payload)),
+    map(response => {
+      if (response[0].succses === undefined && response[0].succses === false) {
+        this.badToken();
+        return new actions.TokenExpired();
+      } else {
+        return new actions.GetUserSuccess(response);
+      }
+    })
+  );
 
-  // @Effect()
-  // authUser$ = this.update$.pipe(
-  //   ofAction(actions.AuthUser),
-  //   switchMap(data => this.userService.authUser(data.payload)),
-  //   map(response => {
-  //     console.log('user effects authUser response');
-  //     console.log(response);
-  //     this.router.navigate([`/dashboard`]);
-  //   })
-  // );
+  getUsers$ = this.update$.pipe(
+    ofAction(actions.GetUsers),
+    switchMap(users => this.userService.getUsers(users.payload)),
+    map(response => {
+      if (response[0].succses === undefined && response[0].succses === false) {
+        this.badToken();
+        return new actions.TokenExpired();
+      } else {
+        return new actions.GetUsersSuccess(response);
+      }
+    })
+  );
+
+  badToken() {
+    console.log('BAD TOKEN USER');
+    localStorage.removeItem('CVBook-CurrentCompany');
+    this.cookieService.deleteCookie('CVBook-Token');
+    this.router.navigate(['/']);
+  }
 }

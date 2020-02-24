@@ -1,0 +1,21 @@
+<form (ngSubmit)="onSubmit($event)">
+  <mat-form-field>
+    <input matInput placeholder="First name" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Last name" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Username" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Password" type="password" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Repeat password" type="password" required>
+  </mat-form-field>
+  <p class="error" *ngIf='error'>Username exists!</p>
+  <div class="buttons">
+    <button mat-raised-button type="submit">Search</button>
+  </div>
+</form>

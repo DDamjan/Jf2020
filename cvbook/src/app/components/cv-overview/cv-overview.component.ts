@@ -16,11 +16,12 @@ export class CvOverviewComponent implements OnInit {
   constructor(private store: Store<any>, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
-    this.populateUserList();
+    this.userService.getUsers({}).subscribe(users => {console.log('users'); console.log(users); this.userList = users; });
   }
 
   populateUserList() {
-    this.userService.getUsers(this).subscribe(users => { this.userList = users; });
+    console.log('populateUserList');
+    this.userService.getUsers({}).subscribe(users => {console.log('users'); console.log(users); this.userList = users; });
   }
 
 }

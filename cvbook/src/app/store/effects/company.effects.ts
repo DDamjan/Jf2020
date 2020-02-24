@@ -6,7 +6,8 @@ import * as actions from '../actions';
 import { Store } from '@ngrx/store';
 import { ofAction } from 'ngrx-actions/dist';
 import { Router } from '@angular/router';
-import { CompanyService } from 'app/service/company.service';
+import { CompanyService } from '../../service/company.service';
+import { CookieService } from '../../service/cookie.service';
 
 @Injectable()
 export class CompanyEffects {
@@ -14,14 +15,20 @@ export class CompanyEffects {
     private store: Store<any>,
     private update$: Actions,
     private router: Router,
-    private companyService: CompanyService) { }
+    private companyService: CompanyService,
+    private cookieService: CookieService) { }
 
   @Effect()
   getCompany$ = this.update$.pipe(
     ofAction(actions.GetCompany),
     switchMap(company => this.companyService.getCompany(company.payload)),
     map(response => {
-      return new actions.GetCompanySuccess(response);
+      if (response[0].succses === undefined && response[0].succses === false) {
+        this.badToken();
+        return new actions.TokenExpired();
+      } else {
+        return new actions.GetCompanySuccess(response);
+      }
     })
   );
 
@@ -34,7 +41,7 @@ export class CompanyEffects {
       console.log(response);
       if (response[0].username !== 'error') {
         localStorage.setItem('CVBook-CurrentCompany', response[0].kompanijaID);
-        sessionStorage.setItem('CVBook-Token', response[0].token);
+        this.cookieService.setCookie('CVBook-Token', response[0].token, 8);
         this.router.navigate([`/dashboard`]);
         return new actions.AuthCompanySuccess(response);
       } else {
@@ -42,4 +49,11 @@ export class CompanyEffects {
       }
     })
   );
+
+  badToken() {
+    console.log('BAD TOKEN COMPANY');
+    localStorage.removeItem('CVBook-CurrentCompany');
+    this.cookieService.deleteCookie('CVBook-Token');
+    this.router.navigate(['/']);
+  }
 }

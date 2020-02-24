@@ -37,6 +37,8 @@ import { CompanyService } from './service/company.service';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DetailExpansionComponent } from './components/detail-expansion/detail-expansion.component';
 import { CvOverviewComponent } from './components/cv-overview/cv-overview.component';
+import { FilterComponent } from './components/filter/filter.component';
+import { CookieService } from './service/cookie.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import { CvOverviewComponent } from './components/cv-overview/cv-overview.compon
     LoginComponent,
     DashboardComponent,
     DetailExpansionComponent,
-    CvOverviewComponent
+    CvOverviewComponent,
+    FilterComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +82,7 @@ import { CvOverviewComponent } from './components/cv-overview/cv-overview.compon
     MatSortModule,
     MatAutocompleteModule
   ],
-  providers: [UserService, CompanyService],
+  providers: [UserService, CompanyService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

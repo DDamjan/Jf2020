@@ -11,9 +11,9 @@ export class LoginGuard implements CanActivate {
     ) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const currentCompany = localStorage.getItem('currentCompany');
+        const currentCompany = localStorage.getItem('CVBook-CurrentCompany');
         if (currentCompany != null) {
-            this.router.navigate([`/login`]);
+            this.router.navigate([`/dashboard`]);
             return false;
         }
         return true;
