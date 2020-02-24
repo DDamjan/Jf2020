@@ -65,7 +65,7 @@ class Registration extends React.Component {
     this.setState({termsAndConditions: e.target.checked})
   }
 
-  formValidation() {
+  formValidation(array) {
     if (this.state.currentRegInput === 0 ) {
       if (this.state.data[0]  === '' || this.state.data[2] === '' || this.state.data[3] === '' ){
         this.setState({inputError: true})
@@ -73,12 +73,12 @@ class Registration extends React.Component {
       }
     }
 
-    if (this.state.currentRegInput === 1 && this.state.data[4] === ''){
+    if ((this.state.currentRegInput === 1 || array.includes(1)) && this.state.data[4] === ''){
       this.setState({inputError: true})
       return false;
     }
 
-    if (this.state.currentRegInput === 2) {
+    if (this.state.currentRegInput === 2 || array.includes(2)) {
       if (this.state.data[8]  === '' || this.state.data[9] === '' || this.state.data[10] === '' ){
         this.setState({inputError: true})
         return false;
@@ -105,7 +105,7 @@ class Registration extends React.Component {
   onClickNext(e){
     e.preventDefault();
 
-    if (this.formValidation()) {
+    if (this.formValidation([])) {
       if (this.state.currentRegInput === 4) {
         if (this.state.data[17] !== this.state.data[18]){
           this.setState({passwordError: true, passwordErrorMessage: 'Uneli ste dve različite šifre, pokušajte ponovo' })
@@ -150,7 +150,17 @@ class Registration extends React.Component {
   }
 
   onClickStep(step){
-    if(this.formValidation() || this.state.currentRegInput > step){
+    let between = [];
+
+    if (this.state.currentRegInput < step) {
+      let pomStep = step;
+      while (this.state.currentRegInput !== pomStep) {
+        between.push(pomStep - 1);
+        pomStep--;
+      }
+    }
+
+    if(this.formValidation(between) || this.state.currentRegInput > step){
       this.setState({
         currentRegInput: step,
         inputError: false
