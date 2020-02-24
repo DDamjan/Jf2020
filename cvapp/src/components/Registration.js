@@ -150,9 +150,13 @@ class Registration extends React.Component {
   }
 
   onClickStep(step){
-    this.setState({
-      currentRegInput: step
-    });
+    if(this.formValidation() || this.state.currentRegInput > step){
+      this.setState({
+        currentRegInput: step,
+        inputError: false
+      });
+    }
+
   }
 
   onInputChange(data, index) {

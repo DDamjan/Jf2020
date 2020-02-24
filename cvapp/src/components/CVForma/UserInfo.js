@@ -82,7 +82,7 @@ class UserInfo extends React.Component {
           <p className = "pdfFileName">Petar_Petrovic.pdf</p>
         </div>
         <div className = "col s7 saveBtnContainer">
-          <Button text = "Sačuvaj" className = "saveBtn"/>
+          <Button text = "Sačuvaj" className = "saveBtn" onClick={this.saveChanges}/>
         </div>
         <div className = "col s5 postCvBtnContainer">
           <label className="uploadCv">
