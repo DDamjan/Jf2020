@@ -50,7 +50,7 @@ export class GetUserSuccess implements Action {
 
 export class GetUsers implements Action {
     readonly type = GET_USERS;
-    constructor(public payload: any) { }
+    constructor() { }
 }
 
 export class GetUsersSuccess implements Action {

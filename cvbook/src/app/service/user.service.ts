@@ -14,7 +14,7 @@ export class UserService {
     private httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + sessionStorage.getItem('CVBook-Token')
+            'Authorization': 'Bearer ' + this.cookieService.getCookie('CVBook-Token')
         })
     };
 
@@ -30,9 +30,11 @@ export class UserService {
         );
     }
 
-    getUsers(data: any): Observable<any> {
+    getUsers(): Observable<any> {
+        console.log('this.httpOptions');
+        console.log(this.httpOptions);
         const url = `${this.serverURL}`;
-        return this.http.post<any>(url, data, this.httpOptions).pipe(
+        return this.http.post<any>(url, {}, this.httpOptions).pipe(
             catchError(this.handleError<any>('getUsers'))
         );
     }

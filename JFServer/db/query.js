@@ -51,6 +51,7 @@ function exec(req, res, query, fun) {
             } else {
                 mysql.pool.query(query, (err, result) => {
                     if (result.length !== 0) {
+                        console.log(res);
                         fun(res, result);
                     } else {
                         fun(res, result);

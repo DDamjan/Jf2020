@@ -18,12 +18,14 @@ export class UserEffects {
     private userService: UserService,
     private cookieService: CookieService) { }
 
-  // @Effect()
+  @Effect()
   getUser$ = this.update$.pipe(
     ofAction(actions.GetUser),
     switchMap(user => this.userService.getUser(user.payload)),
     map(response => {
-      if (response[0].succses === undefined && response[0].succses === false) {
+      console.log('actions.GetUser');
+      console.log(response[0]);
+      if (response.success !== undefined && response.success === false) {
         this.badToken();
         return new actions.TokenExpired();
       } else {
@@ -32,11 +34,14 @@ export class UserEffects {
     })
   );
 
+  @Effect()
   getUsers$ = this.update$.pipe(
     ofAction(actions.GetUsers),
-    switchMap(users => this.userService.getUsers(users.payload)),
+    switchMap(users => this.userService.getUsers()),
     map(response => {
-      if (response[0].succses === undefined && response[0].succses === false) {
+      console.log('actions.GetUsers');
+      console.log(response[0]);
+      if (response.success !== undefined && response.success === false) {
         this.badToken();
         return new actions.TokenExpired();
       } else {
