@@ -18,7 +18,8 @@ class InputC extends React.Component {
   }
 
   componentDidUpdate(prevProps){
-    if(this.props.value !== prevProps.value && this.state.value === ''){
+
+    if(this.props.value !== prevProps.value ){
       this.setState({
         value: this.props.value
       })

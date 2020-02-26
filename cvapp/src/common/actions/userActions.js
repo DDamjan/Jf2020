@@ -28,3 +28,13 @@ export const infoUpdateRequest = ( data) => ({
     type: userActionTypes.INFO_UPDATE_REQUEST,
     data
 })
+
+export const openModal = id => ({
+    type: userActionTypes.OPEN_MODAL,
+    id
+})
+
+export const submitFromModal = data => ({
+    type: userActionTypes.SUBMIT_FROM_MODAL,
+    data
+})

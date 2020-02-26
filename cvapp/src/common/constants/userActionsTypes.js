@@ -7,3 +7,6 @@ export const REGISTER_USER = 'REGISTER_USER';
 export const IS_USER_LOGGED_IN = "IS USER LOGGED IN";
 
 export const INFO_UPDATE_REQUEST = "UPDATE REQUEST";
+
+export const OPEN_MODAL = "OPEN MODAL";
+export const SUBMIT_FROM_MODAL = "SUBMIT FROM MODAL";
