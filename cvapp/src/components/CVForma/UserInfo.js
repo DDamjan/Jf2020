@@ -5,7 +5,6 @@ import Button from '../Button'
 import * as userActions from '../../common/actions/userActions';
 import {connect} from 'react-redux';
 
-
 var userInfo = ["Ime", "Ime roditelja", "Prezime", "Datum rođenja" ];
 const userKeys = ['ime',  'imeRoditelja', 'prezime','datumRodjenja'];
 
@@ -53,8 +52,8 @@ class UserInfo extends React.Component {
     //this.props.isUserLoggedIn()
   }
 
-  onChangeProfileImage(){
-
+  onChangeProfileImage(files){
+    console.log(files)
   }
 
   render(){
@@ -82,12 +81,12 @@ class UserInfo extends React.Component {
           <p className = "pdfFileName">Petar_Petrovic.pdf</p>
         </div>
         <div className = "col s7 saveBtnContainer">
-          <Button text = "Sačuvaj" className = "saveBtn"/>
+          <Button text = "Sačuvaj" className = "saveBtn" onClick={this.saveChanges}/>
         </div>
         <div className = "col s5 postCvBtnContainer">
           <label className="uploadCv">
               <Button text = "Postavi CV"/>
-              <input type="file" onChange = {this.onChangeProfileImage}/>
+              <input type="file" onChange = { (e) => this.onChangeProfileImage(e.target.files)}/>
           </label>
         </div>
       </div>
@@ -106,7 +105,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     submit:  data => {dispatch(userActions.infoUpdateRequest( data))}
-    
   }
 }
 

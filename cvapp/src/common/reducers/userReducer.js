@@ -3,6 +3,7 @@ import * as userActionsTypes from '../constants/userActionsTypes';
 const initialState =  {
     proccessing: false,
     error: false,
+    modalId: null,
     licniPodaci: {
             ime: '',
             prezime: '',
@@ -23,7 +24,9 @@ const initialState =  {
         drzava: '',
         grad: '',
         adresa: '',
-    }
+    },
+    srednjeObrazovanje: [],
+    visokoObrazovanje: []
 }
 
 const userReducer = ( state = initialState, action) => {
@@ -70,6 +73,26 @@ const userReducer = ( state = initialState, action) => {
                 prebivaliste: {...user['prebivaliste']},
                 boraviste: {...user['boraviste']},
                 kontakt: {...user['kontakt']},
+                srednjeObrazovanje: [...user['srednjeObrazovanje']],
+                visokoObrazovanje: [...user['visokoObrazovanje']]
+            }
+        }
+
+        case userActionsTypes.OPEN_MODAL: {
+            const {id} = action;
+
+            return{
+                ...state,
+                modalId: id
+            }
+        }
+
+        case userActionsTypes.SUBMIT_FROM_MODAL: {
+            const {data} = action;
+
+            return {
+                ...state,
+                modalId: null
             }
         }
         default:
