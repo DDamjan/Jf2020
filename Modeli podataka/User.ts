@@ -12,5 +12,5 @@ export interface User{
     boraviste: Adresa;
     srednjeObrazovanje: SrednjeObrazovanje[];
     visokoObrazovanje: VisokoObrazovanje[];
-    iskustvo: Iskustvo[];
+    iskustvo: Iskustvo;
 }   

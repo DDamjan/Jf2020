@@ -1,4 +1,5 @@
 export interface PoznavanjeJezika {
+    jezikID: number;
     jezik: string;
     sertifikat: string;
     nivoGovora: string;

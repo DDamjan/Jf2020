@@ -1,4 +1,5 @@
 export interface RadnoIskustvo {
+    radnoIskustvoID: number;
     kompanija: string;
     datumPocetka: Date;
     datumZavrsetka?: Date;

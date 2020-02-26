@@ -8,8 +8,6 @@ router.post('/register', async (req, res) => {
   let username = req.body.username;
   let password = sha('sha256').update(req.body.password).digest('hex');
 
-  
-
   query.execPost(req, res, queryString.REGISTER_USER(username, password));
 });
 
@@ -22,7 +20,7 @@ router.post('/auth', async (req, res) => {
 
 router.post('/', async (req, res) => {
 
-  query.exec(req, res, queryString.GET_USERS, query.login);
+  query.exec(req, res, queryString.GET_USERS, query.get);
 });
 
 router.get('/checkusername', async (req, res) => {
