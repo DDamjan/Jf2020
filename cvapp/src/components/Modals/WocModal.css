@@ -1,0 +1,27 @@
+.lvlLabel{
+    color: white;
+    font-size: large;
+}
+.lvlDropDown{
+    background-color: white;
+    height: 3rem;
+    margin:auto auto;
+    border-radius: 6px !important;
+}
+.wocDdBtn{
+    width: 100%;
+    text-align: left;
+    background-color: white !important;
+    color: black !important ;
+}
+#wocLvlDd li{
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+#wocLvlDd{
+    border-radius: 6px;
+}
+.wocInput{
+    height: 36px !important;
+}

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { CookieService } from 'app/service/cookie.service';
 
 @Component({
   selector: 'app-main-nav',
@@ -18,12 +19,14 @@ export class MainNavComponent {
     );
 
   constructor(private breakpointObserver: BreakpointObserver,
-              private router: Router, private store: Store<any>) {
+              private router: Router,
+              private store: Store<any>,
+              private cookieService: CookieService) {
   }
 
   public onLogout() {
     localStorage.removeItem('CVBook-CurrentCompany');
-    sessionStorage.removeItem('CVBook-Token');
+    this.cookieService.deleteCookie('CVBook-Token');
     this.router.navigate(['/']);
   }
 

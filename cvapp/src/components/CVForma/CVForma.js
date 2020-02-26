@@ -4,9 +4,13 @@ import UserInfo from './UserInfo'
 import Okpb from '../Okpb'
 import FacultyAndHighSchool from './FacultyAndHighSchool'
 import Experience from './Experience' 
+import Button from '../Button'
+import {connect} from 'react-redux';
+import * as userActions from '../../common/actions/userActions';
 
 var tabs = [ "Osnovni podaci", "Kontakt", "Prebivalište", "Boravište", 
 "Srednje obrazovanje", "Visoko obrazovanje","Iskustvo"];
+const storeKeys = ['licniPodaci', 'kontakt', 'prebivaliste', 'boraviste']
 
 var okpbData = [
   {
@@ -36,6 +40,10 @@ class CVForma extends React.Component {
     };
     this.props.setBestLogo(false);
     this.tabOnClick = this.tabOnClick.bind(this);
+  }
+
+  componentDidMount(){
+    this.props.isUserLoggedIn()
   }
   
   tabOnClick(e, tabIndex){
@@ -77,15 +85,40 @@ class CVForma extends React.Component {
             <h5 className = "activeTabH"> {tabs[this.state.currentTab]} </h5>
           </div>
           <div className = "col s12 m12 l12 xl12">
-            { this.state.currentTab === 0 ? <UserInfo/> : null }
-            { this.state.currentTab < 4 && this.state.currentTab > 0 ? <Okpb className = "okpb" data = {okpbData[this.state.currentTab].labels}/> : null }
+            { this.state.currentTab === 0 ? <UserInfo storeData={this.props.store[`${storeKeys[this.state.currentTab]}`]}/> : null }
+            { this.state.currentTab === 1 ? <Okpb className = "okpb" data = {okpbData[this.state.currentTab].labels} 
+                                                                        storeData={this.props.store[`${storeKeys[this.state.currentTab]}`]}/> : null} 
+            { this.state.currentTab === 2 ? <Okpb className = "okpb" data = {okpbData[this.state.currentTab].labels} 
+                                                                        storeData={this.props.store[`${storeKeys[this.state.currentTab]}`]}/> : null} 
+            { this.state.currentTab === 3 ? <Okpb className = "okpb" data = {okpbData[this.state.currentTab].labels} 
+                                                                        storeData={this.props.store[`${storeKeys[this.state.currentTab]}`]}/> : null} 
+            {/* { this.state.currentTab < 4 && this.state.currentTab > 0 ? <Okpb className = "okpb" data = {okpbData[this.state.currentTab].labels} 
+                                                                        storeData={this.props.store[`${storeKeys[this.state.currentTab]}`]}/> : null} */}
             { this.state.currentTab === 4 ? <FacultyAndHighSchool setModal = {this.props.setModal} modal = {0}/> : null }
             { this.state.currentTab === 5 ? <FacultyAndHighSchool setModal = {this.props.setModal} modal = {1}/> : null }
-            { this.state.currentTab === 6 ? <Experience/> : null }
+            { this.state.currentTab === 6 ? <Experience  setModal = {this.props.setModal} modal = {2} 
+              setExpModal = {this.props.setExpModal}/> : null }
+              { this.state.currentTab > 0 ?
+              <div className = "col s12 m12 l12 xl12 okpbSaveBtn">
+                <Button text = "Sačuvaj" />
+              </div> : null }
           </div>
         </div>
     );
   }
 }
 
-export default CVForma;
+
+const mapStateToProps = state => {
+  return {
+    store: state
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    isUserLoggedIn: () => {dispatch(userActions.isUserLoggedIn())}
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(CVForma);

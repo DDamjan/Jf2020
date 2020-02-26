@@ -19,3 +19,12 @@ export const registerUser = data => ({
     type: userActionTypes.REGISTER_USER,
     data
 })
+
+export const isUserLoggedIn = () => ({
+    type: userActionTypes.IS_USER_LOGGED_IN
+})
+
+export const infoUpdateRequest = ( data) => ({
+    type: userActionTypes.INFO_UPDATE_REQUEST,
+    data
+})

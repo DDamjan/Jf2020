@@ -1,9 +1,7 @@
 import { User } from '../../models/User';
-import {
-
-} from '../../../constants/reducers-constants';
+import { TOKEN_EXPIRED } from '../../../constants/reducers-constants';
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
-import { createFeatureSelector} from '@ngrx/store';
+import { createFeatureSelector } from '@ngrx/store';
 
 export interface UserState extends EntityState<User> {
 }
@@ -34,6 +32,9 @@ export function UserReducer(
         // case GET_USER_SUCCESS: {
         //     return UserAdapter.addOne(action.payload.user, state = UserInitialState);
         // }
+        case TOKEN_EXPIRED: {
+            return UserAdapter.removeAll(state = UserInitialState);
+        }
         default:
             return state;
     }

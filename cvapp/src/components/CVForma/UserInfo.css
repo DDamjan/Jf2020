@@ -4,9 +4,6 @@
 .uiInput{
     height: 30px !important;
 }
-.uiLabel{
-    font-size: large;
-}
 /*TODO: dimenzije slike ne treba da budu fiksne*/
 .profileImg{
     border-radius: 50%;
@@ -40,4 +37,12 @@
     text-align: center;
     margin-top: 10px;
     margin-bottom: 20px;    
+}
+input[type="file"] {
+    display: none;
+}
+.uploadProfileImage {
+    color: white;
+    font-size: large;
+    cursor: pointer;
 }

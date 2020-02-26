@@ -13,8 +13,8 @@
 }
 .logoutAndHomeContainer{
     position: absolute;
-    right: 4%;
-    top: 4%;
+    right: 15px;
+    top: 20px;
 }
 .tabsContainer{
     width: 65%;
@@ -30,6 +30,7 @@
 .activeTabHContainer{
     text-align: center;
 }
-.okpb{
-    
+.okpbSaveBtn{
+    text-align: center;
+    margin-top: 40px;
 }

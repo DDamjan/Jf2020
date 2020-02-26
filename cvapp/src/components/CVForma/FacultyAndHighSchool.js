@@ -19,9 +19,6 @@ class FacultyAndHighSchool extends React.Component {
         <div className = "col s12 m12 l12 xl12 facAddBtnContainer">
           <Button onClick = { ()  => {this.props.setModal(this.props.modal)} } className = "modal-trigger" text = "+" dataTarget = "modal1"/>
         </div>
-        <div className = "col s12 m12 l12 xl12 facSaveBtnContainer">
-          <Button text = "Sačuvaj" />
-        </div>
       </div>
     );
   }

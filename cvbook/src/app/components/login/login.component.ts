@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import * as actions from '../../store/actions';
 import { selectAllUsers } from '../../store/reducers/user.reducer';
 import { Router } from '@angular/router';
-import { selectAllCompanys } from 'app/store/reducers/company.reducer';
+import { selectAllCompanies } from 'app/store/reducers/company.reducer';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck() {
-    this.store.select(selectAllCompanys).subscribe(currentUser => {
+    this.store.select(selectAllCompanies).subscribe(currentUser => {
       if (currentUser.length !== 0) {
         if (currentUser[currentUser.length - 1].username === 'error') {
           this.error = true;

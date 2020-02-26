@@ -1,19 +1,16 @@
 {
   "users": [
     {
-      "id": 1,
       "email": "test",
-      "password": "test"
-    },
-    {
-      "email": "test2",
-      "password": "test2",
+      "password": "test",
       "licniPodaci": {
         "ime": "test2",
         "prezime": "test2",
         "imeRoditelja": "",
-        "datumRodjenja": "2",
-        "telefon": "432",
+        "datumRodjenja": "2"
+      },
+      "kontakt":{
+        "telefon": "423",
         "linkedIn": ""
       },
       "prebivaliste": {
@@ -22,7 +19,7 @@
         "adresa": "fsda"
       },
       "boraviste": {
-        "drzava": "",
+        "drzava": "dgfg",
         "grad": "",
         "adresa": ""
       },

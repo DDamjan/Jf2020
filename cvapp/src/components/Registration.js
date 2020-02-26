@@ -37,6 +37,7 @@ class Registration extends React.Component {
     super(props);
     this.onClickNext = this.onClickNext.bind(this);
     this.onClickBack = this.onClickBack.bind(this);
+    this.onClickStep = this.onClickStep.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.formValidation = this.formValidation.bind(this);
     this._termsAndConditions = this._termsAndConditions.bind(this);
@@ -148,6 +149,12 @@ class Registration extends React.Component {
     }
   }
 
+  onClickStep(step){
+    this.setState({
+      currentRegInput: step
+    });
+  }
+
   onInputChange(data, index) {
     const info = this.state.data;
     info[index] = data;
@@ -174,6 +181,7 @@ class Registration extends React.Component {
                       <Step transition="scale" key = {step}>
                       {({ accomplished }) => (
                         <div className = "step"
+                        onClick = {() => this.onClickStep(step - 1)}
                         style={ {color: accomplished ? 'white' : 'darkgrey',
                         backgroundColor: accomplished ? '#FAA519' : 'white'} }>{step}</div>
                       )

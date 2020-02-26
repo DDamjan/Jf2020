@@ -42,7 +42,7 @@ export function CompanyReducer(
 
 export const selectCompanyState = createFeatureSelector<CompanyState>('company');
 
-export const { selectAll: selectAllCompanys, selectIds } = CompanyAdapter.getSelectors(
+export const { selectAll: selectAllCompanies, selectIds } = CompanyAdapter.getSelectors(
     selectCompanyState
 );
 

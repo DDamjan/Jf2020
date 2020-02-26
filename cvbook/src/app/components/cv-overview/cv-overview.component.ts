@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../service/user.service';
+import * as actions from '../../store/actions';
 import { User } from '../../models/User';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
+import { selectAllUsers } from 'app/store/reducers/user.reducer';
 
 @Component({
   selector: 'app-cv-overview',
@@ -16,11 +18,17 @@ export class CvOverviewComponent implements OnInit {
   constructor(private store: Store<any>, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
-    this.populateUserList();
+    this.store.dispatch(new actions.GetUsers());
+    this.store.select(selectAllUsers).subscribe(users => {
+      if (users.length !== 0) {
+        this.userList = users;
+      }
+    });
   }
 
   populateUserList() {
-    this.userService.getUsers(this).subscribe(users => { this.userList = users; });
+    console.log('populateUserList');
+    // this.userService.getUsers({}).subscribe(users => {console.log('users'); console.log(users); this.userList = users; });
   }
 
 }

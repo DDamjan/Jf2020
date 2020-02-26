@@ -7,6 +7,13 @@ let expList = ["Radno iskustvo", "Rad na projektu", "Stručno usavršavanje", "R
 
 class Experience extends React.Component {
 
+constructor(props){
+    super(props);
+    this.state = {
+        listOfFaculties: []
+    };
+    this.props.setModal(this.props.modal);
+}
   render(){
     return (
         <div>
@@ -14,13 +21,12 @@ class Experience extends React.Component {
                 {
                     expList.map((el, index) => (
                         <div className = "col offset-s2 s8 expBtnContiner" key = {index}>
-                            <Button text = {el} className = "expBtn"/>
+                            <Button text = {el} className = "expBtn modal-trigger" 
+                            onClick = { ()  => {this.props.setExpModal(index)}}
+                            dataTarget = "modal1"/>
                         </div>
                     ))
                 }
-            </div>
-            <div className = "col s12 expSaveBtnContainer">
-                <Button text = "Sačuvaj" className = "expSaveBtn"/>
             </div>
         </div>
         

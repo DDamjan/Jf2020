@@ -11,6 +11,28 @@ class InputC extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentWillReceiveProps(){
+    // this.setState({
+    //   value: this.props.value
+    // })
+  }
+
+  componentDidUpdate(prevProps){
+    if(this.props.value !== prevProps.value && this.state.value === ''){
+      this.setState({
+        value: this.props.value
+      })
+    }
+  }
+
+  componentDidMount(){
+    //console.log(this.props)
+    // this.setState({
+    //   value: this.props.value
+    // })
+    //console.log(this.state)
+  }
+
   handleChange = (e) => {
     this.setState({value: e.target.value})
     this.props.onSubmit(e.target.value, this.props.index)
@@ -20,7 +42,8 @@ class InputC extends React.Component {
     let labelClassName = "label " + this.props.labelClassName;
     let inputClassName = "input " + this.props.inputClassName;
     return (
-        <div className = { this.props.className }>
+     
+        <div  className = { this.props.className }>
             <Label className = {labelClassName}>{this.props.label}</Label>
             <Input
                   onChange={this.handleChange}
@@ -29,6 +52,7 @@ class InputC extends React.Component {
                   className = {inputClassName}
               />
         </div>
+
     );
   }
 }
