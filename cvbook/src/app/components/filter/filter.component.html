@@ -1,21 +1,48 @@
 <form (ngSubmit)="onSubmit($event)">
-  <mat-form-field>
-    <input matInput placeholder="First name" required>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Last name" required>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Username" required>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Password" type="password" required>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Repeat password" type="password" required>
-  </mat-form-field>
-  <p class="error" *ngIf='error'>Username exists!</p>
   <div class="buttons">
-    <button mat-raised-button type="submit">Search</button>
+    <button mat-raised-button type="submit" class="btnSerach">Search</button>
+  </div>
+  <p class="error" *ngIf='error'>ERROR</p>
+  <div class="inputs">
+    <mat-checkbox>Has CV</mat-checkbox>
+    <mat-form-field>
+      <input matInput placeholder="First name" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Last name" required>
+    </mat-form-field>
+    <mat-form-field appearance="legacy">
+      <mat-label>Year of Study</mat-label>
+      <mat-select>
+        <mat-option value="1">1</mat-option>
+        <mat-option value="2">2</mat-option>
+        <mat-option value="3">3</mat-option>
+        <mat-option value="4">4</mat-option>
+        <mat-option value="5">5</mat-option>
+        <mat-option value="6">6</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Grade average" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Graduated" required>
+    </mat-form-field>
+    <mat-form-field appearance="legacy">
+      <mat-label>City</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let city of cities" [value]="city.value">
+          {{city.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="legacy">
+      <mat-label>Country</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let country of counties" [value]="country.value">
+          {{country.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
 </form>

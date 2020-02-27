@@ -1,18 +1,18 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+  <mat-sidenav #drawer class="sidenav " fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'">
-    <mat-toolbar>Options</mat-toolbar>
+    <mat-toolbar>Navigation</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="operator/register" routerLinkActive="active">Register a new driver</a>
-      <a mat-list-item routerLink="operator/view-map" routerLinkActive="active">View map</a>
+      <a mat-list-item routerLink="dashboard" routerLinkActive="active">Dashboard</a>
+      <a mat-list-item routerLink="cvoverview" routerLinkActive="active">CV overview</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <button *ngIf="type" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <a routerLink='/' routerLinkActive="active">
+      <a routerLink="dashboard" routerLinkActive="active">
         <span>CV Book</span>
         <mat-icon aria-label="Logo">local_taxi</mat-icon>
       </a>

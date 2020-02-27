@@ -19,7 +19,8 @@ import {
   MatSelectModule,
   MatAutocompleteModule,
   MatTabsModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatCheckboxModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
@@ -67,6 +68,7 @@ import { CookieService } from './service/cookie.service';
     MatSelectModule,
     MatTabsModule,
     MatExpansionModule,
+    MatCheckboxModule,
     StoreDevtoolsModule,
     FormsModule,
     StoreModule.forRoot(reducers),

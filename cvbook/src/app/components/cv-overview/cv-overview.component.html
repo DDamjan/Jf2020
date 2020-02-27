@@ -1,8 +1,11 @@
-<p>
-  cv-overview works!
-</p>
-<app-filter></app-filter>
-  <mat-accordion *ngFor="let user of userList">
-    <app-user-expansion [user]="user" >
-    </app-user-expansion>
-  </mat-accordion>
+  <div class="container">
+    <div class="fixed">
+      <app-filter></app-filter>
+    </div>
+    <div class="flex-item">
+      <mat-accordion *ngFor="let user of userList">
+        <app-user-expansion [user]="user" >
+        </app-user-expansion>
+      </mat-accordion>
+    </div>
+  </div>
