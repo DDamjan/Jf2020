@@ -25,8 +25,71 @@ const initialState =  {
         grad: '',
         adresa: '',
     },
-    srednjeObrazovanje: [],
-    visokoObrazovanje: []
+    srednjeObrazovanje: [{
+        "naziv": "neka skola",
+        "tip": "",
+        "drzava": "Utopija",
+        "grad": "Neki nis",
+        "smer": "klozetarka",
+        "godinaZavrsetka": 2016,
+        "id": 1
+      }],
+      visokoObrazovanje: [{
+        "drzava": "Utopija",
+        "grad":"Neki nis",
+        "univerzitet": "Neki tamo",
+        "fakultet": "Djubrarski",
+        "smer": "klozetarka",
+        "status": "klozet",
+        "godinaUpisa": 2015,
+        "godineStudija": 4,
+        "brojPolozenihIspita": 1,
+        "prosek": 6.02,
+        "espb": 3,
+        "id": 2
+      },
+      {
+        "drzava": "Utopija",
+        "grad":"Neki nis",
+        "univerzitet": "Neki tamo",
+        "fakultet": "Djubrarski",
+        "smer": "klozetarka",
+        "status": "klozet",
+        "godinaUpisa": 2015,
+        "godineStudija": 4,
+        "brojPolozenihIspita": 1,
+        "prosek": 6.02,
+        "espb": 3,
+        "id": 3
+      },
+      {
+        "drzava": "Utopija",
+        "grad":"Neki nis",
+        "univerzitet": "Neki tamo",
+        "fakultet": "Djubrarskidsadadasdasda",
+        "smer": "klozetarka",
+        "status": "klozet",
+        "godinaUpisa": 2015,
+        "godineStudija": 4,
+        "brojPolozenihIspita": 1,
+        "prosek": 6.02,
+        "espb": 3,
+        "id": 4
+      },
+      {
+        "drzava": "Utopija",
+        "grad":"Neki nis",
+        "univerzitet": "Neki tamo",
+        "fakultet": "Djubrarski",
+        "smer": "klozetarka",
+        "status": "klozet",
+        "godinaUpisa": 2015,
+        "godineStudija": 4,
+        "brojPolozenihIspita": 1,
+        "prosek": 6.02,
+        "espb": 3,
+        "id": 5
+      }]
 }
 
 const userReducer = ( state = initialState, action) => {
