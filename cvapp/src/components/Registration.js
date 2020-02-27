@@ -161,17 +161,6 @@ class Registration extends React.Component {
     this.setState({info});
   }
 
-  componentDidMount() {
-    let datepicker = document.querySelectorAll('.datepicker');
-    let options = {
-        inDuration: 300, 
-        outDuration: 300,
-        coverTrigger: false,
-        hover: false
-    };
-    M.Datepicker.init(datepicker, options);
-}
-
   render(){
     return (
         <div className = "row registrationContainer">
@@ -205,7 +194,6 @@ class Registration extends React.Component {
             <div className = "regInputContainer">
               <h4>{registracija[this.state.currentRegInput].naslov}</h4>
               <h5>(Polja označena sa * su obavezna)</h5>
-              <input type="date" class="datepicker"></input>
               {registracija[this.state.currentRegInput].labels.map((label, index) => {
                   return (
                       <InputC label = {label.type === undefined ? label : label.label} 

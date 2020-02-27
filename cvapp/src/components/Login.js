@@ -20,8 +20,7 @@ class LoginComponent extends React.Component{
     }
 
     onLoginBtnClick(){
-        window.location.replace("/cvForma");
-        //this.props.submit({username: this.state.username , password: this.state.password});
+        this.props.submit({username: this.state.username , password: this.state.password});
     }
 
     onUserNameChange = username => {
