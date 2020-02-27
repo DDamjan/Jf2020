@@ -1,4 +1,3 @@
-
 import * as userActionTypes from '../constants/userActionsTypes';
 
 export const loginRequest = credentials => ({

@@ -43,7 +43,7 @@ class CVForma extends React.Component {
   }
 
   componentDidMount(){
-    this.props.isUserLoggedIn()
+    //this.props.isUserLoggedIn()
   }
   
   tabOnClick(e, tabIndex){
@@ -99,8 +99,8 @@ class CVForma extends React.Component {
             { this.state.currentTab === 6 ? <Experience  setModal = {this.props.setModal} modal = {2} 
               setExpModal = {this.props.setExpModal}/> : null }
               { this.state.currentTab > 0 ?
-              <div className = "col s12 m12 l12 xl12 okpbSaveBtn">
-                <Button text = "Sačuvaj" />
+              <div className = "col s12 m12 l12 xl12 okpbSaveBtnContainer">
+                <Button text = "Sačuvaj" className = "okpbSaveBtn"/>
               </div> : null }
           </div>
         </div>

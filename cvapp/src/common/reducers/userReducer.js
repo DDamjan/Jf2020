@@ -4,10 +4,10 @@ const initialState =  {
     proccessing: false,
     error: false,
     licniPodaci: {
-            ime: '',
-            prezime: '',
-            imeRoditelja: '',
-            datumRodjenja: '',
+        ime: '',
+        prezime: '',
+        imeRoditelja: '',
+        datumRodjenja: '',
 
     },
     kontakt: {
