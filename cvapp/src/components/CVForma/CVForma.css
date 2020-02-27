@@ -30,7 +30,11 @@
 .activeTabHContainer{
     text-align: center;
 }
-.okpbSaveBtn{
+.okpbSaveBtnContainer{
     text-align: center;
     margin-top: 40px;
+}
+.okpbSaveBtn{
+    width: 100px;
+    margin-right: 0;
 }

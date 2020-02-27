@@ -14,7 +14,6 @@ function *fetchUser(action) {
 
             yield put(userActions.loginApproved(user[0]))
         }
-    
     }
     catch (error) {
         console.log(error);
@@ -64,7 +63,7 @@ function *registerUser(action) {
 
 function *infoUpdate(action){
     try{
-        const { data} = action;
+        const { data } = action;
         console.log( data);
     }
     catch(error){

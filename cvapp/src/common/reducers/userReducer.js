@@ -5,10 +5,10 @@ const initialState =  {
     error: false,
     modalId: null,
     licniPodaci: {
-            ime: '',
-            prezime: '',
-            imeRoditelja: '',
-            datumRodjenja: '',
+        ime: '',
+        prezime: '',
+        imeRoditelja: '',
+        datumRodjenja: '',
 
     },
     kontakt: {
