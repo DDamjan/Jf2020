@@ -18,6 +18,7 @@ class Dropdown extends React.Component {
         this.setState({
             pickedValue: txt
         });
+        this.props.onChange(txt, this.props.index)
     }
 
     componentDidMount() {
