@@ -37,14 +37,14 @@ class CVForma extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      currentTab: 4
+      currentTab: 0
     };
     this.props.setBestLogo(false);
     this.tabOnClick = this.tabOnClick.bind(this);
   }
 
   componentDidMount(){
-    //this.props.isUserLoggedIn()
+    this.props.isUserLoggedIn()
   }
   
   tabOnClick(e, tabIndex){
