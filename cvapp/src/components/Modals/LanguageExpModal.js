@@ -41,6 +41,9 @@ class LanguageExpModal extends React.Component {
                     })
                 }
             </div>
+            <div className = "col s12 addBtnContainer">
+                      <Button className = "modal-close addModal2Btn" text = "Dodaj"/>
+                    </div>
         </div>
     );
   }

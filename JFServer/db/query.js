@@ -96,15 +96,55 @@ function loginKompanija(res, results, token) {
     res.send();
 }
 
-async function loginUser(req, results, token) {
-    let user = await execLocal(queryStrings.GET_USER+results[0].email);
-    let licniPodaci = await execLocal(queryStrings.GET_LICNI_PODACI_BY_USERID+user[0].userID);
-    let jezici = await execLocal(queryStrings.GET_JEZICI(user[0].userID));
-    let boravisteGrad = awaitexecLocal(queryStrings.GET_GRAD+licniPodaci[0].boravisteGradID);
-    let boravisteDrzava = awaitexecLocal(queryStrings.GET_DRZAVA+licniPodaci[0].boravisteDrzavaID);
-    let prebivalisteGrad = awaitexecLocal(queryStrings.GET_GRAD+licniPodaci[0].prebivalisteGradID);
-    let prebivalisteDrzava = awaitexecLocal(queryStrings.GET_DRZAVA+licniPodaci[0].prebivalisteDrzavaID);
-    
+async function loginUser(res, results, token) {
+    let user = await execLocal(queryStrings.GET_USER + results[0].email);
+    let licniPodaci = await execLocal(queryStrings.GET_LICNI_PODACI_BY_USERID + user[0].userID);
+    let boravisteGrad = await execLocal(queryStrings.GET_GRAD + licniPodaci[0].boravisteGradID);
+    let boravisteDrzava = await execLocal(queryStrings.GET_DRZAVA + licniPodaci[0].boravisteDrzavaID);
+    let prebivalisteGrad = await execLocal(queryStrings.GET_GRAD + licniPodaci[0].prebivalisteGradID);
+    let prebivalisteDrzava = await execLocal(queryStrings.GET_DRZAVA + licniPodaci[0].prebivalisteDrzavaID);
+
+    let srednjaSkola = await execLocal(queryStrings.GET_SREDNJA_SKOLA(user[0].userID));
+    let visokoOBrazovanje = await execLocal(queryStrings.GET_FAKULTET(user[0].userID));
+
+    let radnoIskustvo = await execLocal(queryStrings.GET_RADNO_ISKUSTVO(user[0].userID));
+    let strucnoUsavrsavanje = await execLocal(queryStrings.GET_STRUCNO_USAVRSAVANJE(user[0].userID));
+    let radNaRacunaru = await execLocal(queryStrings.GET_RAD_NA_RACUNARU(user[0].userID));
+    let radNaProjektu = await execLocal(queryStrings.GET_RAD_NA_PROJEKTU(user[0].userID));
+    let poznavanjeJezika = await execLocal(queryStrings.GET_POZNAVANJE_JEZIKA(user[0].userID));
+    let ostaleVestine = await execLocal(queryStrings.GET_OSTALE_VESTINE(user[0].userID));
+
+    let payload = {
+        userID: user[0].userID,
+        email: user[0].email,
+        licniPodaci: {
+            ...licniPodaci[0], kontakt: { telefon: licniPodaci[0].telefon, linkedIn: licniPodaci[0].linkedIn }
+        },
+        prebivaliste: {
+            drzava: prebivalisteDrzava[0].naziv,
+            grad: prebivalisteGrad[0].naziv,
+            adresa: licniPodaci[0].prebivalisteAdresa
+        },
+        boraviste: {
+            drzava: boravisteDrzava[0].naziv,
+            grad: boravisteGrad[0].naziv,
+            adresa: licniPodaci[0].boravisteAdresa
+        },
+        srednjeObrazovanje: srednjaSkola,
+        visokoOBrazovanje: visokoOBrazovanje,
+        iskustvo: {
+            radnoIskustvo: radnoIskustvo,
+            strucnoUsavrsavanje: strucnoUsavrsavanje,
+            radNaRacunaru: radNaRacunaru,
+            radNaProjektu: radNaProjektu,
+            poznavanjeJezika: poznavanjeJezika,
+            ostaleVestine: ostaleVestine
+        },
+        token: token
+    }
+
+    res.json(payload);
+    res.send();
 
 }
 
@@ -112,5 +152,6 @@ async function loginUser(req, results, token) {
 module.exports = {
     execLogin,
     exec,
-    get
+    get,
+    loginUser
 }

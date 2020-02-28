@@ -17,6 +17,8 @@ import LanguageExpModal  from './components/Modals/LanguageExpModal'
 import OtherSkillsModal from './components/Modals/OtherSkillsModal'
 import { Provider } from "react-redux";
 import store from '../src/common/store/store';
+import {connect} from 'react-redux';
+import * as userActions from './common/actions/userActions';
 
 let expList = ["Radno iskustvo", "Rad na projektu", "Stručno usavršavanje", "Rad na računaru",
  "Poznavanje jezika", "Ostale veštine"];
@@ -116,7 +118,7 @@ class App extends React.Component {
   
   render(){
     return (
-      <Provider store={store}>
+      
         <BrowserRouter>
           <div className="row appContainer" >
             <div style = { {filter : this.state.isBlured ? "blur(6px)" : "blur(0px)"}} className="col s12 m6 l6 levo">
@@ -149,7 +151,7 @@ class App extends React.Component {
                   <img className = "cancelBtn" src = "photos/cancelImg.png" alt = "job fair"></img>
                 </a>
                 { this.state.modal === 2 ? <Button text="+" className = "emAddBtn" 
-                className = "modal-trigger" dataTarget = "modal2"/> : null }
+                className = "modal-trigger" onClick={ () => {this.props.openModal(null)}} dataTarget = "modal2"/> : null }
                 <div className = "col s12 m12 l12 xl12 modalHeaderContainer">
                     <h4> 
                       {this.state.modal === 0 ? "Dodaj srednje obrazovanje" : null}
@@ -180,19 +182,29 @@ class App extends React.Component {
                     {this.state.expModal === 3 ? <WocModal addBtnClassName = "expAddBtn" expId = {3}/> : null}
                     {this.state.expModal === 4 ? <LanguageExpModal addBtnClassName = "expAddBtn" expId = {4}/> : null}
                     {this.state.expModal === 5 ? <OtherSkillsModal addBtnClassName = "expAddBtn" expId = {5}/> : null}
-                    {this.state.expModal !== 2 ? 
-                    <div className = "col s12 addBtnContainer">
-                      <Button className = "modal-close addModal2Btn" text = "Dodaj"/>
-                    </div> : null }
                 </div>
             </div>
           </div>
 
         </BrowserRouter>
-      </Provider>
+    
     );
   }
 }
 
-export default App;
+
+const mapStateToProps = state => {
+  return {
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    openModal: id => dispatch(userActions.openModal(id))
+    
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);
+
 
