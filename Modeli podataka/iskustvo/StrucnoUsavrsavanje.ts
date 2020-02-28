@@ -1,4 +1,5 @@
 export interface StrucnoUsavrsavanje {
+    strucnoUsavrsavanjeID: number;
     naziv: string;
     organizator: string;
     datumPocetka: Date;

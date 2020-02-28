@@ -12,10 +12,13 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/auth', async (req, res) => {
-  let username = req.body.username;
-  let password = sha('sha256').update(req.body.password).digest('hex');
+  // const payload = {
+  //   username: req.body.username,
+  //   password: sha('sha256').update(req.body.password).digest('hex')
+  // }
 
-  query.execGet(req, res, queryString.AUTH_USER(username, password));
+  // query.execLogin(res, queryString.CHECK_USER(payload), false);
+  query.loginUser(res, [{email: 'abc@kjs.com'}], 'jdslajdklsajkl');
 });
 
 router.post('/', async (req, res) => {
