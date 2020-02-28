@@ -54,22 +54,27 @@
           "datumPocekta": "2",
           "datumZavrsetka": "1",
           "funkcija": "zajeban programer",
-          "opis": "nesto"
+          "opis": "nesto",
+          "id": 34
         }, {}],
         "strucnoUsavrsavanje": [{
           "naziv": "usavrsavanje",
-          "organizator": "neki tamo"
+          "organizator": "neki tamo",
+          "id": 3432
         }],
         "radNaRacunaru":[{
           "naziv": "C#",
-          "nivo": "mnogo zajeban"
+          "nivo": "mnogo zajeban",
+          "id": 65
         }],
         "radNaProjektu": [{
           "naziv": "CVapp",
-          "uloga": "Redux"
+          "uloga": "Redux",
+          "id": 61
         }],
         "poznavanjeJezika":[{
-          "jezik": "Engleski"
+          "jezik": "Engleski",
+          "id": 39
         }],
         "ostaleVestine":[]
       },

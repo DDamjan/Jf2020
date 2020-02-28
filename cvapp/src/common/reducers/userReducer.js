@@ -36,7 +36,9 @@ const initialState =  {
         poznavanjeJezika: [],
         ostaleVestine: []
     },
-    experienceModalSelected: null
+    experienceModalSelected: null,
+
+    modalForDeletion: null
 }
 
 const userReducer = ( state = initialState, action) => {
@@ -133,6 +135,17 @@ const userReducer = ( state = initialState, action) => {
                 licniPodaci: {...state.licniPodaci, cv: URL.createObjectURL(file)}
             }
         }
+
+        case userActionsTypes.PREPARE_FOR_DELETION: {
+            const {modal} = action;
+            console.log(modal);
+
+            return {
+                ...state,
+                modalForDeletion: modal
+            }
+        }
+
         default:
             return state
     }

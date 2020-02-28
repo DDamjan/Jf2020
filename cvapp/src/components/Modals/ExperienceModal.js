@@ -7,6 +7,16 @@ import ExperienceCard from '../CVForma/ExperienceCard'
 //em - experienceModal
 class ExperienceModal extends React.Component {
 
+  constructor(props){
+    super(props);
+    this.openModal = this.openModal.bind(this);
+  }
+
+  openModal(id){
+    this.props.openModal(id);
+    this.props.setModal(this.props.modal);
+  }
+  
   render(){
 
     return (

@@ -71,10 +71,20 @@ function *infoUpdate(action){
     }
 }
 
+function *sendModalForDeletion(action) {
+    try{
+        const {modal} = action;
+        console.log(modal);
+    }catch (error){
+        console.log(error)
+    }
+}
+
 function *userSaga() {
     yield takeEvery(userActionTypes.FETCH_USER, fetchUser);
     yield takeEvery(userActionTypes.REGISTER_USER, registerUser);
-    yield takeEvery(userActionTypes.INFO_UPDATE_REQUEST, infoUpdate)
+    yield takeEvery(userActionTypes.INFO_UPDATE_REQUEST, infoUpdate);
+    yield takeEvery(userActionTypes.SEND_FOR_DELETION, sendModalForDeletion)
 }
 
 

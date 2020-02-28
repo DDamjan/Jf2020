@@ -1,7 +1,25 @@
 import React from 'react';  
 import './Card.css'
+import {connect} from 'react-redux';
+import * as userActions from '../../common/actions/userActions';
 
 class ExperienceCard extends React.Component {
+
+  constructor(props){
+    super(props)
+    this.prepareForDelete = this.prepareForDelete.bind(this)
+}
+
+prepareForDelete(){
+   
+    const modal = {
+        id: sessionStorage.getItem("id"),
+        modalId: this.props.data.id,
+        field: this.props.selectedModal
+    }
+
+    this.props.prepareForDelete(modal)
+}
 
   render(){
     return (
@@ -43,11 +61,25 @@ class ExperienceCard extends React.Component {
                 <img className = "cardRemove modal-trigger " 
                 src = "photos/cancelImg.png" 
                 data-target = "modal3"
-                alt = "job fair"></img>
+                alt = "job fair"
+                onClick= { this.prepareForDelete}></img>
             </div>
         </div>
     );
   }
 }
 
-export default ExperienceCard;
+
+const mapStateToProps = state => {
+  return {
+    selectedModal: state.experienceModalSelected
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    prepareForDelete: modal => dispatch(userActions.prepareForDeletion(modal))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(ExperienceCard);

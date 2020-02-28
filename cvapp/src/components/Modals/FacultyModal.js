@@ -76,7 +76,6 @@ class FacultyModal extends React.Component {
             filed: "visokoObrazovanje", 
             id: sessionStorage.getItem("id")
         };
-        console.log(data);
         this.props.submit(data);
         this.setState({inputData: {...initialState}})
         this.forceUpdate();

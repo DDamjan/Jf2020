@@ -200,8 +200,8 @@ class App extends React.Component {
                     <h4> Da li ste sigurni? </h4>
                 </div>
                 <div className = "col offset-s2 s8 yesNoContainer">
-                  <Button className = "yesBtn" text = "Da"/>
-                  <Button className = "noBtn" text = "Ne"/>
+                  <Button className = "yesBtn modal-close" text = "Da" onClick={() => this.props.sendForDeletion(this.props.modalForDeletion)}/>
+                  <Button className = "noBtn modal-close" text = "Ne"/>
                 </div>
               </div>
             </div>
@@ -216,13 +216,14 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    modalForDeletion: state.modalForDeletion
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    openModal: id => dispatch(userActions.openModal(id))
-    
+    openModal: id => dispatch(userActions.openModal(id)),
+    sendForDeletion: modal => dispatch(userActions.sendForDeletion(modal))
   }
 }
 

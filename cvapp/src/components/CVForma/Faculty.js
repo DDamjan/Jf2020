@@ -29,9 +29,11 @@ class Faculty extends React.Component {
             return (
             <div key={el.id}>
               <Card 
+                field = "visokoObrazovanje"
                 className = "fc"
                 leftText = {el.fakultet} 
                 middleText = {el.smer} 
+                id = {el.id}
                 onBtnClick = {() => this.openModal(el.id)} />
             </div>
             )

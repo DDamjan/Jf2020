@@ -52,3 +52,13 @@ export const openExperienceModal = modal => ({
     type: userActionTypes.OPEN_EXPERIENCE_MODAL,
     modal
 })
+
+export const prepareForDeletion = modal => ({
+    type: userActionTypes.PREPARE_FOR_DELETION,
+    modal
+})
+
+export const sendForDeletion = modal => ({
+    type: userActionTypes.SEND_FOR_DELETION,
+    modal
+})

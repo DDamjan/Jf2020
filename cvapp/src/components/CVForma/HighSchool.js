@@ -29,6 +29,7 @@ class HighSchool extends React.Component {
             this.props.srednjeObrazovanje.map(el => {
               return ( 
               <Card 
+                field = "srednjeObrazovanje"
                 className = "fc"
                 leftText = {el.naziv} 
                 middleText = {el.smer}
