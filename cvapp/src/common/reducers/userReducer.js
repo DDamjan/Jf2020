@@ -109,7 +109,7 @@ const userReducer = ( state = initialState, action) => {
 
         case userActionsTypes.SUBMIT_FROM_MODAL: {
             const {data} = action;
-
+            console.log(data);
             return {
                 ...state,
                 modalId: null

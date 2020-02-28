@@ -54,7 +54,7 @@ class WocModal extends React.Component {
 
         if(this.props.modalId !== prevProps.modalId && this.props.modalId !== null) {
             this.setState({
-                inputData: {...this.props.visokoObrazovanje.find( el => el.id === this.props.modalId)}
+                inputData: {...this.props.wocEntities.find( el => el.id === this.props.modalId)}
             })
 
             return
@@ -105,7 +105,8 @@ class WocModal extends React.Component {
 const mapStateToProps = state => {
     return {
         experienceModal: state.experienceModalSelected,
-        modalId: state.modalId
+        modalId: state.modalId,
+        wocEntities: state.iskustvo.radNaRacunaru
     }
   }
   

@@ -15,7 +15,7 @@ class ExperienceModal extends React.Component {
           {
           this.props.selectedModal !== null? 
           this.props.experience[`${this.props.selectedModal}`].map( el => {
-            return <ExperienceCard data={el} />
+            return <ExperienceCard key={el.id} data={el} />
           }) 
           : null
           }  
