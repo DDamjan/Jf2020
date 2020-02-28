@@ -7,7 +7,9 @@
         "ime": "test2",
         "prezime": "test2",
         "imeRoditelja": "",
-        "datumRodjenja": "2"
+        "datumRodjenja": "2",
+        "profilnaSlika": "https://scontent.fbeg4-1.fna.fbcdn.net/v/t1.15752-9/87299410_2830800473695950_8737464738637676544_n.jpg?_nc_cat=107&_nc_ohc=Q38R5EI5dx4AX-ACSJn&_nc_ht=scontent.fbeg4-1.fna&oh=48cf5bed86b50405440e4868ba7dcd71&oe=5EEEB3E8",
+        "cv": "https://cs.elfak.ni.ac.rs/nastava/pluginfile.php/36722/mod_resource/content/5/NBP%202019-2020%20-%20Rezultati%20kompletno.pdf"
       },
       "kontakt":{
         "telefon": "423",
@@ -44,9 +46,96 @@
         "brojPolozenihIspita": 1,
         "prosek": 6.02,
         "espb": 3,
-        "id": 2
+        "id": 1
       }],
+      "iskustvo": {
+        "radnoIskustvo": [{
+          "kompanija": "Bla",
+          "datumPocekta": "2",
+          "datumZavrsetka": "1",
+          "funkcija": "zajeban programer",
+          "opis": "nesto"
+        }, {}],
+        "strucnoUsavrsavanje": [{
+          "naziv": "usavrsavanje",
+          "organizator": "neki tamo"
+        }],
+        "radNaRacunaru":[{
+          "naziv": "C#",
+          "nivo": "mnogo zajeban"
+        }],
+        "radNaProjektu": [{
+          "naziv": "CVapp",
+          "uloga": "Redux"
+        }],
+        "poznavanjeJezika":[{
+          "jezik": "Engleski"
+        }],
+        "ostaleVestine":[]
+      },
       "id": 2
+    },
+
+
+    {
+      "email": "test2",
+      "password": "test2",
+      "licniPodaci": {
+        "ime": "test2",
+        "prezime": "test2",
+        "imeRoditelja": "",
+        "datumRodjenja": "2",
+        "profilnaSlika": null,
+        "cv": null
+      },
+      "kontakt":{
+        "telefon": "423",
+        "linkedIn": ""
+      },
+      "prebivaliste": {
+        "drzava": "dfsa",
+        "grad": "fsda",
+        "adresa": "fsda"
+      },
+      "boraviste": {
+        "drzava": "dgfg",
+        "grad": "",
+        "adresa": ""
+      },
+      "srednjeObrazovanje": [{
+        "naziv": "neka skola",
+        "tip": "",
+        "drzava": "Utopija",
+        "grad": "Neki nis",
+        "smer": "klozetarka",
+        "godinaZavrsetka": 2016,
+        "id": 1
+      }],
+      "visokoObrazovanje": [{
+        "drzava": "Utopija",
+        "grad":"Neki nis",
+        "univerzitet": "Neki tamo",
+        "fakultet": "Djubrarski",
+        "smer": "klozetarka",
+        "status": "klozet",
+        "godinaUpisa": 2015,
+        "godineStudija": 4,
+        "brojPolozenihIspita": 1,
+        "prosek": 6.02,
+        "espb": 3,
+        "id": 1
+      }],
+      "iskustvo": {
+        "radnoIskustvo": [{
+          "he": "he"
+        }, {}],
+        "strucnoUsavrsavanje": [],
+        "radNaRacunaru":[],
+        "radNaProjektu": [],
+        "poznavanjeJezika":[],
+        "ostaleVestine":[]
+      },
+      "id": 1
     }
   ],
   "posts": [

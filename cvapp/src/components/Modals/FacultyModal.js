@@ -71,7 +71,11 @@ class FacultyModal extends React.Component {
 
     submit(){
         //Zasebna konstanta zbog testiranja samo
-        const data = {...this.state.inputData, id: this.props.modalId};
+        const data = {...this.state.inputData, 
+            modalId: this.props.modalId, 
+            filed: "visokoObrazovanje", 
+            id: sessionStorage.getItem("id")
+        };
         console.log(data);
         this.props.submit(data);
         this.setState({inputData: {...initialState}})
