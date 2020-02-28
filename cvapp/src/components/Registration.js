@@ -6,12 +6,12 @@ import "react-step-progress-bar/styles.css";
 import { ProgressBar, Step } from "react-step-progress-bar";
 import { registerUser } from '../common/actions/userActions';
 import {connect} from 'react-redux';
-
+import M from "materialize-css";
 
 var registracija = [
     {
       naslov: "Osnovni podaci",
-      labels: ["Ime*","Ime roditelja","Prezime*","Datum rođenja*"]
+      labels: ["Ime*","Ime roditelja","Prezime*",{ type: "datetime", label: "Datum rođenja*"}]
     },
     {
       naslov: "Kontakt",
@@ -210,9 +210,13 @@ class Registration extends React.Component {
               <h5>(Polja označena sa * su obavezna)</h5>
               {registracija[this.state.currentRegInput].labels.map((label, index) => {
                   return (
-                      <InputC label = {label} type = "text" key = {index + this.state.currentRegInput * 4} inputClassName = "regInput"
-                      labelClassName = "regLabel" onSubmit={this.onInputChange} index={index + this.state.currentRegInput * 4}
-                      value={this.state.data[index + this.state.currentRegInput * 4]}/>
+                      <InputC label = {label.type === undefined ? label : label.label} 
+                        type = "text"  
+                        key = {index + this.state.currentRegInput * 4} 
+                        inputClassName = "regInput"
+                        labelClassName = "regLabel" 
+                        onSubmit={this.onInputChange} index={index + this.state.currentRegInput * 4}
+                        value={this.state.data[index + this.state.currentRegInput * 4]}/>
                   );
               })}
               {this.state.inputError? <h4 className="red-text">Morate uneti sva obavezna polja</h4> : null}

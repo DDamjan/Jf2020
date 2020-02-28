@@ -4,4 +4,6 @@
     font-size: 18px !important;
     text-transform: none;
     border-radius: 6px;
+    min-height: 36px;
+    height:auto;
 }
