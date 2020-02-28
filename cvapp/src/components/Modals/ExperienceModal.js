@@ -1,8 +1,8 @@
 import React from 'react';  
 import './ExperienceModal.css'
-import ExperienceCard from '../CVForma/ExperienceCard'
 import {connect} from 'react-redux';
 import * as userActions from '../../common/actions/userActions';
+import ExperienceCard from '../CVForma/ExperienceCard'
 
 //em - experienceModal
 class ExperienceModal extends React.Component {
@@ -11,13 +11,12 @@ class ExperienceModal extends React.Component {
 
     return (
       <div className = "col s12 emContainer">
-        <div className = "col s12 offset-m2 m8 emCardsContainer">
+        <div className = "col s12 offset-m1 m10 emCardsContainer">
           {
-          this.props.selectedModal !== null? 
-          this.props.experience[`${this.props.selectedModal}`].map( el => {
-            return <ExperienceCard data={el} />
-          }) 
-          : null
+            this.props.selectedModal !== null? 
+            this.props.experience[`${this.props.selectedModal}`].map( el => {
+              return <ExperienceCard data={el} className = "expCard" />
+            }) : null
           }  
         </div>
       </div>

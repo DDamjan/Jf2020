@@ -1,4 +1,4 @@
-.expCardContainer{
+.cardContainer{
     background-color: #FAA519 !important;
     border-radius: 6px;
     height: 45px;
@@ -6,8 +6,16 @@
     justify-content: center;
     align-items: center; 
     text-align: center;
+    height: 40px;
 }
-.ecRemoveExp{
-    height: 30px;
+.cardEdit{
+    cursor: pointer;
+}
+.cardText{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.cardRemove{
     width: 30px;
+    cursor: pointer;
 }

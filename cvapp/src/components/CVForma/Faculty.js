@@ -3,6 +3,7 @@ import './FacultyAndHighSchool.css'
 import Button from '../Button'
 import {connect} from 'react-redux';
 import * as userActions from '../../common/actions/userActions';
+import Card from './Card'
 
 class Faculty extends React.Component {
 
@@ -17,20 +18,24 @@ class Faculty extends React.Component {
   openModal(id){
     this.props.openModal(id);
     this.props.setModal(this.props.modal);
-
   }
 
   render(){
     return (
       <div>
-        <div className = "col s12 m12 l12 xl12">
-            { //TODO napraviti da ovo zapravo izgleda kako treba
-            this.props.srednjeObrazovanje.map(el => {
-              return (<div key={el.id}> <h3>{el.fakultet}</h3>
-                <h4>{el.smer}</h4>
-                <Button text="Edit" onClick = { () => this.openModal(el.id)} className = "modal-trigger" dataTarget = "modal1"/></div>
-              )
-            })}
+        <div className = "col s12 m12 offset-l1 l10">
+          {
+          this.props.srednjeObrazovanje.map(el => {
+            return (
+            <div key={el.id}>
+              <Card 
+                className = "fc"
+                leftText = {el.fakultet} 
+                middleText = {el.smer} 
+                onBtnClick = {() => this.openModal(el.id)} />
+            </div>
+            )
+          })}
         </div>
         <div className = "col s12 m12 l12 xl12 facAddBtnContainer">
           <Button onClick = { () => this.openModal(null)} className = "modal-trigger" text = "+" dataTarget = "modal1"/>

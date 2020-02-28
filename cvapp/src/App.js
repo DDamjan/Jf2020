@@ -90,6 +90,7 @@ class App extends React.Component {
     };
     M.Modal.init(this.Modal1, modal1options);
     M.Modal.init(this.Modal2, modal2options);
+    M.Modal.init(this.Modal3, modal1options);
   }
 
   setBestLogo(isShown){
@@ -183,6 +184,26 @@ class App extends React.Component {
                     {this.state.expModal === 4 ? <LanguageExpModal addBtnClassName = "expAddBtn" expId = {4}/> : null}
                     {this.state.expModal === 5 ? <OtherSkillsModal addBtnClassName = "expAddBtn" expId = {5}/> : null}
                 </div>
+            </div>
+            <div
+              ref={Modal => {
+                this.Modal3 = Modal;
+              }}
+              id="modal3"
+              className="modal z-depth-5 col offset-s1 s10 offset-m3 m6 offset-l4 l4"
+              style = { {filter : this.state.isModalBlured ? "blur(6px)" : "blur(0px)"}} >
+              <div className="modal-content modal3Container">
+                <a href="#" className = "modal-close">
+                  <img className = "cancelBtn" src = "photos/cancelImg.png" alt = "job fair"></img>
+                </a>
+                <div className = "col s12 modalHeaderContainer">
+                    <h4> Da li ste sigurni? </h4>
+                </div>
+                <div className = "col offset-s2 s8 yesNoContainer">
+                  <Button className = "yesBtn" text = "Da"/>
+                  <Button className = "noBtn" text = "Ne"/>
+                </div>
+              </div>
             </div>
           </div>
 
