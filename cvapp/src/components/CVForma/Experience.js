@@ -21,7 +21,7 @@ constructor(props){
 }
 
     openModal(index, key){
-        this.props.openModal(key);
+        this.props.openExperienceModal(key);
         this.props.setExpModal(index)
     }
 
@@ -55,7 +55,7 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => {
     return {
-        openModal: modal => dispatch(userActions.openExperienceModal(modal))
+        openExperienceModal: modal => dispatch(userActions.openExperienceModal(modal))
     }
   }
   

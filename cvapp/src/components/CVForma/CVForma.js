@@ -41,6 +41,7 @@ class CVForma extends React.Component {
     };
     this.props.setBestLogo(false);
     this.tabOnClick = this.tabOnClick.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount(){
@@ -55,6 +56,10 @@ class CVForma extends React.Component {
     e.preventDefault();
   }
 
+  logout(){
+    this.props.logout();
+  }
+
   render(){
     return (
       <div className = "row cvFormContainer">
@@ -63,7 +68,7 @@ class CVForma extends React.Component {
               <img className = "cvFormHome" src = "photos/home.png" alt = "job fair"></img>
             </a>
             <a href="/" >
-              <img className = "logout" src = "photos/logoutImg.png" alt = "job fair"></img>
+              <img className = "logout" src = "photos/logoutImg.png" alt = "job fair" onClick={this.logout}></img>
             </a>
           </div>
           <div className = "col s12 cvFormaHContainer">
@@ -118,7 +123,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    isUserLoggedIn: () => {dispatch(userActions.isUserLoggedIn())}
+    isUserLoggedIn: () => {dispatch(userActions.isUserLoggedIn())},
+    logout: () => {dispatch(userActions.logout())}
   }
 }
 

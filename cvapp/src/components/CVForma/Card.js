@@ -36,11 +36,11 @@ class Card extends React.Component {
                 onClick = {this.props.onBtnClick}>edit</i>
             </div>
             <div className = "col s2 m2 l1" >
-                <img className = "cardRemove modal-trigger " 
+                <i className = "cardRemove modal-trigger material-icons" 
                 src = "photos/cancelImg.png" 
                 data-target = "modal3"
                 alt = "job fair"
-                onClick= { this.prepareForDelete}></img>
+                onClick= { this.prepareForDelete}>cancel</i>
             </div>
         </div>
     );

@@ -123,10 +123,10 @@ class App extends React.Component {
         <BrowserRouter>
           <div className="row appContainer" >
             <div style = { {filter : this.state.isBlured ? "blur(6px)" : "blur(0px)"}} className="col s12 m6 l6 levo">
-            <Route exact path = '/' render={() => <LeftImage className = "leftImage"  src={"loginImg.jpg"}/>}/>
-            <Route exact path = '/forgotPass' render={() => <LeftImage className = "leftImage" src={"forgotPassImg.jpg"}/>}/>
-            <Route exact path = '/registration' render={() => <LeftImage className = "leftImage" src={"regImg.jpg"}/>}/>
-            <Route exact path = '/cvForma' render={() => <LeftImage className = "leftImage" src={"cvFormaImg.jpg"}/>}/>
+            <Route exact path = '/' render={() => <LeftImage className = "leftImage fullHeight"  src={"loginImg.jpg"}/>}/>
+            <Route exact path = '/forgotPass' render={() => <LeftImage className = "leftImage fullHeight" src={"forgotPassImg.jpg"}/>}/>
+            <Route exact path = '/registration' render={() => <LeftImage className = "leftImage fullHeight" src={"regImg.jpg"}/>}/>
+            <Route exact path = '/cvForma' render={() => <LeftImage className = "leftImage fullHeight" src={"cvFormaImg.jpg"}/>}/>
             </div>
             <div style = { {filter : this.state.isBlured ? "blur(6px)" : "blur(0px)"}} className="col s12 m6 l6 desno">
               <Route exact path = '/' component =  {Login} />
@@ -162,7 +162,8 @@ class App extends React.Component {
                 </div>
                 {this.state.modal === 0 ? <HighSchoolModal /> : null}
                 {this.state.modal === 1 ? <FacultyModal /> : null}
-                {this.state.modal === 2 ? <ExperienceModal expModal = {expList[this.state.expModal]}/> : null}
+                {this.state.modal === 2 ? <ExperienceModal expModal = {expList[this.state.expModal]}
+                /> : null}
               </div>
             </div>
             <div 

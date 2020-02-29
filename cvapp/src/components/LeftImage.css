@@ -2,4 +2,12 @@ img{
     width: 100%; 
     height: 100%;
     margin-bottom: 0;
+    object-fit: cover;
+}
+
+@media only screen and (min-width: 600px) {
+
+    .fullHeight {
+        height: 100vh !important;
+    }
 }

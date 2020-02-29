@@ -55,7 +55,7 @@ prepareForDelete(){
             <div className = "col s2 m2 l1">
                 <i className = {"small material-icons cardEdit modal-trigger " + this.props.btnClassName} 
                 data-target = "modal1"
-                onClick = {this.props.onBtnClick}>edit</i>
+                onClick = { () => this.props.onBtnClick(this.props.data.id)}>edit</i>
             </div>
             <div className = "col s2 m2 l1">
                 <img className = "cardRemove modal-trigger " 

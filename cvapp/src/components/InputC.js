@@ -37,7 +37,7 @@ class InputC extends React.Component {
   handleChange = (e) => {
     this.setState({value: e.target.value})
     this.props.onSubmit(e.target.value, this.props.index)
-  }
+  } 
 
   render(){
     let labelClassName = "label " + this.props.labelClassName;

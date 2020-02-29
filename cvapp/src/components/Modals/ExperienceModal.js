@@ -14,9 +14,9 @@ class ExperienceModal extends React.Component {
 
   openModal(id){
     this.props.openModal(id);
-    this.props.setModal(this.props.modal);
+    console.log(this.props.expModal)
   }
-  
+
   render(){
 
     return (
@@ -26,7 +26,7 @@ class ExperienceModal extends React.Component {
 
             this.props.selectedModal !== null? 
             this.props.experience[`${this.props.selectedModal}`].map( el => {
-              return <ExperienceCard data={el} key={el.id} className = "expCard" />
+              return <ExperienceCard data={el} key={el.id} onBtnClick={this.openModal} className = "expCard" />
             }) : null
 
           }  
@@ -46,7 +46,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    
+    openModal: id => dispatch(userActions.openModal(id))
   }
 }
 

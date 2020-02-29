@@ -1,6 +1,7 @@
 import * as userActionsTypes from '../constants/userActionsTypes';
 
 const initialState =  {
+    authenticationProccessing: false,
     proccessing: false,
     error: false,
     modalId: null,
@@ -38,7 +39,9 @@ const initialState =  {
     },
     experienceModalSelected: null,
 
-    modalForDeletion: null
+    modalForDeletion: null,
+
+    registerErrorMessage: null,
 }
 
 const userReducer = ( state = initialState, action) => {
@@ -61,8 +64,8 @@ const userReducer = ( state = initialState, action) => {
         case userActionsTypes.LOGIN_SUCCESSFUL: {
             const {user} = action;
             
-            sessionStorage.setItem('user', JSON.stringify(user));
-            sessionStorage.setItem('id', user.id)
+            sessionStorage.setItem('id', user.userID);
+            sessionStorage.setItem('token', user.token);
             return {
                 ...state,
                 proccessing: false,
@@ -71,26 +74,88 @@ const userReducer = ( state = initialState, action) => {
             }
         }
 
-        case userActionsTypes.IS_USER_LOGGED_IN: {
-            if (sessionStorage.getItem('user') === null) {
-                window.location.replace("/");
-                return state;
-                //Svestan sam da je ovo bocan efekat u reduceru i da ne treba ali 
-                //neka stoji za sad dok ne smislim nesto drugo
-            }
-            const user = {...JSON.parse(sessionStorage.getItem('user'))};
-            return{
+        case userActionsTypes.LOGOUT: {
+            sessionStorage.clear();
+
+            return initialState
+        }
+
+        case userActionsTypes.REGISTER_USER: {
+
+            return {
                 ...state,
-                ...user
-                // licniPodaci: { ...user['licniPodaci']},
-                // prebivaliste: {...user['prebivaliste']},
-                // boraviste: {...user['boraviste']},
-                // kontakt: {...user['kontakt']},
-                // srednjeObrazovanje: [...user['srednjeObrazovanje']],
-                // visokoObrazovanje: [...user['visokoObrazovanje']]
+                proccessing: true,
+                registerErrorMessage: null,
             }
         }
 
+        case userActionsTypes.REGISTER_USER_FAIL: {
+            const {errorMessage} = action;
+
+            return {
+                ...state,
+                proccessing: false,
+                registerErrorMessage: errorMessage
+            }
+        }
+
+        case userActionsTypes.REGISTER_USER_SUCCESS: {
+
+            return{
+                ...state,
+                proccessing: false,
+            }
+        }
+
+        case userActionsTypes.INFO_UPDATE_REQUEST: {
+
+            return {
+                ...state,
+                proccessing: true
+            }
+        }
+
+        case userActionsTypes.INFO_UPDATE_SUCCESS: {
+            const {data} = action;
+
+            console.log(data);
+            const pom = {...state};
+            pom[`${data.field}`] = data.payload
+            return {
+                ...pom,
+                proccessing: false,
+
+            }
+
+        }
+
+        case userActionsTypes.IS_USER_LOGGED_IN: {
+ 
+            return{
+                ...state,
+                authenticationProccessing: true
+
+            }
+        }
+
+        case userActionsTypes.USER_LOGGED_IN_RESULT: {
+
+            const {user} = action;
+
+            if (user !== undefined){
+                return {
+                    ...state,
+                    ...user,
+                    authenticationProccessing: false
+                }
+            }
+            
+            return {
+                ...state,
+                authenticationProccessing: false,
+            }
+
+        }
         case userActionsTypes.OPEN_MODAL: {
             const {id} = action;
 
@@ -111,10 +176,24 @@ const userReducer = ( state = initialState, action) => {
 
         case userActionsTypes.SUBMIT_FROM_MODAL: {
             const {data} = action;
-            console.log(data);
+            
             return {
                 ...state,
                 modalId: null
+            }
+        }
+
+        case userActionsTypes.SUBMIT_FROM_MODAL_CALLBACK: {
+            const {response} = action;
+            console.log(response)
+            switch(response.field){
+                case 'srednjeObrazovanje':{
+
+                    return{
+                        ...state,
+                        srednjeObrazovanje: [...state.srednjeObrazovanje, response.payload]
+                    }
+                }
             }
         }
 

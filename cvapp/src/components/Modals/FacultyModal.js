@@ -71,10 +71,13 @@ class FacultyModal extends React.Component {
 
     submit(){
         //Zasebna konstanta zbog testiranja samo
-        const data = {...this.state.inputData, 
-            modalId: this.props.modalId, 
-            filed: "visokoObrazovanje", 
-            id: sessionStorage.getItem("id")
+        const data = { field: "visokoObrazovanje",
+            payload: {
+                ...this.state.inputData, 
+                fieldID: this.props.modalId,  
+                userID: sessionStorage.getItem("id")
+            }
+            
         };
         this.props.submit(data);
         this.setState({inputData: {...initialState}})
@@ -98,7 +101,7 @@ class FacultyModal extends React.Component {
                     facRightLabels.map((el, index)=>(
                         <InputC key = {index} label = {el} inputClassName = "facInput" labelClassName = "facLabel"
                         onSubmit={this.onInputChange} index={keys[index + 6]} /* +6 zbog leve strane */
-                        value={this.state.inputData[`${keys[index + 6]}`]}/>
+                        value={this.state.inputData[`${keys[index + 6]}`]} type= 'number'/>
                     ))
                 }
                 <Button className = "modal-close facSaveBtn" 

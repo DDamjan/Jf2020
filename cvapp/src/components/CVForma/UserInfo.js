@@ -4,6 +4,7 @@ import InputC from '../InputC'
 import Button from '../Button'
 import * as userActions from '../../common/actions/userActions';
 import {connect} from 'react-redux';
+import Spinner from '../Spinner';
 
 var userInfo = ["Ime", "Ime roditelja", "Prezime", "Datum rođenja" ];
 const userKeys = ['ime',  'imeRoditelja', 'prezime','datumRodjenja', 'profilnaSlika', 'cv'];
@@ -36,9 +37,11 @@ class UserInfo extends React.Component {
       //I onda se izvrsava ostatka ovde, odnosno disptachuje akcija
       return
     }
-    this.props.submit({...this.state.storeData, 
+    this.props.submit({ payload: {
+                        ...this.state.storeData, 
+                        userID: sessionStorage.getItem('id')
+                        },
                         field: 'licniPodaci',
-                        id: sessionStorage.getItem('id')
                       });
   }
 
@@ -66,6 +69,7 @@ class UserInfo extends React.Component {
 
   render(){
     return (
+      !this.props.authProccessing?
       <div>
         <div className = "uiContainer col s12">
           <div className = "col offset-xl1 offset-l1 offset-m1 offset-s1 s6 l6 m6 xl6">
@@ -73,7 +77,8 @@ class UserInfo extends React.Component {
               userInfo.map((el, index)=>(
 
                 <InputC key = {userKeys[index]} label = {el} inputClassName = "uiInput" labelClassName = "uiLabel"
-                onSubmit={this.onInputChange} index={userKeys[index]} value={this.props.storeData[`${userKeys[index]}`]} />
+                onSubmit={this.onInputChange} index={userKeys[index]} value={this.props.storeData[`${userKeys[index]}`]}
+                type={index === 3? 'date' : 'text'} />
               ))
             }
           </div>
@@ -94,7 +99,11 @@ class UserInfo extends React.Component {
           </div>
         </div>
         <div className = "col s7 saveBtnContainer">
-          <Button text = "Sačuvaj" className = "saveBtn" onClick={this.saveChanges}/>
+
+          {
+        
+          this.props.proccessing? <Spinner class="floatRight"/> :   <Button text = "Sačuvaj" className = "saveBtn" onClick={this.saveChanges}/>
+          }
         </div>
         <div className = "col s5 postCvBtnContainer">
           <label className="uploadCv">
@@ -102,7 +111,7 @@ class UserInfo extends React.Component {
               <input type="file" onChange = { (e) => this.onChangeCV(e.target.files)}/>
           </label>
         </div>
-      </div>
+      </div> : <Spinner class="center big"/>
     );
   }
 }
@@ -111,7 +120,9 @@ class UserInfo extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    storeData: state.licniPodaci
+    storeData: state.licniPodaci,
+    proccessing: state.proccessing,
+    authProccessing: state.authenticationProccessing
   }
 }
 

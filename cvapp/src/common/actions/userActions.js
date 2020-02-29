@@ -14,17 +14,45 @@ export const loginFailed = () => ({
     type: userActionTypes.LOGIN_FAIL
 })
 
+export const logout = () => ({
+    type: userActionTypes.LOGOUT
+})
+
 export const registerUser = data => ({
     type: userActionTypes.REGISTER_USER,
     data
+})
+
+export const registerUserFail = errorMessage => ({
+    type: userActionTypes.REGISTER_USER_FAIL,
+    errorMessage
+})
+
+export const registerUserSuccess = () => ({
+    type: userActionTypes.REGISTER_USER_SUCCESS
+})
+
+export const forgottenPassword = email => ({
+    type: userActionTypes.FORGOTTEN_PASSWORD,
+    email
 })
 
 export const isUserLoggedIn = () => ({
     type: userActionTypes.IS_USER_LOGGED_IN
 })
 
+export const userLogedInResult = user => ({
+    type: userActionTypes.USER_LOGGED_IN_RESULT,
+    user
+})
+
 export const infoUpdateRequest = ( data) => ({
     type: userActionTypes.INFO_UPDATE_REQUEST,
+    data
+})
+
+export const infoUpdateSuccess = data => ({
+    type: userActionTypes.INFO_UPDATE_SUCCESS,
     data
 })
 
@@ -36,6 +64,11 @@ export const openModal = id => ({
 export const submitFromModal = data => ({
     type: userActionTypes.SUBMIT_FROM_MODAL,
     data
+})
+
+export const submitFromModalCallback = response => ({
+    type: userActionTypes.SUBMIT_FROM_MODAL_CALLBACK,
+    response
 })
 
 export const changeProfilePicture = picture => ({
@@ -62,3 +95,4 @@ export const sendForDeletion = modal => ({
     type: userActionTypes.SEND_FOR_DELETION,
     modal
 })
+

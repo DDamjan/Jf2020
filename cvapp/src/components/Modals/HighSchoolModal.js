@@ -59,7 +59,7 @@ class HighSchoolModal extends React.Component {
 
     submit(){
         //Zasebna konstanta zbog testiranja samo
-        const data = {...this.state.inputData, id: this.props.modalId};
+        const data = {field: "srednjeObrazovanje", payload : {...this.state.inputData, fieldID: this.props.modalId, userID: sessionStorage.getItem('id')}};
         this.props.submit(data);
         this.setState({inputData: {...initialState}})
         this.forceUpdate();
@@ -72,7 +72,8 @@ class HighSchoolModal extends React.Component {
                     hsLabels.map((el, index)=>(
                         <InputC key = {index} label = {el} inputClassName = "facInput" labelClassName = "facLabel"
                         onSubmit={this.onInputChange} index={keys[index]} 
-                        value={this.state.inputData[`${keys[index]}`]} />
+                        value={this.state.inputData[`${keys[index]}`]}
+                        type={index === 5? 'number' : 'text'} />
                     ))
                 }
             </div>

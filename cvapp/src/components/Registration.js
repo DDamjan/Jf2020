@@ -7,11 +7,12 @@ import { ProgressBar, Step } from "react-step-progress-bar";
 import { registerUser } from '../common/actions/userActions';
 import {connect} from 'react-redux';
 import M from "materialize-css";
+import Spinner from './Spinner';
 
 var registracija = [
     {
       naslov: "Osnovni podaci",
-      labels: ["Ime*","Ime roditelja","Prezime*",{ type: "datetime", label: "Datum rođenja*"}]
+      labels: ["Ime*","Ime roditelja","Prezime*",{ type: "date", label: "Datum rođenja*"}]
     },
     {
       naslov: "Kontakt",
@@ -27,7 +28,7 @@ var registracija = [
     },
     {
       naslov: "Login informacije",
-      labels: ["Email*","Lozinka*","Ponovi lozinku*"]
+      labels: ["Email*",{type: "password", label: "Lozinka*"},{type: "password", label: "Ponovi lozinku*"}]
     },
   ];
 
@@ -41,9 +42,10 @@ class Registration extends React.Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.formValidation = this.formValidation.bind(this);
     this._termsAndConditions = this._termsAndConditions.bind(this);
+    this.keyPressHandle = this.keyPressHandle.bind(this);
     let data = [];
     for(let i = 0; i < 19; i++){
-      data[i] = '';
+      data[i] = "";
     }
     this.state = {
       termsAndConditions: false,
@@ -111,16 +113,20 @@ class Registration extends React.Component {
           this.setState({passwordError: true, passwordErrorMessage: 'Uneli ste dve različite šifre, pokušajte ponovo' })
           return
         }
-        // if (this.state.data[17].length < 8) {
-        //   this.setState({passwordError: true, passwordErrorMessage: "Sifra mora sadrzati barem 8 karaktera"});
-        //   return
-        // }
-        // let regex = /\d/g;  // Ovo je neka regularna ekspresija
-        // if (!regex.test(this.state.data[17])) {
-        //   this.setState({passwordError: true, passwordErrorMessage: 'Sifra mora posedovati barem jednu brojku'});
-        // }
+        if (this.state.data[17].length < 8) {
+          this.setState({passwordError: true, passwordErrorMessage: "Sifra mora sadrzati barem 8 karaktera"});
+          return
+        }
+        let regex = /\d/g;  // Ovo je neka regularna ekspresija
+        if (!regex.test(this.state.data[17])) {
+          this.setState({passwordError: true, passwordErrorMessage: 'Sifra mora posedovati barem jednu brojku'});
+        }
+
+        this.setState({
+          passwordError: false
+        })
       
-        //this.props.submit(this.state.data);
+        this.props.submit(this.state.data);
       }
   
       
@@ -146,6 +152,12 @@ class Registration extends React.Component {
         inputError: false,
         currentRegInput: this.state.currentRegInput - 1
       });
+    }
+  }
+
+  keyPressHandle(event){
+    if (event.key == 'Enter'){
+      this.onClickNext(event);
     }
   }
 
@@ -177,7 +189,7 @@ class Registration extends React.Component {
 
   render(){
     return (
-        <div className = "row registrationContainer">
+        <div className = "row registrationContainer" onKeyPress={this.keyPressHandle}>
           <a href="/" className = "home">
             <img src = "photos/home.png" alt = "job fair"></img>
           </a>
@@ -211,7 +223,7 @@ class Registration extends React.Component {
               {registracija[this.state.currentRegInput].labels.map((label, index) => {
                   return (
                       <InputC label = {label.type === undefined ? label : label.label} 
-                        type = "text"  
+                        type = {label.type === undefined? "text" : label.type}  
                         key = {index + this.state.currentRegInput * 4} 
                         inputClassName = "regInput"
                         labelClassName = "regLabel" 
@@ -224,11 +236,18 @@ class Registration extends React.Component {
                 <p>
                   <label>
                     <input type="checkbox" onChange={this._termsAndConditions}/>
-                    <span>Slažem se sa <a href = "#" > uslovima korišćenja </a> </span>
+                    <span>Slažem se sa <a href = "http://jobfairnis.rs/new/obavestenje-o-obradi-podataka-o-licnosti/" target="_blank" > uslovima korišćenja </a> </span>
                   </label>
                   {this.state.passwordError? 
                     (<div className = "col s12 m12 l12 xl12">
                         <span className="ydha red-text text-darken-1"> {this.state.passwordErrorMessage} </span>
+                    </div>) 
+                    : null
+                  }
+                  {
+                    this.props.errorMessage !== null?
+                    (<div className = "col s12 m12 l12 xl12">
+                    <span className="ydha red-text text-darken-1"> {this.props.errorMessage} </span>
                     </div>) 
                     : null
                   }
@@ -239,7 +258,10 @@ class Registration extends React.Component {
           <div className = "col s12 m12 l12 xl12 buttonsWrapper">
             <div className = "buttonsContainer">
               { this.state.currentRegInput != 0 ? <Button className = "backButton" text = "Nazad" onClick = {this.onClickBack} /> : null }
+              {this.props.proccessing? <Spinner class="floatRight"/>:  
               <Button className = "nextButton" text = {this.state.currentRegInput == 4 ? "Kreiraj nalog" : "Dalje" }  onClick = { this.onClickNext }/>
+              }
+             
             </div>
           </div>
         </div>
@@ -250,7 +272,8 @@ class Registration extends React.Component {
 
 const mapStateToProps = state => {
     return {
- 
+      errorMessage: state.registerErrorMessage,
+      proccessing: state.proccessing
     }
 }
 
