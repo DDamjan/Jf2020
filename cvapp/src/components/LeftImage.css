@@ -8,6 +8,6 @@ img{
 @media only screen and (min-width: 600px) {
 
     .fullHeight {
-        height: 100vh !important;
+        height: 110vh !important;
     }
 }

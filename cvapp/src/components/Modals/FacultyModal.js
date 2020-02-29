@@ -17,11 +17,11 @@ const initialState = {
     fakultet: "",
     smer: "",
     status: "",
-    godinaUpisa: "",
-    godineStudija: "",
-    brojPolozenihIspita: "",
-    prosek: "",
-    espb: "",
+    godinaUpisa: 0,
+    godineStudija: 0,
+    brojPolozenihIspita: 0,
+    prosek: 0,
+    espb: 0,
 }
 
 class FacultyModal extends React.Component {

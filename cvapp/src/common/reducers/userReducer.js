@@ -194,6 +194,14 @@ const userReducer = ( state = initialState, action) => {
                         srednjeObrazovanje: [...state.srednjeObrazovanje, response.payload]
                     }
                 }
+
+                case 'visokoObrazovanje': {
+                    
+                    return {
+                        ...state,
+                        visokoObrazovanje: [...state.visokoObrazovanje, response.payload]
+                    }
+                }
             }
         }
 

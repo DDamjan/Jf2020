@@ -25,7 +25,7 @@ class Faculty extends React.Component {
       <div>
         <div className = "col s12 m12 offset-l1 l10">
           {
-          this.props.srednjeObrazovanje.map(el => {
+          this.props.visokoObrazovanje.map(el => {
             return (
             <div key={el.id}>
               <Card 
@@ -49,7 +49,7 @@ class Faculty extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    srednjeObrazovanje: state.visokoObrazovanje
+    visokoObrazovanje: state.visokoObrazovanje
   }
 }
 
