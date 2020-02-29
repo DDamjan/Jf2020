@@ -15,11 +15,24 @@ import AwapExpModal from './components/Modals/AwapExpModal'
 import WocModal from './components/Modals/WocModal'
 import LanguageExpModal  from './components/Modals/LanguageExpModal'
 import OtherSkillsModal from './components/Modals/OtherSkillsModal'
-import {Provider } from "react-redux";
+import { Provider } from "react-redux";
 import store from '../src/common/store/store';
+import {connect} from 'react-redux';
+import * as userActions from './common/actions/userActions';
 
 let expList = ["Radno iskustvo", "Rad na projektu", "Stručno usavršavanje", "Rad na računaru",
  "Poznavanje jezika", "Ostale veštine"];
+
+function* f(action) {
+  console.log(1);
+  yield 1;
+  console.log(2);
+  yield 2;
+}
+
+const a = f(20);
+a.next();
+
 
 class App extends React.Component {
 
@@ -77,6 +90,7 @@ class App extends React.Component {
     };
     M.Modal.init(this.Modal1, modal1options);
     M.Modal.init(this.Modal2, modal2options);
+    M.Modal.init(this.Modal3, modal1options);
   }
 
   setBestLogo(isShown){
@@ -105,7 +119,7 @@ class App extends React.Component {
   
   render(){
     return (
-      <Provider store={store}>
+      
         <BrowserRouter>
           <div className="row appContainer" >
             <div style = { {filter : this.state.isBlured ? "blur(6px)" : "blur(0px)"}} className="col s12 m6 l6 levo">
@@ -113,7 +127,6 @@ class App extends React.Component {
             <Route exact path = '/forgotPass' render={() => <LeftImage className = "leftImage" src={"forgotPassImg.jpg"}/>}/>
             <Route exact path = '/registration' render={() => <LeftImage className = "leftImage" src={"regImg.jpg"}/>}/>
             <Route exact path = '/cvForma' render={() => <LeftImage className = "leftImage" src={"cvFormaImg.jpg"}/>}/>
-            
             </div>
             <div style = { {filter : this.state.isBlured ? "blur(6px)" : "blur(0px)"}} className="col s12 m6 l6 desno">
               <Route exact path = '/' component =  {Login} />
@@ -139,7 +152,7 @@ class App extends React.Component {
                   <img className = "cancelBtn" src = "photos/cancelImg.png" alt = "job fair"></img>
                 </a>
                 { this.state.modal === 2 ? <Button text="+" className = "emAddBtn" 
-                className = "modal-trigger" dataTarget = "modal2"/> : null }
+                className = "modal-trigger" onClick={ () => {this.props.openModal(null)}} dataTarget = "modal2"/> : null }
                 <div className = "col s12 m12 l12 xl12 modalHeaderContainer">
                     <h4> 
                       {this.state.modal === 0 ? "Dodaj srednje obrazovanje" : null}
@@ -170,19 +183,50 @@ class App extends React.Component {
                     {this.state.expModal === 3 ? <WocModal addBtnClassName = "expAddBtn" expId = {3}/> : null}
                     {this.state.expModal === 4 ? <LanguageExpModal addBtnClassName = "expAddBtn" expId = {4}/> : null}
                     {this.state.expModal === 5 ? <OtherSkillsModal addBtnClassName = "expAddBtn" expId = {5}/> : null}
-                    {this.state.expModal !== 2 ? 
-                    <div className = "col s12 addBtnContainer">
-                      <Button className = "modal-close addModal2Btn" text = "Dodaj"/>
-                    </div> : null }
                 </div>
+            </div>
+            <div
+              ref={Modal => {
+                this.Modal3 = Modal;
+              }}
+              id="modal3"
+              className="modal z-depth-5 col offset-s1 s10 offset-m3 m6 offset-l4 l4"
+              style = { {filter : this.state.isModalBlured ? "blur(6px)" : "blur(0px)"}} >
+              <div className="modal-content modal3Container">
+                <a href="#" className = "modal-close">
+                  <img className = "cancelBtn" src = "photos/cancelImg.png" alt = "job fair"></img>
+                </a>
+                <div className = "col s12 modalHeaderContainer">
+                    <h4> Da li ste sigurni? </h4>
+                </div>
+                <div className = "col offset-s2 s8 yesNoContainer">
+                  <Button className = "yesBtn modal-close" text = "Da" onClick={() => this.props.sendForDeletion(this.props.modalForDeletion)}/>
+                  <Button className = "noBtn modal-close" text = "Ne"/>
+                </div>
+              </div>
             </div>
           </div>
 
         </BrowserRouter>
-      </Provider>
+    
     );
   }
 }
 
-export default App;
+
+const mapStateToProps = state => {
+  return {
+    modalForDeletion: state.modalForDeletion
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    openModal: id => dispatch(userActions.openModal(id)),
+    sendForDeletion: modal => dispatch(userActions.sendForDeletion(modal))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);
+
 

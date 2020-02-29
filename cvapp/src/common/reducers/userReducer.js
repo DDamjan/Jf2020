@@ -9,7 +9,8 @@ const initialState =  {
             prezime: '',
             imeRoditelja: '',
             datumRodjenja: '',
-
+            profilnaSlika: null,
+            cv: null
     },
     kontakt: {
         telefon: '',
@@ -26,7 +27,18 @@ const initialState =  {
         adresa: '',
     },
     srednjeObrazovanje: [],
-    visokoObrazovanje: []
+    visokoObrazovanje: [],
+    iskustvo: {
+        radnoIskustvo: [],
+        strucnoUsavrsavanje: [],
+        radNaRacunaru: [],
+        radNaProjektu:[],
+        poznavanjeJezika: [],
+        ostaleVestine: []
+    },
+    experienceModalSelected: null,
+
+    modalForDeletion: null
 }
 
 const userReducer = ( state = initialState, action) => {
@@ -69,12 +81,13 @@ const userReducer = ( state = initialState, action) => {
             const user = {...JSON.parse(sessionStorage.getItem('user'))};
             return{
                 ...state,
-                licniPodaci: { ...user['licniPodaci']},
-                prebivaliste: {...user['prebivaliste']},
-                boraviste: {...user['boraviste']},
-                kontakt: {...user['kontakt']},
-                srednjeObrazovanje: [...user['srednjeObrazovanje']],
-                visokoObrazovanje: [...user['visokoObrazovanje']]
+                ...user
+                // licniPodaci: { ...user['licniPodaci']},
+                // prebivaliste: {...user['prebivaliste']},
+                // boraviste: {...user['boraviste']},
+                // kontakt: {...user['kontakt']},
+                // srednjeObrazovanje: [...user['srednjeObrazovanje']],
+                // visokoObrazovanje: [...user['visokoObrazovanje']]
             }
         }
 
@@ -87,14 +100,52 @@ const userReducer = ( state = initialState, action) => {
             }
         }
 
+        case userActionsTypes.OPEN_EXPERIENCE_MODAL:{
+            const {modal} = action;
+
+            return{
+                ...state,
+                experienceModalSelected: modal
+            }
+        }
+
         case userActionsTypes.SUBMIT_FROM_MODAL: {
             const {data} = action;
-
+            console.log(data);
             return {
                 ...state,
                 modalId: null
             }
         }
+
+        case userActionsTypes.CHANGE_PROFILE_PICTURE:{
+            const {picture} = action;
+
+            return{
+                ...state,
+                licniPodaci: {...state.licniPodaci, profilnaSlika: URL.createObjectURL(picture)}
+            }
+        }
+
+        case userActionsTypes.CHANGE_CV: {
+            const {file} = action;
+            
+            return {
+                ...state,
+                licniPodaci: {...state.licniPodaci, cv: URL.createObjectURL(file)}
+            }
+        }
+
+        case userActionsTypes.PREPARE_FOR_DELETION: {
+            const {modal} = action;
+            console.log(modal);
+
+            return {
+                ...state,
+                modalForDeletion: modal
+            }
+        }
+
         default:
             return state
     }

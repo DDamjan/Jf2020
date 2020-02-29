@@ -6,7 +6,10 @@ class Button extends React.Component {
   render(){
     let className = "btn button z-depth-2 " + this.props.className;
     return (
-        <a data-target= {this.props.dataTarget} href= { this.props.href } className = {className} onClick = {this.props.onClick}> {this.props.text} </a>
+        <div data-target= {this.props.dataTarget} 
+          href= { this.props.href } 
+          className = {className} 
+          onClick = {this.props.onClick}> {this.props.text} </div>
     );
   }
 }

@@ -33,7 +33,11 @@ class OtherSkillsModal extends React.Component {
                         ))
                     }
                 </div>
+
             </div>
+            <div className = "col s12 addBtnContainer">
+                      <Button className = "modal-close addModal2Btn" text = "Dodaj"/>
+                    </div>
         </div>
     );
   }

@@ -1,4 +1,3 @@
-
 import * as userActionTypes from '../constants/userActionsTypes';
 
 export const loginRequest = credentials => ({
@@ -37,4 +36,29 @@ export const openModal = id => ({
 export const submitFromModal = data => ({
     type: userActionTypes.SUBMIT_FROM_MODAL,
     data
+})
+
+export const changeProfilePicture = picture => ({
+    type: userActionTypes.CHANGE_PROFILE_PICTURE,
+    picture
+})
+
+export const changeCV = file => ({
+    type: userActionTypes.CHANGE_CV,
+    file
+})
+
+export const openExperienceModal = modal => ({
+    type: userActionTypes.OPEN_EXPERIENCE_MODAL,
+    modal
+})
+
+export const prepareForDeletion = modal => ({
+    type: userActionTypes.PREPARE_FOR_DELETION,
+    modal
+})
+
+export const sendForDeletion = modal => ({
+    type: userActionTypes.SEND_FOR_DELETION,
+    modal
 })

@@ -60,7 +60,6 @@ class HighSchoolModal extends React.Component {
     submit(){
         //Zasebna konstanta zbog testiranja samo
         const data = {...this.state.inputData, id: this.props.modalId};
-        console.log(data);
         this.props.submit(data);
         this.setState({inputData: {...initialState}})
         this.forceUpdate();

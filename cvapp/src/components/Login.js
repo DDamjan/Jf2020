@@ -45,8 +45,8 @@ class LoginComponent extends React.Component{
                 </div>
                 <div className="col s12 loginAndForgotPassContainer">
                     <div className = "col s12 m12 l6 xl6 loginBtnContainer">
-                        <Button text = "Uloguj se" onClick = {this.onLoginBtnClick}></Button>
-                        {this.props.proccessing? ( <div className="preloader-wrapper small active">
+                        
+                        {this.props.proccessing ? ( <div className="preloader-wrapper small active">
                             <div className="spinner-layer spinner-white-only">
                                 <div className="circle-clipper left">
                                 <div className="circle"></div>
@@ -56,7 +56,7 @@ class LoginComponent extends React.Component{
                                 <div className="circle"></div>
                             </div>
                             </div>
-                        </div>) : null}
+                        </div>) : <Button text = "Uloguj se" onClick = {this.onLoginBtnClick}></Button>}
                        
                     </div>
                     <div className = "col s12 m12 l6 xl6 forgotPassLinkContainer">
@@ -95,4 +95,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(LoginComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent);
