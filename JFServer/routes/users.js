@@ -5,10 +5,8 @@ const query = require('../db/query');
 const sha = require('sha.js');
 
 router.post('/register', async (req, res) => {
-  let username = req.body.username;
-  let password = sha('sha256').update(req.body.password).digest('hex');
-
-  query.execPost(req, res, queryString.REGISTER_USER(username, password));
+  // console.log(req.body);
+  query.execRegister(res, req.body);
 });
 
 router.post('/auth', async (req, res) => {
@@ -17,8 +15,7 @@ router.post('/auth', async (req, res) => {
   //   password: sha('sha256').update(req.body.password).digest('hex')
   // }
 
-  // query.execLogin(res, queryString.CHECK_USER(payload), false);
-  query.loginUser(res, [{email: 'abc@kjs.com'}], 'jdslajdklsajkl');
+  query.execLogin(res, queryString.CHECK_USER(req.body), false);
 });
 
 router.post('/', async (req, res) => {

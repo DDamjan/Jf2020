@@ -1,52 +1,30 @@
 /* USERS */
 function CHECK_USER(payload) {
-    return `SELECT userID, username FROM user WHERE username = '${payload.username}' AND password = '${payload.password}';`;
+    return `SELECT userID, email FROM user WHERE email = '${payload.email}' AND password = '${payload.password}'`;
 }
 
-function REGISTER_USER(payload) {
-    return `DECLARE @prebivalisteDrzava_id INT(11),
-                    @prebivalisteGrad_id INT (11),
-                    @boravisteDrzava_id INT (11),
-                    @boravisteGrad_id INT (11),
-                    @user_id INT (11)
-
-            SELECT @prebivalisteDrzava_id = NULL
-            SELECT @prebivalisteGrad_id = NULL
-            SELECT @boravisteDrzava_id = NULL
-            SELECT @boravisteGrad_id = NULL
-            SELECT @user_id = NULL
-
-            SELECT @prebivalisteDrzava_id = drzavaID FROM drzava WHERE naziv = ${payload.prebivaliste.drzava}
-            IF @prebivalisteDrzava_id IS NULL THEN
-                INSERT INTO drzava (naziv) VALUES ('${payload.prebivaliste.drzava}')
-                SELECT @prebivalisteDrzava_id = Max(drzavaID) FROM drzava
-            END IF
-
-            SELECT @prebivalisteGrad_id = gradID FROM grad WHERE naziv = ${payload.prebivaliste.grad}
-            IF @prebivalisteGrad_id IS NULL THEN
-                INSERT INTO grad (naziv) VALUES ('${payload.prebivaliste.grad}')
-                SELECT @prebivalisteGrad_id = Max(gradID) FROM grad
-            END IF
-
-            SELECT @boravisteDrzava_id = drzavaID FROM drzava WHERE naziv = ${payload.boraviste.drzava}
-            IF @boravisteDrzava_id IS NULL THEN
-                INSERT INTO drzava (naziv) VALUES ('${payload.boraviste.drzava}')
-                SELECT @boravisteDrzava_id = Max(drzavaID) FROM drzava
-            END IF
-
-            SELECT @boravisteGrad_id = gradID FROM grad WHERE naziv = ${payload.boraviste.grad}
-            IF @boravisteGrad_id IS NULL THEN
-                INSERT INTO grad (naziv) VALUES ('${payload.boraviste.grad}')
-                SELECT @boravisteGrad_id = Max(gradID) FROM grad
-            END IF
-
-            INSERT INTO user (username, password) VALUES ('${payload.username}', '${payload.password}');
-            SELECT @user_id = Max(userID) FROM user
-            INSERT INTO licniPodaci (userID, ime, imeRoditelja, prezime, datumRodjenja, prebivalisteDrzavaID, prebivalisteGradID, prebivalisteAdresa, boravisteDrzavaID, boravisteGradID, boravisteAdresa, telefon, linkedIn)
-            VALUES (@user_id, '${payload.licniPodaci.ime}', '${payload.licniPodaci.imeRoditelja}', '${payload.licniPodaci.prezime}', ${payload.licniPodaci.datumRodjenja}, @prebivalisteDrzava_id, @prebivalisteGrad_id, '${payload.prebivaliste.adresa}', @boravisteDrzava_id, @boravisteGrad_id, '${payload.boraviste.adresa}', '${payload.licniPodaci.kontakt.telefon}', '${payload.licniPodaci.kontakt.linkedIn}')`
+function REGISTER_USER_DRZAVA(payload) {
+    return `INSERT INTO drzava (naziv) SELECT '${payload}' WHERE (SELECT drzavaID FROM drzava WHERE naziv = '${payload}') IS NULL;`
 }
+
+function REGISTER_USER_GRAD(payload) {
+    return `INSERT INTO grad (naziv) SELECT '${payload}' WHERE (SELECT gradID FROM grad WHERE naziv = '${payload}') IS NULL;`
+}
+
+function REGISTER_USER_USER (email, password, datumRegistracije) {
+    return `INSERT INTO user (email, password, datumRegistracije) SELECT '${email}', '${password}', Convert('${datumRegistracije}', DATETIME)`;
+}
+
+function REGISTER_USER_LICNI_PODACI (email, ime, prezime, imeRoditelja, datumRodjenja, boraviste, prebivaliste, kontakt, datumRegistracije) {
+    return `INSERT INTO licniPodaci (userID, ime, imeRoditelja, prezime, datumRodjenja, prebivalisteDrzavaID, prebivalisteGradID, prebivalisteAdresa, boravisteDrzavaID, boravisteGradID, boravisteAdresa, telefon, linkedIn, datumAzuriranja)
+    SELECT (SELECT userID FROM user WHERE email = '${email}'), '${ime}', '${imeRoditelja}', '${prezime}', Convert('${datumRodjenja}', DATE), (SELECT drzavaID FROM drzava WHERE naziv = '${prebivaliste.drzava}'), (SELECT gradID FROM grad WHERE naziv = '${prebivaliste.grad}'), '${prebivaliste.adresa}', (SELECT drzavaID FROM drzava WHERE naziv = '${boraviste.drzava}'), (SELECT gradID FROM grad WHERE naziv = '${boraviste.grad}'), '${boraviste.adresa}', '${kontakt.telefon}', '${kontakt.linkedIn}', Convert('${datumAzuriranja}', DATETIME)`
+}
+
+
 const GET_USERS = `SELECT userID, ime, prezime FROM licniPodaci`;
-const GET_USER = `SELECT userID, email FROM user WHERE email = `;
+function GET_USER (email) {
+    return `SELECT userID, email FROM user WHERE email = '${email}'`;
+}
 const GET_LICNI_PODACI_BY_USERID = `SELECT * FROM licniPodaci WHERE userID = `;
 const GET_GRAD = `SELECT * FROM grad where gradID = `;
 const GET_DRZAVA = `SELECT * FROM drzava where drzavaID = `;
@@ -60,8 +38,8 @@ function GET_SREDNJA_SKOLA(userID) {
                 drzava.naziv as nazivDrzave
             FROM ideUSrednju
             INNER JOIN srednjaSkola ON ideUSrednju.srednjaID = srednjaSkola.srednjaSkolaID
-            INNER JOIN grad ON ideUSrednju.gradID = grad.gradID
-            INNER JOIN drzava ON ideUSrednju.drzavaID = drzava.drzavaID
+            INNER JOIN grad ON srednjaSkola.gradID = grad.gradID
+            INNER JOIN drzava ON srednjaSkola.drzavaID = drzava.drzavaID
             WHERE userID = ${userID}`;
 }
 function GET_FAKULTET(userID) {
@@ -85,19 +63,19 @@ function GET_FAKULTET(userID) {
             INNER JOIN grad ON univerzitet.gradID = grad.gradID
             WHERE studira.userID = ${userID}`;
 }
-function GET_RADNO_ISKUSTVO (userID){
+function GET_RADNO_ISKUSTVO(userID) {
     return `SELECT
                 radnoIskustvo.radnoIskustvoID,
                 radnoIskustvo.datumPocetka,
                 radnoIskustvo.datumZavrsetka,
-                radnoiskustvo.pozicija,
+                radnoIskustvo.pozicija,
                 radnoIskustvo.opisPosla,
                 organizacija.imeOrganizacije
             FROM radnoIskustvo
             INNER JOIN organizacija ON radnoIskustvo.organizacijaID = organizacija.organizacijaID
             WHERE userID = ${userID}`;
 }
-function GET_STRUCNO_USAVRSAVANJE (userID) {
+function GET_STRUCNO_USAVRSAVANJE(userID) {
     return `SELECT
                 strucnoUsavrsavanje.strucnoUsavrsavanjeID,
                 strucnoUsavrsavanje.naziv,
@@ -110,7 +88,7 @@ function GET_STRUCNO_USAVRSAVANJE (userID) {
             INNER JOIN organizacija ON strucnoUsavrsavanje.organizacijaID = organizacija.organizacijaID
             WHERE strucnoUsavrsavanje.strucnoUsavrsavanjeID = ${userID}`;
 }
-function GET_RAD_NA_RACUNARU (userID) {
+function GET_RAD_NA_RACUNARU(userID) {
     return `SELECT
                 radNaRacunaruID,
                 naziv,
@@ -119,7 +97,7 @@ function GET_RAD_NA_RACUNARU (userID) {
             FROM radNaRacunaru
             WHERE userID = ${userID}`;
 }
-function GET_RAD_NA_PROJEKTU (userID) {
+function GET_RAD_NA_PROJEKTU(userID) {
     return `SELECT
                 projekatID,
                 naziv,
@@ -130,7 +108,7 @@ function GET_RAD_NA_PROJEKTU (userID) {
             FROM radNaProjektu
             WHERE userID = ${userID}`;
 }
-function GET_POZNAVANJE_JEZIKA (userID) {
+function GET_POZNAVANJE_JEZIKA(userID) {
     return `SELECT
                 jezik.imeJezika,
                 govori.jezikID,
@@ -143,7 +121,7 @@ function GET_POZNAVANJE_JEZIKA (userID) {
             INNER JOIN jezik ON govori.jezikID = jezik.jezikID
             WHERE govori.userID = ${userID}`;
 }
-function GET_OSTALE_VESTINE (userID) {
+function GET_OSTALE_VESTINE(userID) {
     return `SELECT
                 ostaleVestineID,
                 vozackeDozvole,
@@ -152,6 +130,17 @@ function GET_OSTALE_VESTINE (userID) {
                 interesovanja
             FROM ostaleVestine
             WHERE userID = ${userID}`;
+}
+function UPDATE_LICNI_PODACI(payload) {
+    return `UPDATE licniPodaci
+                    SET
+                        ime =  ${payload.ime},
+                        prezime = ${payload.prezime},
+                        imeRoditelja = ${payload.imeRoditelja},
+                        datumRodjenja = ${payload.datumRodjenja},
+                        cv = payload.cv,
+                        profilnaSlika = payload.profilnaSlika
+                    WHERE `
 }
 
 /* KOMPANIJA */
@@ -174,5 +163,10 @@ module.exports = {
     GET_RAD_NA_RACUNARU,
     GET_RAD_NA_PROJEKTU,
     GET_POZNAVANJE_JEZIKA,
-    GET_OSTALE_VESTINE
+    GET_OSTALE_VESTINE,
+    REGISTER_USER_DRZAVA,
+    REGISTER_USER_GRAD,
+    REGISTER_USER_USER,
+    REGISTER_USER_LICNI_PODACI
+
 }
