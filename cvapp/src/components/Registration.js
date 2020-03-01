@@ -107,6 +107,10 @@ class Registration extends React.Component {
   onClickNext(e){
     e.preventDefault();
 
+    //TODO: funkcija koja se poziva kad treba registerModal da se otvori, 
+    //to samo treba da se ubaci na odgovarajuce mesto u ovoj funkciji
+    this.props.setRegModal();
+    
     if (this.formValidation([])) {
       if (this.state.currentRegInput === 4) {
         if (this.state.data[17] !== this.state.data[18]){
@@ -261,7 +265,6 @@ class Registration extends React.Component {
               {this.props.proccessing? <Spinner class="floatRight"/>:  
               <Button className = "nextButton" text = {this.state.currentRegInput == 4 ? "Kreiraj nalog" : "Dalje" }  onClick = { this.onClickNext }/>
               }
-             
             </div>
           </div>
         </div>

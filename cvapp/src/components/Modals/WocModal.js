@@ -95,7 +95,7 @@ class WocModal extends React.Component {
                         value={this.state.data.sertifikat}/>
                 </div>
                 <div className = "col s12 addBtnContainer">
-                      <Button className = "modal-close addModal2Btn" text = "Dodaj" onClick={this.modalSubmit}/>
+                      <Button className = "modal-close addExpModalBtn" text = "Dodaj" onClick={this.modalSubmit}/>
                 </div>
             </div>
         );

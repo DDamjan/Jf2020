@@ -42,6 +42,7 @@ class App extends React.Component {
     this.setBlur = this.setBlur.bind(this);
     this.setModal = this.setModal.bind(this);
     this.setExpModal = this.setExpModal.bind(this);
+    this.setRegModal = this.setRegModal.bind(this);
     this.state = {
       isBestLogoShown: true,
       isBlured: false,
@@ -70,7 +71,7 @@ class App extends React.Component {
       startingTop: "4%",
       endingTop: "10%"
     };
-    const modal2options = {
+    const expModaloptions = {
       onOpenStart: () => {
         this.setState({
           isModalBlured: true
@@ -89,8 +90,9 @@ class App extends React.Component {
       endingTop: "10%"
     };
     M.Modal.init(this.Modal1, modal1options);
-    M.Modal.init(this.Modal2, modal2options);
+    M.Modal.init(this.expModal, expModaloptions);
     M.Modal.init(this.Modal3, modal1options);
+    M.Modal.init(this.regModal, modal1options);
   }
 
   setBestLogo(isShown){
@@ -116,6 +118,14 @@ class App extends React.Component {
       expModal: expModal
     });
   }
+
+  setRegModal(){
+    var regModal = M.Modal.getInstance(this.regModal);
+    regModal.open();
+    setTimeout(function(){
+      regModal.close();
+    }, 3000);
+  }
   
   render(){
     return (
@@ -131,7 +141,7 @@ class App extends React.Component {
             <div style = { {filter : this.state.isBlured ? "blur(6px)" : "blur(0px)"}} className="col s12 m6 l6 desno">
               <Route exact path = '/' component =  {Login} />
               <Route path = '/forgotPass' component = {ForgotPass}/>
-              <Route path = '/registration' render={() => <Registration  setBestLogo={this.setBestLogo}/>}/>
+              <Route path = '/registration' render={() => <Registration  setBestLogo={this.setBestLogo} setRegModal = {this.setRegModal}/>}/>
               <Route path = '/cvForma' render={() => <CVForma  setBestLogo={this.setBestLogo} setModal = {this.setModal}
               setExpModal = {this.setExpModal}/>}/>
               <div className = "col s12">
@@ -152,7 +162,7 @@ class App extends React.Component {
                   <img className = "cancelBtn" src = "photos/cancelImg.png" alt = "job fair"></img>
                 </a>
                 { this.state.modal === 2 ? <Button text="+" className = "emAddBtn" 
-                className = "modal-trigger" onClick={ () => {this.props.openModal(null)}} dataTarget = "modal2"/> : null }
+                className = "modal-trigger" onClick={ () => {this.props.openModal(null)}} dataTarget = "expModal"/> : null }
                 <div className = "col s12 m12 l12 xl12 modalHeaderContainer">
                     <h4> 
                       {this.state.modal === 0 ? "Dodaj srednje obrazovanje" : null}
@@ -168,9 +178,9 @@ class App extends React.Component {
             </div>
             <div 
             ref={Modal => {
-              this.Modal2 = Modal;
+              this.expModal = Modal;
             }}
-            id="modal2" className="modal col offset-s1 s10 offset-m3 m6">
+            id="expModal" className="modal col offset-s1 s10 offset-m3 m6">
                 <div className="modal-content">
                   <a href="#" className = "modal-close">
                     <img className = "cancelBtn" src = "photos/cancelImg.png" alt = "job fair"></img>
@@ -204,6 +214,15 @@ class App extends React.Component {
                   <Button className = "yesBtn modal-close" text = "Da" onClick={() => this.props.sendForDeletion(this.props.modalForDeletion)}/>
                   <Button className = "noBtn modal-close" text = "Ne"/>
                 </div>
+              </div>
+            </div>
+            <div
+              ref={Modal => {
+                this.regModal = Modal;
+              }}
+              id="regModal"
+              className="modal z-depth-5 col offset-s1 s10 offset-m3 m6 offset-l4 l4">
+              <div className="modal-content">
               </div>
             </div>
           </div>
