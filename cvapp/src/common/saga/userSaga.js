@@ -6,16 +6,34 @@ import * as userRoutes from '../constants/routes';
 
 function *fetchUser(action) {
     try{
-        const user = yield call(userService.fetchUser, action.credentials);
+        let user;
+        setTimeout( () => {
+            user = null
+        }, 5000)
+        user = yield call(userService.fetchUser, action.credentials);
         console.log(user)
 
-        if (user.userID === undefined){
-            yield put(userActions.loginFailed());
+        if (user === null) {
+            yield put(userActions.loginFailed('Nije mogla da se uspostavi konekcija sa serverom'));
+            return
+        }
+
+        if (user === undefined){
+            yield put(userActions.loginFailed('Pogresan email i/ili sifra, pokusajte ponovo'));
         }
         else {
-            window.location.replace("/cvForma");
+
+            if (user.status === undefined){
+                window.location.replace("/cvForma");
             
-            yield put(userActions.loginApproved(user))
+                yield put(userActions.loginApproved(user))
+            }
+            else {
+                if (user.status === 401) {
+                    yield put (userActions.loginFailed('Morate prvo aktivirati nalog kako bi se ulogovali'))
+                }
+            }
+
         }
     }
     catch (error) {
@@ -97,15 +115,6 @@ function *infoUpdate(action){
     }
 }
 
-function *sendModalForDeletion(action) {
-    try{
-        const {modal} = action;
-        console.log(modal);
-    }catch (error){
-        console.log(error)
-    }
-}
-
 function *forgottenPassword(action) {
     try{
         const {email} = action;
@@ -138,8 +147,14 @@ function *submitFromModal(action) {
     try{
         const {data} = action;
         console.log(data);
-
-        const response = yield call(userService.addField, userRoutes.addField, data)
+        
+        let response = {};
+        if (data.payload.fieldID === null) {
+            response = yield call(userService.addField, userRoutes.addField, data)
+        }
+        else {
+            response = yield call(userService.addField, userRoutes.update, data)
+        }
 
         console.log(response);
 
@@ -153,6 +168,23 @@ function *submitFromModal(action) {
     }
 }
 
+function *sendModalForDeletion(action){
+
+    try{
+        const {modal} = action;
+        console.log(modal);
+        const response = yield call(userService.removeField, modal);
+
+        if (response.field !== undefined) {
+            yield put(userActions.modalDeleted(response))
+        }
+       
+    }
+    catch(error){
+        console.log(error)
+    }
+}
+
 function *userSaga() {
     yield takeEvery(userActionTypes.FETCH_USER, fetchUser);
     yield takeEvery(userActionTypes.REGISTER_USER, registerUser);
@@ -160,7 +192,7 @@ function *userSaga() {
     yield takeEvery(userActionTypes.SEND_FOR_DELETION, sendModalForDeletion);
     yield takeEvery(userActionTypes.FORGOTTEN_PASSWORD, forgottenPassword);
     yield takeEvery(userActionTypes.IS_USER_LOGGED_IN, checkUserLoginStatus);
-    yield takeEvery(userActionTypes.SUBMIT_FROM_MODAL, submitFromModal)
+    yield takeEvery(userActionTypes.SUBMIT_FROM_MODAL, submitFromModal);
 }
 
 

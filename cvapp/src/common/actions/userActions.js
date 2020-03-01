@@ -10,8 +10,9 @@ export const loginApproved = user => ({
     user
 })
 
-export const loginFailed = () => ({
-    type: userActionTypes.LOGIN_FAIL
+export const loginFailed = message => ({
+    type: userActionTypes.LOGIN_FAIL,
+    message
 })
 
 export const logout = () => ({
@@ -96,3 +97,7 @@ export const sendForDeletion = modal => ({
     modal
 })
 
+export const modalDeleted = modal => ({
+    type: userActionTypes.MODAL_DELETED,
+    modal
+})

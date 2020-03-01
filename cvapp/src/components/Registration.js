@@ -272,7 +272,7 @@ class Registration extends React.Component {
 
 const mapStateToProps = state => {
     return {
-      errorMessage: state.registerErrorMessage,
+      errorMessage: state.errorMessage,
       proccessing: state.proccessing
     }
 }

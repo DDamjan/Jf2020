@@ -15,7 +15,10 @@ class LoginComponent extends React.Component{
         this.onRegBtnClick = this.onRegBtnClick.bind(this);
         this.onLoginBtnClick = this.onLoginBtnClick.bind(this);
         this.keyPressHandle = this.keyPressHandle.bind(this);
-
+        this.state = {
+            email: '',
+            password: '',
+        }
     }
 
     onRegBtnClick(){
@@ -64,7 +67,7 @@ class LoginComponent extends React.Component{
                 </div>
                 {this.props.error? 
                     (<div className = "col s12 m12 l12 xl12">
-                        <p className="ydha red-text text-darken-1"> Pogrešan email i/ili lozinka, pokušajte ponovo </p>
+                        <p className="ydha red-text text-darken-1"> {this.props.errorMessage} </p>
                     </div>) 
                     : null
                 }
@@ -82,7 +85,8 @@ class LoginComponent extends React.Component{
 const mapStateToProps = state => {
     return {
         proccessing: state.proccessing,
-        error: state.error
+        error: state.error,
+        errorMessage: state.errorMessage
     }
 }
 

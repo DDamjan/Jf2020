@@ -31,6 +31,7 @@ class HighSchool extends React.Component {
               <Card 
                 field = "srednjeObrazovanje"
                 className = "fc"
+                id ={el.id}
                 leftText = {el.naziv} 
                 middleText = {el.smer}
                 onBtnClick = {() => this.openModal(el.id)}/>

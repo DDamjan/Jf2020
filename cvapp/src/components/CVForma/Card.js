@@ -13,8 +13,7 @@ class Card extends React.Component {
     prepareForDelete(){
        
         const modal = {
-            id: sessionStorage.getItem("id"),
-            modalId: this.props.id,
+            id:  this.props.id,
             field: this.props.field
         }
 

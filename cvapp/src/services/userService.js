@@ -47,6 +47,23 @@ export async function addField(route, data){
         return error
     }
 }
+ 
+//Dupliran kod, jbg
+export async function removeField(data){
+    try{
+        return fetch(userRoutes.remove, {
+            method: 'POST',
+            headers: {
+                'Content-type' : 'application/json',
+                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+            },
+            body: JSON.stringify(data)
+        }).then(res => res.json())
+    }
+    catch(error){
+        console.log(error) 
+    }
+}
 
 export async function registerUser(user) {
     try{

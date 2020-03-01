@@ -12,3 +12,5 @@ export const update = `${users}/update`
 export const refresh = `${users}/refresh`
 
 export const addField = `${users}/addField`
+
+export const remove =`${users}/remove`

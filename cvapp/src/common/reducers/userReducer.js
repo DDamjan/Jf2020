@@ -41,7 +41,7 @@ const initialState =  {
 
     modalForDeletion: null,
 
-    registerErrorMessage: null,
+    errorMessage: null,
 }
 
 const userReducer = ( state = initialState, action) => {
@@ -54,10 +54,14 @@ const userReducer = ( state = initialState, action) => {
         }
 
         case userActionsTypes.LOGIN_FAIL: {
+
+            const {message} = action;
+
             return {
                 ...state,
                 proccessing: false,
-                error: true
+                error: true,
+                errorMessage: message
             }
         }
 
@@ -191,7 +195,8 @@ const userReducer = ( state = initialState, action) => {
 
                     return{
                         ...state,
-                        srednjeObrazovanje: [...state.srednjeObrazovanje, response.payload]
+                        srednjeObrazovanje:  [...state.srednjeObrazovanje.filter(el => el.id !== response.payload.id), 
+                            response.payload]
                     }
                 }
 
@@ -199,9 +204,12 @@ const userReducer = ( state = initialState, action) => {
                     
                     return {
                         ...state,
-                        visokoObrazovanje: [...state.visokoObrazovanje, response.payload]
+                        visokoObrazovanje: [...state.visokoObrazovanje.filter(el => el.id !== response.payload.id), 
+                                            response.payload]
                     }
                 }
+
+                default: return state
             }
         }
 
@@ -227,10 +235,40 @@ const userReducer = ( state = initialState, action) => {
             const {modal} = action;
             console.log(modal);
 
+            const forServer = {
+                field: modal.field,
+                payload: {
+                    id: modal.id
+                }
+            }
+
             return {
                 ...state,
-                modalForDeletion: modal
+                modalForDeletion: forServer
             }
+        }
+
+        case userActionsTypes.MODAL_DELETED: {
+            const {modal} = action;
+
+            switch(modal.field) {
+                case 'srednjeObrazovanje':{
+                    return{
+                        ...state,
+                        srednjeObrazovanje: [...state.srednjeObrazovanje.filter(el => el.id !== modal.payload.id)]
+                    }
+                }
+
+                case 'visokoObrazovanje': {
+                    return {
+                        ...state,
+                        visokoObrazovanje: [...state.visokoObrazovanje.filter(el => el.id === modal.payload.id)]
+                    }
+                }
+
+                default: return state
+            }
+
         }
 
         default:
