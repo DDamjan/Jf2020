@@ -18,3 +18,7 @@
     resize: none;
     height: 120px;
 }
+.descriptionLabel{
+    color: white;
+    font-size: large;
+}

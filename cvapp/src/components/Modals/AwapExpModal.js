@@ -45,7 +45,7 @@ class AwapExpModal extends React.Component {
                     <Button className = "modal-close awapRightAddBtn" text = "Dodaj"/>
                 </div>
             </div> : <div className = "col s12 addBtnContainer">
-                      <Button className = "modal-close addModal2Btn" text = "Dodaj"/>
+                      <Button className = "modal-close addExpModalBtn" text = "Dodaj"/>
                     </div>}
         </div>
     );
