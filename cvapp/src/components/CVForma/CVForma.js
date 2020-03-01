@@ -45,7 +45,7 @@ class CVForma extends React.Component {
   }
 
   componentDidMount(){
-    this.props.isUserLoggedIn()
+    //this.props.isUserLoggedIn()
   }
   
   tabOnClick(e, tabIndex){
