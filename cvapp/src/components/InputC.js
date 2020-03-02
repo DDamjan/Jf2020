@@ -27,11 +27,7 @@ class InputC extends React.Component {
   }
 
   componentDidMount(){
-    //console.log(this.props)
-    // this.setState({
-    //   value: this.props.value
-    // })
-    //console.log(this.state)
+
   }
 
   handleChange = (e) => {

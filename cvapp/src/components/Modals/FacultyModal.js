@@ -44,7 +44,6 @@ class FacultyModal extends React.Component {
     }
     componentDidUpdate(prevProps) {
 
-        //console.log(this.props.modalId , prevProps.modalId)
         if(this.props.modalId !== prevProps.modalId && this.props.modalId !== null) {
             this.setState({
                 inputData: {...this.props.visokoObrazovanje.find( el => el.id === this.props.modalId)}

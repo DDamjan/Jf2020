@@ -28,15 +28,6 @@ let expList = ["Radno iskustvo", "Rad na projektu", "Stručno usavršavanje", "R
  let lcexpList = ["radno iskustvo", "rad na projektu", "stručno usavršavanje", "rad na računaru",
  "poznavanje jezika", "ostale veštine"];
 
-function* f(action) {
-  console.log(1);
-  yield 1;
-  console.log(2);
-  yield 2;
-}
-
-const a = f(20);
-a.next();
 
 
 class App extends React.Component {

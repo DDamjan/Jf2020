@@ -42,7 +42,7 @@ class Okpb extends React.Component {
   }
 
   saveChanges(){
-    //console.log(this.state);
+    
 
     if (!this.state.valueChanged){
       return;
