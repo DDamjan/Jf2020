@@ -1,5 +1,5 @@
 // export const mainURL = `http://localhost:3001`
-export const mainURL = `http://denicdamjan.ddns.net:8080`
+export const mainURL = `http://jobfair.ddns.net:8080`
 
 export const users = `${mainURL}/users`
 

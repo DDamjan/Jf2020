@@ -30,7 +30,7 @@ function *fetchUser(action) {
             }
             else {
                 if (user.status === 401) {
-                    yield put (userActions.loginFailed('Morate prvo aktivirati nalog kako bi se ulogovali'))
+                    yield put (userActions.loginFailed('Morate prvo aktivirati nalog kako bi ste se ulogovali'))
                 }
             }
 
@@ -81,10 +81,6 @@ function *registerUser(action) {
         if (response.status === 200) {
             yield put(userActions.registerUserSuccess());
 
-            setTimeout(() => {
-                window.location.replace("/");
-
-            }, 5000)
         }
         else {
             //TODO: ne treba ovaj hardkoriran string vec sta posalje server
@@ -144,12 +140,6 @@ function *forgottenPassword(action) {
 
         const response = yield call(userService.forgotPassword, {email: email});
 
-        if (response.status === 200) {
-            setTimeout(() => {
-                window.location.replace("/");
-
-            }, 5000)
-        }
 
     }catch (error) {
         console.log(error)

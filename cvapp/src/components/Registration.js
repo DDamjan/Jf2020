@@ -118,20 +118,30 @@ class Registration extends React.Component {
           return
         }
         if (this.state.data[17].length < 8) {
-          this.setState({passwordError: true, passwordErrorMessage: "Sifra mora sadrzati barem 8 karaktera"});
+          this.setState({passwordError: true, passwordErrorMessage: "Šifra mora sadrzati barem 8 karaktera"});
           return
         }
         let regex = /\d/g;  // Ovo je neka regularna ekspresija
         if (!regex.test(this.state.data[17])) {
-          this.setState({passwordError: true, passwordErrorMessage: 'Sifra mora posedovati barem jednu brojku'});
+          this.setState({passwordError: true, passwordErrorMessage: 'Šifra mora posedovati barem jednu brojku'});
+          return;
         }
+
+        let emailRegex = /\S+@\S+\.\S+/g;
+
+        if (!emailRegex.test(this.state.data[16])){
+          // Koristim "passwordError" jer je prostije samo njega da ubacim
+          this.setState({passwordError: true, passwordErrorMessage: 'Uneli ste neispravnu email adresu'})
+          return;
+        }
+
 
         this.setState({
           passwordError: false
         })
 
         this.props.submit(this.state.data);
-        this.props.setModalMessage('Hvala vam na registraciji, da biste se ulogovali morate prvo aktivirati svoj nalog preko unetog email-a');
+        this.props.setModalMessage(`Hvala vam na registraciji, da biste se ulogovali morate prvo aktivirati svoj nalog preko unetog email-a`);
         this.props.setRegModal();
       }
   

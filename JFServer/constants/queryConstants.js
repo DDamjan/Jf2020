@@ -199,11 +199,11 @@ function ADD_SREDNJA_SKOLA(payload) {
 }
 
 function ADD_IDE_U_SREDNJU(payload) {
-    return `INSERT INTO ideUSrednju (srednjaID, godinaZavrsetka, userID, smer) SELECT (SELECT srednjaSkolaID FROM srednjaSkola WHERE naziv = '${payload.naziv}' LIMIT 1), ${payload.godinaZavrsetka}, ${payload.userID}, '${payload.smer}' WHERE (SELECT srednjaID FROM ideUSrednju WHERE srednjaID = (SELECT srednjaSkolaID FROM srednjaSkola WHERE naziv = '${payload.naziv}' LIMIT 1)) IS NULL AND (SELECT ID FROM ideUSrednju WHERE smer = '${payload.smer}' LIMIT 1) IS NULL;`;
+    return `INSERT INTO ideUSrednju (srednjaID, godinaZavrsetka, userID, smer) SELECT (SELECT srednjaSkolaID FROM srednjaSkola WHERE naziv = '${payload.naziv}' LIMIT 1), ${payload.godinaZavrsetka}, ${payload.userID}, '${payload.smer}' WHERE (SELECT ID FROM ideUSrednju WHERE smer = '${payload.smer}' LIMIT 1) IS NULL;`;
 }
 
-function GET_SREDNJE_OBRAZOVANJE_ID(naziv, userID) {
-    return `SELECT ID FROM ideUSrednju WHERE srednjaID = (SELECT srednjaSkolaID FROM srednjaSkola WHERE naziv = '${naziv}' LIMIT 1) AND userID = ${userID};`;
+function GET_SREDNJE_OBRAZOVANJE_ID(naziv, userID, smer, godinaZavrsetka) {
+    return `SELECT ID FROM ideUSrednju WHERE srednjaID = (SELECT srednjaSkolaID FROM srednjaSkola WHERE naziv = '${naziv}' LIMIT 1) AND godinaZavrsetka = ${godinaZavrsetka} AND smer = '${smer}' AND userID = ${userID};`;
 }
 
 function ADD_UNIVERZITET(payload) {
@@ -211,19 +211,19 @@ function ADD_UNIVERZITET(payload) {
 }
 
 function ADD_FAKULTET(payload) {
-    return `INSERT INTO fakultet (univerzitetID, naziv) SELECT (SELECT univerzitetID FROM univerzitet WHERE naziv = '${payload.univerzitet}' AND gradID = (SELECT gradID FROM grad WHERE naziv = '${payload.grad}' LIMIT 1) AND drzavaID = (SELECT drzavaID FROM drzava WHERE naziv = '${payload.drzava}' LIMIT 1) LIMIT 1), '${payload.fakultet}' WHERE (SELECT fakultetID FROM fakultet WHERE naziv = '${payload.fakultet}' AND univerzitetID = (SELECT univerzitetID FROM univerzitet WHERE naziv = '${payload.univerzitet}' AND gradID = (SELECT gradID FROM grad WHERE naziv = '${payload.grad}' LIMIT 1) AND drzavaID = (SELECT drzavaID FROM drzava WHERE naziv = '${payload.drzava}' LIMIT 1) LIMIT 1)) IS NULL;`;
+    return `INSERT INTO fakultet (univerzitetID, naziv) SELECT (SELECT univerzitetID FROM univerzitet WHERE naziv = '${payload.univerzitet}' AND gradID = (SELECT gradID FROM grad WHERE naziv = '${payload.grad}' LIMIT 1) AND drzavaID = (SELECT drzavaID FROM drzava WHERE naziv = '${payload.drzava}' LIMIT 1) LIMIT 1), '${payload.fakultet}' WHERE (SELECT fakultetID FROM fakultet WHERE naziv = '${payload.fakultet}' AND univerzitetID = (SELECT univerzitetID FROM univerzitet WHERE naziv = '${payload.univerzitet}' AND gradID = (SELECT gradID FROM grad WHERE naziv = '${payload.grad}' LIMIT 1) AND drzavaID = (SELECT drzavaID FROM drzava WHERE naziv = '${payload.drzava}' LIMIT 1) LIMIT 1) LIMIT 1) IS NULL;`;
 }
 
 function ADD_SMER(payload) {
-    return `INSERT INTO fakultetSmer (fakultetID, naziv) SELECT (SELECT fakultetID FROM fakultet WHERE naziv = '${payload.fakultet}' LIMIT 1), '${payload.smer}' WHERE (SELECT smerID FROM fakultetSmer WHERE naziv = '${payload.smer}') IS NULL;`;
+    return `INSERT INTO fakultetSmer (fakultetID, naziv) SELECT (SELECT fakultetID FROM fakultet WHERE naziv = '${payload.fakultet}' LIMIT 1), '${payload.smer}' WHERE (SELECT smerID FROM fakultetSmer WHERE naziv = '${payload.smer}' LIMIT 1) IS NULL;`;
 }
 
 function ADD_STUDIRA(payload) {
-    return `INSERT INTO studira (userID, smerID, fakultetID, godinaUpisa, prosek, status, espb, godineStudija, brojPolozenihIspita) SELECT ${payload.userID}, (SELECT smerID FROM fakultetSmer WHERE naziv = '${payload.smer}' LIMIT 1), (SELECT fakultetID FROM fakultet WHERE naziv = '${payload.fakultet}' LIMIT 1), ${payload.godinaUpisa}, ${payload.prosek}, '${payload.status}', ${payload.espb}, ${payload.godineStudija}, ${payload.brojPolozenihIspita} WHERE (SELECT fakultetID FROM studira where fakultetID = (SELECT fakultetID FROM fakultet WHERE naziv = '${payload.fakultet}' LIMIT 1)) IS NULL AND (SELECT smerID FROM studira WHERE smerID = (SELECT smerID FROM fakultetSmer WHERE naziv = '${payload.smer}' LIMIT 1)) IS NULL;`;
+    return `INSERT INTO studira (userID, smerID, fakultetID, godinaUpisa, prosek, status, espb, godineStudija, brojPolozenihIspita) SELECT ${payload.userID}, (SELECT smerID FROM fakultetSmer WHERE naziv = '${payload.smer}' LIMIT 1), (SELECT fakultetID FROM fakultet WHERE naziv = '${payload.fakultet}' LIMIT 1), ${payload.godinaUpisa}, ${payload.prosek}, '${payload.status}', ${payload.espb}, ${payload.godineStudija}, ${payload.brojPolozenihIspita} WHERE ((SELECT ID FROM studira WHERE status = '${payload.status}' LIMIT 1) IS NULL OR (SELECT fakultetID FROM studira where fakultetID = (SELECT fakultetID FROM fakultet WHERE naziv = '${payload.fakultet}' LIMIT 1) LIMIT 1) IS NULL OR (SELECT smerID FROM studira WHERE smerID = (SELECT smerID FROM fakultetSmer WHERE naziv = '${payload.smer}' LIMIT 1) LIMIT 1) IS NULL);`;
 }
 
-function GET_VISOKO_OBRAZOVANJE_ID(fakultet, smer, userID) {
-    return `SELECT ID FROM studira WHERE fakultetID = (SELECT fakultetID FROM fakultet WHERE naziv = '${fakultet}' LIMIT 1) AND smerID = (SELECT smerID FROM fakultetSmer WHERE naziv = '${smer}' LIMIT 1) AND userID = ${userID};`;
+function GET_VISOKO_OBRAZOVANJE_ID(fakultet, smer, userID, status) {
+    return `SELECT ID FROM studira WHERE fakultetID = (SELECT fakultetID FROM fakultet WHERE naziv = '${fakultet}' LIMIT 1) AND smerID = (SELECT smerID FROM fakultetSmer WHERE naziv = '${smer}' LIMIT 1) AND status = '${status}' AND userID = ${userID};`;
 }
 
 function UPDATE_SREDNJA_SKOLA(payload) {
@@ -243,7 +243,7 @@ function DELETE_FAKULTET(payload) {
 }
 
 function ADD_ORGANIZACIJA(payload) {
-    return `INSERT INTO organizacija (imeOrganizacije) SELECT '${payload}' WHERE (SELECT organizacijaID FROM organizacija where imeOrganizacije = '${payload}') IS NULL;`
+    return `INSERT INTO organizacija (imeOrganizacije) SELECT '${payload}' WHERE (SELECT organizacijaID FROM organizacija where imeOrganizacije = '${payload}' LIMIT 1) IS NULL;`
 }
 
 function ADD_RADNO_ISKUSTVO(payload) {

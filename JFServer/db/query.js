@@ -42,26 +42,34 @@ function execLogin(res, query, kompanija) {
     mysql.pool.query(query, (err, results) => {
         try {
             console.log(results);
-            if (results.length != 0 && results[0].aktiviran != 0) {
-                let tokenKey;
-                if (kompanija) {
-                    tokenKey = {
-                        username: results[0].username
-                    };
-                } else {
-                    tokenKey = {
-                        username: results[0].email
+            if (results.length != 0) {
+                if (results[0].aktiviran != 0) {
+                    let tokenKey;
+                    if (kompanija) {
+                        tokenKey = {
+                            username: results[0].username
+                        };
+                    } else {
+                        tokenKey = {
+                            username: results[0].email
+                        }
                     }
+
+                    let token = jwt.sign(tokenKey, config.secret, { expiresIn: '8h' });
+
+                    if (kompanija) {
+                        loginKompanija(res, results, token);
+                    } else {
+                        getUser(res, results, token);
+                    }
+                } else if (results[0].aktiviran == 0) {
+                    const data = {
+                        status: 401
+                    }
+                    res.status(401);
+                    res.json(data);
+                    res.send();
                 }
-
-                let token = jwt.sign(tokenKey, config.secret, { expiresIn: '8h' });
-
-                if (kompanija) {
-                    loginKompanija(res, results, token);
-                } else {
-                    getUser(res, results, token);
-                }
-
             }
             else if (kompanija) {
                 const payload = [{
@@ -106,7 +114,7 @@ async function execRegister(res, user) {
                         from: 'jobfairnisit@gmail.com',
                         to: user.email,
                         subject: 'Aktivacija Job Fair naloga',
-                        html: `<h3>Molimo Vas da aktivirate Vaš nalog klikom na ovaj link: </h3><a href="localhost:3000/verification/${registerToken}">localhost:3000/verification/${registerToken}</a>`
+                        html: `<h3>Molimo Vas da aktivirate Vaš nalog klikom na ovaj </h3><a href="http://jobfair.ddns.net:3000/verification/${registerToken}">link</a>. <h3>Ako link ne radi iskopirajte ovu adresu: http://jobfair.ddns.net:3000/verification/${registerToken}</h3>`
                     };
 
                     nodemailer.transporter.sendMail(mailOptions, function (error, info) {
@@ -172,7 +180,7 @@ async function resetPassword(res, payload) {
             from: 'jobfairnisit@gmail.com',
             to: payload.email,
             subject: 'Promena lozinke Job Fair CV aplikacije',
-            html: `<h3>Molimo Vas da potvrdite Vaš identitet klikom na ovaj link: </h3><a href="localhost:3000/changePassword/${passwordToken}">localhost:3000/changePassword/${passwordToken}</a>`
+            html: `<h3>Molimo Vas da potvrdite Vaš identitet klikom na ovaj </h3><a href="http://jobfair.ddns.net:3000/changePassword/${passwordToken}">link</a> <h3>Ako link ne radi iskopirajte ovu adresu: http://jobfair.ddns.net:3000/changePassword/${passwordToken}</h3>`
         };
 
         nodemailer.transporter.sendMail(mailOptions, function (error, info) {
@@ -304,7 +312,7 @@ async function addSrednja(res, payload) {
         await conn.promise().execute(queryStrings.REGISTER_USER_GRAD(payload.payload.grad));
         await conn.promise().execute(queryStrings.ADD_SREDNJA_SKOLA(payload.payload));
         await conn.promise().execute(queryStrings.ADD_IDE_U_SREDNJU(payload.payload));
-        const srednjaID = await conn.promise().execute(queryStrings.GET_SREDNJE_OBRAZOVANJE_ID(payload.payload.naziv, payload.payload.userID));
+        const srednjaID = await conn.promise().execute(queryStrings.GET_SREDNJE_OBRAZOVANJE_ID(payload.payload.naziv, payload.payload.userID, payload.payload.smer, payload.payload.godinaZavrsetka));
 
         temp = JSON.stringify(srednjaID[0]);
         const srednjaIDParsed = JSON.parse(temp);
@@ -340,7 +348,7 @@ async function addFakultet(res, payload) {
         await conn.promise().execute(queryStrings.ADD_FAKULTET(payload.payload));
         await conn.promise().execute(queryStrings.ADD_SMER(payload.payload));
         await conn.promise().execute(queryStrings.ADD_STUDIRA(payload.payload));
-        const faksID = await conn.promise().execute(queryStrings.GET_VISOKO_OBRAZOVANJE_ID(payload.payload.fakultet, payload.payload.smer, payload.payload.userID));
+        const faksID = await conn.promise().execute(queryStrings.GET_VISOKO_OBRAZOVANJE_ID(payload.payload.fakultet, payload.payload.smer, payload.payload.userID, payload.payload.status));
 
         temp = JSON.stringify(faksID[0]);
         const faksIDParsed = JSON.parse(temp);

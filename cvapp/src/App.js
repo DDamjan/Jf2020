@@ -118,9 +118,6 @@ class App extends React.Component {
   setRegModal(){
     var regModal = M.Modal.getInstance(this.regModal);
     regModal.open();
-    setTimeout(function(){
-      regModal.close();
-    }, 3000);
   }
   
   render(){
@@ -226,9 +223,14 @@ class App extends React.Component {
               id="regModal"
               className="modal z-depth-5 col offset-s1 s10 offset-m3 m6 offset-l4 l4">
               <div className="modal-content">
-                {
+                      <h4>Obavestenje</h4>
+                      <p>
+                      {
                   this.props.modalMessage
                 }
+                      </p>
+               
+                <Button className = "modal-close" text="U redu" onClick={() => window.location.replace('/')}/>
               </div>
             </div>
           </div>

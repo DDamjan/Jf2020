@@ -27,7 +27,7 @@ class ForgotPass extends React.Component {
   onSubmit(){
 
     this.props.submit(this.state.inputData);
-    this.props.setModalMessage('Na unetoj email adresi cete dobili link za resetovanje sifre')
+    this.props.setModalMessage('Na unetoj email adresi ćete dobili link za resetovanje sifre, ukoliko ne dobijete mail proverite spam folder i folder neželjene poruke. Ukoliko uopšte niste dobili mail nakon 10 minuta pošaljite zahtev ponovo')
     this.props.setRegModal();
   }
 
