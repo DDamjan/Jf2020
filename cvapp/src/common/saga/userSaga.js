@@ -11,7 +11,7 @@ function *fetchUser(action) {
             user = null
         }, 5000)
         user = yield call(userService.fetchUser, action.credentials);
-        console.log(user)
+        
 
         if (user === null) {
             yield put(userActions.loginFailed('Nije mogla da se uspostavi konekcija sa serverom'));
@@ -75,7 +75,7 @@ function *registerUser(action) {
             datumRegistracije: new Date().toJSON().slice(0, 19).replace('T', ' ')
         }
 
-        //console.log(user);
+        
         const response = yield call(userService.registerUser, user);
 
         if (response.status === 200) {
@@ -84,7 +84,7 @@ function *registerUser(action) {
             setTimeout(() => {
                 window.location.replace("/");
 
-            }, 3000)
+            }, 5000)
         }
         else {
             //TODO: ne treba ovaj hardkoriran string vec sta posalje server
@@ -102,7 +102,7 @@ function *registerUser(action) {
 function *infoUpdate(action){
     try{
         const { data } = action;
-        console.log(data);
+        
 
 
         const response = yield call(userService.updateUserInfo, data);
@@ -119,14 +119,14 @@ function *infoUpdate(action){
         if (data.payload.profilnaSlika instanceof File){
             const res = yield call(userService.sendFile, data.payload.profilnaSlika, userRoutes.uploadPicture);
 
-            console.log(res);
+            
 
             yield put(userActions.fileUploaded('profilnaSlika', res.profilnaSlika));
         }
 
         if (data.payload.cv instanceof File) {
             const res2 = yield call(userService.sendFile, data.payload.cv, userRoutes.uploadCV);
-            console.log(res2);
+        
 
             yield put(userActions.fileUploaded('cv', res2.cv));
 
@@ -140,16 +140,15 @@ function *infoUpdate(action){
 function *forgottenPassword(action) {
     try{
         const {email} = action;
-        console.log(email);
+   
 
         const response = yield call(userService.forgotPassword, {email: email});
-        console.log(response);
 
         if (response.status === 200) {
             setTimeout(() => {
                 window.location.replace("/");
 
-            }, 3000)
+            }, 5000)
         }
 
     }catch (error) {
@@ -160,12 +159,11 @@ function *forgottenPassword(action) {
 function *resetPassword(action) {
     try{
         const {credentials} = action;
-        console.log(credentials);
-
+      
         const response = yield call(userService.resetPassword, credentials)
-        console.log(response)
+   
 
-        if(response.stats === 201){
+        if(response.status === 201){
             setTimeout(() => {
                 window.location.replace('/')
             }, 700)
@@ -186,7 +184,7 @@ function *checkUserLoginStatus(action){
         else{
             const response = yield call(userService.fetchUserById);
 
-            //console.log(response);
+          
             yield put(userActions.userLogedInResult(response))
         }
        
@@ -199,7 +197,7 @@ function *checkUserLoginStatus(action){
 function *submitFromModal(action) {
     try{
         const {data} = action;
-        console.log(data);
+ 
         
         let response = {};
         if (data.payload.fieldID === null) {
@@ -209,7 +207,7 @@ function *submitFromModal(action) {
             response = yield call(userService.addField, userRoutes.update, data)
         }
 
-        console.log(response);
+
 
         if (response.field !== undefined){
             yield put(userActions.submitFromModalCallback(response));
@@ -225,7 +223,7 @@ function *sendModalForDeletion(action){
 
     try{
         const {modal} = action;
-        console.log(modal);
+      
         const response = yield call(userService.removeField, modal);
 
         if (response.field !== undefined) {
@@ -241,10 +239,10 @@ function *sendModalForDeletion(action){
 function *verifyAccount(action) {
     try{
         const {token} = action;
-        console.log(token);
+        
 
         const response = yield call(userService.verifyAccount, {token: token})
-        console.log(response);
+        
 
         setTimeout( () => {
             window.location.replace('/');

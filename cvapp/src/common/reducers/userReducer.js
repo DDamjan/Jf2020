@@ -149,7 +149,7 @@ const userReducer = ( state = initialState, action) => {
         case userActionsTypes.INFO_UPDATE_SUCCESS: {
             const {data} = action;
 
-            console.log(data);
+         
             const pom = {...state};
             pom[`${data.field}`] = data.payload
             return {
@@ -162,7 +162,7 @@ const userReducer = ( state = initialState, action) => {
 
         case userActionsTypes.FILE_UPLOADED: {
             const {field, link} = action;
-            console.log(field, link)
+          
             let pom = {...state};
             pom.licniPodaci[`${field}`] = link;
             return{
@@ -235,7 +235,7 @@ const userReducer = ( state = initialState, action) => {
 
         case userActionsTypes.SUBMIT_FROM_MODAL_CALLBACK: {
             const {response} = action;
-            console.log(response)
+           
             if (response.field !== undefined) {
                 switch(response.field){
                     case 'srednjeObrazovanje':{
@@ -255,8 +255,7 @@ const userReducer = ( state = initialState, action) => {
                     }
     
                     default: {
-                        console.log(response);
-                        console.log(state.iskustvo)
+                    
                         let newIskustvo = state.iskustvo;
                         newIskustvo[`${response.field}`] = addToArray([...newIskustvo[`${response.field}`]], response.payload)
                         return {
@@ -282,7 +281,7 @@ const userReducer = ( state = initialState, action) => {
 
         case userActionsTypes.CHANGE_CV: {
             const {file} = action;
-            console.log(file);
+            
             return {
                 ...state,
                 licniPodaci: {...state.licniPodaci, cv: URL.createObjectURL(file)},
@@ -292,7 +291,7 @@ const userReducer = ( state = initialState, action) => {
 
         case userActionsTypes.PREPARE_FOR_DELETION: {
             const {modal} = action;
-            console.log(modal);
+           
 
             const forServer = {
                 field: modal.field,

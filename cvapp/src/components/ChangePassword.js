@@ -63,9 +63,9 @@ class ChangePassword extends React.Component {
             <p className = "changePassH"> Promeni lozinku </p>
           </div>
           <div className = "col s12">
-           <InputC type = "text" label = "Nova lozinka" labelClassName = "cpLabel"
+           <InputC type = "password" label = "Nova lozinka" labelClassName = "cpLabel"
             onSubmit={this.onInputChange} index={'newPassword'} value={this.state.newPassword}/>
-            <InputC type = "text" label = "Ponovi lozinku" labelClassName = "cpLabel"
+            <InputC type = "password" label = "Ponovi lozinku" labelClassName = "cpLabel"
             onSubmit={this.onInputChange} index={'confirmPassword'} value={this.state.confirmPassword}/>
           </div>
           <div>

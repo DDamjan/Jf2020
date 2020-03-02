@@ -14,7 +14,6 @@ class ExperienceModal extends React.Component {
 
   openModal(id){
     this.props.openModal(id);
-    //console.log(this.props.expModal)
   }
 
   render(){

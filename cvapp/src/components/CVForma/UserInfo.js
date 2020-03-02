@@ -43,9 +43,7 @@ class UserInfo extends React.Component {
                         },
                         field: 'licniPodaci',
                       });
-    if (this.state.storeData.profilnaSlika.type instanceof File){
-      console.log(true);
-    }
+
   }
 
   onInputChange(data, index) {
@@ -60,7 +58,7 @@ class UserInfo extends React.Component {
   }
 
   onChangeProfileImage(files){
-    console.log(files[0]);
+  
     this.onInputChange(files[0], 'profilnaSlika');
     this.props.changeProfileImage(files[0]);
   }

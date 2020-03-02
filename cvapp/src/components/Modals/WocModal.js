@@ -51,7 +51,6 @@ class WocModal extends React.Component {
             payload: data
         }
 
-        console.log(forServer);
         this.props.submit(forServer);
         this.setState({inputData: {...initialState}})
     }

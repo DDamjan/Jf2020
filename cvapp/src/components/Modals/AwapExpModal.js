@@ -33,7 +33,7 @@ class AwapExpModal extends React.Component {
     componentDidMount(){
         if (this.props.modalId !== null) {
             let pom = this.props.experiences[`${this.props.experienceModal}`].find( el => el.id === this.props.modalId);
-            console.log(pom)
+           
             if (pom !== undefined){
                 let inputData = [...dataKyes[`${this.props.expId}`].map( el => {
                     return pom[el]
@@ -62,7 +62,7 @@ class AwapExpModal extends React.Component {
                 let newPom = inputData[4];
                 inputData[4] = pom['opis'];
                 inputData.push(newPom);
-                console.log(pom)
+            
                 this.setState({
                     inputData
                 })
@@ -115,7 +115,7 @@ class AwapExpModal extends React.Component {
     }
 
   render(){
-      console.log(this.state)
+    
     return (
         <div>
             <div className = "col s12 m12 l5 xl5">
