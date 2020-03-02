@@ -1,9 +1,11 @@
+const sha = require('sha.js');
+
 /* REPO */
 const REPO_PATH = __dirname.substring(0, __dirname.indexOf('\\constants')) + '\\repo\\';
 
 /* USERS */
 function CHECK_USER(payload) {
-    return `SELECT userID, email, aktiviran FROM user WHERE email = '${payload.email}' AND password = '${payload.password}'`;
+    return `SELECT userID, email, aktiviran FROM user WHERE email = '${payload.email}' AND password = '${sha('sha256').update(payload.password).digest('hex')}'`;
 }
 
 function REGISTER_USER_DRZAVA(payload) {
@@ -15,7 +17,7 @@ function REGISTER_USER_GRAD(payload) {
 }
 
 function REGISTER_USER_USER(email, password, datumRegistracije) {
-    return `INSERT INTO user (email, password, datumRegistracije) SELECT '${email}', '${password}', Convert('${datumRegistracije}', DATETIME)`;
+    return `INSERT INTO user (email, password, datumRegistracije) SELECT '${email}', '${sha('sha256').update(password).digest('hex')}', Convert('${datumRegistracije}', DATETIME)`;
 }
 
 function REGISTER_USER_LICNI_PODACI(email, ime, prezime, imeRoditelja, datumRodjenja, boraviste, prebivaliste, kontakt, datumRegistracije) {
@@ -52,7 +54,7 @@ function DELETE_PASSWORD_TOKEN (token){
 }
 
 function CHANGE_PASSWORD (password, userID) {
-    return `UPDATE user SET password = '${password}' WHERE userID = ${userID};`;
+    return `UPDATE user SET password = '${sha('sha256').update(password).digest('hex')}' WHERE userID = ${userID};`;
 }
 
 const GET_USERS = `SELECT userID, ime, prezime FROM licniPodaci`;

@@ -23,11 +23,6 @@ router.post('/newpassword', async (req, res) => {
 });
 
 router.post('/auth', async (req, res) => {
-  // const payload = {
-  //   username: req.body.username,
-  //   password: sha('sha256').update(req.body.password).digest('hex')
-  // }
-
   query.execLogin(res, queryString.CHECK_USER(req.body), false);
 });
 

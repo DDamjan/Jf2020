@@ -104,7 +104,7 @@ async function execRegister(res, user) {
 
                     var mailOptions = {
                         from: 'jobfairnisit@gmail.com',
-                        to: 'igorvuckovic25@gmail.com',
+                        to: user.email,
                         subject: 'Aktivacija Job Fair naloga',
                         html: `<h3>Molimo Vas da aktivirate Vaš nalog klikom na ovaj link: </h3><a href="localhost:3000/verification/${registerToken}">localhost:3000/verification/${registerToken}</a>`
                     };
@@ -170,7 +170,7 @@ async function resetPassword(res, payload) {
 
         var mailOptions = {
             from: 'jobfairnisit@gmail.com',
-            to: 'igorvuckovic25@gmail.com',
+            to: payload.email,
             subject: 'Promena lozinke Job Fair CV aplikacije',
             html: `<h3>Molimo Vas da potvrdite Vaš identitet klikom na ovaj link: </h3><a href="localhost:3000/changePassword/${passwordToken}">localhost:3000/changePassword/${passwordToken}</a>`
         };
