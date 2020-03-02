@@ -3,6 +3,9 @@ let jwt = require('jsonwebtoken');
 let config = require('../constants/config');
 let queryStrings = require('../constants/queryConstants');
 const sha = require('sha.js');
+var nodemailer = require('../Middleware/nodemailer');
+var formidable = require('formidable');
+var mv = require('mv');
 
 function exec(req, res, query, fun) {
     let token = req.headers['x-access-token'] || req.headers['authorization'];
@@ -19,9 +22,8 @@ function exec(req, res, query, fun) {
                 }]);
             } else {
                 mysql.pool.query(query, (err, result) => {
-                    if (result.length !== 0) {
-                        console.log(res);
-                        fun(res, result);
+                    if (req.body.field != undefined || query == '') {
+                        fun;
                     } else {
                         fun(res, result);
                     }
@@ -39,7 +41,8 @@ function exec(req, res, query, fun) {
 function execLogin(res, query, kompanija) {
     mysql.pool.query(query, (err, results) => {
         try {
-            if (results.length != 0) {
+            console.log(results);
+            if (results.length != 0 && results[0].aktiviran != 0) {
                 let tokenKey;
                 if (kompanija) {
                     tokenKey = {
@@ -56,16 +59,19 @@ function execLogin(res, query, kompanija) {
                 if (kompanija) {
                     loginKompanija(res, results, token);
                 } else {
-                    loginUser(res, results, token);
+                    getUser(res, results, token);
                 }
 
             }
-            else {
+            else if (kompanija) {
                 const payload = [{
                     kompanijaID: -1,
                     username: 'error'
                 }];
                 res.json(payload);
+                res.send();
+            } else {
+                res.status(409);
                 res.send();
             }
 
@@ -92,6 +98,25 @@ async function execRegister(res, user) {
                     await conn.execute(queryStrings.REGISTER_USER_USER(user.email, user.password, user.datumRegistracije));
                     await conn.execute(queryStrings.REGISTER_USER_LICNI_PODACI(user.email, user.licniPodaci.ime, user.licniPodaci.prezime, user.licniPodaci.imeRoditelja, user.licniPodaci.datumRodjenja, user.boraviste, user.prebivaliste, user.kontakt, user.datumRegistracije));
 
+                    const registerToken = sha('sha256').update(user.email).digest('hex');
+
+                    await conn.execute(queryStrings.REGISTER_TOKEN(registerToken, user.email));
+
+                    var mailOptions = {
+                        from: 'jobfairnisit@gmail.com',
+                        to: 'igorvuckovic25@gmail.com',
+                        subject: 'Aktivacija Job Fair naloga',
+                        html: `<h3>Molimo Vas da aktivirate Vaš nalog klikom na ovaj link: </h3><a href="localhost:3000/verification/${registerToken}">localhost:3000/verification/${registerToken}</a>`
+                    };
+
+                    nodemailer.transporter.sendMail(mailOptions, function (error, info) {
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            console.log('Email sent: ' + info.response);
+                        }
+                    });
+
                     mysql.pool.releaseConnection(conn);
                     res.status(200);
                     res.send();
@@ -110,9 +135,408 @@ async function execRegister(res, user) {
     });
 }
 
+async function verifyAccount(res, payload) {
+    await mysql.pool.getConnection(async (err, conn) => {
+        const userID = await conn.promise().execute(queryStrings.CHECK_REGISTER_TOKEN(payload));
+
+        if (userID != undefined) {
+            await conn.promise().execute(queryStrings.ACTIVATE_USER(payload));
+            await conn.promise().execute(queryStrings.DELETE_REGISTER_TOKEN(payload));
+
+            const data = {
+                status: 201
+            }
+
+            res.status(201);
+            res.json(data);
+            res.send();
+        } else {
+            const data = {
+                status: 404
+            }
+            res.status(404);
+            res.json(data);
+            res.send();
+        }
+    });
+}
+
+async function resetPassword(res, payload) {
+    await mysql.pool.getConnection(async (err, conn) => {
+        console.log(payload);
+        const passwordToken = sha('sha256').update(payload.email).digest('hex');
+
+        await conn.execute(queryStrings.PASSWORD_TOKEN(passwordToken, payload.email));
+
+        var mailOptions = {
+            from: 'jobfairnisit@gmail.com',
+            to: 'igorvuckovic25@gmail.com',
+            subject: 'Promena lozinke Job Fair CV aplikacije',
+            html: `<h3>Molimo Vas da potvrdite Vaš identitet klikom na ovaj link: </h3><a href="localhost:3000/changePassword/${passwordToken}">localhost:3000/changePassword/${passwordToken}</a>`
+        };
+
+        nodemailer.transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+
+        const data = {
+            status: 200
+        }
+
+        res.json(data);
+        res.status(200);
+        res.send();
+    });
+}
+
+async function newPassword(res, payload) {
+    await mysql.pool.getConnection(async (err, conn) => {
+        console.log(payload);
+        const userID = await conn.promise().execute(queryStrings.CHECK_PASSWORD_TOKEN(payload.token));
+
+        if (userID != undefined) {
+            temp = JSON.stringify(userID[0]);
+            const userIDParsed = JSON.parse(temp);
+
+            await conn.promise().execute(queryStrings.CHANGE_PASSWORD(payload.password, userIDParsed[0].userID));
+            await conn.promise().execute(queryStrings.DELETE_PASSWORD_TOKEN(payload.token));
+
+            const data = {
+                status: 201
+            }
+
+            res.status(201);
+            res.json(data);
+            res.send();
+        } else {
+            const data = {
+                status: 404
+            }
+            res.status(404);
+            res.json(data);
+            res.send();
+        }
+    });
+}
+
 function get(res, result) {
     res.json(result);
     res.send();
+}
+
+async function update(res, payload) {
+    await mysql.pool.getConnection(async (err, conn) => {
+        await conn.promise().execute(queryStrings.REGISTER_USER_DRZAVA(payload.payload.drzava));
+        await conn.promise().execute(queryStrings.REGISTER_USER_GRAD(payload.payload.grad));
+
+        switch (payload.field) {
+            case 'prebivaliste': {
+                await conn.promise().execute(queryStrings.UPDATE_PREBIVALISTE(payload.payload));
+                break;
+            }
+            case 'boraviste': {
+                await conn.promise().execute(queryStrings.UPDATE_BORAVISTE(payload.payload));
+                break;
+            }
+            case 'srednjeObrazovanje': {
+                await conn.promise().execute(queryStrings.ADD_SREDNJA_SKOLA(payload.payload));
+                await conn.promise().execute(queryStrings.UPDATE_SREDNJA_SKOLA(payload.payload));
+                break;
+            }
+            case 'visokoObrazovanje': {
+                await conn.promise().execute(queryStrings.ADD_UNIVERZITET(payload.payload));
+                await conn.promise().execute(queryStrings.ADD_FAKULTET(payload.payload));
+                await conn.promise().execute(queryStrings.ADD_SMER(payload.payload));
+                await conn.promise().execute(queryStrings.UPDATE_FAKULTET(payload.payload));
+                break;
+            }
+        }
+
+        mysql.pool.releaseConnection(conn);
+        res.status(200);
+        res.json(payload);
+        res.send();
+    });
+}
+
+async function updateIskustva(res, payload) {
+    await mysql.pool.getConnection(async (err, conn) => {
+        switch (payload.field) {
+            case 'radnoIskustvo': {
+                await conn.promise().execute(queryStrings.ADD_ORGANIZACIJA(payload.payload.kompanija));
+                await conn.promise().execute(queryStrings.EDIT_RADNO_ISKUSTVO(payload.payload));
+                break;
+            }
+            case 'radNaProjektu': {
+                await conn.promise().execute(queryStrings.EDIT_RAD_NA_PROJEKTU(payload.payload));
+                break;
+            }
+            case 'strucnoUsavrsavanje': {
+                await conn.promise().execute(queryStrings.ADD_ORGANIZACIJA(payload.payload.organizator));
+                await conn.promise().execute(queryStrings.EDIT_STRUCNO_USAVRSAVANJE(payload.payload));
+                break;
+            }
+            case 'radNaRacunaru': {
+                await conn.promise().execute(queryStrings.EDIT_RAD_NA_RACUNARU(payload.payload));
+                break;
+            }
+            case 'poznavanjeJezika': {
+                await conn.promise().execute(queryStrings.ADD_JEZIK(payload.payload));
+                await conn.promise().execute(queryStrings.EDIT_GOVORI(payload.payload));
+                break;
+            }
+        }
+
+        mysql.pool.releaseConnection(conn);
+        res.status(200);
+        res.json(payload);
+        res.send();
+    });
+}
+
+async function addSrednja(res, payload) {
+    await mysql.pool.getConnection(async (err, conn) => {
+        await conn.promise().execute(queryStrings.REGISTER_USER_DRZAVA(payload.payload.drzava));
+        await conn.promise().execute(queryStrings.REGISTER_USER_GRAD(payload.payload.grad));
+        await conn.promise().execute(queryStrings.ADD_SREDNJA_SKOLA(payload.payload));
+        await conn.promise().execute(queryStrings.ADD_IDE_U_SREDNJU(payload.payload));
+        const srednjaID = await conn.promise().execute(queryStrings.GET_SREDNJE_OBRAZOVANJE_ID(payload.payload.naziv, payload.payload.userID));
+
+        temp = JSON.stringify(srednjaID[0]);
+        const srednjaIDParsed = JSON.parse(temp);
+
+        console.log(srednjaIDParsed);
+
+        const data = {
+            field: payload.field,
+            payload: {
+                naziv: payload.payload.naziv,
+                tip: payload.payload.tip,
+                drzava: payload.payload.drzava,
+                grad: payload.payload.grad,
+                smer: payload.payload.smer,
+                godinaZavrsetka: payload.payload.godinaZavrsetka,
+                id: srednjaIDParsed[0].ID
+            }
+        }
+
+        mysql.pool.releaseConnection(conn);
+        res.status(200);
+        res.json(data);
+        res.send();
+    });
+}
+
+async function addFakultet(res, payload) {
+    await mysql.pool.getConnection(async (err, conn) => {
+        console.log(payload.payload);
+        await conn.promise().execute(queryStrings.REGISTER_USER_DRZAVA(payload.payload.drzava));
+        await conn.promise().execute(queryStrings.REGISTER_USER_GRAD(payload.payload.grad));
+        await conn.promise().execute(queryStrings.ADD_UNIVERZITET(payload.payload));
+        await conn.promise().execute(queryStrings.ADD_FAKULTET(payload.payload));
+        await conn.promise().execute(queryStrings.ADD_SMER(payload.payload));
+        await conn.promise().execute(queryStrings.ADD_STUDIRA(payload.payload));
+        const faksID = await conn.promise().execute(queryStrings.GET_VISOKO_OBRAZOVANJE_ID(payload.payload.fakultet, payload.payload.smer, payload.payload.userID));
+
+        temp = JSON.stringify(faksID[0]);
+        const faksIDParsed = JSON.parse(temp);
+
+        const data = {
+            field: payload.field,
+            payload: {
+                drzava: payload.payload.drzava,
+                grad: payload.payload.grad,
+                univerzitet: payload.payload.univerzitet,
+                fakultet: payload.payload.fakultet,
+                smer: payload.payload.smer,
+                status: payload.payload.status,
+                godinaUpisa: payload.payload.godinaUpisa,
+                godineStudija: payload.payload.godineStudija,
+                brojPolozenihIspita: payload.payload.brojPolozenihIspita,
+                prosek: payload.payload.prosek,
+                espb: payload.payload.espb,
+                id: faksIDParsed[0].ID
+            }
+        }
+
+        mysql.pool.releaseConnection(conn);
+        res.status(200);
+        res.json(data);
+        res.send();
+    });
+}
+
+async function addIskustvo(res, payload) {
+    await mysql.pool.getConnection(async (err, conn) => {
+        console.log(payload.payload);
+        switch (payload.field) {
+            case 'radnoIskustvo': {
+                await conn.promise().execute(queryStrings.ADD_ORGANIZACIJA(payload.payload.kompanija));
+                await conn.promise().execute(queryStrings.ADD_RADNO_ISKUSTVO(payload.payload));
+                const radnoIskustvoID = await conn.promise().execute(queryStrings.GET_RADNO_ISKUSTVO_ID(payload.payload));
+
+                temp = JSON.stringify(radnoIskustvoID[0]);
+                const radnoIskustvoIDParsed = JSON.parse(temp);
+
+                const data = {
+                    field: payload.field,
+                    payload: {
+                        id: radnoIskustvoIDParsed[0].radnoIskustvoID,
+                        kompanija: payload.payload.kompanija,
+                        datumPocetka: payload.payload.datumPocetka,
+                        datumZavrsetka: payload.payload.datumZavrsetka,
+                        funkcija: payload.payload.funkcija,
+                        opis: payload.payload.opis,
+                        userID: payload.payload.userID
+                    }
+                }
+                mysql.pool.releaseConnection(conn);
+                res.status(200);
+                res.json(data);
+                res.send();
+                break;
+            }
+            case 'radNaProjektu': {
+                await conn.promise().execute(queryStrings.ADD_RAD_NA_PROJEKTU(payload.payload));
+                const radNaProjektuID = await conn.promise().execute(queryStrings.GET_RAD_NA_PROJEKTU_ID(payload.payload));
+
+                temp = JSON.stringify(radNaProjektuID[0]);
+                const radNaProjektuIDParsed = JSON.parse(temp);
+
+                const data = {
+                    field: payload.field,
+                    payload: {
+                        id: radNaProjektuIDParsed[0].projekatID,
+                        naziv: payload.payload.naziv,
+                        datumPocetka: payload.payload.datumPocetka,
+                        datumZavrsetka: payload.payload.datumZavrsetka,
+                        uloga: payload.payload.uloga,
+                        opis: payload.payload.opis,
+                        userID: payload.payload.userID
+                    }
+                }
+                mysql.pool.releaseConnection(conn);
+                res.status(200);
+                res.json(data);
+                res.send();
+                break;
+            }
+            case 'strucnoUsavrsavanje': {
+                await conn.promise().execute(queryStrings.ADD_ORGANIZACIJA(payload.payload.organizator));
+                await conn.promise().execute(queryStrings.ADD_STRUCNO_USAVRSAVANJE(payload.payload));
+                const strucnoUsavrsavanjeID = await conn.promise().execute(queryStrings.GET_STRUCNO_USAVRSAVANJE_ID(payload.payload));
+
+                temp = JSON.stringify(strucnoUsavrsavanjeID[0]);
+                const strucnoUsavrsavanjeIDParsed = JSON.parse(temp);
+
+                const data = {
+                    field: payload.field,
+                    payload: {
+                        id: strucnoUsavrsavanjeIDParsed[0].radnoIskustvoID,
+                        organizator: payload.payload.organizator,
+                        datumPocetka: payload.payload.datumPocetka,
+                        datumZavrsetka: payload.payload.datumZavrsetka,
+                        sertifikat: payload.payload.sertifikat,
+                        opis: payload.payload.opis,
+                        userID: payload.payload.userID,
+                        naziv: payload.payload.naziv
+                    }
+                }
+                mysql.pool.releaseConnection(conn);
+                res.status(200);
+                res.json(data);
+                res.send();
+                break;
+            }
+            case 'radNaRacunaru': {
+                await conn.promise().execute(queryStrings.ADD_RAD_NA_RACUNARU(payload.payload));
+                const radNaRacunaruID = await conn.promise().execute(queryStrings.GET_RAD_NA_RACUNARU_ID(payload.payload));
+
+                temp = JSON.stringify(radNaRacunaruID[0]);
+                const radNaRacunaruIDParsed = JSON.parse(temp);
+
+                const data = {
+                    field: payload.field,
+                    payload: {
+                        id: radNaRacunaruIDParsed[0].projekatID,
+                        naziv: payload.payload.naziv,
+                        nivo: payload.payload.nivo,
+                        sertifikat: payload.payload.sertifikat,
+                        userID: payload.payload.userID
+                    }
+                }
+                mysql.pool.releaseConnection(conn);
+                res.status(200);
+                res.json(data);
+                res.send();
+                break;
+            }
+            case 'poznavanjeJezika': {
+                await conn.promise().execute(queryStrings.ADD_JEZIK(payload.payload));
+                await conn.promise().execute(queryStrings.ADD_GOVORI(payload.payload));
+                const govoriID = await conn.promise().execute(queryStrings.GET_GOVORI_ID(payload.payload));
+
+                temp = JSON.stringify(govoriID[0]);
+                const govoriIDParsed = JSON.parse(temp);
+
+                const data = {
+                    field: payload.field,
+                    payload: {
+                        id: govoriIDParsed[0].govoriID,
+                        jezik: payload.payload.jezik,
+                        nivoGovora: payload.payload.nivoGovora,
+                        nivoRazumevanja: payload.payload.nivoRazumevanja,
+                        nivoCitanja: payload.payload.nivoCitanja,
+                        nivoPisanja: payload.payload.nivoPisanja,
+                        sertifikat: payload.payload.sertifikat,
+                        userID: payload.payload.userID
+                    }
+                }
+                mysql.pool.releaseConnection(conn);
+                res.status(200);
+                res.json(data);
+                res.send();
+                break;
+            }
+
+
+
+
+
+
+        }
+    });
+}
+
+async function updateReturn(res, field, id) {
+    await mysql.pool.getConnection(async (err, conn) => {
+        switch (field) {
+            case 'licniPodaci': {
+                const licniPodaci = await conn.promise().execute(queryStrings.GET_LICNI_PODACI_BY_USERID + id);
+                console.log(id);
+                console.log(licniPodaci[0]);
+                temp = JSON.stringify(licniPodaci[0]);
+                const licniPodaciParsed = JSON.parse(temp);
+
+                const payload = {
+                    ime: licniPodaciParsed[0].ime,
+                    prezime: licniPodaciParsed[0].prezime,
+                    imeRoditelja: licniPodaciParsed[0].imeRoditelja,
+                    datumRodjenja: licniPodaciParsed[0].datumRodjenja,
+                    profilnaSlika: licniPodaciParsed[0].profilnaSlika,
+                    cv: licniPodaci[0].cv
+                }
+                res.json(payload);
+                res.status(200);
+                res.send();
+                mysql.pool.releaseConnection(conn);
+            }
+        }
+    });
 }
 
 function loginKompanija(res, results, token) {
@@ -126,9 +550,15 @@ function loginKompanija(res, results, token) {
     res.send();
 }
 
-async function loginUser(res, results, token) {
+async function getUser(res, results, token) {
     await mysql.pool.getConnection(async (err, conn) => {
-        let user = await conn.promise().execute(queryStrings.GET_USER(results[0].email));
+        let user
+        if (results[0] != undefined) {
+            user = await conn.promise().execute(queryStrings.GET_USER(results[0].email));
+        } else {
+            user = await conn.promise().execute(queryStrings.GET_USER_BY_ID + results.userID);
+        }
+
         let temp = JSON.stringify(user[0]);
         const userParsed = JSON.parse(temp);
 
@@ -164,34 +594,43 @@ async function loginUser(res, results, token) {
         const boravisteGradParsed = JSON.parse(temp);
 
         temp = JSON.stringify(srednjaSkola[0]);
-        const srednjaSkolaParsed = JSON.parse(srednjaSkola[0].length == 0 ? '{}' : temp);
+        const srednjaSkolaParsed = JSON.parse(temp);
 
         temp = JSON.stringify(fakultet[0]);
-        const fakultetParsed = JSON.parse(fakultet[0].length == 0 ? '{}' : temp);
+        const fakultetParsed = JSON.parse(temp);
 
         temp = JSON.stringify(radnoIskustvo[0]);
-        const radnoIskustvoParsed = JSON.parse(radnoIskustvo[0].length == 0 ? '{}' : temp);
+        const radnoIskustvoParsed = JSON.parse(temp);
 
         temp = JSON.stringify(strucnoUsavrsavanje[0]);
-        const strucnoUsavrsavanjeParsed = JSON.parse(strucnoUsavrsavanje[0].length == 0 ? '{}' : temp);
+        const strucnoUsavrsavanjeParsed = JSON.parse(temp);
 
         temp = JSON.stringify(radNaRacunaru[0]);
-        const radNaRacunaruParsed = JSON.parse(radNaRacunaru[0].length == 0 ? '{}' : temp);
+        const radNaRacunaruParsed = JSON.parse(temp);
 
         temp = JSON.stringify(radNaProjektu[0]);
-        const radNaProjektuParsed = JSON.parse(radNaProjektu[0].length == 0 ? '{}' : temp);
+        const radNaProjektuParsed = JSON.parse(temp);
 
         temp = JSON.stringify(poznavanjeJezika[0]);
-        const poznavanjeJezikaParsed = JSON.parse(poznavanjeJezika[0].length == 0 ? '{}' : temp);
+        const poznavanjeJezikaParsed = JSON.parse(temp);
 
         temp = JSON.stringify(ostaleVestine[0]);
-        const ostaleVestineParsed = JSON.parse(ostaleVestine[0].length == 0 ? '{}' : temp);
+        const ostaleVestineParsed = JSON.parse(temp);
 
         let payload = {
             userID: userParsed[0].userID,
             email: userParsed[0].email,
             licniPodaci: {
-                ...licniPodaciParsed[0], kontakt: { telefon: licniPodaciParsed[0].telefon, linkedIn: licniPodaciParsed[0].linkedIn }
+                ime: licniPodaciParsed[0].ime,
+                prezime: licniPodaciParsed[0].prezime,
+                imeRoditelja: licniPodaciParsed[0].imeRoditelja,
+                datumRodjenja: licniPodaciParsed[0].datumRodjenja,
+                cv: licniPodaciParsed[0].cv == '' || licniPodaciParsed[0].cv == 'null' ? null : licniPodaciParsed[0].cv,
+                profilnaSlika: licniPodaciParsed[0].profilnaSlika == '' || licniPodaciParsed[0].cv == 'null' ? null : licniPodaciParsed[0].profilnaSlika
+            },
+            kontakt: {
+                telefon: licniPodaciParsed[0].telefon,
+                linkedIn: licniPodaciParsed[0].linkedIn
             },
             prebivaliste: {
                 drzava: prebivalisteDrzavaParsed[0].naziv,
@@ -204,7 +643,7 @@ async function loginUser(res, results, token) {
                 adresa: licniPodaciParsed[0].boravisteAdresa
             },
             srednjeObrazovanje: srednjaSkolaParsed,
-            visokoOBrazovanje: fakultetParsed,
+            visokoObrazovanje: fakultetParsed,
             iskustvo: {
                 radnoIskustvo: radnoIskustvoParsed,
                 strucnoUsavrsavanje: strucnoUsavrsavanjeParsed,
@@ -222,11 +661,62 @@ async function loginUser(res, results, token) {
     });
 }
 
+async function upload(req, res, repo, mode) {
+    var form = new formidable.IncomingForm();
+    form.parse(req, async function (err, fields, files) {
+        var oldpath = files.fileUpload.path;
+        var newpath = queryStrings.REPO_PATH + repo + req.query.userid + '_-' + files.fileUpload.name;
+        mv(oldpath, newpath, function (err) {
+            if (err) throw err;
+        });
+        await mysql.pool.getConnection(async (err, conn) => {
+            if (mode == 'picture') {
+                await conn.promise().execute(queryStrings.ADD_PICTURE('http://denicdamjan.ddns.net:8080/users/returnpicture/?file=' + req.query.userid + '_-' + files.fileUpload.name, req.query.userid));
+                const data = {
+                    profilnaSlika: 'http://denicdamjan.ddns.net:8080/users/returnpicture/?file=' + req.query.userid + '_-' + files.fileUpload.name
+                }
+                res.status(200);
+                res.json(data);
+                res.send();
+            } else if (mode == 'cv') {
+                await conn.promise().execute(queryStrings.ADD_CV('http://denicdamjan.ddns.net:8080/users/returncv/?file=' + req.query.userid + '_-' + files.fileUpload.name, req.query.userid));
+                const data = {
+                    cv: 'http://denicdamjan.ddns.net:8080/users/returncv/?file=' + req.query.userid + '_-' + files.fileUpload.name
+                }
+                res.status(200);
+                res.json(data);
+                res.send();
+            }
+            mysql.pool.releaseConnection(conn);
+        });
+    });
+}
+
+async function execFile(res, path) {
+    try {
+        res.sendFile(path);
+    } catch (err) {
+        res.status(500);
+        res.send(err.message);
+    }
+}
+
 
 module.exports = {
     execLogin,
     exec,
     get,
-    loginUser,
-    execRegister
+    getUser,
+    execRegister,
+    updateReturn,
+    update,
+    addSrednja,
+    addFakultet,
+    addIskustvo,
+    updateIskustva,
+    verifyAccount,
+    newPassword,
+    resetPassword,
+    upload,
+    execFile
 }

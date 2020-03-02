@@ -1,4 +1,5 @@
 export interface VisokoObrazovanje{
+    visokoObrazovanjeID: number;
     drzava: string;
     grad: string;
     univerzitet: string;
