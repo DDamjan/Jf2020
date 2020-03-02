@@ -11,7 +11,8 @@ const initialState =  {
             imeRoditelja: '',
             datumRodjenja: '',
             profilnaSlika: null,
-            cv: null
+            cv: null,
+           
     },
     kontakt: {
         telefon: '',
@@ -35,13 +36,39 @@ const initialState =  {
         radNaRacunaru: [],
         radNaProjektu:[],
         poznavanjeJezika: [],
-        ostaleVestine: []
+        ostaleVestine: {
+            vozackeDozvole: '',
+            vestine: '',
+            osobine: '',
+            interesovanja: ''
+        }
     },
     experienceModalSelected: null,
 
     modalForDeletion: null,
 
     errorMessage: null,
+    verifyMessage: '',
+    modalMessage: '',
+    cvForDisplay: '',
+}
+
+const addToArray = (array, newItem) => {
+
+    let newArray = [...array.map(el => {
+        if (el.id === newItem.id){
+            return newItem;
+        }
+        else {
+            return el
+        }
+    })]
+
+    if (array.find( el => el.id === newItem.id) === undefined){
+        newArray = [...newArray, newItem];
+    }
+
+    return newArray
 }
 
 const userReducer = ( state = initialState, action) => {
@@ -133,6 +160,16 @@ const userReducer = ( state = initialState, action) => {
 
         }
 
+        case userActionsTypes.FILE_UPLOADED: {
+            const {field, link} = action;
+            console.log(field, link)
+            let pom = {...state};
+            pom.licniPodaci[`${field}`] = link;
+            return{
+                ...pom
+            }
+        }
+
         case userActionsTypes.IS_USER_LOGGED_IN: {
  
             return{
@@ -147,10 +184,19 @@ const userReducer = ( state = initialState, action) => {
             const {user} = action;
 
             if (user !== undefined){
+
+                let cv = user.licniPodaci.cv;
+                let cvForDisplay;
+                if (cv !==null) {
+                 cvForDisplay = cv.split(`_-`).reverse()[0];
+
+                }
+
                 return {
                     ...state,
                     ...user,
-                    authenticationProccessing: false
+                    authenticationProccessing: false,
+                    cvForDisplay
                 }
             }
             
@@ -190,26 +236,38 @@ const userReducer = ( state = initialState, action) => {
         case userActionsTypes.SUBMIT_FROM_MODAL_CALLBACK: {
             const {response} = action;
             console.log(response)
-            switch(response.field){
-                case 'srednjeObrazovanje':{
-
-                    return{
-                        ...state,
-                        srednjeObrazovanje:  [...state.srednjeObrazovanje.filter(el => el.id !== response.payload.id), 
-                            response.payload]
+            if (response.field !== undefined) {
+                switch(response.field){
+                    case 'srednjeObrazovanje':{
+    
+                        return{
+                            ...state,
+                            srednjeObrazovanje:  addToArray([...state.srednjeObrazovanje], response.payload)
+                        }
+                    }
+    
+                    case 'visokoObrazovanje': {
+                        
+                        return {
+                            ...state,
+                            visokoObrazovanje:  addToArray([...state.visokoObrazovanje], response.payload)
+                        }
+                    }
+    
+                    default: {
+                        console.log(response);
+                        console.log(state.iskustvo)
+                        let newIskustvo = state.iskustvo;
+                        newIskustvo[`${response.field}`] = addToArray([...newIskustvo[`${response.field}`]], response.payload)
+                        return {
+                            ...state,
+                            iskustvo: {...newIskustvo}
+                        }
                     }
                 }
-
-                case 'visokoObrazovanje': {
-                    
-                    return {
-                        ...state,
-                        visokoObrazovanje: [...state.visokoObrazovanje.filter(el => el.id !== response.payload.id), 
-                                            response.payload]
-                    }
-                }
-
-                default: return state
+            }
+            else {
+                return state
             }
         }
 
@@ -224,10 +282,11 @@ const userReducer = ( state = initialState, action) => {
 
         case userActionsTypes.CHANGE_CV: {
             const {file} = action;
-            
+            console.log(file);
             return {
                 ...state,
-                licniPodaci: {...state.licniPodaci, cv: URL.createObjectURL(file)}
+                licniPodaci: {...state.licniPodaci, cv: URL.createObjectURL(file)},
+                cvForDisplay: file.name
             }
         }
 
@@ -262,13 +321,40 @@ const userReducer = ( state = initialState, action) => {
                 case 'visokoObrazovanje': {
                     return {
                         ...state,
-                        visokoObrazovanje: [...state.visokoObrazovanje.filter(el => el.id === modal.payload.id)]
+                        visokoObrazovanje: [...state.visokoObrazovanje.filter(el => el.id !== modal.payload.id)]
                     }
                 }
 
-                default: return state
+                default: {
+                    let newIskustvo = state.iskustvo;
+                    newIskustvo[`${modal.field}`] = [...newIskustvo[`${modal.field}`].filter(el => el.id !== modal.payload.id)]
+                    return{
+                        ...state,
+                        iskustvo: {...newIskustvo}
+                    }
+                }
             }
 
+        }
+
+        case userActionsTypes.VERIFY_ACCOUNT_RESULT: {
+            const {message} = action;
+
+
+
+            return {
+                ...state,
+                verifyMessage: message
+            }
+        }
+
+        case userActionsTypes.SET_MODAL_MESSAGE: {
+            const {message} = action;
+
+            return {
+                ...state,
+                modalMessage: message
+            }
         }
 
         default:

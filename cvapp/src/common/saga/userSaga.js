@@ -80,7 +80,11 @@ function *registerUser(action) {
 
         if (response.status === 200) {
             yield put(userActions.registerUserSuccess());
-            window.location.replace("/");
+
+            setTimeout(() => {
+                window.location.replace("/");
+
+            }, 3000)
         }
         else {
             //TODO: ne treba ovaj hardkoriran string vec sta posalje server
@@ -98,15 +102,33 @@ function *registerUser(action) {
 function *infoUpdate(action){
     try{
         const { data } = action;
+        console.log(data);
+
+
         const response = yield call(userService.updateUserInfo, data);
 
         if (response.field !== undefined) {
    
                 yield put(userActions.infoUpdateSuccess(response))
-            
-            
+        
         }
         else {
+
+        }
+
+        if (data.payload.profilnaSlika instanceof File){
+            const res = yield call(userService.sendFile, data.payload.profilnaSlika, userRoutes.uploadPicture);
+
+            console.log(res);
+
+            yield put(userActions.fileUploaded('profilnaSlika', res.profilnaSlika));
+        }
+
+        if (data.payload.cv instanceof File) {
+            const res2 = yield call(userService.sendFile, data.payload.cv, userRoutes.uploadCV);
+            console.log(res2);
+
+            yield put(userActions.fileUploaded('cv', res2.cv));
 
         }
     }
@@ -119,10 +141,41 @@ function *forgottenPassword(action) {
     try{
         const {email} = action;
         console.log(email);
+
+        const response = yield call(userService.forgotPassword, {email: email});
+        console.log(response);
+
+        if (response.status === 200) {
+            setTimeout(() => {
+                window.location.replace("/");
+
+            }, 3000)
+        }
+
     }catch (error) {
         console.log(error)
     }
 } 
+
+function *resetPassword(action) {
+    try{
+        const {credentials} = action;
+        console.log(credentials);
+
+        const response = yield call(userService.resetPassword, credentials)
+        console.log(response)
+
+        if(response.stats === 201){
+            setTimeout(() => {
+                window.location.replace('/')
+            }, 700)
+        }
+
+    }
+    catch(error){
+        console.log(error)
+    }
+}
 
 function *checkUserLoginStatus(action){
     try{
@@ -185,14 +238,43 @@ function *sendModalForDeletion(action){
     }
 }
 
+function *verifyAccount(action) {
+    try{
+        const {token} = action;
+        console.log(token);
+
+        const response = yield call(userService.verifyAccount, {token: token})
+        console.log(response);
+
+        setTimeout( () => {
+            window.location.replace('/');
+        }, 3000)
+
+        if (response.status === 201){
+            yield put(userActions.verifyAccountResult('Uspesno ste aktivirali nalog'))
+
+        }
+        else {
+            yield put(userActions.verifyAccountResult('404 bad token'))
+
+        }
+
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
 function *userSaga() {
     yield takeEvery(userActionTypes.FETCH_USER, fetchUser);
     yield takeEvery(userActionTypes.REGISTER_USER, registerUser);
     yield takeEvery(userActionTypes.INFO_UPDATE_REQUEST, infoUpdate);
     yield takeEvery(userActionTypes.SEND_FOR_DELETION, sendModalForDeletion);
-    yield takeEvery(userActionTypes.FORGOTTEN_PASSWORD, forgottenPassword);
+    yield takeEvery(userActionTypes.FORGOT_PASSWORD, forgottenPassword);
+    yield takeEvery(userActionTypes.RESET_PASSWORD, resetPassword)
     yield takeEvery(userActionTypes.IS_USER_LOGGED_IN, checkUserLoginStatus);
     yield takeEvery(userActionTypes.SUBMIT_FROM_MODAL, submitFromModal);
+    yield takeEvery(userActionTypes.VERIFY_ACCOUNT, verifyAccount);
 }
 
 

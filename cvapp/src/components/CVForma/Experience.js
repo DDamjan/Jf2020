@@ -5,8 +5,8 @@ import {connect} from 'react-redux';
 import * as userActions from '../../common/actions/userActions';
 
 let expList = ["Radno iskustvo", "Rad na projektu", "Stručno usavršavanje", "Rad na računaru",
- "Poznavanje jezika", "Ostale veštine"];
-const experienceKeys = ['radnoIskustvo', 'radNaProjektu', 'strucnoUsavrsavanje' , 'radNaRacunaru',  'poznavanjeJezika', 'ostaleVestine'];
+ "Poznavanje jezika"];
+const experienceKeys = ['radnoIskustvo', 'radNaProjektu', 'strucnoUsavrsavanje' , 'radNaRacunaru',  'poznavanjeJezika'];
 
 class Experience extends React.Component {
 

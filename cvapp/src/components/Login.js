@@ -2,11 +2,9 @@ import React from 'react'
 import './Login.css'
 import Button from './Button'
 import {connect} from 'react-redux';    
-import PropTypes from 'prop-types';
 import InputC from './InputC'
 import {loginRequest} from '../common/actions/userActions';
 import Spinner from './Spinner';
-
 
 class LoginComponent extends React.Component{
 
@@ -18,6 +16,16 @@ class LoginComponent extends React.Component{
         this.state = {
             email: '',
             password: '',
+            show: false,
+        }
+    }
+
+    componentDidMount(){
+        setTimeout( () => {
+            this.setState({show: true})
+        }, 500)
+        if (sessionStorage.getItem('id') !== null){
+            window.location.replace('/cvForma')
         }
     }
 
@@ -45,9 +53,10 @@ class LoginComponent extends React.Component{
 
     render(){
         return (
+            this.state.show?
             <div className="row loginContainer" onKeyPress={this.keyPressHandle}>
                 <div className="col s12">
-                    <img src = "photos/job_fair_login.png" alt = "job fair" className = "jobFairLogo"></img>
+                    <img src = "photos/job_fair_login.png" alt = "job fair" className = "jobFairLogo fullWidth"></img>
                 </div>
                 <div className="col s12 inputContainer" >
                     <InputC type="email" label = "Email" labelClassName = "loginLabel" onSubmit={this.onUserNameChange} index={null} value={''}/>
@@ -78,6 +87,8 @@ class LoginComponent extends React.Component{
                     <Button text = "Registruj se!" onClick = {this.onRegBtnClick} ></Button>
                 </div>
             </div>
+            : null
+            
         );
     }
 }

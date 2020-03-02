@@ -24,7 +24,7 @@
 .pdfFileName{
     position: absolute;
     bottom: 0;
-    right: 13%;
+    right: 7%;
 }
 .saveBtn{
     float: right;
@@ -45,4 +45,13 @@ input[type="file"] {
     color: white;
     font-size: large;
     cursor: pointer;
+}
+
+.cv {
+    font-size: 150%;
+    margin-bottom: 50px;
+}
+
+.uploadCv{
+
 }

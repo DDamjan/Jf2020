@@ -2,6 +2,8 @@ import React from 'react';
 import './OtherSkillsModal.css'
 import { Input, Label } from 'reactstrap';
 import Button from '../Button'
+import {connect} from 'react-redux';
+import * as userActions from '../../common/actions/userActions';
 
 //osm - other skills modal
 let osmLeftList = ["Vozačke dozvole (kategorije)", "Osobine"];
@@ -35,12 +37,27 @@ class OtherSkillsModal extends React.Component {
                 </div>
 
             </div>
-            <div className = "col s12 addBtnContainer">
-                      <Button className = "modal-close addModal2Btn" text = "Dodaj"/>
-                    </div>
+            <div className = "col s12 saveBtnContainer">
+                <Button className = "modal-close addModal2Btn" text = "Sačuvaj"/>
+            </div>
         </div>
     );
   }
 }
 
-export default OtherSkillsModal;
+
+const mapStateToProps = state => {
+    return {
+        experienceModal: state.experienceModalSelected,
+        modalId: state.modalId,
+        wocEntities: state.iskustvo.radNaRacunaru
+    }
+  }
+  
+  const mapDispatchToProps = dispatch => {
+    return {    
+        submit: data => dispatch(userActions.submitFromModal(data))
+    }
+  }
+  
+  export default connect(mapStateToProps,mapDispatchToProps)(OtherSkillsModal);

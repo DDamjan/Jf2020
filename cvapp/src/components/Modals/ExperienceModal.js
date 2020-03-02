@@ -14,21 +14,20 @@ class ExperienceModal extends React.Component {
 
   openModal(id){
     this.props.openModal(id);
-    console.log(this.props.expModal)
+    //console.log(this.props.expModal)
   }
 
   render(){
-
+    
     return (
       <div className = "col s12 emContainer">
         <div className = "col s12 offset-m1 m10 emCardsContainer">
           {
-
             this.props.selectedModal !== null? 
             this.props.experience[`${this.props.selectedModal}`].map( el => {
-              return <ExperienceCard data={el} key={el.id} onBtnClick={this.openModal} className = "expCard" />
+              return <ExperienceCard data={el} key={el.id} onBtnClick={this.openModal} className = "expCard"
+              openModal = {this.props.ope} />
             }) : null
-
           }  
         </div>
       </div>

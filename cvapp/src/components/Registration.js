@@ -4,7 +4,7 @@ import InputC from "./InputC"
 import Button from "./Button"
 import "react-step-progress-bar/styles.css";
 import { ProgressBar, Step } from "react-step-progress-bar";
-import { registerUser } from '../common/actions/userActions';
+import { registerUser, setModalMessage } from '../common/actions/userActions';
 import {connect} from 'react-redux';
 import M from "materialize-css";
 import Spinner from './Spinner';
@@ -109,7 +109,7 @@ class Registration extends React.Component {
 
     //TODO: funkcija koja se poziva kad treba registerModal da se otvori, 
     //to samo treba da se ubaci na odgovarajuce mesto u ovoj funkciji
-    this.props.setRegModal();
+    
     
     if (this.formValidation([])) {
       if (this.state.currentRegInput === 4) {
@@ -129,8 +129,10 @@ class Registration extends React.Component {
         this.setState({
           passwordError: false
         })
-      
+
         this.props.submit(this.state.data);
+        this.props.setModalMessage('Hvala vam na registraciji, da biste se ulogovali morate prvo aktivirati svoj nalog preko unetog email-a');
+        this.props.setRegModal();
       }
   
       
@@ -284,7 +286,8 @@ const mapDispatchToProps = dispatch => {
     return {
         submit: data => {
             dispatch(registerUser(data))
-        }
+        },
+        setModalMessage: message => dispatch(setModalMessage(message))
     }
 }
 

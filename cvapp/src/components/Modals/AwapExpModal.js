@@ -13,7 +13,7 @@ const dataKyes = [['datumPocetka', 'datumZavrsetka', 'kompanija', 'funkcija'],
                   ['naziv', 'organizator', 'datumPocetka', 'datumZavrsetka', 'sertifikat']]
 const modalField = ['radnoIskustvo', 'radNaProjektu', 'strucnoUsavrsavanje']
 
-const initialState = ['', '', '', '', '', ''] //6. element u ovom nizu je namenjen za opis
+const initialState = ['', '', '', '', '', false] //5. element u ovom nizu je namenjen za opis , 6. za sertifikat
 
 //awap - AddWorkAndProject
 class AwapExpModal extends React.Component {
@@ -30,6 +30,57 @@ class AwapExpModal extends React.Component {
         }
     }
 
+    componentDidMount(){
+        if (this.props.modalId !== null) {
+            let pom = this.props.experiences[`${this.props.experienceModal}`].find( el => el.id === this.props.modalId);
+            console.log(pom)
+            if (pom !== undefined){
+                let inputData = [...dataKyes[`${this.props.expId}`].map( el => {
+                    return pom[el]
+                })]
+                let newPom = inputData[4];
+                inputData[4] = pom['opis'];
+                inputData.push(newPom);
+                this.setState({
+                    inputData
+                })
+            }
+
+
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+
+        if(this.props.modalId !== prevProps.modalId && this.props.modalId !== null) {
+            if (this.props.experiences[`${this.props.experienceModal}`] !== undefined) {
+            let pom = this.props.experiences[`${this.props.experienceModal}`].find( el => el.id === this.props.modalId);
+            if (pom !== undefined){
+                let inputData = [...dataKyes[`${this.props.expId}`].map( el => {
+                    return pom[el]
+                })]
+                let newPom = inputData[4];
+                inputData[4] = pom['opis'];
+                inputData.push(newPom);
+                console.log(pom)
+                this.setState({
+                    inputData
+                })
+            }
+        }
+
+            return
+        }
+
+        if(this.props.modalId !== prevProps.modalId && this.props.modalId === null) {
+            this.setState({
+                inputData: {...initialState}
+            })
+
+            return 
+        }
+    } 
+
     onInputChange(data, index) {
        
         const info = this.state.inputData;
@@ -40,19 +91,31 @@ class AwapExpModal extends React.Component {
     submitModal(){
         const data = {}
         dataKyes[this.props.expId].map((el, index) => {
-            data[el] = this.state.inputData[index]
+            if (index === 4){
+                data[el] = this.state.inputData[index +1]
+
+            }
+            else {
+                data[el] = this.state.inputData[index]
+
+            }
         })
-        data['opis'] = this.state.inputData[5];
+        data['opis'] = this.state.inputData[4];
+        data['id'] = this.props.modalId;
+        data['fieldID'] = this.props.modalId;
+        data['userID'] = sessionStorage.getItem('id');
 
-        data['modalId'] = this.props.modalId;
-        data['id'] = sessionStorage.getItem('id');
-        data['field']= modalField[this.props.expId];
+        const forServer = {
+            field: modalField[this.props.expId],
+            payload: data
+        }
 
-        this.props.submit(data)
+        this.props.submit(forServer)
         this.setState({inputData: [...initialState]})
     }
 
   render(){
+      console.log(this.state)
     return (
         <div>
             <div className = "col s12 m12 l5 xl5">
@@ -75,7 +138,7 @@ class AwapExpModal extends React.Component {
             <div className = "col s12">
                 <Label className = "descriptionLabel">Opis</Label>
                 <Input type="textarea" name="text" className = "descriptionArea"
-                onChange={(e) => this.onInputChange(e.target.value, 5)} value={this.state.inputData[5]}/>
+                onChange={(e) => this.onInputChange(e.target.value, 4)} value={this.state.inputData[4]}/>
             </div>
            
             <div className="col s12 certAndAddBtnContaienr">
@@ -84,7 +147,7 @@ class AwapExpModal extends React.Component {
                     <div className = "col s12 m12 l6 xl6">
                     <p>
                         <label>
-                        <input type="checkbox" />
+                        <input type="checkbox" onChange={e => this.onInputChange(e.target.checked, 5)} checked={this.state.inputData[5] }/> 
                         <span> Sertifikat </span>
                         </label>
                     </p> 
@@ -104,7 +167,9 @@ class AwapExpModal extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        modalId: state.modalId
+        modalId: state.modalId,
+        experiences: state.iskustvo,
+        experienceModal: state.experienceModalSelected
     }
   }
   

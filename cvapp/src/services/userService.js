@@ -100,3 +100,64 @@ export async function updateUserInfo(payload) {
         return error
     }
 }
+
+export async function verifyAccount(token) {
+    try{
+        return fetch(`${userRoutes.verification}`, {
+            method: 'POST',
+            headers: {
+                'Content-type' : 'application/json'
+            },
+            body: JSON.stringify(token)
+        }).then(res => {return res.json()})
+    }
+    catch(error){
+        return error
+    }
+}
+
+export async function forgotPassword(email) {
+    try{
+        return fetch(`${userRoutes.forgottenPassword}`, {
+            method: 'POST',
+            //mode: 'no-cors',
+            headers: {
+                'Content-type' : 'application/json'
+            },
+            body: JSON.stringify(email)
+        }).then(res => {return res.json()})
+    }
+    catch(error){
+        console.log(error)
+    }
+}
+
+export async function resetPassword(credentials) {
+    try{
+        return fetch(`${userRoutes.resetPassword}`, {
+            method: 'POST',
+            headers: {
+                'Content-type' : 'application/json'
+            },
+            body: JSON.stringify(credentials)
+        }).then(res =>{return res.json()})
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
+export async function sendFile(file, route) {
+    try{
+        let formData = new FormData();
+        formData.append('fileUpload', file);
+
+        return fetch(`${route}/?userid=${parseInt(sessionStorage.getItem('id'))}`, {
+            method: 'POST',
+            body: formData
+        }).then(res => {return res.json()})
+    }
+    catch(error){
+        console.log(error)
+    }
+}

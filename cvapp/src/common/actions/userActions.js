@@ -15,6 +15,16 @@ export const loginFailed = message => ({
     message
 })
 
+export const verifyAccount = token => ({
+    type: userActionTypes.VERIFY_ACCOUNT,
+    token
+})
+
+export const verifyAccountResult = message => ({
+    type: userActionTypes.VERIFY_ACCOUNT_RESULT,
+    message
+})
+
 export const logout = () => ({
     type: userActionTypes.LOGOUT
 })
@@ -33,9 +43,14 @@ export const registerUserSuccess = () => ({
     type: userActionTypes.REGISTER_USER_SUCCESS
 })
 
-export const forgottenPassword = email => ({
-    type: userActionTypes.FORGOTTEN_PASSWORD,
+export const forgotPassword = email => ({
+    type: userActionTypes.FORGOT_PASSWORD,
     email
+})
+
+export const resetPassword = credentials => ({
+    type: userActionTypes.RESET_PASSWORD,
+    credentials
 })
 
 export const isUserLoggedIn = () => ({
@@ -77,9 +92,20 @@ export const changeProfilePicture = picture => ({
     picture
 })
 
+export const sendProfilePicture = picture => ({
+    type: userActionTypes.SEND_PROFILE_PICTURE,
+    picture
+})
+
 export const changeCV = file => ({
     type: userActionTypes.CHANGE_CV,
     file
+})
+
+export const fileUploaded = (field, link) => ({
+    type: userActionTypes.FILE_UPLOADED,
+    field,
+    link
 })
 
 export const openExperienceModal = modal => ({
@@ -100,4 +126,9 @@ export const sendForDeletion = modal => ({
 export const modalDeleted = modal => ({
     type: userActionTypes.MODAL_DELETED,
     modal
+})
+
+export const setModalMessage = message => ({
+    type: userActionTypes.SET_MODAL_MESSAGE,
+    message
 })

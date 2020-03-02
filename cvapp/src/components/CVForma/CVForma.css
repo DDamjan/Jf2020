@@ -39,3 +39,9 @@
     width: 100px;
     margin-right: 0;
 }
+
+.cvfSpinnerContainer{
+    text-align: center;
+    font-size: xx-large;
+    margin-top: 50px;
+}

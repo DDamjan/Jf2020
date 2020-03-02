@@ -27,6 +27,8 @@ class ForgotPass extends React.Component {
   onSubmit(){
 
     this.props.submit(this.state.inputData);
+    this.props.setModalMessage('Na unetoj email adresi cete dobili link za resetovanje sifre')
+    this.props.setRegModal();
   }
 
   render(){
@@ -59,7 +61,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    submit: email => dispatch(userActions.forgottenPassword(email))
+    submit: email => dispatch(userActions.forgotPassword(email)),
+    setModalMessage: message => dispatch(userActions.setModalMessage(message))
   }
 }
 

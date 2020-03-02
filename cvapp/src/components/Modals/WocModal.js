@@ -11,7 +11,7 @@ import * as userActions from '../../common/actions/userActions';
 
 let wocDdItems = ["Početni", "Srednji", "Viši", "Napredni"];
 
-const initialState= {naziv: '', nivo: '', sertifikat: ''}
+const initialState= {naziv: '', nivo: 'Izaberite nivo', sertifikat: ''}
 class WocModal extends React.Component {
 
     constructor(props){
@@ -21,7 +21,7 @@ class WocModal extends React.Component {
         this.modalSubmit = this.modalSubmit.bind(this);
         this.state = {
           wocLvl: "Izaberite nivo",
-          data: {...initialState}
+          inputData: {...initialState}
         }
     }
     
@@ -33,21 +33,27 @@ class WocModal extends React.Component {
 
     onInputChange(data, index) {
  
-        const info =  this.state.data;
+        const info =  this.state.inputData;
         info[index] = data;
-        this.setState({data: info});
+        this.setState({inputData: info});
     }
 
     modalSubmit(){
         const data = {
-            ...this.state.data,
-            field: this.props.experienceModal,
-            modalId: this.props.modalId,
-            id: sessionStorage.getItem("id")
+            ...this.state.inputData,
+            fieldID: this.props.modalId,
+            id: this.props.modalId,
+            userID: sessionStorage.getItem("id")
         }
-        console.log(data);
-        this.props.submit(data);
-        this.setState({data: {...initialState}})
+
+        const forServer = {
+            field: this.props.experienceModal,
+            payload: data
+        }
+
+        console.log(forServer);
+        this.props.submit(forServer);
+        this.setState({inputData: {...initialState}})
     }
 
     componentDidUpdate(prevProps) {
@@ -78,6 +84,14 @@ class WocModal extends React.Component {
             hover: false
         };
         M.Dropdown.init(dropdown, options);
+
+        if (this.props.modalId !== null) {
+            this.setState({
+                inputData: {...this.props.wocEntities.find( el => el.id === this.props.modalId)}
+            })
+
+
+        }
     }
 
     render(){
@@ -85,14 +99,14 @@ class WocModal extends React.Component {
             <div className = "col s12">
                 <div className = "col offset-l3 l6 m12 s12">
                     <InputC label = "Naziv" inputClassName = "wocInput" onSubmit={this.onInputChange} index={'naziv'}
-                        value={this.state.data.naziv}/>
+                        value={this.state.inputData.naziv}/>
                 </div>
                 <div className = "col offset-l3 l6 m12 s12">
-                    <Dropdown items = {wocDdItems} label = "Nivo" onChange={this.onInputChange} index={'nivo'}/>
+                    <Dropdown items = {wocDdItems} label = "Nivo" onChange={this.onInputChange} value={this.state.inputData.nivo} index={'nivo'}/>
                 </div>
                 <div className = "col offset-l3 l6 m12 s12">
-                    <InputC label = "Sertifikat" inputClassName = "wocInput" onSubmit={this.onInputChange} index={'naziv'}
-                        value={this.state.data.sertifikat}/>
+                    <InputC label = "Sertifikat" inputClassName = "wocInput" onSubmit={this.onInputChange} index={'sertifikat'}
+                        value={this.state.inputData.sertifikat}/>
                 </div>
                 <div className = "col s12 addBtnContainer">
                       <Button className = "modal-close addExpModalBtn" text = "Dodaj" onClick={this.modalSubmit}/>
