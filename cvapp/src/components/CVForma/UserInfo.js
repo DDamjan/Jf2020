@@ -4,6 +4,7 @@ import InputC from '../InputC'
 import Button from '../Button'
 import * as userActions from '../../common/actions/userActions';
 import {connect} from 'react-redux';
+import Spinner from '../Spinner';
 
 var userInfo = ["Ime", "Ime roditelja", "Prezime", "Datum rođenja" ];
 const userKeys = ['ime',  'imeRoditelja', 'prezime','datumRodjenja', 'profilnaSlika', 'cv'];
@@ -36,10 +37,15 @@ class UserInfo extends React.Component {
       //I onda se izvrsava ostatka ovde, odnosno disptachuje akcija
       return
     }
-    this.props.submit({...this.state.storeData, 
+    this.props.submit({ payload: {
+                        ...this.state.storeData, 
+                        userID: sessionStorage.getItem('id')
+                        },
                         field: 'licniPodaci',
-                        id: sessionStorage.getItem('id')
                       });
+    if (this.state.storeData.profilnaSlika.type instanceof File){
+      console.log(true);
+    }
   }
 
   onInputChange(data, index) {
@@ -54,7 +60,7 @@ class UserInfo extends React.Component {
   }
 
   onChangeProfileImage(files){
-    //console.log(files[0]);
+    console.log(files[0]);
     this.onInputChange(files[0], 'profilnaSlika');
     this.props.changeProfileImage(files[0]);
   }
@@ -66,6 +72,7 @@ class UserInfo extends React.Component {
 
   render(){
     return (
+      
       <div>
         <div className = "uiContainer col s12">
           <div className = "col offset-xl1 offset-l1 offset-m1 offset-s1 s6 l6 m6 xl6">
@@ -73,33 +80,41 @@ class UserInfo extends React.Component {
               userInfo.map((el, index)=>(
 
                 <InputC key = {userKeys[index]} label = {el} inputClassName = "uiInput" labelClassName = "uiLabel"
-                onSubmit={this.onInputChange} index={userKeys[index]} value={this.props.storeData[`${userKeys[index]}`]} />
+                onSubmit={this.onInputChange} index={userKeys[index]} value={this.props.storeData[`${userKeys[index]}`]}
+                type={index === 3? 'date' : 'text'} />
               ))
             }
           </div>
           <div className = "col s5 uiRightCol">
             <img className = "profileImg" 
-                src = {this.props.storeData[`profilnaSlika`] !== null? 
-                          this.props.storeData[`profilnaSlika`] : "photos/defaultProfileImg.png"} 
+                src = {(this.props.storeData['profilnaSlika'] !== null && this.props.storeData[`profilnaSlika`] !== 'null')?
+                          this.props.slika : "photos/defaultProfileImg.png"} 
                 alt = "job fair"></img>
             <div className = "col s12 l12 m12 xl12">
               <label className="uploadProfileImage">
-                  <input type="file" onChange = {(e) => this.onChangeProfileImage(e.target.files)}/>
-                  {this.props.storeData['profilnaSlika'] !== null? 'Promeni sliku' : 'Postavi sliku'}
+                  <input name="filetoupload" type="file" onChange = {(e) => this.onChangeProfileImage(e.target.files)}/>
+                  {(this.props.storeData['profilnaSlika'] !== null && this.props.storeData[`profilnaSlika`] !== 'null')? 'Promeni sliku' : 'Postavi sliku'}
               </label>
             </div>
           </div>
-          <div className = "pdfFileName">
-            {this.props.storeData[`cv`] !== null? <a href={this.props.storeData[`cv`]} target="_blank">TODO, ime iz URL-a</a> : null}
-          </div>
+          
         </div>
         <div className = "col s7 saveBtnContainer">
-          <Button text = "Sačuvaj" className = "saveBtn" onClick={this.saveChanges}/>
+          
+          {
+        
+          this.props.proccessing? <Spinner class="floatRight"/> :   <Button text = "Sačuvaj" className = "saveBtn" onClick={this.saveChanges}/>
+          }
         </div>
         <div className = "col s5 postCvBtnContainer">
+        {(this.props.storeData[`cv`] !== null && this.props.storeData[`cv`] !== 'null')? <a href={this.props.cv} target="_blank" class="cv">{this.props.cvForDisplay}</a> : null}
+
+        <div className = "pdfFileName">
+          </div>
           <label className="uploadCv">
-              <Button text = {this.props.storeData[`cv`] !== null? 'Promeni trenutni CV' : 'Postavi CV'}/>
-              <input type="file" onChange = { (e) => this.onChangeCV(e.target.files)}/>
+
+              <Button  text = {(this.props.storeData[`cv`] !== null && this.props.storeData[`cv`] !== 'null')? 'Promeni trenutni CV' : 'Postavi CV'}/>
+              <input name="filetoupload" type="file" onChange = { (e) => this.onChangeCV(e.target.files)}/>
           </label>
         </div>
       </div>
@@ -111,7 +126,12 @@ class UserInfo extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    storeData: state.licniPodaci
+    storeData: state.licniPodaci,
+    proccessing: state.proccessing,
+    authProccessing: state.authenticationProccessing,
+    cvForDisplay: state.cvForDisplay,
+    slika: state.licniPodaci.profilnaSlika,
+    cv: state.licniPodaci.cv
   }
 }
 

@@ -57,22 +57,25 @@ class HighSchoolModal extends React.Component {
         this.setState({inputData: info});
     }
 
+
     submit(){
         //Zasebna konstanta zbog testiranja samo
-        const data = {...this.state.inputData, id: this.props.modalId};
+        const data = {field: "srednjeObrazovanje", payload : {...this.state.inputData, fieldID: this.props.modalId, userID: sessionStorage.getItem('id')}};
         this.props.submit(data);
         this.setState({inputData: {...initialState}})
         this.forceUpdate();
     }
+
     render(){
         return (
-        <div>
+        <div >
             <div className = "col s12 offset-m2 offset-l2 offset-xl2 m8 l8 xl8 hsInputContainer">
                 {
                     hsLabels.map((el, index)=>(
                         <InputC key = {index} label = {el} inputClassName = "facInput" labelClassName = "facLabel"
                         onSubmit={this.onInputChange} index={keys[index]} 
-                        value={this.state.inputData[`${keys[index]}`]} />
+                        value={this.state.inputData[`${keys[index]}`]}
+                        type={index === 5? 'number' : 'text'} />
                     ))
                 }
             </div>

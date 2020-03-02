@@ -1,6 +1,7 @@
 import * as userActionsTypes from '../constants/userActionsTypes';
 
 const initialState =  {
+    authenticationProccessing: false,
     proccessing: false,
     error: false,
     modalId: null,
@@ -10,7 +11,8 @@ const initialState =  {
             imeRoditelja: '',
             datumRodjenja: '',
             profilnaSlika: null,
-            cv: null
+            cv: null,
+           
     },
     kontakt: {
         telefon: '',
@@ -34,11 +36,39 @@ const initialState =  {
         radNaRacunaru: [],
         radNaProjektu:[],
         poznavanjeJezika: [],
-        ostaleVestine: []
+        ostaleVestine: {
+            vozackeDozvole: '',
+            vestine: '',
+            osobine: '',
+            interesovanja: ''
+        }
     },
     experienceModalSelected: null,
 
-    modalForDeletion: null
+    modalForDeletion: null,
+
+    errorMessage: null,
+    verifyMessage: '',
+    modalMessage: '',
+    cvForDisplay: '',
+}
+
+const addToArray = (array, newItem) => {
+
+    let newArray = [...array.map(el => {
+        if (el.id === newItem.id){
+            return newItem;
+        }
+        else {
+            return el
+        }
+    })]
+
+    if (array.find( el => el.id === newItem.id) === undefined){
+        newArray = [...newArray, newItem];
+    }
+
+    return newArray
 }
 
 const userReducer = ( state = initialState, action) => {
@@ -51,18 +81,22 @@ const userReducer = ( state = initialState, action) => {
         }
 
         case userActionsTypes.LOGIN_FAIL: {
+
+            const {message} = action;
+
             return {
                 ...state,
                 proccessing: false,
-                error: true
+                error: true,
+                errorMessage: message
             }
         }
 
         case userActionsTypes.LOGIN_SUCCESSFUL: {
             const {user} = action;
             
-            sessionStorage.setItem('user', JSON.stringify(user));
-            sessionStorage.setItem('id', user.id)
+            sessionStorage.setItem('id', user.userID);
+            sessionStorage.setItem('token', user.token);
             return {
                 ...state,
                 proccessing: false,
@@ -71,26 +105,107 @@ const userReducer = ( state = initialState, action) => {
             }
         }
 
-        case userActionsTypes.IS_USER_LOGGED_IN: {
-            if (sessionStorage.getItem('user') === null) {
-                window.location.replace("/");
-                return state;
-                //Svestan sam da je ovo bocan efekat u reduceru i da ne treba ali 
-                //neka stoji za sad dok ne smislim nesto drugo
-            }
-            const user = {...JSON.parse(sessionStorage.getItem('user'))};
-            return{
+        case userActionsTypes.LOGOUT: {
+            sessionStorage.clear();
+
+            return initialState
+        }
+
+        case userActionsTypes.REGISTER_USER: {
+
+            return {
                 ...state,
-                ...user
-                // licniPodaci: { ...user['licniPodaci']},
-                // prebivaliste: {...user['prebivaliste']},
-                // boraviste: {...user['boraviste']},
-                // kontakt: {...user['kontakt']},
-                // srednjeObrazovanje: [...user['srednjeObrazovanje']],
-                // visokoObrazovanje: [...user['visokoObrazovanje']]
+                proccessing: true,
+                registerErrorMessage: null,
             }
         }
 
+        case userActionsTypes.REGISTER_USER_FAIL: {
+            const {errorMessage} = action;
+
+            return {
+                ...state,
+                proccessing: false,
+                registerErrorMessage: errorMessage
+            }
+        }
+
+        case userActionsTypes.REGISTER_USER_SUCCESS: {
+
+            return{
+                ...state,
+                proccessing: false,
+            }
+        }
+
+        case userActionsTypes.INFO_UPDATE_REQUEST: {
+
+            return {
+                ...state,
+                proccessing: true
+            }
+        }
+
+        case userActionsTypes.INFO_UPDATE_SUCCESS: {
+            const {data} = action;
+
+            console.log(data);
+            const pom = {...state};
+            pom[`${data.field}`] = data.payload
+            return {
+                ...pom,
+                proccessing: false,
+
+            }
+
+        }
+
+        case userActionsTypes.FILE_UPLOADED: {
+            const {field, link} = action;
+            console.log(field, link)
+            let pom = {...state};
+            pom.licniPodaci[`${field}`] = link;
+            return{
+                ...pom
+            }
+        }
+
+        case userActionsTypes.IS_USER_LOGGED_IN: {
+ 
+            return{
+                ...state,
+                authenticationProccessing: true
+
+            }
+        }
+
+        case userActionsTypes.USER_LOGGED_IN_RESULT: {
+
+            const {user} = action;
+
+            if (user !== undefined){
+
+                let cv = user.licniPodaci.cv;
+                let cvForDisplay;
+                if (cv !==null) {
+                 cvForDisplay = cv.split(`_-`).reverse()[0];
+
+                }
+
+                return {
+                    ...state,
+                    ...user,
+                    authenticationProccessing: false,
+                    cvForDisplay
+                }
+            }
+            
+            return {
+                ...state,
+                authenticationProccessing: false,
+            }
+
+        }
         case userActionsTypes.OPEN_MODAL: {
             const {id} = action;
 
@@ -111,10 +226,48 @@ const userReducer = ( state = initialState, action) => {
 
         case userActionsTypes.SUBMIT_FROM_MODAL: {
             const {data} = action;
-            console.log(data);
+            
             return {
                 ...state,
                 modalId: null
+            }
+        }
+
+        case userActionsTypes.SUBMIT_FROM_MODAL_CALLBACK: {
+            const {response} = action;
+            console.log(response)
+            if (response.field !== undefined) {
+                switch(response.field){
+                    case 'srednjeObrazovanje':{
+    
+                        return{
+                            ...state,
+                            srednjeObrazovanje:  addToArray([...state.srednjeObrazovanje], response.payload)
+                        }
+                    }
+    
+                    case 'visokoObrazovanje': {
+                        
+                        return {
+                            ...state,
+                            visokoObrazovanje:  addToArray([...state.visokoObrazovanje], response.payload)
+                        }
+                    }
+    
+                    default: {
+                        console.log(response);
+                        console.log(state.iskustvo)
+                        let newIskustvo = state.iskustvo;
+                        newIskustvo[`${response.field}`] = addToArray([...newIskustvo[`${response.field}`]], response.payload)
+                        return {
+                            ...state,
+                            iskustvo: {...newIskustvo}
+                        }
+                    }
+                }
+            }
+            else {
+                return state
             }
         }
 
@@ -129,10 +282,11 @@ const userReducer = ( state = initialState, action) => {
 
         case userActionsTypes.CHANGE_CV: {
             const {file} = action;
-            
+            console.log(file);
             return {
                 ...state,
-                licniPodaci: {...state.licniPodaci, cv: URL.createObjectURL(file)}
+                licniPodaci: {...state.licniPodaci, cv: URL.createObjectURL(file)},
+                cvForDisplay: file.name
             }
         }
 
@@ -140,9 +294,66 @@ const userReducer = ( state = initialState, action) => {
             const {modal} = action;
             console.log(modal);
 
+            const forServer = {
+                field: modal.field,
+                payload: {
+                    id: modal.id
+                }
+            }
+
             return {
                 ...state,
-                modalForDeletion: modal
+                modalForDeletion: forServer
+            }
+        }
+
+        case userActionsTypes.MODAL_DELETED: {
+            const {modal} = action;
+
+            switch(modal.field) {
+                case 'srednjeObrazovanje':{
+                    return{
+                        ...state,
+                        srednjeObrazovanje: [...state.srednjeObrazovanje.filter(el => el.id !== modal.payload.id)]
+                    }
+                }
+
+                case 'visokoObrazovanje': {
+                    return {
+                        ...state,
+                        visokoObrazovanje: [...state.visokoObrazovanje.filter(el => el.id !== modal.payload.id)]
+                    }
+                }
+
+                default: {
+                    let newIskustvo = state.iskustvo;
+                    newIskustvo[`${modal.field}`] = [...newIskustvo[`${modal.field}`].filter(el => el.id !== modal.payload.id)]
+                    return{
+                        ...state,
+                        iskustvo: {...newIskustvo}
+                    }
+                }
+            }
+
+        }
+
+        case userActionsTypes.VERIFY_ACCOUNT_RESULT: {
+            const {message} = action;
+
+
+
+            return {
+                ...state,
+                verifyMessage: message
+            }
+        }
+
+        case userActionsTypes.SET_MODAL_MESSAGE: {
+            const {message} = action;
+
+            return {
+                ...state,
+                modalMessage: message
             }
         }
 

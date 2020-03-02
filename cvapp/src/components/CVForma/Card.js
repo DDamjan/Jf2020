@@ -13,8 +13,7 @@ class Card extends React.Component {
     prepareForDelete(){
        
         const modal = {
-            id: sessionStorage.getItem("id"),
-            modalId: this.props.id,
+            id:  this.props.id,
             field: this.props.field
         }
 
@@ -36,11 +35,11 @@ class Card extends React.Component {
                 onClick = {this.props.onBtnClick}>edit</i>
             </div>
             <div className = "col s2 m2 l1" >
-                <img className = "cardRemove modal-trigger " 
+                <i className = "cardRemove modal-trigger material-icons" 
                 src = "photos/cancelImg.png" 
                 data-target = "modal3"
                 alt = "job fair"
-                onClick= { this.prepareForDelete}></img>
+                onClick= { this.prepareForDelete}>cancel</i>
             </div>
         </div>
     );
@@ -49,7 +48,7 @@ class Card extends React.Component {
 
 const mapStateToProps = state => {
     return {
-      
+
     }
   }
   

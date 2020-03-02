@@ -4,6 +4,7 @@ import InputC from './InputC'
 import {connect} from 'react-redux';
 import Button from './Button';
 import * as userActions from '../common/actions/userActions';
+import Spinner from './Spinner';
 
 //okpb - osnovni podaci, kontakt, prebivaliste, boraviste
 class Okpb extends React.Component {
@@ -47,9 +48,9 @@ class Okpb extends React.Component {
       return;
     }
 
-    let forStore = {field: this.props.field, id: sessionStorage.getItem('id')};
+    let forStore = {field: this.props.field, payload: {id: sessionStorage.getItem('id')}};
     this.state.inputKeys.forEach((key, index) => {
-      forStore[key] = this.state.inputData[index];
+      forStore.payload[key] = this.state.inputData[index];
     })
 
     this.props.submit(forStore);
@@ -67,7 +68,10 @@ class Okpb extends React.Component {
             ))
           }
           <div className = "col s12 m12 l12 xl12 okpbSaveBtn">
-                <Button text = "Sačuvaj" onClick={ this.saveChanges} />
+            {
+              this.props.proccessing? <Spinner/> :  <Button text = "Sačuvaj" onClick={ this.saveChanges} />
+            }
+              
               </div>
         </div>
     );
@@ -78,7 +82,7 @@ class Okpb extends React.Component {
 const mapStateToProps = state => {
 
   return {
-
+    proccessing: state.proccessing
   }
 }
 

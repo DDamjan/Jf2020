@@ -13,9 +13,9 @@ class ExperienceCard extends React.Component {
 prepareForDelete(){
    
     const modal = {
-        id: sessionStorage.getItem("id"),
-        modalId: this.props.data.id,
-        field: this.props.selectedModal
+
+          id: this.props.data.id,
+          field: this.props.selectedModal
     }
 
     this.props.prepareForDelete(modal)
@@ -46,7 +46,7 @@ prepareForDelete(){
                 this.props.data.funkcija? this.props.data.funkcija : null
               }
               {
-                this.props.data.nivo? `Nivo: ${this.props.data.nivo}` : null
+                (this.props.data.sertifikat && !this.props.data.organizator)? `Nivo: ${this.props.data.sertifikat}` : null
               }
               {
                 this.props.data.uloga? this.props.data.uloga : null
@@ -54,8 +54,8 @@ prepareForDelete(){
             </div>
             <div className = "col s2 m2 l1">
                 <i className = {"small material-icons cardEdit modal-trigger " + this.props.btnClassName} 
-                data-target = "modal1"
-                onClick = {this.props.onBtnClick}>edit</i>
+                data-target = "expModal"
+                onClick = {() => this.props.openModal(this.props.data.id)}>edit</i>
             </div>
             <div className = "col s2 m2 l1">
                 <img className = "cardRemove modal-trigger " 
@@ -78,7 +78,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    prepareForDelete: modal => dispatch(userActions.prepareForDeletion(modal))
+    prepareForDelete: modal => dispatch(userActions.prepareForDeletion(modal)),
+    openModal: id => dispatch(userActions.openModal(id))
+
   }
 }
 

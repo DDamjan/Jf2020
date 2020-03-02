@@ -16,11 +16,11 @@ let levels = ["Početni", "Srednji", "Viši", "Napredni"];
 
 const initialState= {
     jezik: '',
-    nivoGovora: '',
-    nivoRazumevanja: '',
+    nivoGovora: 'Izaberite nivo',
+    nivoRazumevanja: 'Izaberite nivo',
     sertifikat: '',
-    nivoCitanja: '',
-    nivoPisanja: ''
+    nivoCitanja: 'Izaberite nivo',
+    nivoPisanja: 'Izaberite nivo',
 }
 
 class LanguageExpModal extends React.Component {
@@ -34,8 +34,33 @@ class LanguageExpModal extends React.Component {
     }
 
     componentDidMount(){
+        if (this.props.modalId !== null) {
+            this.setState({
+                inputData: {...this.props.languageEntities.find( el => el.id === this.props.modalId)}
+            })
 
+
+        }
     }
+
+    componentDidUpdate(prevProps) {
+
+        if(this.props.modalId !== prevProps.modalId && this.props.modalId !== null) {
+            this.setState({
+                inputData: {...this.props.languageEntities.find( el => el.id === this.props.modalId)}
+            })
+
+            return
+        }
+
+        if(this.props.modalId !== prevProps.modalId && this.props.modalId === null) {
+            this.setState({
+                inputData: {...initialState}
+            })
+
+            return 
+        }
+    } 
 
     onInputChange(data, index) {
        
@@ -47,11 +72,15 @@ class LanguageExpModal extends React.Component {
     modalSubmit(){
 
         const data = {...this.state.inputData};
-        data['field'] = 'poznavanjeJezika';
-        data['id'] = sessionStorage.getItem("id");
-        data['modalId'] = this.props.modalId;
+        data['userID'] = sessionStorage.getItem("id");
+        data['fieldID'] = this.props.modalId;
 
-        this.props.submit(data);
+        const forServer = {
+            field: this.props.experienceModal,
+            payload: data
+        }
+
+        this.props.submit(forServer);
         this.setState({
             inputData: {...initialState}
         })
@@ -69,7 +98,8 @@ class LanguageExpModal extends React.Component {
                                     value={this.state.inputData[`${dataKeys[index]}`]}/>);
                         } else {
                             return (<Dropdown id = {index} key = {index} items = {levels} label = {el}
-                                    onChange={ this.onInputChange.bind(this)} index={dataKeys[index]}/>);
+                                    onChange={ this.onInputChange.bind(this)} index={dataKeys[index]}
+                                    value={this.state.inputData[`${dataKeys[index]}`]}/>);
                         }
                         
                     })
@@ -85,16 +115,17 @@ class LanguageExpModal extends React.Component {
                         } else {
                             //10 je samo radnom broj koji sam dodao jer svaki od dropdown-ova mora da ime jedinstven id
                             return (<Dropdown id = {index + 10} key = {index + 10} items = {levels} label = {el}
-                                onChange={ this.onInputChange.bind(this)} index={dataKeys[index +3]}/>);
+                                onChange={ this.onInputChange.bind(this)} index={dataKeys[index +3]}
+                                value={this.state.inputData[`${dataKeys[index+3]}`]}/>);
                         }
                         
                     })
                 }
             </div>
             <div className = "col s12 addBtnContainer">
-                      <Button className = "modal-close addModal2Btn" text = "Dodaj"
-                        onClick={this.modalSubmit.bind(this)}/>
-                    </div>
+                <Button className = "modal-close addExpModalBtn" text = "Dodaj"
+                    onClick={this.modalSubmit.bind(this)}/>
+            </div>
         </div>
     );
   }
@@ -102,6 +133,7 @@ class LanguageExpModal extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        experienceModal: state.experienceModalSelected,
         modalId: state.modalId,
         languageEntities: state.iskustvo.poznavanjeJezika
     }

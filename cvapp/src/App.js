@@ -19,9 +19,14 @@ import { Provider } from "react-redux";
 import store from '../src/common/store/store';
 import {connect} from 'react-redux';
 import * as userActions from './common/actions/userActions';
+import AccountVerification from './components/AccountVerification';
+import ChangePassword from './components/ChangePassword';
 
 let expList = ["Radno iskustvo", "Rad na projektu", "Stručno usavršavanje", "Rad na računaru",
  "Poznavanje jezika", "Ostale veštine"];
+//lc - lowercase
+ let lcexpList = ["radno iskustvo", "rad na projektu", "stručno usavršavanje", "rad na računaru",
+ "poznavanje jezika", "ostale veštine"];
 
 function* f(action) {
   console.log(1);
@@ -42,6 +47,7 @@ class App extends React.Component {
     this.setBlur = this.setBlur.bind(this);
     this.setModal = this.setModal.bind(this);
     this.setExpModal = this.setExpModal.bind(this);
+    this.setRegModal = this.setRegModal.bind(this);
     this.state = {
       isBestLogoShown: true,
       isBlured: false,
@@ -70,7 +76,7 @@ class App extends React.Component {
       startingTop: "4%",
       endingTop: "10%"
     };
-    const modal2options = {
+    const expModaloptions = {
       onOpenStart: () => {
         this.setState({
           isModalBlured: true
@@ -89,8 +95,9 @@ class App extends React.Component {
       endingTop: "10%"
     };
     M.Modal.init(this.Modal1, modal1options);
-    M.Modal.init(this.Modal2, modal2options);
+    M.Modal.init(this.expModal, expModaloptions);
     M.Modal.init(this.Modal3, modal1options);
+    M.Modal.init(this.regModal, modal1options);
   }
 
   setBestLogo(isShown){
@@ -116,27 +123,38 @@ class App extends React.Component {
       expModal: expModal
     });
   }
+
+  setRegModal(){
+    var regModal = M.Modal.getInstance(this.regModal);
+    regModal.open();
+    setTimeout(function(){
+      regModal.close();
+    }, 3000);
+  }
   
   render(){
     return (
-      
         <BrowserRouter>
           <div className="row appContainer" >
             <div style = { {filter : this.state.isBlured ? "blur(6px)" : "blur(0px)"}} className="col s12 m6 l6 levo">
-            <Route exact path = '/' render={() => <LeftImage className = "leftImage"  src={"loginImg.jpg"}/>}/>
-            <Route exact path = '/forgotPass' render={() => <LeftImage className = "leftImage" src={"forgotPassImg.jpg"}/>}/>
-            <Route exact path = '/registration' render={() => <LeftImage className = "leftImage" src={"regImg.jpg"}/>}/>
-            <Route exact path = '/cvForma' render={() => <LeftImage className = "leftImage" src={"cvFormaImg.jpg"}/>}/>
+            <Route exact path = '/' render={() => <LeftImage className = "leftImage fullHeight"  src={"loginImg.jpg"}/>}/>
+            <Route exact path = '/forgotPass' render={() => <LeftImage className = "leftImage fullHeight" src={"forgotPassImg.jpg"}/>}/>
+            <Route exact path = '/changePassword/:token' render={() => <LeftImage className = "leftImage fullHeight" src={"forgotPassImg.jpg"}/>}/>
+            <Route exact path = '/registration' render={() => <LeftImage className = "leftImage fullHeight" src={"regImg.jpg"}/>}/>
+            <Route exact path = '/cvForma' render={() => <LeftImage className = "leftImage fullHeight" src={"cvFormaImg.jpg"}/>}/>
+            <Route  path = '/verification/:token' ></Route>
             </div>
             <div style = { {filter : this.state.isBlured ? "blur(6px)" : "blur(0px)"}} className="col s12 m6 l6 desno">
               <Route exact path = '/' component =  {Login} />
-              <Route path = '/forgotPass' component = {ForgotPass}/>
-              <Route path = '/registration' render={() => <Registration  setBestLogo={this.setBestLogo}/>}/>
+              <Route path = '/forgotPass' render= { () => <ForgotPass setRegModal = {this.setRegModal} />}/>
+              <Route path = '/registration' render={() => <Registration  setBestLogo={this.setBestLogo} setRegModal = {this.setRegModal}/>}/>
               <Route path = '/cvForma' render={() => <CVForma  setBestLogo={this.setBestLogo} setModal = {this.setModal}
               setExpModal = {this.setExpModal}/>}/>
+              <Route path = '/changePassword/:token'component = {ChangePassword} />
+              <Route path = '/verification/:token' render={ (props) => <AccountVerification  {...props}/>} ></Route>
               <div className = "col s12">
                 {this.state.isBestLogoShown ? 
-              <img src = "photos/bestLogo.png" alt = "job fair" className = "bestLogo"></img> : null}
+              <img src = "/photos/bestLogo.png" alt = "job fair" className = "bestLogo"></img> : null}
               </div>
             </div>
            
@@ -151,8 +169,8 @@ class App extends React.Component {
                 <a href="#" className = "modal-close">
                   <img className = "cancelBtn" src = "photos/cancelImg.png" alt = "job fair"></img>
                 </a>
-                { this.state.modal === 2 ? <Button text="+" className = "emAddBtn" 
-                className = "modal-trigger" onClick={ () => {this.props.openModal(null)}} dataTarget = "modal2"/> : null }
+                { this.state.modal === 2 && this.state.expModal !== 5 ? <Button text="+" className = "emAddBtn" 
+                className = "modal-trigger" onClick={ () => {this.props.openModal(null)}} dataTarget = "expModal"/> : null }
                 <div className = "col s12 m12 l12 xl12 modalHeaderContainer">
                     <h4> 
                       {this.state.modal === 0 ? "Dodaj srednje obrazovanje" : null}
@@ -162,27 +180,32 @@ class App extends React.Component {
                 </div>
                 {this.state.modal === 0 ? <HighSchoolModal /> : null}
                 {this.state.modal === 1 ? <FacultyModal /> : null}
-                {this.state.modal === 2 ? <ExperienceModal expModal = {expList[this.state.expModal]}/> : null}
+                {this.state.modal === 2 && expList[this.state.expModal] !== "Ostale veštine" ? <ExperienceModal 
+                  openModal = {this.props.openModal}
+                  expModal = {expList[this.state.expModal]}
+                  /> : null}
+                {/* {expList[this.state.expModal] === "Ostale veštine" ?  */}
+                  {/* <OtherSkillsModal /> : null} */}
               </div>
             </div>
             <div 
             ref={Modal => {
-              this.Modal2 = Modal;
+              this.expModal = Modal;
             }}
-            id="modal2" className="modal col offset-s1 s10 offset-m3 m6">
+            id="expModal" className="modal col offset-s1 s10 offset-m3 m6">
                 <div className="modal-content">
                   <a href="#" className = "modal-close">
                     <img className = "cancelBtn" src = "photos/cancelImg.png" alt = "job fair"></img>
                   </a>
                     <div className = "col s12 m12 l12 xl12 modalHeaderContainer">
-                      <h4> Dodaj {expList[this.state.expModal]}</h4>
+                      <h4> Dodaj {lcexpList[this.state.expModal]}</h4>
                     </div>
-                    {this.state.expModal === 0 ? <AwapExpModal addBtnClassName = "expAddBtn" expId = {0}/> : null}
+                    {this.state.expModal === 0 ? <AwapExpModal   addBtnClassName = "expAddBtn" expId = {0}/> : null}
                     {this.state.expModal === 1 ? <AwapExpModal addBtnClassName = "expAddBtn" expId = {1}/> : null}
                     {this.state.expModal === 2 ? <AwapExpModal  expId = {2}/> : null}
                     {this.state.expModal === 3 ? <WocModal addBtnClassName = "expAddBtn" expId = {3}/> : null}
                     {this.state.expModal === 4 ? <LanguageExpModal addBtnClassName = "expAddBtn" expId = {4}/> : null}
-                    {this.state.expModal === 5 ? <OtherSkillsModal addBtnClassName = "expAddBtn" expId = {5}/> : null}
+                    {/* {this.state.expModal === 5 ? <OtherSkillsModal addBtnClassName = "expAddBtn" expId = {5}/> : null} */}
                 </div>
             </div>
             <div
@@ -205,6 +228,18 @@ class App extends React.Component {
                 </div>
               </div>
             </div>
+            <div
+              ref={Modal => {
+                this.regModal = Modal;
+              }}
+              id="regModal"
+              className="modal z-depth-5 col offset-s1 s10 offset-m3 m6 offset-l4 l4">
+              <div className="modal-content">
+                {
+                  this.props.modalMessage
+                }
+              </div>
+            </div>
           </div>
 
         </BrowserRouter>
@@ -216,7 +251,8 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    modalForDeletion: state.modalForDeletion
+    modalForDeletion: state.modalForDeletion,
+    modalMessage: state.modalMessage
   }
 }
 

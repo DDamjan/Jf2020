@@ -10,7 +10,7 @@ class Dropdown extends React.Component {
         super(props);
         this.onDdItemClicked = this.onDdItemClicked.bind(this);
         this.state = {
-          pickedValue: "Izaberite nivo"
+          pickedValue: this.props.value
         }
     }
     
@@ -20,6 +20,16 @@ class Dropdown extends React.Component {
         });
         this.props.onChange(txt, this.props.index)
     }
+
+    componentDidUpdate(prevProps){
+
+        if(this.props.value !== prevProps.value ){
+          this.setState({
+            pickedValue: this.props.value
+          })
+        }
+      }
+    
 
     componentDidMount() {
         let dropdown = document.querySelectorAll('.dropdown-trigger');

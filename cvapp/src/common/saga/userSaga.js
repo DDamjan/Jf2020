@@ -2,17 +2,38 @@ import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import * as userActionTypes from '../constants/userActionsTypes'
 import * as userActions from '../actions/userActions';
 import * as userService from '../../services/userService';
+import * as userRoutes from '../constants/routes';
 
 function *fetchUser(action) {
     try{
-        const user = yield call(userService.fetchUser, action.credentials);
-        if (user.length === 0){
-            yield put(userActions.loginFailed());
+        let user;
+        setTimeout( () => {
+            user = null
+        }, 5000)
+        user = yield call(userService.fetchUser, action.credentials);
+        console.log(user)
+
+        if (user === null) {
+            yield put(userActions.loginFailed('Nije mogla da se uspostavi konekcija sa serverom'));
+            return
+        }
+
+        if (user === undefined){
+            yield put(userActions.loginFailed('Pogresan email i/ili sifra, pokusajte ponovo'));
         }
         else {
-            window.location.replace("/cvForma");
 
-            yield put(userActions.loginApproved(user[0]))
+            if (user.status === undefined){
+                window.location.replace("/cvForma");
+            
+                yield put(userActions.loginApproved(user))
+            }
+            else {
+                if (user.status === 401) {
+                    yield put (userActions.loginFailed('Morate prvo aktivirati nalog kako bi se ulogovali'))
+                }
+            }
+
         }
     }
     catch (error) {
@@ -50,33 +71,197 @@ function *registerUser(action) {
                 drzava: data[12],
                 grad: data[13],
                 adresa: data[14]
-            }
+            },
+            datumRegistracije: new Date().toJSON().slice(0, 19).replace('T', ' ')
         }
 
-        yield call(userService.registerUser, user);
+        //console.log(user);
+        const response = yield call(userService.registerUser, user);
+
+        if (response.status === 200) {
+            yield put(userActions.registerUserSuccess());
+
+            setTimeout(() => {
+                window.location.replace("/");
+
+            }, 3000)
+        }
+        else {
+            //TODO: ne treba ovaj hardkoriran string vec sta posalje server
+            yield put(userActions.registerUserFail('Nalog sa ovim email-om vec postoji'))
+
+        }
+ 
         
     }
     catch(error) {
         console.log(error)
     }
 }
-
+ 
 function *infoUpdate(action){
     try{
         const { data } = action;
-        console.log( data);
+        console.log(data);
+
+
+        const response = yield call(userService.updateUserInfo, data);
+
+        if (response.field !== undefined) {
+   
+                yield put(userActions.infoUpdateSuccess(response))
+        
+        }
+        else {
+
+        }
+
+        if (data.payload.profilnaSlika instanceof File){
+            const res = yield call(userService.sendFile, data.payload.profilnaSlika, userRoutes.uploadPicture);
+
+            console.log(res);
+
+            yield put(userActions.fileUploaded('profilnaSlika', res.profilnaSlika));
+        }
+
+        if (data.payload.cv instanceof File) {
+            const res2 = yield call(userService.sendFile, data.payload.cv, userRoutes.uploadCV);
+            console.log(res2);
+
+            yield put(userActions.fileUploaded('cv', res2.cv));
+
+        }
     }
     catch(error){
         console.log(error);
     }
 }
 
-function *sendModalForDeletion(action) {
+function *forgottenPassword(action) {
+    try{
+        const {email} = action;
+        console.log(email);
+
+        const response = yield call(userService.forgotPassword, {email: email});
+        console.log(response);
+
+        if (response.status === 200) {
+            setTimeout(() => {
+                window.location.replace("/");
+
+            }, 3000)
+        }
+
+    }catch (error) {
+        console.log(error)
+    }
+} 
+
+function *resetPassword(action) {
+    try{
+        const {credentials} = action;
+        console.log(credentials);
+
+        const response = yield call(userService.resetPassword, credentials)
+        console.log(response)
+
+        if(response.stats === 201){
+            setTimeout(() => {
+                window.location.replace('/')
+            }, 700)
+        }
+
+    }
+    catch(error){
+        console.log(error)
+    }
+}
+
+function *checkUserLoginStatus(action){
+    try{
+
+        if (sessionStorage.getItem("id") === null) {
+            window.location.replace("/");
+        }
+        else{
+            const response = yield call(userService.fetchUserById);
+
+            //console.log(response);
+            yield put(userActions.userLogedInResult(response))
+        }
+       
+    }
+    catch(error){
+        console.log(error)
+    }
+}
+
+function *submitFromModal(action) {
+    try{
+        const {data} = action;
+        console.log(data);
+        
+        let response = {};
+        if (data.payload.fieldID === null) {
+            response = yield call(userService.addField, userRoutes.addField, data)
+        }
+        else {
+            response = yield call(userService.addField, userRoutes.update, data)
+        }
+
+        console.log(response);
+
+        if (response.field !== undefined){
+            yield put(userActions.submitFromModalCallback(response));
+        }
+        
+    }
+    catch(error){
+        console.log(error)
+    }
+}
+
+function *sendModalForDeletion(action){
+
     try{
         const {modal} = action;
         console.log(modal);
-    }catch (error){
+        const response = yield call(userService.removeField, modal);
+
+        if (response.field !== undefined) {
+            yield put(userActions.modalDeleted(response))
+        }
+       
+    }
+    catch(error){
         console.log(error)
+    }
+}
+
+function *verifyAccount(action) {
+    try{
+        const {token} = action;
+        console.log(token);
+
+        const response = yield call(userService.verifyAccount, {token: token})
+        console.log(response);
+
+        setTimeout( () => {
+            window.location.replace('/');
+        }, 3000)
+
+        if (response.status === 201){
+            yield put(userActions.verifyAccountResult('Uspesno ste aktivirali nalog'))
+
+        }
+        else {
+            yield put(userActions.verifyAccountResult('404 bad token'))
+
+        }
+
+    }
+    catch(error){
+        console.log(error);
     }
 }
 
@@ -84,7 +269,12 @@ function *userSaga() {
     yield takeEvery(userActionTypes.FETCH_USER, fetchUser);
     yield takeEvery(userActionTypes.REGISTER_USER, registerUser);
     yield takeEvery(userActionTypes.INFO_UPDATE_REQUEST, infoUpdate);
-    yield takeEvery(userActionTypes.SEND_FOR_DELETION, sendModalForDeletion)
+    yield takeEvery(userActionTypes.SEND_FOR_DELETION, sendModalForDeletion);
+    yield takeEvery(userActionTypes.FORGOT_PASSWORD, forgottenPassword);
+    yield takeEvery(userActionTypes.RESET_PASSWORD, resetPassword)
+    yield takeEvery(userActionTypes.IS_USER_LOGGED_IN, checkUserLoginStatus);
+    yield takeEvery(userActionTypes.SUBMIT_FROM_MODAL, submitFromModal);
+    yield takeEvery(userActionTypes.VERIFY_ACCOUNT, verifyAccount);
 }
 
 

@@ -1,0 +1,16 @@
+.floatLeft{
+    float: left;
+}
+
+.floatRight{
+    float: right;
+}
+
+/* TODO, napraviti da ovo stoji na centru */
+.centar{
+    text-align: center;
+}
+
+.big{
+    font-size: 50px;
+}

@@ -1,5 +1,26 @@
 img{ 
-    width: 100%; 
+    /* width: 100%;  */
     height: 100%;
     margin-bottom: 0;
+    /*object-fit: cover;*/
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.fullHeight {
+    height: 100vh !important;
+    width: default;
+}
+
+@media only screen and (max-width: 600){
+    .imgCointainer{
+      display: none;
+    }
+}
+
+.imgCointainer{
+    display: flex;
+    justify-content: flex-end;
 }

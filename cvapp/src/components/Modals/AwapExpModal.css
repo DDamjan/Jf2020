@@ -12,9 +12,17 @@
 .awapRightAddBtnContainer{
     text-align: right;
 }
+.awapRightAddBtn{
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
 .descriptionArea{
     background-color: white;
     border-radius: 6px;
     resize: none;
     height: 120px;
+}
+.descriptionLabel{
+    color: white;
+    font-size: large;
 }

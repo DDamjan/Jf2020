@@ -10,8 +10,23 @@ export const loginApproved = user => ({
     user
 })
 
-export const loginFailed = () => ({
-    type: userActionTypes.LOGIN_FAIL
+export const loginFailed = message => ({
+    type: userActionTypes.LOGIN_FAIL,
+    message
+})
+
+export const verifyAccount = token => ({
+    type: userActionTypes.VERIFY_ACCOUNT,
+    token
+})
+
+export const verifyAccountResult = message => ({
+    type: userActionTypes.VERIFY_ACCOUNT_RESULT,
+    message
+})
+
+export const logout = () => ({
+    type: userActionTypes.LOGOUT
 })
 
 export const registerUser = data => ({
@@ -19,12 +34,41 @@ export const registerUser = data => ({
     data
 })
 
+export const registerUserFail = errorMessage => ({
+    type: userActionTypes.REGISTER_USER_FAIL,
+    errorMessage
+})
+
+export const registerUserSuccess = () => ({
+    type: userActionTypes.REGISTER_USER_SUCCESS
+})
+
+export const forgotPassword = email => ({
+    type: userActionTypes.FORGOT_PASSWORD,
+    email
+})
+
+export const resetPassword = credentials => ({
+    type: userActionTypes.RESET_PASSWORD,
+    credentials
+})
+
 export const isUserLoggedIn = () => ({
     type: userActionTypes.IS_USER_LOGGED_IN
 })
 
+export const userLogedInResult = user => ({
+    type: userActionTypes.USER_LOGGED_IN_RESULT,
+    user
+})
+
 export const infoUpdateRequest = ( data) => ({
     type: userActionTypes.INFO_UPDATE_REQUEST,
+    data
+})
+
+export const infoUpdateSuccess = data => ({
+    type: userActionTypes.INFO_UPDATE_SUCCESS,
     data
 })
 
@@ -38,14 +82,30 @@ export const submitFromModal = data => ({
     data
 })
 
+export const submitFromModalCallback = response => ({
+    type: userActionTypes.SUBMIT_FROM_MODAL_CALLBACK,
+    response
+})
+
 export const changeProfilePicture = picture => ({
     type: userActionTypes.CHANGE_PROFILE_PICTURE,
+    picture
+})
+
+export const sendProfilePicture = picture => ({
+    type: userActionTypes.SEND_PROFILE_PICTURE,
     picture
 })
 
 export const changeCV = file => ({
     type: userActionTypes.CHANGE_CV,
     file
+})
+
+export const fileUploaded = (field, link) => ({
+    type: userActionTypes.FILE_UPLOADED,
+    field,
+    link
 })
 
 export const openExperienceModal = modal => ({
@@ -61,4 +121,14 @@ export const prepareForDeletion = modal => ({
 export const sendForDeletion = modal => ({
     type: userActionTypes.SEND_FOR_DELETION,
     modal
+})
+
+export const modalDeleted = modal => ({
+    type: userActionTypes.MODAL_DELETED,
+    modal
+})
+
+export const setModalMessage = message => ({
+    type: userActionTypes.SET_MODAL_MESSAGE,
+    message
 })
