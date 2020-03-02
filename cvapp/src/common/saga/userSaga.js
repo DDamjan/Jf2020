@@ -163,7 +163,7 @@ function *resetPassword(action) {
         const response = yield call(userService.resetPassword, credentials)
    
 
-        if(response.stats === 201){
+        if(response.status === 201){
             setTimeout(() => {
                 window.location.replace('/')
             }, 700)
