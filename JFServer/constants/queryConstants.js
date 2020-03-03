@@ -41,8 +41,12 @@ function DELETE_REGISTER_TOKEN (token){
     return `DELETE FROM userRegisterToken WHERE token = '${token}'`;
 }
 
+function CHECK_EMAIL (email){
+    return `SELECT userID FROM user WHERE email = '${email}'`;
+}
+
 function PASSWORD_TOKEN (token, email){
-    return `INSERT INTO forgotPassword (userID, token) SELECT (SELECT userID FROM user WHERE email = '${email}'), '${token}';`;
+    return `INSERT INTO forgotPassword (userID, token) SELECT (SELECT userID FROM user WHERE email = '${email}' LIMIT 1), '${token}';`;
 }
 
 function CHECK_PASSWORD_TOKEN (token){
@@ -199,7 +203,7 @@ function ADD_SREDNJA_SKOLA(payload) {
 }
 
 function ADD_IDE_U_SREDNJU(payload) {
-    return `INSERT INTO ideUSrednju (srednjaID, godinaZavrsetka, userID, smer) SELECT (SELECT srednjaSkolaID FROM srednjaSkola WHERE naziv = '${payload.naziv}' LIMIT 1), ${payload.godinaZavrsetka}, ${payload.userID}, '${payload.smer}' WHERE (SELECT ID FROM ideUSrednju WHERE smer = '${payload.smer}' LIMIT 1) IS NULL;`;
+    return `INSERT INTO ideUSrednju (srednjaID, godinaZavrsetka, userID, smer) SELECT (SELECT srednjaSkolaID FROM srednjaSkola WHERE naziv = '${payload.naziv}' AND tip = '${payload.tip}' LIMIT 1), ${payload.godinaZavrsetka}, ${payload.userID}, '${payload.smer}' WHERE (SELECT ID FROM ideUSrednju WHERE srednjaID = (SELECT srednjaSkolaID FROM srednjaSkola WHERE naziv = '${payload.naziv}' AND tip = '${payload.tip}' LIMIT 1) AND smer = '${payload.smer}' AND userID = ${payload.userID}) IS NULL;`;
 }
 
 function GET_SREDNJE_OBRAZOVANJE_ID(naziv, userID, smer, godinaZavrsetka) {
@@ -219,7 +223,7 @@ function ADD_SMER(payload) {
 }
 
 function ADD_STUDIRA(payload) {
-    return `INSERT INTO studira (userID, smerID, fakultetID, godinaUpisa, prosek, status, espb, godineStudija, brojPolozenihIspita) SELECT ${payload.userID}, (SELECT smerID FROM fakultetSmer WHERE naziv = '${payload.smer}' LIMIT 1), (SELECT fakultetID FROM fakultet WHERE naziv = '${payload.fakultet}' LIMIT 1), ${payload.godinaUpisa}, ${payload.prosek}, '${payload.status}', ${payload.espb}, ${payload.godineStudija}, ${payload.brojPolozenihIspita} WHERE ((SELECT ID FROM studira WHERE status = '${payload.status}' LIMIT 1) IS NULL OR (SELECT fakultetID FROM studira where fakultetID = (SELECT fakultetID FROM fakultet WHERE naziv = '${payload.fakultet}' LIMIT 1) LIMIT 1) IS NULL OR (SELECT smerID FROM studira WHERE smerID = (SELECT smerID FROM fakultetSmer WHERE naziv = '${payload.smer}' LIMIT 1) LIMIT 1) IS NULL);`;
+    return `INSERT INTO studira (userID, smerID, fakultetID, godinaUpisa, prosek, status, espb, godineStudija, brojPolozenihIspita) SELECT ${payload.userID}, (SELECT smerID FROM fakultetSmer WHERE naziv = '${payload.smer}' LIMIT 1), (SELECT fakultetID FROM fakultet WHERE naziv = '${payload.fakultet}' LIMIT 1), ${payload.godinaUpisa}, ${payload.prosek}, '${payload.status}', ${payload.espb}, ${payload.godineStudija}, ${payload.brojPolozenihIspita} WHERE (SELECT ID FROM studira WHERE userID = ${payload.userID} AND fakultetID = (SELECT fakultetID FROM fakultet WHERE naziv = '${payload.fakultet}' LIMIT 1) AND smerID = (SELECT smerID from fakultetSmer WHERE smerID = '${payload.smer}' LIMIT 1) AND status = '${payload.status}' LIMIT 1) IS NULL`;
 }
 
 function GET_VISOKO_OBRAZOVANJE_ID(fakultet, smer, userID, status) {
@@ -431,5 +435,6 @@ module.exports = {
     ACTIVATE_USER,
     REPO_PATH,
     ADD_PICTURE,
-    ADD_CV
+    ADD_CV,
+    CHECK_EMAIL
 }

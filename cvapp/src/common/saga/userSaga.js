@@ -187,7 +187,7 @@ function *checkUserLoginStatus(action){
 function *submitFromModal(action) {
     try{
         const {data} = action;
- 
+        console.log(data);
         
         let response = {};
         if (data.payload.fieldID === null) {

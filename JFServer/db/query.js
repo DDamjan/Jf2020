@@ -174,30 +174,42 @@ async function resetPassword(res, payload) {
         console.log(payload);
         const passwordToken = sha('sha256').update(payload.email).digest('hex');
 
-        await conn.execute(queryStrings.PASSWORD_TOKEN(passwordToken, payload.email));
+        const userID = await conn.execute(queryStrings.CHECK_EMAIL(payload.email));
 
-        var mailOptions = {
-            from: 'jobfairnisit@gmail.com',
-            to: payload.email,
-            subject: 'Promena lozinke Job Fair CV aplikacije',
-            html: `<h3>Molimo Vas da potvrdite Vaš identitet klikom na ovaj </h3><a href="http://jobfair.ddns.net:3000/changePassword/${passwordToken}">link</a> <h3>Ako link ne radi iskopirajte ovu adresu: http://jobfair.ddns.net:3000/changePassword/${passwordToken}</h3>`
-        };
+        if (uesrID != undefined) {
+            await conn.execute(queryStrings.PASSWORD_TOKEN(passwordToken, payload.email));
 
-        nodemailer.transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
+            var mailOptions = {
+                from: 'jobfairnisit@gmail.com',
+                to: payload.email,
+                subject: 'Promena lozinke Job Fair CV aplikacije',
+                html: `<h3>Molimo Vas da potvrdite Vaš identitet klikom na ovaj </h3><a href="http://jobfair.ddns.net:3000/changePassword/${passwordToken}">link</a> <h3>Ako link ne radi iskopirajte ovu adresu: http://jobfair.ddns.net:3000/changePassword/${passwordToken}</h3>`
+            };
+
+            nodemailer.transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
+
+            const data = {
+                status: 200
             }
-        });
 
-        const data = {
-            status: 200
+            res.json(data);
+            res.status(200);
+            res.send();
+        }else{
+            const data = {
+                status: 404
+            }
+
+            res.json(data);
+            res.status(404);
+            res.send();
         }
-
-        res.json(data);
-        res.status(200);
-        res.send();
     });
 }
 
@@ -308,6 +320,7 @@ async function updateIskustva(res, payload) {
 
 async function addSrednja(res, payload) {
     await mysql.pool.getConnection(async (err, conn) => {
+        console.log(payload);
         await conn.promise().execute(queryStrings.REGISTER_USER_DRZAVA(payload.payload.drzava));
         await conn.promise().execute(queryStrings.REGISTER_USER_GRAD(payload.payload.grad));
         await conn.promise().execute(queryStrings.ADD_SREDNJA_SKOLA(payload.payload));
@@ -510,12 +523,6 @@ async function addIskustvo(res, payload) {
                 res.send();
                 break;
             }
-
-
-
-
-
-
         }
     });
 }
