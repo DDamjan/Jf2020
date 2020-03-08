@@ -8,11 +8,14 @@ export async function fetchUser(credentials) {
                 'Content-type': 'application/json'
             },
             body: JSON.stringify(credentials)
-        }).then(res => res.json())
-        .catch( error => console.log(error))
+        }).then(res => {
+            if(!res.ok) {throw res}
+            return res.json();
+        })
+        .catch( error => error)
     }
     catch (error) {
-        return error
+        throw error
     }
 }
 

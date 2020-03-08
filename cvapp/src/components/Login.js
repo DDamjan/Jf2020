@@ -46,7 +46,7 @@ class LoginComponent extends React.Component{
     }
 
     keyPressHandle(event){
-        if (event.key == 'Enter'){
+        if (event.key === 'Enter'){
           this.onLoginBtnClick();
         }
       }

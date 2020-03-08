@@ -40,6 +40,14 @@
     position: absolute;
     bottom: 15px;
 }
+
+@media (min-aspect-ratio: 12/6) {
+    .buttonsWrapper {
+        position: static;
+        margin-top: 15px
+    }
+}
+
 .buttonsContainer{
     width: 80%;
     margin: 0 auto;

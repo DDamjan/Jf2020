@@ -6,8 +6,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middlewares = [applyMiddleware(sagaMiddleware), composeWithDevTools()];
-
 export default createStore(
     userReduer,
     composeWithDevTools(applyMiddleware(sagaMiddleware))

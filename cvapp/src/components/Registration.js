@@ -6,7 +6,6 @@ import "react-step-progress-bar/styles.css";
 import { ProgressBar, Step } from "react-step-progress-bar";
 import { registerUser, setModalMessage } from '../common/actions/userActions';
 import {connect} from 'react-redux';
-import M from "materialize-css";
 import Spinner from './Spinner';
 
 var registracija = [
@@ -172,7 +171,7 @@ class Registration extends React.Component {
   }
 
   keyPressHandle(event){
-    if (event.key == 'Enter'){
+    if (event.key === 'Enter'){
       this.onClickNext(event);
     }
   }
@@ -273,9 +272,9 @@ class Registration extends React.Component {
           </div>
           <div className = "col s12 m12 l12 xl12 buttonsWrapper">
             <div className = "buttonsContainer">
-              { this.state.currentRegInput != 0 ? <Button className = "backButton" text = "Nazad" onClick = {this.onClickBack} /> : null }
+              { this.state.currentRegInput !== 0 ? <Button className = "backButton" text = "Nazad" onClick = {this.onClickBack} /> : null }
               {this.props.proccessing? <Spinner class="floatRight"/>:  
-              <Button className = "nextButton" text = {this.state.currentRegInput == 4 ? "Kreiraj nalog" : "Dalje" }  onClick = { this.onClickNext }/>
+              <Button className = "nextButton" text = {this.state.currentRegInput === 4 ? "Kreiraj nalog" : "Dalje" }  onClick = { this.onClickNext }/>
               }
             </div>
           </div>
