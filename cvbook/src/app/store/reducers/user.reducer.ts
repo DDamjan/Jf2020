@@ -1,5 +1,8 @@
 import { User } from '../../models/User';
-import { TOKEN_EXPIRED } from '../../../constants/reducers-constants';
+import {
+    TOKEN_EXPIRED,
+    GET_USERS_SUCCESS
+ } from '../../../constants/reducers-constants';
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector } from '@ngrx/store';
 
@@ -29,9 +32,10 @@ export function UserReducer(
         //     localStorage.setItem('currentCompany', 'AUTH_USER_FAIL');
         //     return UserAdapter.addOne(action.payload, state = UserInitialState);
         // }
-        // case GET_USER_SUCCESS: {
-        //     return UserAdapter.addOne(action.payload.user, state = UserInitialState);
-        // }
+        case GET_USERS_SUCCESS: {
+            console.log(action.payload);
+            return UserAdapter.addMany(action.payload, state = UserInitialState);
+        }
         case TOKEN_EXPIRED: {
             return UserAdapter.removeAll(state = UserInitialState);
         }

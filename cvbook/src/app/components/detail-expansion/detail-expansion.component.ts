@@ -18,6 +18,8 @@ export class DetailExpansionComponent implements OnInit, AfterViewInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
+    console.log('this.user');
+    console.log(this.user);
   }
 
   ngAfterViewInit() {
@@ -59,5 +61,11 @@ export class DetailExpansionComponent implements OnInit, AfterViewInit {
     //   destinationLocation: this.ride.destinationLocation
     // };
     // this.mapParams.emit(msg);
+  }
+
+  onOpen() {
+  }
+
+  onDownloadCV() {
   }
 }

@@ -26,14 +26,14 @@ export function CompanyReducer(
         case AUTH_COMPANY_SUCCESS: {
             console.log('AUTH_COMPANY_SUCCESS');
             console.log(action.payload);
-            return CompanyAdapter.addOne(action.payload[0], state = CompanyInitialState);
+            return CompanyAdapter.addOne(action.payload, state = CompanyInitialState);
         }
         case AUTH_COMPANY_FAIL: {
             console.log('AUTH_COMPANY_FAIL');
-            return CompanyAdapter.addOne(action.payload[0], state = CompanyInitialState);
+            return CompanyAdapter.addOne(action.payload, state = CompanyInitialState);
         }
         case GET_COMPANY_SUCCESS: {
-            return CompanyAdapter.addOne(action.payload[0], state = CompanyInitialState);
+            return CompanyAdapter.addOne(action.payload, state = CompanyInitialState);
         }
         default:
             return state;
