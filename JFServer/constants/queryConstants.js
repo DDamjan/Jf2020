@@ -22,7 +22,7 @@ function REGISTER_USER_USER(email, password, datumRegistracije) {
 
 function REGISTER_USER_LICNI_PODACI(email, ime, prezime, imeRoditelja, datumRodjenja, boraviste, prebivaliste, kontakt, datumRegistracije) {
     return `INSERT INTO licniPodaci (userID, ime, imeRoditelja, prezime, datumRodjenja, prebivalisteDrzavaID, prebivalisteGradID, prebivalisteAdresa, boravisteDrzavaID, boravisteGradID, boravisteAdresa, telefon, linkedIn, datumAzuriranja)
-            SELECT (SELECT userID FROM user WHERE email = '${email}'), '${ime}', '${imeRoditelja}', '${prezime}', Convert('${datumRodjenja}', DATE), (SELECT drzavaID FROM drzava WHERE naziv = '${prebivaliste.drzava}' LIMIT 1), (SELECT gradID FROM grad WHERE naziv = '${prebivaliste.grad}' LIMIT 1), '${prebivaliste.adresa}', (SELECT drzavaID FROM drzava WHERE naziv = '${boraviste.drzava}' LIMIT 1), (SELECT gradID FROM grad WHERE naziv = '${boraviste.grad}' LIMIT 1), '${boraviste.adresa}', '${kontakt.telefon}', '${kontakt.linkedIn}', Convert('${datumRegistracije}', DATETIME);`;
+            SELECT (SELECT userID FROM user WHERE email = '${email}'), '${ime}', '${imeRoditelja}', '${prezime}', Convert('${datumRodjenja}', DATE), (SELECT drzavaID FROM drzava WHERE naziv = '${prebivaliste.drzava}' LIMIT 1), (SELECT gradID FROM grad WHERE naziv = '${prebivaliste.grad}' LIMIT 1), '${prebivaliste.adresa}', (SELECT drzavaID FROM drzava WHERE naziv = '${boraviste.drzava}' LIMIT 1), (SELECT gradID FROM grad WHERE naziv = '${boraviste.grad}' LIMIT 1), '${boraviste.adresa}', '${kontakt.telefon}', '${kontakt.linkedIn}', Convert('${datumRegistracije}', DATETIME) WHERE (SELECT id FROM licniPodaci WHERE userID = (SELECT userID FROM user WHERE email = '${email}')) IS NULL;`;
 }
 
 function REGISTER_TOKEN (token, email){
@@ -191,11 +191,11 @@ function UPDATE_KONTAKT(payload) {
 }
 
 function UPDATE_PREBIVALISTE(payload) {
-    return `UPDATE licniPodaci SET prebivalisteAdresa =  '${payload.adresa}', prebivalisteDrzavaID = (SELECT drzavaID FROM drzava WHERE naziv = '${payload.drzava}' LIMIT 1), prebivalisteGradID = (SELECT gradID FROM grad WHERE naziv = '${payload.grad}' LIMIT 1);`;
+    return `UPDATE licniPodaci SET prebivalisteAdresa =  '${payload.adresa}', prebivalisteDrzavaID = (SELECT drzavaID FROM drzava WHERE naziv = '${payload.drzava}' LIMIT 1), prebivalisteGradID = (SELECT gradID FROM grad WHERE naziv = '${payload.grad}' LIMIT 1) WHERE userID = ${payload.userID}`;
 }
 
 function UPDATE_BORAVISTE(payload) {
-    return `UPDATE licniPodaci SET boravisteAdresa =  '${payload.adresa}', boravisteDrzavaID = (SELECT drzavaID FROM drzava WHERE naziv = '${payload.drzava}' LIMIT 1), boravisteGradID = (SELECT gradID FROM grad WHERE naziv = '${payload.grad}' LIMIT 1);`;
+    return `UPDATE licniPodaci SET boravisteAdresa =  '${payload.adresa}', boravisteDrzavaID = (SELECT drzavaID FROM drzava WHERE naziv = '${payload.drzava}' LIMIT 1), boravisteGradID = (SELECT gradID FROM grad WHERE naziv = '${payload.grad}' LIMIT 1) WHERE userID = ${payload.userID};`;
 }
 
 function ADD_SREDNJA_SKOLA(payload) {

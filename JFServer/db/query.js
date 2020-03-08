@@ -80,7 +80,7 @@ function execLogin(res, query, kompanija) {
                 res.send();
             } else {
                 res.status(409);
-                res.send();
+                res.send({test: "test"});
             }
 
         } catch (err) {
@@ -95,6 +95,8 @@ async function execRegister(res, user) {
         await conn.execute(queryStrings.CHECK_USER({ email: user.email, password: user.password }), [], async (err, results, fields) => {
             const temp = JSON.stringify(results);
             const userExists = JSON.parse(temp);
+
+            console.log(userExists);
             try {
                 if (userExists.length == 0) {
                     await conn.execute(queryStrings.REGISTER_USER_DRZAVA(user.prebivaliste.drzava));
@@ -111,10 +113,10 @@ async function execRegister(res, user) {
                     await conn.execute(queryStrings.REGISTER_TOKEN(registerToken, user.email));
 
                     var mailOptions = {
-                        from: 'jobfairnisit@gmail.com',
+                        from: 'jfit@cv.jobfairnis.rs',
                         to: user.email,
                         subject: 'Aktivacija Job Fair naloga',
-                        html: `<h3>Molimo Vas da aktivirate Vaš nalog klikom na ovaj </h3><a href="http://jobfair.ddns.net:3000/verification/${registerToken}">link</a>. <h3>Ako link ne radi iskopirajte ovu adresu: http://jobfair.ddns.net:3000/verification/${registerToken}</h3>`
+                        html: `<h3>Molimo Vas da aktivirate Vaš nalog klikom na ovaj </h3><a href="cv.jobfairnis.rs/verification/${registerToken}">link</a>. <h3>Ako link ne radi iskopirajte ovu adresu: http://cv.jobfairnis.rs/verification/${registerToken}</h3>`
                     };
 
                     nodemailer.transporter.sendMail(mailOptions, function (error, info) {
@@ -180,10 +182,10 @@ async function resetPassword(res, payload) {
             await conn.execute(queryStrings.PASSWORD_TOKEN(passwordToken, payload.email));
 
             var mailOptions = {
-                from: 'jobfairnisit@gmail.com',
+                from: 'jfit@cv.jobfairnis.rs',
                 to: payload.email,
                 subject: 'Promena lozinke Job Fair CV aplikacije',
-                html: `<h3>Molimo Vas da potvrdite Vaš identitet klikom na ovaj </h3><a href="http://jobfair.ddns.net:3000/changePassword/${passwordToken}">link</a> <h3>Ako link ne radi iskopirajte ovu adresu: http://jobfair.ddns.net:3000/changePassword/${passwordToken}</h3>`
+                html: `<h3>Molimo Vas da potvrdite Vaš identitet klikom na ovaj </h3><a href="http://cv.jobfairnis.rs/changePassword/${passwordToken}">link</a> <h3>Ako link ne radi iskopirajte ovu adresu: http://cv.jobfairnis.rs/changePassword/${passwordToken}</h3>`
             };
 
             nodemailer.transporter.sendMail(mailOptions, function (error, info) {

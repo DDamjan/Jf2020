@@ -1,5 +1,5 @@
-// export const mainURL = `http://localhost:3001`
-export const mainURL = `http://jobfair.ddns.net:8080`
+export const mainURL = `http://localhost:8080`
+// export const mainURL = `http://server.jobfairnis.rs`
 
 export const users = `${mainURL}/users`
 

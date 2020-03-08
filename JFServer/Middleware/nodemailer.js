@@ -1,10 +1,12 @@
 var nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: 's7.unlimited.rs',
+    port: 465,
+    secure: true,
     auth: {
-      user: 'jobfairnisit@gmail.com',
-      pass: 'JFNis2@2@'
+      user: 'jfit@cv.jobfairnis.rs',
+      pass: 'JFIT2@2@'
     }
   });
 

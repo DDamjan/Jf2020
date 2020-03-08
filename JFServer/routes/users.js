@@ -23,12 +23,13 @@ router.post('/newpassword', async (req, res) => {
 });
 
 router.post('/auth', async (req, res) => {
+  // console.log(req.body);
   query.execLogin(res, queryString.CHECK_USER(req.body), false);
 });
 
 router.post('/', async (req, res) => {
-
-  query.exec(req, res, queryString.GET_USERS, query.get);
+  res.send('Hi there');
+  //query.exec(req, res, queryString.GET_USERS, query.get);
 });
 
 router.post('/refresh', async (req, res) => {
