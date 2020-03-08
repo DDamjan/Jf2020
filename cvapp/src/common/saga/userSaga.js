@@ -1,4 +1,4 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put, takeEvery, race, delay } from 'redux-saga/effects'
 import * as userActionTypes from '../constants/userActionsTypes'
 import * as userActions from '../actions/userActions';
 import * as userService from '../../services/userService';
@@ -6,35 +6,35 @@ import * as userRoutes from '../constants/routes';
 
 function *fetchUser(action) {
     try{
-        let user;
-        setTimeout( () => {
-            user = null
-        }, 5000)
-        user = yield call(userService.fetchUser, action.credentials);
+     
+        const {user, timeout} = yield race({
+            user: call(userService.fetchUser, action.credentials),
+            timeout: delay(10000)
+        })
+        //user = yield call(userService.fetchUser, action.credentials);
         
-
-        if (user === null) {
+        if (timeout) {
             yield put(userActions.loginFailed('Nije mogla da se uspostavi konekcija sa serverom'));
             return
         }
 
-        if (user === undefined){
-            yield put(userActions.loginFailed('Pogresan email i/ili sifra, pokusajte ponovo'));
+        if (user.status === 200){
+            window.location.replace("/cvForma");
+        
+            yield put(userActions.loginApproved(user))
+            return;
         }
-        else {
 
-            if (user.status === undefined){
-                window.location.replace("/cvForma");
-            
-                yield put(userActions.loginApproved(user))
-            }
-            else {
-                if (user.status === 401) {
-                    yield put (userActions.loginFailed('Morate prvo aktivirati nalog kako bi ste se ulogovali'))
-                }
-            }
-
+        if (user.status === 409) {
+            yield put(userActions.loginFailed('Pogresan email i/ili sifra, pokušajte ponovo'));
+            return;
         }
+
+        if (user.status === 401) {
+            yield put (userActions.loginFailed('Morate prvo aktivirati nalog kako bi ste se ulogovali'))
+            return;
+        }   
+
     }
     catch (error) {
         console.log(error);
@@ -138,7 +138,7 @@ function *forgottenPassword(action) {
         const {email} = action;
    
 
-        const response = yield call(userService.forgotPassword, {email: email});
+        yield call(userService.forgotPassword, {email: email});
 
 
     }catch (error) {

@@ -24,16 +24,22 @@ class ForgotPass extends React.Component {
     })
   }
 
+  keyPressHandle(event) {
+    if (event.key === 'Enter'){
+      this.onSubmit();
+    }
+  }
+
   onSubmit(){
 
     this.props.submit(this.state.inputData);
-    this.props.setModalMessage('Na unetoj email adresi ćete dobili link za resetovanje sifre, ukoliko ne dobijete mail proverite spam folder i folder neželjene poruke. Ukoliko uopšte niste dobili mail nakon 10 minuta pošaljite zahtev ponovo')
+    this.props.setModalMessage('Na unetoj email adresi ćete dobili link za resetovanje šifre, ukoliko ne dobijete mail proverite spam folder i folder neželjene pošte. Ukoliko nakon 10 minuta uopšte niste dobili mail pošaljite zahtev ponovo')
     this.props.setRegModal();
   }
 
   render(){
     return (
-        <div className = "row forgotPassContainer">
+        <div className = "row forgotPassContainer" onKeyPress={ e => this.keyPressHandle(e)}>
           <a href="/" className = "home">
             <img src = "photos/home.png" alt = "job fair"></img>
           </a>

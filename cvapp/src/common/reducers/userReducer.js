@@ -188,6 +188,7 @@ const userReducer = ( state = initialState, action) => {
                 let cv = user.licniPodaci.cv;
                 let cvForDisplay;
                 if (cv !==null) {
+                // Skup karaktera u splitu `_-` je nase interno kako na serveru razlikujemo cv-eve razlicitih korisnika
                  cvForDisplay = cv.split(`_-`).reverse()[0];
 
                 }
@@ -225,7 +226,6 @@ const userReducer = ( state = initialState, action) => {
         }
 
         case userActionsTypes.SUBMIT_FROM_MODAL: {
-            const {data} = action;
             
             return {
                 ...state,
