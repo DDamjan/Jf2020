@@ -4,6 +4,7 @@ import InputC from './InputC'
 import Button from './Button'
 import {connect} from 'react-redux';
 import * as userActions from '../common/actions/userActions';
+import Spinner from './Spinner';
 
 class ForgotPass extends React.Component {
 
@@ -56,7 +57,9 @@ class ForgotPass extends React.Component {
             </div>) : null
           }
           <div className = "col s12 m12 l12 xl12 resetPassBtnContainer">
+          {this.props.proccessing? <Spinner/>:  
             <Button text = "Resetuj lozinku" className = "resetPassBtn" onClick={this.onSubmit}/>
+        }
           </div>
         </div>
     );
@@ -67,6 +70,7 @@ class ForgotPass extends React.Component {
 const mapStateToProps = state => {
   return {
     errorMessage: state.errorMessage,
+    proccessing: state.proccessing,
   }
 }
 

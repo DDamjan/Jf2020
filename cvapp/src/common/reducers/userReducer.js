@@ -364,7 +364,8 @@ const userReducer = ( state = initialState, action) => {
         case userActionsTypes.FORGOT_PASSWORD: {
             return{
                 ...state,
-                errorMessage: null
+                errorMessage: null,
+                proccessing: true,
             }
         }
 
@@ -374,7 +375,8 @@ const userReducer = ( state = initialState, action) => {
                 ...state,
                 modalMessage: "Na unetoj email adresi ćete dobili link za resetovanje šifre, ukoliko ne dobijete mail proverite spam folder i folder neželjene pošte. Ukoliko nakon 10 minuta uopšte niste dobili mail pošaljite zahtev ponovo",
                 showRegModal: true,
-                errorMessage: null
+                errorMessage: null,
+                proccessing: false,
             }
         }
 
@@ -382,7 +384,8 @@ const userReducer = ( state = initialState, action) => {
 
             return {
                 ...state,
-                errorMessage: "Na unetoj email adresi ne postoji nalog"
+                errorMessage: "Na unetoj email adresi ne postoji nalog",
+                proccessing: false,
             }
 
         }
