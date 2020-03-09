@@ -6,6 +6,8 @@ const sha = require('sha.js');
 var nodemailer = require('../Middleware/nodemailer');
 var formidable = require('formidable');
 var mv = require('mv');
+var logger = require('../Middleware/log4js');
+var path = require('path');
 
 function exec(req, res, query, fun) {
     let token = req.headers['x-access-token'] || req.headers['authorization'];
@@ -79,8 +81,12 @@ function execLogin(res, query, kompanija) {
                 res.json(payload);
                 res.send();
             } else {
+                const data = {
+                    status: 409
+                };
                 res.status(409);
-                res.send({test: "test"});
+                res.json(data);
+                res.send();
             }
 
         } catch (err) {
@@ -113,7 +119,7 @@ async function execRegister(res, user) {
                     await conn.execute(queryStrings.REGISTER_TOKEN(registerToken, user.email));
 
                     var mailOptions = {
-                        from: 'jfit@cv.jobfairnis.rs',
+                        from: 'jfit@jobfairnis.rs',
                         to: user.email,
                         subject: 'Aktivacija Job Fair naloga',
                         html: `<h3>Molimo Vas da aktivirate Vaš nalog klikom na ovaj </h3><a href="cv.jobfairnis.rs/verification/${registerToken}">link</a>. <h3>Ako link ne radi iskopirajte ovu adresu: http://cv.jobfairnis.rs/verification/${registerToken}</h3>`
@@ -177,12 +183,11 @@ async function resetPassword(res, payload) {
         const passwordToken = sha('sha256').update(payload.email).digest('hex');
 
         const userID = await conn.execute(queryStrings.CHECK_EMAIL(payload.email));
-
-        if (uesrID != undefined) {
+        if (userID.length == 0) {
             await conn.execute(queryStrings.PASSWORD_TOKEN(passwordToken, payload.email));
 
             var mailOptions = {
-                from: 'jfit@cv.jobfairnis.rs',
+                from: 'jfit@jobfairnis.rs',
                 to: payload.email,
                 subject: 'Promena lozinke Job Fair CV aplikacije',
                 html: `<h3>Molimo Vas da potvrdite Vaš identitet klikom na ovaj </h3><a href="http://cv.jobfairnis.rs/changePassword/${passwordToken}">link</a> <h3>Ako link ne radi iskopirajte ovu adresu: http://cv.jobfairnis.rs/changePassword/${passwordToken}</h3>`
@@ -203,7 +208,7 @@ async function resetPassword(res, payload) {
             res.json(data);
             res.status(200);
             res.send();
-        }else{
+        } else {
             const data = {
                 status: 404
             }
@@ -669,7 +674,8 @@ async function getUser(res, results, token) {
                 poznavanjeJezika: poznavanjeJezikaParsed,
                 ostaleVestine: ostaleVestineParsed
             },
-            token: token
+            token: token,
+            status: 200
         }
         mysql.pool.releaseConnection(conn);
         res.status(200);
@@ -718,6 +724,30 @@ async function execFile(res, path) {
     }
 }
 
+async function execMailCheck(res, mail) {
+    var mailOptions = {
+        from: 'jobfairnisit@gmail.com',
+        to: mail,
+        subject: 'Mail test: Job Fair Nis',
+        html: `<h3>Ovo je test nodemailer servisa</h3>`
+    };
+
+    nodemailer.transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            //logger.logger.level = 'debug';
+            console.log(error);
+            // logger.logger.debug(error);
+            // res.sendFile(path.join(__dirname + '/logs.log'));
+            res.json({ error: error });
+            res.send();
+        } else {
+            console.log('Email sent: ' + info.response);
+            res.json({ response: info.response });
+            res.send();
+        }
+    });
+}
+
 
 module.exports = {
     execLogin,
@@ -735,5 +765,6 @@ module.exports = {
     newPassword,
     resetPassword,
     upload,
-    execFile
+    execFile,
+    execMailCheck
 }

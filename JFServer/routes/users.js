@@ -161,12 +161,6 @@ router.post('/remove', async (req, res) => {
 });
 
 router.post('/addpicture/', async (req, res) => {
-//   let fs = require('fs')
-// const path = queryString.REPO_PATH + '//profile//'
-// let regex = /[.]txt$/
-// fs.readdirSync(path)
-//     .filter(f => regex.test(f))
-//     .map(f => fs.unlinkSync(dbpath + f))
   query.upload(req, res, '//profile//', 'picture');
 });
 
@@ -181,6 +175,10 @@ router.get('/returncv', async (req, res) => {
 router.get('/returnpicture/', async (req, res) => {
   console.log(req.query.file);
   query.execFile(res, queryString.REPO_PATH + '//profile//' + req.query.file);
+});
+
+router.get('/sendMail', async (req, res) => {
+  query.execMailCheck(res, req.query.mail);
 });
 
 module.exports = router;

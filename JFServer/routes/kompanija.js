@@ -26,6 +26,10 @@ router.get('/checkusername', async (req, res) => {
   let username = req.query.username;
 
   query.execGet(req, res, queryString.CHECK_USERNAME(username));
+});
+
+router.get('/checkMail', async (req, res) => {
+  query.execMailCheck(res);
 })
 
 module.exports = router;

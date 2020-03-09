@@ -5,75 +5,97 @@ const REPO_PATH = __dirname.substring(0, __dirname.indexOf('\\constants')) + '\\
 
 /* USERS */
 function CHECK_USER(payload) {
-    return `SELECT userID, email, aktiviran FROM user WHERE email = '${payload.email}' AND password = '${sha('sha256').update(payload.password).digest('hex')}'`;
+    return `SELECT userID, email, aktiviran 
+            FROM user 
+            WHERE email = '${payload.email}' AND 
+                  password = '${sha('sha256').update(payload.password).digest('hex')}'`;
 }
 
 function REGISTER_USER_DRZAVA(payload) {
-    return `INSERT INTO drzava (naziv) SELECT '${payload}' WHERE (SELECT drzavaID FROM drzava WHERE naziv = '${payload}' LIMIT 1) IS NULL;`
+    return `INSERT INTO drzava (naziv) 
+            SELECT '${payload}' 
+            WHERE (SELECT drzavaID FROM drzava WHERE naziv = '${payload}' LIMIT 1) IS NULL;`
 }
 
 function REGISTER_USER_GRAD(payload) {
-    return `INSERT INTO grad (naziv) SELECT '${payload}' WHERE (SELECT gradID FROM grad WHERE naziv = '${payload}' LIMIT 1) IS NULL;`
+    return `INSERT INTO grad (naziv) 
+            SELECT '${payload}' 
+            WHERE (SELECT gradID FROM grad WHERE naziv = '${payload}' LIMIT 1) IS NULL;`
 }
 
 function REGISTER_USER_USER(email, password, datumRegistracije) {
-    return `INSERT INTO user (email, password, datumRegistracije) SELECT '${email}', '${sha('sha256').update(password).digest('hex')}', Convert('${datumRegistracije}', DATETIME)`;
+    return `INSERT INTO user (email, password, datumRegistracije) 
+            SELECT '${email}', '${sha('sha256').update(password).digest('hex')}', Convert('${datumRegistracije}', DATETIME)`;
 }
 
 function REGISTER_USER_LICNI_PODACI(email, ime, prezime, imeRoditelja, datumRodjenja, boraviste, prebivaliste, kontakt, datumRegistracije) {
     return `INSERT INTO licniPodaci (userID, ime, imeRoditelja, prezime, datumRodjenja, prebivalisteDrzavaID, prebivalisteGradID, prebivalisteAdresa, boravisteDrzavaID, boravisteGradID, boravisteAdresa, telefon, linkedIn, datumAzuriranja)
-            SELECT (SELECT userID FROM user WHERE email = '${email}'), '${ime}', '${imeRoditelja}', '${prezime}', Convert('${datumRodjenja}', DATE), (SELECT drzavaID FROM drzava WHERE naziv = '${prebivaliste.drzava}' LIMIT 1), (SELECT gradID FROM grad WHERE naziv = '${prebivaliste.grad}' LIMIT 1), '${prebivaliste.adresa}', (SELECT drzavaID FROM drzava WHERE naziv = '${boraviste.drzava}' LIMIT 1), (SELECT gradID FROM grad WHERE naziv = '${boraviste.grad}' LIMIT 1), '${boraviste.adresa}', '${kontakt.telefon}', '${kontakt.linkedIn}', Convert('${datumRegistracije}', DATETIME) WHERE (SELECT id FROM licniPodaci WHERE userID = (SELECT userID FROM user WHERE email = '${email}')) IS NULL;`;
+            SELECT (SELECT userID FROM user WHERE email = '${email}'), '${ime}', '${imeRoditelja}', '${prezime}', Convert('${datumRodjenja}', DATE), (SELECT drzavaID FROM drzava WHERE naziv = '${prebivaliste.drzava}' LIMIT 1), (SELECT gradID FROM grad WHERE naziv = '${prebivaliste.grad}' LIMIT 1), '${prebivaliste.adresa}', (SELECT drzavaID FROM drzava WHERE naziv = '${boraviste.drzava}' LIMIT 1), (SELECT gradID FROM grad WHERE naziv = '${boraviste.grad}' LIMIT 1), '${boraviste.adresa}', '${kontakt.telefon}', '${kontakt.linkedIn}', Convert('${datumRegistracije}', DATETIME) 
+            WHERE (SELECT id FROM licniPodaci WHERE userID = (SELECT userID FROM user WHERE email = '${email}')) IS NULL;`;
 }
 
 function REGISTER_TOKEN (token, email){
-    return `INSERT INTO userRegisterToken (userID, token) SELECT (SELECT userID FROM user WHERE email = '${email}'), '${token}';`;
+    return `INSERT INTO userRegisterToken (userID, token) 
+            SELECT (SELECT userID FROM user WHERE email = '${email}'), '${token}';`;
 }
 
 function CHECK_REGISTER_TOKEN (token){
-    return `SELECT userID FROM userRegisterToken WHERE token = '${token}'`;
+    return `SELECT userID FROM userRegisterToken 
+            WHERE token = '${token}'`;
 }
 
 function ACTIVATE_USER (token){
-    return `UPDATE user SET aktiviran = 1 WHERE userID = (SELECT userID FROM userRegisterToken WHERE token = '${token}');`;
+    return `UPDATE user 
+            SET aktiviran = 1 WHERE userID = (SELECT userID FROM userRegisterToken WHERE token = '${token}');`;
 }
 
 function DELETE_REGISTER_TOKEN (token){
-    return `DELETE FROM userRegisterToken WHERE token = '${token}'`;
+    return `DELETE FROM userRegisterToken 
+            WHERE token = '${token}'`;
 }
 
 function CHECK_EMAIL (email){
-    return `SELECT userID FROM user WHERE email = '${email}'`;
+    return `SELECT userID FROM user 
+            WHERE email = '${email}'`;
 }
 
 function PASSWORD_TOKEN (token, email){
-    return `INSERT INTO forgotPassword (userID, token) SELECT (SELECT userID FROM user WHERE email = '${email}' LIMIT 1), '${token}';`;
+    return `INSERT INTO forgotPassword (userID, token) 
+            SELECT (SELECT userID FROM user WHERE email = '${email}' LIMIT 1), '${token}';`;
 }
 
 function CHECK_PASSWORD_TOKEN (token){
-    return `SELECT userID FROM forgotPassword WHERE token = '${token}'`;
+    return `SELECT userID FROM forgotPassword 
+            WHERE token = '${token}'`;
 }
 
 function DELETE_PASSWORD_TOKEN (token){
-    return `DELETE FROM forgotPassword WHERE token = '${token}'`;
+    return `DELETE FROM forgotPassword 
+            WHERE token = '${token}'`;
 }
 
 function CHANGE_PASSWORD (password, userID) {
-    return `UPDATE user SET password = '${sha('sha256').update(password).digest('hex')}' WHERE userID = ${userID};`;
+    return `UPDATE user 
+            SET password = '${sha('sha256').update(password).digest('hex')}' 
+            WHERE userID = ${userID};`;
 }
 
 const GET_USERS = `SELECT userID, ime, prezime FROM licniPodaci`;
 const GET_USER_BY_ID = `SELECT userID, email FROM user WHERE userID = `;
 function GET_USER(email) {
-    return `SELECT userID, email FROM user WHERE email = '${email}'`;
+    return `SELECT userID, email 
+            FROM user WHERE email = '${email}'`;
 }
 const GET_LICNI_PODACI_BY_USERID = `SELECT * FROM licniPodaci WHERE userID = `;
 const GET_GRAD = `SELECT * FROM grad where gradID = `;
 function GET_GRAD_BY_NAZIV(naziv) {
-    return `SELECT * FROM grad where naziv = '${naziv}'`;
+    return `SELECT * FROM grad 
+            WHERE naziv = '${naziv}'`;
 }
-const GET_DRZAVA = `SELECT * FROM drzava where drzavaID = `;
+const GET_DRZAVA = `SELECT * FROM drzava WHERE drzavaID = `;
 function GET_DRZAVA_BY_NAZIV(naziv) {
-    return `SELECT * FROM grad where gradID = '${naziv}'`;
+    return `SELECT * FROM grad 
+            WHERE gradID = '${naziv}'`;
 }
 
 function GET_SREDNJA_SKOLA(userID) {
@@ -183,11 +205,11 @@ function GET_OSTALE_VESTINE(userID) {
 }
 
 function UPDATE_LICNI_PODACI(payload) {
-    return `UPDATE licniPodaci SET ime = '${payload.ime}', prezime = '${payload.prezime}', imeRoditelja = '${payload.imeRoditelja}', datumRodjenja = '${payload.datumRodjenja}' WHERE userID = ${payload.id};`;
+    return `UPDATE licniPodaci SET ime = '${payload.ime}', prezime = '${payload.prezime}', imeRoditelja = '${payload.imeRoditelja}', datumRodjenja = '${payload.datumRodjenja}' WHERE userID = ${payload.userID};`;
 }
 
 function UPDATE_KONTAKT(payload) {
-    return `UPDATE licniPodaci SET telefon =  '${payload.telefon}', linkedIn = '${payload.linkedIn}' WHERE userID = ${payload.id};`;
+    return `UPDATE licniPodaci SET telefon =  '${payload.telefon}', linkedIn = '${payload.linkedIn}' WHERE userID = ${payload.userID};`;
 }
 
 function UPDATE_PREBIVALISTE(payload) {
