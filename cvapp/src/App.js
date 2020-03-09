@@ -117,6 +117,22 @@ class App extends React.Component {
     var regModal = M.Modal.getInstance(this.regModal);
     regModal.open();
   }
+
+  shouldComponentUpdate(){
+    // console.log('test', this.props.showRegModal)
+    // if (this.props.showRegModal){
+    //   this.setRegModal();
+    // }
+
+    return true
+  }
+
+  componentDidUpdate(prevProps){
+    console.log('test', this.props.showRegModal)
+    if (this.props.showRegModal){
+      this.setRegModal();
+    }
+  }
   
   render(){
     return (
@@ -243,7 +259,8 @@ class App extends React.Component {
 const mapStateToProps = state => {
   return {
     modalForDeletion: state.modalForDeletion,
-    modalMessage: state.modalMessage
+    modalMessage: state.modalMessage,
+    showRegModal: state.showRegModal
   }
 }
 

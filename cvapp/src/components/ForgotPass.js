@@ -33,8 +33,8 @@ class ForgotPass extends React.Component {
   onSubmit(){
 
     this.props.submit(this.state.inputData);
-    this.props.setModalMessage('Na unetoj email adresi ćete dobili link za resetovanje šifre, ukoliko ne dobijete mail proverite spam folder i folder neželjene pošte. Ukoliko nakon 10 minuta uopšte niste dobili mail pošaljite zahtev ponovo')
-    this.props.setRegModal();
+    //this.props.setModalMessage('Na unetoj email adresi ćete dobili link za resetovanje šifre, ukoliko ne dobijete mail proverite spam folder i folder neželjene pošte. Ukoliko nakon 10 minuta uopšte niste dobili mail pošaljite zahtev ponovo')
+    //this.props.setRegModal();
   }
 
   render(){
@@ -50,6 +50,11 @@ class ForgotPass extends React.Component {
            <InputC type = "text" label = "Unesite email adresu" labelClassName = "fpLabel"
             onSubmit={this.onInputChange} index={null} value={this.state.inputData}/>
           </div>
+          {
+            this.props.errorMessage?(<div className = "col s12 m12 l12 xl12">
+            <span className="ydha red-text text-darken-1"> {this.props.errorMessage} </span>
+            </div>) : null
+          }
           <div className = "col s12 m12 l12 xl12 resetPassBtnContainer">
             <Button text = "Resetuj lozinku" className = "resetPassBtn" onClick={this.onSubmit}/>
           </div>
@@ -61,7 +66,7 @@ class ForgotPass extends React.Component {
 
 const mapStateToProps = state => {
   return {
-
+    errorMessage: state.errorMessage,
   }
 }
 

@@ -78,6 +78,8 @@ function *registerUser(action) {
         
         const response = yield call(userService.registerUser, user);
 
+        console.log(response);
+
         if (response.status === 200) {
             yield put(userActions.registerUserSuccess());
 
@@ -137,8 +139,15 @@ function *forgottenPassword(action) {
     try{
         const {email} = action;
    
+        const response = yield call(userService.forgotPassword, {email: email});
 
-        yield call(userService.forgotPassword, {email: email});
+        if (response.status === 200){
+            yield put(userActions.forgotPasswordConfirm());
+        }
+        else{
+            yield put(userActions.forgotPasswordDenied())
+        }
+
 
 
     }catch (error) {
@@ -152,7 +161,6 @@ function *resetPassword(action) {
       
         const response = yield call(userService.resetPassword, credentials)
    
-
         if(response.status === 201){
             setTimeout(() => {
                 window.location.replace('/')

@@ -51,6 +51,8 @@ const initialState =  {
     verifyMessage: '',
     modalMessage: '',
     cvForDisplay: '',
+
+    showRegModal: false,
 }
 
 const addToArray = (array, newItem) => {
@@ -116,7 +118,7 @@ const userReducer = ( state = initialState, action) => {
             return {
                 ...state,
                 proccessing: true,
-                registerErrorMessage: null,
+                errorMessage: null,
             }
         }
 
@@ -126,7 +128,7 @@ const userReducer = ( state = initialState, action) => {
             return {
                 ...state,
                 proccessing: false,
-                registerErrorMessage: errorMessage
+                errorMessage
             }
         }
 
@@ -135,6 +137,8 @@ const userReducer = ( state = initialState, action) => {
             return{
                 ...state,
                 proccessing: false,
+                showRegModal: true,
+                modalMessage: "Hvala vam na registraciji, da biste se ulogovali morate prvo aktivirati svoj nalog preko unetog email-a"
             }
         }
 
@@ -352,8 +356,35 @@ const userReducer = ( state = initialState, action) => {
 
             return {
                 ...state,
-                modalMessage: message
+                modalMessage: message,
+                showRegModal: true,
             }
+        }
+
+        case userActionsTypes.FORGOT_PASSWORD: {
+            return{
+                ...state,
+                errorMessage: null
+            }
+        }
+
+        case userActionsTypes.FORGOT_PASSWORD_CONFIRM: {
+
+            return {
+                ...state,
+                modalMessage: "Na unetoj email adresi ćete dobili link za resetovanje šifre, ukoliko ne dobijete mail proverite spam folder i folder neželjene pošte. Ukoliko nakon 10 minuta uopšte niste dobili mail pošaljite zahtev ponovo",
+                showRegModal: true,
+                errorMessage: null
+            }
+        }
+
+        case userActionsTypes.FORGOT_PASSWORD_DENIED: {
+
+            return {
+                ...state,
+                errorMessage: "Na unetoj email adresi ne postoji nalog"
+            }
+
         }
 
         default:

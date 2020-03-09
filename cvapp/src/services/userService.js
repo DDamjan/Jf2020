@@ -78,9 +78,9 @@ export async function registerUser(user) {
             },
             body: JSON.stringify(user)
         }).then( res => {
-            return res
+            return res.json()
         })
-        .catch(error => {return error})
+        .catch(error => error)
     }
     catch (error) {
         return error

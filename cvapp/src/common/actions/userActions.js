@@ -48,6 +48,14 @@ export const forgotPassword = email => ({
     email
 })
 
+export const forgotPasswordConfirm = () => ({
+    type: userActionTypes.FORGOT_PASSWORD_CONFIRM
+})
+
+export const forgotPasswordDenied = () => ({
+    type: userActionTypes.FORGOT_PASSWORD_DENIED
+})
+
 export const resetPassword = credentials => ({
     type: userActionTypes.RESET_PASSWORD,
     credentials
@@ -128,6 +136,7 @@ export const modalDeleted = modal => ({
     modal
 })
 
+// REDUDANTNO: Ovo mozda nece trebati ipak
 export const setModalMessage = message => ({
     type: userActionTypes.SET_MODAL_MESSAGE,
     message

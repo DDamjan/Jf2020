@@ -140,8 +140,8 @@ class Registration extends React.Component {
         })
 
         this.props.submit(this.state.data);
-        this.props.setModalMessage(`Hvala vam na registraciji, da biste se ulogovali morate prvo aktivirati svoj nalog preko unetog email-a`);
-        this.props.setRegModal();
+        //this.props.setModalMessage(`Hvala vam na registraciji, da biste se ulogovali morate prvo aktivirati svoj nalog preko unetog email-a`);
+        //this.props.setRegModal();
       }
   
       
