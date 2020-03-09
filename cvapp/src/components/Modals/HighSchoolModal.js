@@ -66,9 +66,15 @@ class HighSchoolModal extends React.Component {
         this.forceUpdate();
     }
 
+    keyPressHandle(event){
+        if(event.key === 'Enter'){
+            this.submit();
+        }
+    }
+
     render(){
         return (
-        <div >
+        <div>
             <div className = "col s12 offset-m2 offset-l2 offset-xl2 m8 l8 xl8 hsInputContainer">
                 {
                     hsLabels.map((el, index)=>(

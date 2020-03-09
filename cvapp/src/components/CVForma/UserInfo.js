@@ -105,7 +105,7 @@ class UserInfo extends React.Component {
           }
         </div>
         <div className = "col s5 postCvBtnContainer">
-        {(this.props.storeData[`cv`] !== null && this.props.storeData[`cv`] !== 'null')? <a href={this.props.cv} target="_blank" class="cv">{this.props.cvForDisplay}</a> : null}
+        {(this.props.storeData[`cv`] !== null && this.props.storeData[`cv`] !== 'null')? <a href={this.props.cv} target="_blank" rel="noopener noreferrer" class="cv">{this.props.cvForDisplay}</a> : null}
 
         <div className = "pdfFileName">
           </div>

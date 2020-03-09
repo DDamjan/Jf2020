@@ -28,8 +28,8 @@ router.post('/auth', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  res.send('Hi there');
-  //query.exec(req, res, queryString.GET_USERS, query.get);
+  //res.send('Hi there');
+  query.exec(req, res, queryString.GET_USERS, query.get);
 });
 
 router.post('/refresh', async (req, res) => {

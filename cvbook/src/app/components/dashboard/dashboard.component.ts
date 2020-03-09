@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as actions from '../../store/actions';
-import { selectAllUsers } from '../../store/reducers/user.reducer';
+import { selectAllUser } from '../../store/reducers/user.reducer';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,7 +17,6 @@ export class DashboardComponent implements OnInit {
   }
 
   toCVOverview() {
-    this.router.navigate([`/cvoverview`]);
+    this.router.navigate(['cvoverview']);
   }
-
 }

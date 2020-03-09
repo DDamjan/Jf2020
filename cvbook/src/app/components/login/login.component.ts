@@ -1,7 +1,6 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as actions from '../../store/actions';
-import { selectAllUsers } from '../../store/reducers/user.reducer';
 import { Router } from '@angular/router';
 import { selectAllCompanies } from 'app/store/reducers/company.reducer';
 

@@ -24,11 +24,11 @@ export class CompanyEffects {
     ofAction(actions.GetCompany),
     switchMap(company => this.companyService.getCompany(company.payload)),
     map(response => {
-      if (response.success !== undefined && response.success === false) {
+      if (response[0].success !== undefined && response[0].success === false) {
         this.badToken();
         return new actions.TokenExpired();
       } else {
-        return new actions.GetCompanySuccess(response);
+        return new actions.GetCompanySuccess(response[0]);
       }
     })
   );
@@ -44,9 +44,9 @@ export class CompanyEffects {
         localStorage.setItem('CVBook-CurrentCompany', JSON.stringify(response[0]));
         this.cookieService.setCookie('CVBook-Token', response[0].token, 8);
         this.router.navigate([`/dashboard`]);
-        return new actions.AuthCompanySuccess(response);
+        return new actions.AuthCompanySuccess(response[0]);
       } else {
-        return new actions.AuthCompanyFail(response);
+        return new actions.AuthCompanyFail(response[0]);
       }
     })
   );

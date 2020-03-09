@@ -34,7 +34,7 @@ class Okpb extends React.Component {
   }
 
   onInputChange(data, index) {
-    if (this.state.valueChanged === false) this.state.valueChanged = true;
+    if (this.state.valueChanged === false) this.setState({...this.state, valueChanged: true});
 
     const info = this.state.inputData;
     info[index] = data;
@@ -48,7 +48,7 @@ class Okpb extends React.Component {
       return;
     }
 
-    let forStore = {field: this.props.field, payload: {id: sessionStorage.getItem('id')}};
+    let forStore = {field: this.props.field, payload: {userID: sessionStorage.getItem('id')}};
     this.state.inputKeys.forEach((key, index) => {
       forStore.payload[key] = this.state.inputData[index];
     })

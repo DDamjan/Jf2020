@@ -5,7 +5,6 @@ import Okpb from '../Okpb'
 import HighSchool from './HighSchool'
 import Faculty from './Faculty';
 import Experience from './Experience' 
-import Button from '../Button'
 import {connect} from 'react-redux';
 import * as userActions from '../../common/actions/userActions';
 import Spinner from '../Spinner';

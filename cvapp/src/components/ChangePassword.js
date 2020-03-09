@@ -28,10 +28,16 @@ class ChangePassword extends React.Component {
     this.setState({info});
   }
 
+  keyPressHandle(event) {
+    if (event.key === 'Enter'){
+      this.onSubmit()
+    }
+  }
+
   onSubmit(){
 
     if (this.state.newPassword !== this.state.confirmPassword){
-      this.setState({passwordError: true, passwordErrorMessage: 'Uneli ste dve različite šifre, pokušajte ponovo' })
+      this.setState({passwordError: true, passwordErrorMessage: 'Uneli ste dve različite šifre' })
       return
     }
     if (this.state.newPassword.length < 8) {
@@ -55,7 +61,7 @@ class ChangePassword extends React.Component {
 
   render(){
     return (
-        <div className = "row changePassContainer">
+        <div className = "row changePassContainer" onKeyPress={ e => this.keyPressHandle(e)}>
           <a href="/" className = "cpHome">
             <img src = "/photos/home.png" alt = "job fair"></img>
           </a>

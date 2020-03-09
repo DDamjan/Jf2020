@@ -7,6 +7,7 @@ import * as conn from '../../constants/server-urls';
 @Injectable()
 export class CookieService {
 
+    // private serverURL = conn.LOCAL_SERVER + 'token/';
     private serverURL = conn.LOCAL_SERVER + 'token/';
 
     constructor( private http: HttpClient) { }

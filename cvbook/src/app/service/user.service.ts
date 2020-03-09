@@ -10,7 +10,9 @@ import { CookieService } from './cookie.service';
 @Injectable()
 export class UserService {
 
+    // private serverURL = conn.LOCAL_SERVER + 'users/';
     private serverURL = conn.LOCAL_SERVER + 'users/';
+
     private httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',

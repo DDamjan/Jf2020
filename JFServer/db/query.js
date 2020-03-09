@@ -10,6 +10,7 @@ var logger = require('../Middleware/log4js');
 var path = require('path');
 
 function exec(req, res, query, fun) {
+    console.log(req.headers);
     let token = req.headers['x-access-token'] || req.headers['authorization'];
     if (token.startsWith('Bearer ')) {
         token = token.slice(7, token.length);

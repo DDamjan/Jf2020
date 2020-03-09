@@ -83,9 +83,17 @@ class FacultyModal extends React.Component {
         this.forceUpdate();
     }
 
+    //TODO: pronaci nacin da se ovo koristi i za ove modale, trenutni problem je sto se modal prosto ne zatvori jer 
+    //nema materialize klasu "modal-close"
+    keyPressHande(event){
+        if(event.key === 'Enter'){
+            this.submit();
+        }
+    }
+
     render(){
         return (
-        <div>
+        <div >
             <div className = "col s12 m5 l5 xl5">
                 {
                     facLeftLabels.map((el, index)=>(

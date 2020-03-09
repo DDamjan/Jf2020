@@ -5,12 +5,14 @@ import { VisokoObrazovanje } from './obrazovanje/VIsokoObrazovanje';
 import { Iskustvo } from './iskustvo/Iskustvo';
 
 export interface User {
-    userID: number;
-    email: string;
-    licniPodaci: LicniPodaci;
-    prebivaliste: Adresa;
-    boraviste: Adresa;
-    srednjeObrazovanje: SrednjeObrazovanje[];
-    visokoObrazovanje: VisokoObrazovanje[];
-    iskustvo: Iskustvo[];
+    userID?: number;
+    email?: string;
+    licniPodaci?: LicniPodaci;
+    prebivaliste?: Adresa;
+    boraviste?: Adresa;
+    srednjeObrazovanje?: SrednjeObrazovanje[];
+    visokoObrazovanje?: VisokoObrazovanje[];
+    iskustvo?: Iskustvo[];
+    ime?: string;
+    prezime?: string;
 }

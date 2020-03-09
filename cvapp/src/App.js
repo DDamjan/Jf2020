@@ -15,8 +15,6 @@ import AwapExpModal from './components/Modals/AwapExpModal'
 import WocModal from './components/Modals/WocModal'
 import LanguageExpModal  from './components/Modals/LanguageExpModal'
 import OtherSkillsModal from './components/Modals/OtherSkillsModal'
-import { Provider } from "react-redux";
-import store from '../src/common/store/store';
 import {connect} from 'react-redux';
 import * as userActions from './common/actions/userActions';
 import AccountVerification from './components/AccountVerification';
@@ -223,7 +221,7 @@ class App extends React.Component {
               id="regModal"
               className="modal z-depth-5 col offset-s1 s10 offset-m3 m6 offset-l4 l4">
               <div className="modal-content">
-                      <h4>Obavestenje</h4>
+                      <h4>Obaveštenje</h4>
                       <p>
                       {
                   this.props.modalMessage

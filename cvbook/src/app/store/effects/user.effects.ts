@@ -25,11 +25,11 @@ export class UserEffects {
     map(response => {
       console.log('actions.GetUser');
       console.log(response[0]);
-      if (response.success !== undefined && response.success === false) {
+      if (response[0].success !== undefined && response[0].success === false) {
         this.badToken();
         return new actions.TokenExpired();
       } else {
-        return new actions.GetUserSuccess(response);
+        return new actions.GetUserSuccess(response[0]);
       }
     })
   );
@@ -40,8 +40,8 @@ export class UserEffects {
     switchMap(users => this.userService.getUsers()),
     map(response => {
       console.log('actions.GetUsers');
-      console.log(response[0]);
-      if (response.success !== undefined && response.success === false) {
+      console.log(response);
+      if (response[0].success !== undefined && response[0].success === false) {
         this.badToken();
         return new actions.TokenExpired();
       } else {
