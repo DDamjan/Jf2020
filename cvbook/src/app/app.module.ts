@@ -40,6 +40,10 @@ import { DetailExpansionComponent } from './components/detail-expansion/detail-e
 import { CvOverviewComponent } from './components/cv-overview/cv-overview.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { CookieService } from './service/cookie.service';
+import { UserCardComponent } from './components/user-card/user-card.component';
+import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { PieChartComponent } from './components/charts/piechart/piechart.component';
+import { BasicColumnChartComponent } from './components/charts/basiccolumnchart/basiccolumnchart.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +53,11 @@ import { CookieService } from './service/cookie.service';
     DashboardComponent,
     DetailExpansionComponent,
     CvOverviewComponent,
-    FilterComponent
+    FilterComponent,
+    UserCardComponent,
+    UserDetailsComponent,
+    PieChartComponent,
+    BasicColumnChartComponent
   ],
   imports: [
     BrowserModule,

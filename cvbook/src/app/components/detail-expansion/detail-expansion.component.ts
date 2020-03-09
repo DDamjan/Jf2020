@@ -64,6 +64,8 @@ export class DetailExpansionComponent implements OnInit, AfterViewInit {
   }
 
   onOpen() {
+    // this.router.navigate(['userdetails']);
+    this.router.navigateByUrl(`userdetails/${this.user.userID}`);
   }
 
   onDownloadCV() {
