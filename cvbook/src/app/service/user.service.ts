@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { HttpService } from './http.service';
 
 import { catchError, tap, filter } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
@@ -13,16 +14,9 @@ export class UserService {
     // private serverURL = conn.LOCAL_SERVER + 'users/';
     private serverURL = conn.LOCAL_SERVER + 'users/';
 
-    private httpOptions = {
-        headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + this.cookieService.getCookie('CVBook-Token')
-        })
-    };
-
     constructor(
         private http: HttpClient,
-        private cookieService: CookieService) { }
+        private httpService: HttpService) {}
 
     /* GET user by id. */
     getUser(payload: any): Observable<any> {
@@ -34,9 +28,9 @@ export class UserService {
 
     getUsers(): Observable<any> {
         console.log('this.httpOptions');
-        console.log(this.httpOptions);
+        console.log(this.httpService.httpOptions());
         const url = `${this.serverURL}`;
-        return this.http.post<any>(url, {}, this.httpOptions).pipe(
+        return this.http.post<any>(url, {}, this.httpService.httpOptions()).pipe(
             catchError(this.handleError<any>('getUsers'))
         );
     }
@@ -52,7 +46,7 @@ export class UserService {
     /* POST: Authenticate a user */
     authUser(data: object): Observable<any> {
         const url = `${this.serverURL}auth`;
-        return this.http.post<any>(url, data, this.httpOptions).pipe(
+        return this.http.post<any>(url, data, this.httpService.httpOptions()).pipe(
             catchError(this.handleError<any>('authUser'))
         );
     }
@@ -60,7 +54,7 @@ export class UserService {
      /* POST: Check the username */
      checkUsername(data: object): Observable<boolean> {
         const url = `${this.serverURL}checkuser`;
-        return this.http.post<boolean>(url, data, this.httpOptions).pipe(
+        return this.http.post<boolean>(url, data, this.httpService.httpOptions()).pipe(
             catchError(this.handleError<boolean>('authUser'))
         );
     }

@@ -19,11 +19,11 @@ export function UserReducer(
     state: UserState = UserInitialState,
     action
 ) {
-    console.log('UserReducer');
-    console.log(action.type);
+    // console.log('UserReducer');
+    // console.log(action.type);
     switch (action.type) {
         case GET_USER_SUCCESS: {
-            console.log(action.payload);
+            // console.log(action.payload);
             return UserAdapter.addMany(action.payload, state = UserInitialState);
         }
         default:

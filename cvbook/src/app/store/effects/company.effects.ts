@@ -8,7 +8,6 @@ import { ofAction } from 'ngrx-actions/dist';
 import { Router } from '@angular/router';
 import { CompanyService } from '../../service/company.service';
 import { CookieService } from '../../service/cookie.service';
-import { stringify } from '@angular/compiler/src/util';
 
 @Injectable()
 export class CompanyEffects {
@@ -38,8 +37,8 @@ export class CompanyEffects {
     ofAction(actions.AuthCompany),
     switchMap(data => this.companyService.authCompany(data.payload)),
     map(response => {
-      console.log('company.effects.authCompany response');
-      console.log(response);
+      // console.log('company.effects.authCompany response');
+      // console.log(response);
       if (response[0].username !== 'error') {
         localStorage.setItem('CVBook-CurrentCompany', JSON.stringify(response[0]));
         this.cookieService.setCookie('CVBook-Token', response[0].token, 8);
@@ -52,7 +51,7 @@ export class CompanyEffects {
   );
 
   badToken() {
-    console.log('BAD TOKEN COMPANY');
+    // console.log('BAD TOKEN COMPANY');
     localStorage.removeItem('CVBook-CurrentCompany');
     this.cookieService.deleteCookie('CVBook-Token');
     this.router.navigate(['/']);

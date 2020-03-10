@@ -34,6 +34,7 @@ import { reducers } from './store/reducers';
 import { UserEffects } from './store/effects/user.effects';
 import { CompanyEffects } from './store/effects/company.effects';
 import { UserService } from './service/user.service';
+import { HttpService } from './service/http.service';
 import { CompanyService } from './service/company.service';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DetailExpansionComponent } from './components/detail-expansion/detail-expansion.component';
@@ -44,6 +45,7 @@ import { UserCardComponent } from './components/user-card/user-card.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { PieChartComponent } from './components/charts/piechart/piechart.component';
 import { BasicColumnChartComponent } from './components/charts/basiccolumnchart/basiccolumnchart.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -90,9 +92,10 @@ import { BasicColumnChartComponent } from './components/charts/basiccolumnchart/
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    ChartsModule
   ],
-  providers: [UserService, CompanyService, CookieService],
+  providers: [UserService, CompanyService, CookieService, HttpService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
