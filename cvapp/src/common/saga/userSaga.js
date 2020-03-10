@@ -35,6 +35,11 @@ function *fetchUser(action) {
             return;
         }   
 
+        if (user.status === 412) {
+            yield put (userActions.oldAccount('Poštovani, zbog prelaska na drugi sistem molimo Vas potvrdite Vaš indentitet tako što ćete resetovati vašu šifru, to možete uraditi klikom na "Zaboravili ste lozinku?"'));
+            return;
+        }
+
     }
     catch (error) {
         console.log(error);
@@ -116,8 +121,6 @@ function *infoUpdate(action){
 
         if (data.payload.profilnaSlika instanceof File){
             const res = yield call(userService.sendFile, data.payload.profilnaSlika, userRoutes.uploadPicture);
-
-            
 
             yield put(userActions.fileUploaded('profilnaSlika', res.profilnaSlika));
         }

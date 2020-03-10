@@ -39,3 +39,5 @@ export const MODAL_DELETED = "MODAL DELETED";
 
 export const SET_MODAL_MESSAGE = "SET MODAL MESSAGE";
 
+export const OLD_ACCOUNT = "OLD ACCOUNT";
+

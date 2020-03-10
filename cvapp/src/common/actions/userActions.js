@@ -141,3 +141,8 @@ export const setModalMessage = message => ({
     type: userActionTypes.SET_MODAL_MESSAGE,
     message
 })
+
+export const oldAccount = message => ({
+    type: userActionTypes.OLD_ACCOUNT,
+    message
+})

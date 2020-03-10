@@ -390,6 +390,17 @@ const userReducer = ( state = initialState, action) => {
 
         }
 
+        case userActionsTypes.OLD_ACCOUNT: {
+            const {message} = action;
+
+            return{
+                ...state,
+                modalMessage: message,
+                showRegModal: true,
+                proccessing: false,
+            }
+        }
+
         default:
             return state
     }

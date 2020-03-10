@@ -67,11 +67,11 @@ class LoginComponent extends React.Component{
                 <div className="col s12 loginAndForgotPassContainer">
                     <div className = "col s12 m12 l6 xl6 loginBtnContainer">
                         
-                        {this.props.proccessing ? <Spinner class="floatLeft"></Spinner> : <Button text = "Uloguj se" onClick = {this.onLoginBtnClick}></Button>}
+                        {this.props.proccessing ? <Spinner class="floatLeft"></Spinner> : <Button text = "Ulogujte se" onClick = {this.onLoginBtnClick}></Button>}
                        
                     </div>
                     <div className = "col s12 m12 l6 xl6 forgotPassLinkContainer">
-                        <a href="/forgotPass" className = "forgotPassLink">Zaboravio si lozinku?</a>
+                        <a href="/forgotPass" className = "forgotPassLink">Zaboravili ste lozinku?</a>
                     </div>
                 </div>
                 {this.props.error? 
@@ -81,10 +81,10 @@ class LoginComponent extends React.Component{
                     : null
                 }
                 <div className = "col s12 m12 l12 xl12">
-                    <p className="ydha"> Nemaš nalog? </p>
+                    <p className="ydha"> Nemate nalog? </p>
                 </div>
                 <div className = "col s12 m12 l12 xl12 registerBtnContainer">
-                    <Button text = "Registruj se!" onClick = {this.onRegBtnClick} ></Button>
+                    <Button text = "Registrujte se!" onClick = {this.onRegBtnClick} ></Button>
                 </div>
             </div>
             : null
