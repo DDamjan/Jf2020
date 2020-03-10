@@ -1,10 +1,13 @@
-<div>
-  <!--
-  <app-basiccolumnchart [titleText]="'Year of study'" [dataPoints]="dataPointsYearOfStudy">
-  </app-basiccolumnchart>
-  -->
-  <app-piechart [pieChartLabels]="pieChartLabels" [pieChartData]="dataPointsYearOfStudy">
-  </app-piechart>
+<div class="container">
+  <div class="basiccolumnchart">
+    <app-basiccolumnchart [barChartData]="barChartData" [barChartLabels]="barChartLabels">
+    </app-basiccolumnchart>
+  </div>
+
+  <div class="piechart">
+    <app-piechart [pieChartLabels]="pieChartLabels" [pieChartData]="dataPointsYearOfStudy">
+    </app-piechart>
+  </div>
 </div>
 
 <button mat-raised-button (click)="toCVOverview()" >CV overview</button>

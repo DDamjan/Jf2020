@@ -13,6 +13,8 @@ export class PieChartComponent implements OnInit {
     // Pie
     @Input() public pieChartLabels: Label[];
     @Input() public pieChartData: number[];
+    public chartReady: boolean;
+
     public pieChartOptions: ChartOptions = {
       responsive: true,
       legend: {
@@ -39,6 +41,7 @@ export class PieChartComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
+      this.chartReady = true;
     }
 
     // events
