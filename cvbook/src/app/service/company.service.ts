@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { HttpClient } from '@angular/common/http';
+import { HttpService } from './http.service';
 import { catchError, tap, filter } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { User } from '../models/User';
@@ -15,14 +15,8 @@ export class CompanyService {
 
     constructor(
         private http: HttpClient,
-        private cookieService: CookieService ) { }
+        private httpService: HttpService) { }
 
-    private httpOptions = {
-        headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + this.cookieService.getCookie('CVBook-Token')
-        })
-    };
 
     /* GET user by id. */
     getCompany(payload: any): Observable<any> {
@@ -43,7 +37,7 @@ export class CompanyService {
     /* POST: Authenticate a user */
     authCompany(data: object): Observable<any> {
         const url = `${this.serverURL}auth`;
-        return this.http.post<any>(url, data, this.httpOptions).pipe(
+        return this.http.post<any>(url, data, this.httpService.httpOptions()).pipe(
             catchError(this.handleError<any>('authCompany'))
         );
     }
@@ -51,7 +45,7 @@ export class CompanyService {
      /* POST: Check the username */
      checkUsername(data: object): Observable<boolean> {
         const url = `${this.serverURL}checkuser`;
-        return this.http.post<boolean>(url, data, this.httpOptions).pipe(
+        return this.http.post<boolean>(url, data, this.httpService.httpOptions()).pipe(
             catchError(this.handleError<boolean>('authUser'))
         );
     }

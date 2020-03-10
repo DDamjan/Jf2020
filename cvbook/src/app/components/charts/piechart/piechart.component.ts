@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import * as CanvasJS from '../../../canvasjs.min';
+import { Component, OnInit, Input } from '@angular/core';
+import { Chart, ChartType, ChartOptions } from 'chart.js';
+import { Label } from 'ng2-charts';
+import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-piechart',
@@ -7,33 +9,44 @@ import * as CanvasJS from '../../../canvasjs.min';
   styleUrls: ['./piechart.component.css']
 })
 export class PieChartComponent implements OnInit {
+  private backgroundColor: any = ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'];
+    // Pie
+    @Input() public pieChartLabels: Label[];
+    @Input() public pieChartData: number[];
+    public pieChartOptions: ChartOptions = {
+      responsive: true,
+      legend: {
+        position: 'top',
+      },
+      plugins: {
+        datalabels: {
+          formatter: (value, ctx) => {
+            const label = ctx.chart.data.labels[ctx.dataIndex];
+            return label;
+          },
+        },
+      }
+    };
+    public pieChartType: ChartType = 'pie';
+    public pieChartLegend = true;
+    public pieChartPlugins = [pluginDataLabels];
+    public pieChartColors = [
+      {
+        backgroundColor: this.backgroundColor,
+      },
+    ];
 
-  constructor() { }
+    constructor() { }
 
     ngOnInit() {
-      const chart = new CanvasJS.Chart('chartContainer', {
-        theme: 'light2',
-        animationEnabled: true,
-        exportEnabled: true,
-        title: {
-          text: 'Monthly Expense'
-        },
-        data: [{
-          type: 'pie',
-          showInLegend: true,
-          toolTipContent: '<b>{name}</b>: ${y} (#percent%)',
-          indexLabel: '{name} - #percent%',
-          dataPoints: [
-            { y: 450, name: 'Food' },
-            { y: 120, name: 'Insurance' },
-            { y: 300, name: 'Traveling' },
-            { y: 800, name: 'Housing' },
-            { y: 150, name: 'Education' },
-            { y: 150, name: 'Shopping'},
-            { y: 250, name: 'Others' }
-          ]
-        }]
-      });
-      chart.render();
+    }
+
+    // events
+    public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
+      console.log(event, active);
+    }
+
+    public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
+      console.log(event, active);
     }
 }

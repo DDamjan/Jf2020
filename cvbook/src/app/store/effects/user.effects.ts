@@ -23,8 +23,8 @@ export class UserEffects {
     ofAction(actions.GetUser),
     switchMap(user => this.userService.getUser(user.payload)),
     map(response => {
-      console.log('actions.GetUser');
-      console.log(response[0]);
+      // console.log('actions.GetUser');
+      // console.log(response[0]);
       if (response[0].success !== undefined && response[0].success === false) {
         this.badToken();
         return new actions.TokenExpired();
@@ -39,8 +39,8 @@ export class UserEffects {
     ofAction(actions.GetUsers),
     switchMap(users => this.userService.getUsers()),
     map(response => {
-      console.log('actions.GetUsers');
-      console.log(response);
+      // console.log('actions.GetUsers');
+      // console.log(response);
       if (response[0].success !== undefined && response[0].success === false) {
         this.badToken();
         return new actions.TokenExpired();
@@ -51,7 +51,7 @@ export class UserEffects {
   );
 
   badToken() {
-    console.log('BAD TOKEN USER');
+    // console.log('BAD TOKEN USER');
     localStorage.removeItem('CVBook-CurrentCompany');
     this.cookieService.deleteCookie('CVBook-Token');
     this.router.navigate(['/']);
