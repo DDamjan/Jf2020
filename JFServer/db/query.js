@@ -41,40 +41,47 @@ function exec(req, res, query, fun) {
     }
 }
 
-function execLogin(res, query, kompanija) {
-    mysql.pool.query(query, (err, results) => {
+function execLogin(res, req, query, kompanija) {
+    mysql.pool.query(query, async (err, results) => {
         try {
-            console.log(results);
             if (results.length != 0) {
-                if (results[0].aktiviran != 0) {
-                    let tokenKey;
-                    if (kompanija) {
-                        tokenKey = {
-                            username: results[0].username
-                        };
-                    } else {
-                        tokenKey = {
-                            username: results[0].email
+                if (results[0].oldAcc == 0) {
+                    if (results[0].aktiviran != 0) {
+                        let tokenKey;
+                        if (kompanija) {
+                            tokenKey = {
+                                username: results[0].username
+                            };
+                        } else {
+                            tokenKey = {
+                                username: results[0].email
+                            }
                         }
-                    }
 
-                    let token = jwt.sign(tokenKey, config.secret, { expiresIn: '8h' });
+                        let token = jwt.sign(tokenKey, config.secret, { expiresIn: '8h' });
 
-                    if (kompanija) {
-                        loginKompanija(res, results, token);
-                    } else {
-                        getUser(res, results, token);
+                        if (kompanija) {
+                            loginKompanija(res, results, token);
+                        } else {
+                            getUser(res, results, token);
+                        }
+                    } else if (results[0].aktiviran == 0) {
+                        const data = {
+                            status: 401
+                        }
+                        res.status(401);
+                        res.json(data);
+                        res.send();
                     }
-                } else if (results[0].aktiviran == 0) {
+                } else {
                     const data = {
-                        status: 401
+                        status: 412
                     }
-                    res.status(401);
-                    res.json(data);
+                    res.status(412);
+                    res.json(data)
                     res.send();
                 }
-            }
-            else if (kompanija) {
+            } else if (kompanija) {
                 const payload = [{
                     kompanijaID: -1,
                     username: 'error'
@@ -82,16 +89,35 @@ function execLogin(res, query, kompanija) {
                 res.json(payload);
                 res.send();
             } else {
-                const data = {
-                    status: 409
-                };
-                res.status(409);
-                res.json(data);
-                res.send();
+                await mysql.pool.getConnection(async (err, conn) => {
+                    const isOld = await conn.promise().execute(queryStrings.CHECK_EMAIL(req.email));
+
+
+                    const temp = JSON.stringify(isOld);
+                    const isOldParsed = JSON.parse(temp);
+                    console.log(isOldParsed[0][0]);
+
+                    if (isOldParsed[0][0].oldAcc == 1) {
+                        const data = {
+                            status: 412
+                        }
+                        res.status(412);
+                        res.json(data)
+                        res.send();
+                    } else {
+                        const data = {
+                            status: 409
+                        };
+                        res.status(409);
+                        res.json(data);
+                        res.send();
+                    }
+                });
             }
 
         } catch (err) {
             res.status(500);
+            console.log(err.message);
             res.send(err.message);
         }
     });
@@ -99,11 +125,11 @@ function execLogin(res, query, kompanija) {
 
 async function execRegister(res, user) {
     await mysql.pool.getConnection(async (err, conn) => {
-        await conn.execute(queryStrings.CHECK_USER({ email: user.email, password: user.password }), [], async (err, results, fields) => {
+        await conn.execute(queryStrings.CHECK_EMAIL(user.email), [], async (err, results, fields) => {
             const temp = JSON.stringify(results);
             const userExists = JSON.parse(temp);
 
-            console.log(userExists);
+            console.log(userExists.length);
             try {
                 if (userExists.length == 0) {
                     await conn.execute(queryStrings.REGISTER_USER_DRZAVA(user.prebivaliste.drzava));
@@ -136,10 +162,11 @@ async function execRegister(res, user) {
 
                     mysql.pool.releaseConnection(conn);
                     res.status(200);
+                    res.json({ status: 200 });
                     res.send();
                 } else {
                     res.status(409);
-                    res.json("Korisnik vec postoji");
+                    res.json({ status: 409 });
                     res.send();
                 }
             } catch (err) {
@@ -183,8 +210,9 @@ async function resetPassword(res, payload) {
         console.log(payload);
         const passwordToken = sha('sha256').update(payload.email).digest('hex');
 
-        const userID = await conn.execute(queryStrings.CHECK_EMAIL(payload.email));
-        if (userID.length == 0) {
+        const userID = await conn.promise().execute(queryStrings.CHECK_EMAIL(payload.email));
+        console.log(userID[0]);
+        if (userID[0].length != 0) {
             await conn.execute(queryStrings.PASSWORD_TOKEN(passwordToken, payload.email));
 
             var mailOptions = {
@@ -230,8 +258,18 @@ async function newPassword(res, payload) {
             temp = JSON.stringify(userID[0]);
             const userIDParsed = JSON.parse(temp);
 
+            const isOldAcc = await conn.promise().execute(queryStrings.GET_OLD_ACC_TOKEN(userIDParsed[0].userID));
+            temp = JSON.stringify(isOldAcc[0]);
+            const isOldAccParsed = JSON.parse(temp);
+
             await conn.promise().execute(queryStrings.CHANGE_PASSWORD(payload.password, userIDParsed[0].userID));
             await conn.promise().execute(queryStrings.DELETE_PASSWORD_TOKEN(payload.token));
+
+            console.log(isOldAccParsed[0]);
+
+            if (isOldAccParsed[0].oldAcc == 1) {
+                await conn.promise().execute(queryStrings.UPDATE_OLD_ACC_TOKEN(userIDParsed[0].userID));
+            }
 
             const data = {
                 status: 201

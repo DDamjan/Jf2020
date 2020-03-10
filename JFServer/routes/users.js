@@ -23,8 +23,8 @@ router.post('/newpassword', async (req, res) => {
 });
 
 router.post('/auth', async (req, res) => {
-  // console.log(req.body);
-  query.execLogin(res, queryString.CHECK_USER(req.body), false);
+  console.log(req.body);
+  query.execLogin(res, req.body, queryString.CHECK_USER(req.body), false);
 });
 
 router.post('/', async (req, res) => {

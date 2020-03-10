@@ -5,7 +5,7 @@ const REPO_PATH = __dirname.substring(0, __dirname.indexOf('\\constants')) + '\\
 
 /* USERS */
 function CHECK_USER(payload) {
-    return `SELECT userID, email, aktiviran 
+    return `SELECT userID, email, aktiviran, oldAcc
             FROM user 
             WHERE email = '${payload.email}' AND 
                   password = '${sha('sha256').update(payload.password).digest('hex')}'`;
@@ -55,7 +55,7 @@ function DELETE_REGISTER_TOKEN (token){
 }
 
 function CHECK_EMAIL (email){
-    return `SELECT userID FROM user 
+    return `SELECT * FROM user 
             WHERE email = '${email}'`;
 }
 
@@ -78,6 +78,18 @@ function CHANGE_PASSWORD (password, userID) {
     return `UPDATE user 
             SET password = '${sha('sha256').update(password).digest('hex')}' 
             WHERE userID = ${userID};`;
+}
+
+function GET_OLD_ACC_TOKEN (userID) {
+    return `SELECT oldAcc 
+            FROM user
+            WHERE userID = ${userID}`;
+}
+
+function UPDATE_OLD_ACC_TOKEN (userID) {
+    return `UPDATE user
+            SET oldAcc = 0
+            WHERE userID = ${userID}`;
 }
 
 const GET_USERS = `SELECT userID, ime, prezime FROM licniPodaci`;
@@ -458,5 +470,7 @@ module.exports = {
     REPO_PATH,
     ADD_PICTURE,
     ADD_CV,
-    CHECK_EMAIL
+    CHECK_EMAIL,
+    GET_OLD_ACC_TOKEN,
+    UPDATE_OLD_ACC_TOKEN
 }
