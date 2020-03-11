@@ -24,7 +24,9 @@ export function UserReducer(
     switch (action.type) {
         case GET_USER_SUCCESS: {
             // console.log(action.payload);
-            return UserAdapter.addMany(action.payload, state = UserInitialState);
+            UserAdapter.removeAll(state = UserInitialState);
+            return UserAdapter.addOne(action.payload, state = UserInitialState);
+            break;
         }
         default:
             return state;

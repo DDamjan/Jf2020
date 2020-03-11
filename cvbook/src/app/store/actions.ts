@@ -9,6 +9,8 @@ import {
     GET_USER_SUCCESS,
     GET_USERS,
     GET_USERS_SUCCESS,
+    GET_CHART,
+    GET_CHART_SUCCESS,
     TOKEN_EXPIRED
 } from '../../constants/reducers-constants';
 import { Company } from '../models/Company';
@@ -38,6 +40,8 @@ export class AuthCompanyFail implements Action {
     constructor(public payload: Company) { }
 }
 
+
+
 export class GetUser implements Action {
     readonly type = GET_USER;
     constructor(public payload: any) { }
@@ -57,6 +61,20 @@ export class GetUsersSuccess implements Action {
     readonly type = GET_USERS_SUCCESS;
     constructor(public payload: any) { }
 }
+
+// ------------------------------------------------------------------------------
+
+export class GetChart implements Action {
+    readonly type = GET_CHART;
+    constructor(public payload: any) { }
+}
+
+export class GetChartSuccess implements Action {
+    readonly type = GET_CHART_SUCCESS;
+    constructor(public payload: Chart) { }
+}
+
+// ------------------------------------------------------------------------------
 
 export class TokenExpired implements Action {
     readonly type = TOKEN_EXPIRED;

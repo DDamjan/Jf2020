@@ -5,10 +5,68 @@
   </mat-card-header>
   <!-- <img mat-card-image src="http://denicdamjan.ddns.net:8080/users/driver/picture" alt="Cab"> -->
   <mat-card-content>
-    <div *ngIf='isData' class='info-container'>
-      <span style="color:white">First name: {{data.ime}}</span>
-      <span style="color:white">Last name: {{data.prezime}}</span>
+    <div *ngIf='isPersonalData' class='info-container'>
       <span style="color:white">User Id: {{data.userID}}</span>
+      <span style="color:white">First name: {{data.licniPodaci.ime}}</span>
+      <span style="color:white">Last name: {{data.licniPodaci.prezime}}</span>
+      <span style="color:white">Date of birth: {{data.licniPodaci.datumRodjenja}}</span>
+      <span style="color:white">Parents name: {{data.licniPodaci.imeRoditelja }}</span>
+      <span style="color:white">Last name: {{data.licniPodaci.prezime}}</span>
+      <span style="text-indent: 15px; line-height: 3; color:white">Contact</span>
+      <span style="color:white">Telephone number: {{data.kontakt.telefon}}</span>
+      <span style="color:white">Email: {{data.email}}</span>
+      <span style="color:white">LinkedIn: {{data.kontakt.linkedIn}}</span>
+    </div>
+    
+    <div *ngIf='isPermanentResidence' class='info-container'>
+      <span style="color:white">Adress: {{data.prebivaliste.adresa}}</span>
+      <span style="color:white">City: {{data.prebivaliste.grad}}</span>
+      <span style="color:white">County: {{data.prebivaliste.drzava}}</span>
+    </div>
+
+    <div *ngIf='isResidence' class='info-container'>
+      <span style="color:white">Adress: {{data.prebivaliste.adresa}}</span>
+      <span style="color:white">City: {{data.prebivaliste.grad}}</span>
+      <span style="color:white">County: {{data.prebivaliste.drzava}}</span>
+    </div>
+
+    <div *ngIf='isHighSchoolEducation' class='info-container'>
+      <mat-accordion *ngFor="let skola of data.srednjeObrazovanje">
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title >
+              Name: {{skola.naziv}}<br>
+              Type: {{skola.tip}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          Course: {{skola.smer}}<br>
+          City: {{skola.grad}}<br>
+          County: {{skola.drzava}}<br>
+          Finishing Year: {{skola.drzava}}
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div *ngIf='isHigherEducation' class='info-container'>
+      <mat-accordion *ngFor="let faks of data.visokoObrazovanje">
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title >
+              Name: {{faks.fakultet}}<br>
+              Course: {{faks.smer}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          ESPB: {{faks.espb}}<br>
+          Number of Finished Subjects: {{faks.godineStudija}}<br>
+          Starting Year: {{faks.godinaUpisa}}<br>
+          Year: {{faks.godineStudija}}<br>
+          Grade average: {{faks.prosek}}<br>
+          Satus: {{faks.status}}<br>
+          University: {{faks.univerzitet}}<br>
+          City: {{faks.grad}}<br>
+          County: {{faks.drzava}}<br>
+        </mat-expansion-panel>
+      </mat-accordion>
     </div>
   </mat-card-content>
   <!--

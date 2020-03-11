@@ -12,18 +12,32 @@ import { selectAllUser } from 'app/store/reducers/user.reducer';
 })
 export class UserDetailsComponent implements OnInit {
   public data: any;
+  public isReady: boolean;
   constructor(
     private store: Store<any>,
     private router: Router,
     private route: ActivatedRoute
-    ) { this.data = {ime: 'jnfdioas', prezime: 'fhasoiujf', userID: 543}; }
+    ) {}
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     console.log(id);
-    // this.store.dispatch(new actions.GetUser(id));
-    // this.store.select(selectAllUser).subscribe(user => {
-    //   this.data = user;
-    // });
+    this.store.select(selectAllUser).subscribe(user => {
+      if (user.length === 0 || user[0].userID !== Number(id)) {
+        console.log('koj ID');
+        console.log(id);
+        console.log(user);
+        this.store.dispatch(new actions.GetUser(id));
+        this.isReady = false;
+      } else {
+        console.log('selectAllUser');
+        console.log(user[0]);
+        this.data = user[0];
+        this.isReady = true;
+      }
+    });
+  }
+  update() {
+    this.ngOnInit();
   }
 }
