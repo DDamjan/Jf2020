@@ -45,14 +45,13 @@ async function execLogin(res, req, query, kompanija) {
     await mysql.pool.getConnection(async (err, conn) => {
         try {
             const loginInfo = await conn.promise().execute(query);
-            console.log(loginInfo[0]);
-            if (loginInfo[0] != undefined) {
-                const temp = JSON.stringify(loginInfo);
-                const loginInfoParsed = JSON.parse(temp);
+            const temp = JSON.stringify(loginInfo[0]);
+            const loginInfoParsed = JSON.parse(temp);
 
+            if (loginInfoParsed[0] != undefined) {
                 if (!kompanija) {
-                    if (results[0].oldAcc == 0) {
-                        if (results[0].aktiviran != 0) {
+                    if (loginInfoParsed[0].oldAcc == 0) {
+                        if (loginInfoParsed[0].aktiviran != 0) {
                             const tokenKey = {
                                 username: loginInfoParsed[0].email
                             }
@@ -85,20 +84,34 @@ async function execLogin(res, req, query, kompanija) {
                 if (!kompanija) {
                     const isOld = await conn.promise().execute(queryStrings.CHECK_EMAIL(req.email));
 
-
-                    const temp = JSON.stringify(isOld);
+                    const temp = JSON.stringify(isOld[0]);
                     const isOldParsed = JSON.parse(temp);
-                    console.log(isOldParsed[0][0]);
 
-                    if (isOldParsed[0][0].oldAcc == 1) {
-                        const data = {
-                            status: 412
+                    if (isOldParsed[0] != undefined) {
+                        if (isOldParsed[0].oldAcc == 1) {
+                            const data = {
+                                status: 412
+                            }
+                            res.status(412);
+                            res.json(data)
+                            res.send();
+                        } else {
+                            const data = {
+                                status: 409
+                            };
+                            res.status(409);
+                            res.json(data);
+                            res.send();
                         }
-                        res.status(412);
-                        res.json(data)
+                    } else {
+                        const data = {
+                            status: 409
+                        };
+                        res.status(409);
+                        res.json(data);
                         res.send();
                     }
-                }else{
+                } else {
                     const data = {
                         status: 409
                     };
