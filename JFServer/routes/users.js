@@ -28,9 +28,12 @@ router.post('/auth', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  //res.send('Hi there');
   query.exec(req, res, queryString.GET_USERS, query.get);
 });
+
+router.post('/getbyid', async (req, res) => {
+    query.exec(req, res, '', query.getUser(res, req.body, undefined))
+})
 
 router.post('/refresh', async (req, res) => {
   query.exec(req, res, '', query.getUser(res, req.body, undefined));
