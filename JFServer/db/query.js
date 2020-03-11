@@ -41,55 +41,48 @@ function exec(req, res, query, fun) {
     }
 }
 
-function execLogin(res, req, query, kompanija) {
-    mysql.pool.query(query, async (err, results) => {
+async function execLogin(res, req, query, kompanija) {
+    await mysql.pool.getConnection(async (err, conn) => {
         try {
-            if (results.length != 0) {
-                if (results[0].oldAcc == 0) {
-                    if (results[0].aktiviran != 0) {
-                        let tokenKey;
-                        if (kompanija) {
-                            tokenKey = {
-                                username: results[0].username
-                            };
-                        } else {
-                            tokenKey = {
-                                username: results[0].email
+            const loginInfo = await conn.promise().execute(query);
+            console.log(loginInfo[0]);
+            if (loginInfo[0] != undefined) {
+                const temp = JSON.stringify(loginInfo);
+                const loginInfoParsed = JSON.parse(temp);
+
+                if (!kompanija) {
+                    if (results[0].oldAcc == 0) {
+                        if (results[0].aktiviran != 0) {
+                            const tokenKey = {
+                                username: loginInfoParsed[0].email
                             }
-                        }
-
-                        let token = jwt.sign(tokenKey, config.secret, { expiresIn: '8h' });
-
-                        if (kompanija) {
-                            loginKompanija(res, results, token);
+                            let token = jwt.sign(tokenKey, config.secret, { expiresIn: '8h' });
+                            getUser(res, loginInfoParsed, token);
                         } else {
-                            getUser(res, results, token);
+                            const data = {
+                                status: 401
+                            }
+                            res.status(401);
+                            res.json(data);
+                            res.send();
                         }
-                    } else if (results[0].aktiviran == 0) {
+                    } else {
                         const data = {
-                            status: 401
+                            status: 412
                         }
-                        res.status(401);
-                        res.json(data);
+                        res.status(412);
+                        res.json(data)
                         res.send();
                     }
                 } else {
-                    const data = {
-                        status: 412
+                    const tokenKey = {
+                        username: loginInfoParsed[0].username
                     }
-                    res.status(412);
-                    res.json(data)
-                    res.send();
+                    let token = jwt.sign(tokenKey, config.secret, { expiresIn: '8h' });
+                    loginKompanija(res, loginInfoParsed, token);
                 }
-            } else if (kompanija) {
-                const payload = [{
-                    kompanijaID: -1,
-                    username: 'error'
-                }];
-                res.json(payload);
-                res.send();
             } else {
-                await mysql.pool.getConnection(async (err, conn) => {
+                if (!kompanija) {
                     const isOld = await conn.promise().execute(queryStrings.CHECK_EMAIL(req.email));
 
 
@@ -104,23 +97,23 @@ function execLogin(res, req, query, kompanija) {
                         res.status(412);
                         res.json(data)
                         res.send();
-                    } else {
-                        const data = {
-                            status: 409
-                        };
-                        res.status(409);
-                        res.json(data);
-                        res.send();
                     }
-                });
+                }else{
+                    const data = {
+                        status: 409
+                    };
+                    res.status(409);
+                    res.json(data);
+                    res.send();
+                }
             }
-
         } catch (err) {
             res.status(500);
             console.log(err.message);
             res.send(err.message);
         }
     });
+
 }
 
 async function execRegister(res, user) {

@@ -13,7 +13,7 @@ router.post('/auth', async (req, res) => {
       password
   };
 
-  query.execLogin(res, queryString.LOGIN_KOMPANIJA(payload), true);
+  query.execLogin(res, req.body, queryString.LOGIN_KOMPANIJA(payload), true);
 });
 
 router.get('/', async (req, res) => {
