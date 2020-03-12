@@ -32,13 +32,9 @@
   }
 
   mat-card{
-<<<<<<< HEAD
-    background-color: rgb(63, 81, 181);
-=======
     background-color: #0172BC;
   }
 
   img{
     src: '../../../../repo/Cab.png';
->>>>>>> 1c27b9b0c53893e955113cf4777c63fe99795aa5
   }
