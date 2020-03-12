@@ -49,6 +49,8 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
 import { PieChartComponent } from './components/charts/piechart/piechart.component';
 import { BasicColumnChartComponent } from './components/charts/basiccolumnchart/basiccolumnchart.component';
 import { ChartsModule } from 'ng2-charts';
+import { ChartEffects } from './store/effects/charts.effects';
+import { ChartService } from './service/chart.service';
 
 @NgModule({
   declarations: [
@@ -88,7 +90,7 @@ import { ChartsModule } from 'ng2-charts';
     StoreDevtoolsModule.instrument({}),
     RouterModule,
     EffectsModule.forRoot([]),
-    EffectsModule.forFeature([UserEffects, CompanyEffects]),
+    EffectsModule.forFeature([UserEffects, CompanyEffects, ChartEffects]),
     HttpClientModule,
     MatSnackBarModule,
     MatTableModule,
@@ -98,7 +100,7 @@ import { ChartsModule } from 'ng2-charts';
     MatAutocompleteModule,
     ChartsModule
   ],
-  providers: [UserService, CompanyService, CookieService, HttpService],
+  providers: [UserService, CompanyService, CookieService, HttpService, ChartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

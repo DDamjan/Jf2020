@@ -6,6 +6,8 @@ import { selectAllUser } from '../../store/reducers/user.reducer';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 
 import { Label } from 'ng2-charts';
+import { selectAllCharts } from 'app/store/reducers/charts.reducer';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -13,35 +15,37 @@ import { Label } from 'ng2-charts';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  public dataPointsYearOfStudy: any;
+  public BESTimage: any;
+  public JF20image: any;
   public pieChartLabels: any;
+  public pieChartData: any;
   public barChartLabels: Label[];
   public barChartData: ChartDataSets[];
+  public totalUsersData: any;
+  public isReady: boolean;
   constructor(private store: Store<any>, private router: Router) { }
 
   ngOnInit() {
-    this.dataPointsYearOfStudy = [29, 17];
-    this.pieChartLabels = [['Zavrseno'], ['Ostalo']];
-    // this.barChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-    // this.barChartData = [
-    //   { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-    //   { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
-    // ];
+    this.isReady = false;
+    // const __dirname = path.resolve();
+    // this.BESTimage = __dirname.substring(0, __dirname.indexOf('/src')) + '/repo/BESTnis.png';
+    // this.JF20image = __dirname.substring(0, __dirname.indexOf('/src')) + '/repo/JobFair20.png';
+    // this.BESTimage = '../../../../repo/BESTnis.png';
+    // this.JF20image = '../../../../repo/JobFair20.png';
 
-    this.barChartLabels = ['2006', '2007', '2008', '2009', '2010', '2009', '2010', '2007', '2008', '2009'];
-    this.barChartData = [
-      { data: [65, 59, 80, 81, 56, 59, 80, 65, 59, 80], label: 'Ukupno' },
-      { data: [28, 48, 40, 19, 86, 40, 19, 65, 59, 80], label: 'Svezih' }
-    ];
-
-    // this.store.dispatch(new actions.GetUsers({}));
-    // this.store.select(selectAllUsers).subscribe(data => {
-    //   console.log('dataPointsYearOfStudy');
-    //   console.log(data);
-    //   // if (users.length !== 0) {
-    //   //   this.userList = users;
-    //   // }
-    // });
+    this.store.select(selectAllCharts).subscribe(data => {
+      if (data.length === 0 ) {
+        this.store.dispatch(new actions.GetChart({}));
+        this.isReady = false;
+      } else {
+        this.pieChartLabels = data[0].labels;
+        this.pieChartData = data[0].data;
+        this.barChartLabels = data[1].labels;
+        this.barChartData = data[1].data;
+        this.totalUsersData = data[2].data;
+        this.isReady = true;
+      }
+    });
   }
 
   toCVOverview() {
