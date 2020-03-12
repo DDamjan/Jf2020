@@ -19,14 +19,18 @@
 .rightColumnG1 {
     margin: 20px;
     flex-grow: 1;
+
 }
 
 .containerColumn {
     display: flex;
     flex-direction: column;
+    direction: rtl;
 }
 
 .leftRowG1 {
     margin: 10px;
-    flex-grow: 1;
+    margin-right: 30px;
+    flex-grow: 0.2;
+    width: 40%;
 }

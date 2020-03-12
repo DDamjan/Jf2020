@@ -23,22 +23,27 @@
     margin: 10px;
   }
 
+  .pesonalDetails {
+    display: flex;
+    flex-direction: row;
+  }
+
   .info-container{
     display: flex;
     flex-direction: column;
     padding: 0cm 0cm 0cm 0.6cm;
-    
-    
+    flex-grow: 1;
+  }
+
+  .defaultProfileImg {
+    margin-right: 20px;
+    flex: 1;
   }
 
   mat-card{
-<<<<<<< HEAD
-    background-color: rgb(63, 81, 181);
-=======
     background-color: #0172BC;
   }
 
   img{
     src: '../../../../repo/Cab.png';
->>>>>>> 1c27b9b0c53893e955113cf4777c63fe99795aa5
   }
