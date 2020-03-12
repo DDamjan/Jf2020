@@ -11,7 +11,7 @@ import { CookieService } from './cookie.service';
 @Injectable()
 export class UserService {
 
-    // private serverURL = conn.LOCAL_SERVER + 'users/';
+    // private serverURL = conn.PUBLIC_SERVER_DAMJAN + 'users/';
     private serverURL = conn.LOCAL_SERVER + 'users/';
 
     constructor(
@@ -19,16 +19,16 @@ export class UserService {
         private httpService: HttpService) {}
 
     /* GET user by id. */
-    getUser(payload: any): Observable<any> {
-        const url = `${this.serverURL}?id=${payload.id}&auth=${payload.auth}`;
-        return this.http.get<any>(url).pipe(
-            catchError(this.handleError<any>(`getUser id=${payload.id}`))
+    getUser(id: any): Observable<any> {
+        console.log('getUserSERVICE');
+        console.log(id);
+        const url = `${this.serverURL}getbyid`;
+        return this.http.post<any>(url, { 'userID': id }, this.httpService.httpOptions()).pipe(
+            catchError(this.handleError<any>(`getUser id=${id}`))
         );
     }
 
     getUsers(): Observable<any> {
-        console.log('this.httpOptions');
-        console.log(this.httpService.httpOptions());
         const url = `${this.serverURL}`;
         return this.http.post<any>(url, {}, this.httpService.httpOptions()).pipe(
             catchError(this.handleError<any>('getUsers'))

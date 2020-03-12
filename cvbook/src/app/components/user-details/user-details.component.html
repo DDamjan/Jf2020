@@ -1,5 +1,20 @@
-<app-user-card [title]="'PersonalDATa'" [type]="'data'" [data]="data">
-</app-user-card>
+<div *ngIf="isReady" class="cards">
+    <app-user-card [title]="'Personal Data'" [type]="'personalData'" [data]="data" >
+    </app-user-card>
 
-<app-user-card [title]="'PersonalDATa'" [type]="'data'" [data]="data">
-</app-user-card>
+    <div class = "flexRow">
+        <app-user-card [title]="'PermanentResidence'" [type]="'permanentResidence'" [data]="data" class ="subject">
+        </app-user-card>
+
+        <app-user-card [title]="'Residence'" [type]="'residence'" [data]="data" class ="subject">
+        </app-user-card>
+    </div>
+
+    <div class = "flexRow">
+        <app-user-card [title]="'HighSchoolEducation'" [type]="'highSchoolEducation'" [data]="data" class ="subject">
+        </app-user-card>
+
+        <app-user-card [title]="'HigherEducation'" [type]="'higherEducation'" [data]="data" class ="subject">
+        </app-user-card>
+    </div>
+</div>

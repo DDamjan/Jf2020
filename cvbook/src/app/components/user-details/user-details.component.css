@@ -1,0 +1,13 @@
+.cards {
+    align-items:  center;
+    justify-content:  center;
+}
+
+.flexRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.subject {
+    flex-grow: 1;
+}

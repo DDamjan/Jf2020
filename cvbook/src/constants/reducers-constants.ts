@@ -34,6 +34,8 @@ export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
 export const GET_USERS = 'GET_USERS';
 export const GET_USERS_SUCCESS = 'GET_USERS_SUCCESS';
 
+export const GET_CHART = 'GET_CHART';
+export const GET_CHART_SUCCESS = 'GET_CHART_SUCCESS';
 
 export const TOKEN_EXPIRED = 'TOKEN_EXPIRED';
 

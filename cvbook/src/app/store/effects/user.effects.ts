@@ -21,15 +21,15 @@ export class UserEffects {
   @Effect()
   getUser$ = this.update$.pipe(
     ofAction(actions.GetUser),
-    switchMap(user => this.userService.getUser(user.payload)),
+    switchMap(user =>  this.userService.getUser(user.payload)),
     map(response => {
-      // console.log('actions.GetUser');
-      // console.log(response[0]);
-      if (response[0].success !== undefined && response[0].success === false) {
+      console.log('actions.GetUser');
+      console.log(response);
+      if (response.success !== undefined && response.success === false) {
         this.badToken();
         return new actions.TokenExpired();
       } else {
-        return new actions.GetUserSuccess(response[0]);
+        return new actions.GetUserSuccess(response);
       }
     })
   );

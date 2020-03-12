@@ -11,14 +11,20 @@ export class UserCardComponent implements OnInit {
   @Input() public type: any;
   @Input() public title: any;
   @Input() public data: any;
-  public isData: boolean;
+  public isPersonalData: boolean;
+  public isResidence: boolean;
+  public isPermanentResidence: boolean;
+  public isHighSchoolEducation: boolean;
+  public isHigherEducation: boolean;
 
   constructor(private store: Store<any>, private router: Router) { }
 
   ngOnInit() {
-    console.log(this.data);
-    // console.log(this.type);
-    this.isData = this.type === 'data';
+    this.isPersonalData = this.type === 'personalData';
+    this.isResidence = this.type === 'residence';
+    this.isPermanentResidence  = this.type === 'permanentResidence';
+    this.isHighSchoolEducation = this.type === 'highSchoolEducation';
+    this.isHigherEducation = this.type === 'higherEducation';
   }
 
   onclick() {
