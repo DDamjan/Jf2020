@@ -1,11 +1,15 @@
-  <div class="container">
-    <div class="fixed">
-      <app-filter></app-filter>
-    </div>
+<div class="container">
+  <div class="fixed">
+    <app-filter></app-filter>
+  </div>
+  <div class="expand-container">
     <div class="flex-item">
-      <mat-accordion *ngFor="let user of userList">
-        <app-user-expansion [user]="user" >
+      <mat-accordion *ngFor="let user of displayedRows$ | async">
+        <app-user-expansion [user]="user">
         </app-user-expansion>
       </mat-accordion>
     </div>
+    <mat-paginator #paginator [length]="totalRows$ | async" [pageIndex]="0" [pageSize]="20" [pageSizeOptions]="[5, 10, 15, 20, 25, 100]">
+    </mat-paginator>
   </div>
+</div>

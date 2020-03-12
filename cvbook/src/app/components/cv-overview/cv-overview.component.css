@@ -1,6 +1,6 @@
 .container{
     display: flex;
-    height: 100%;
+    /* height: 108vh; */
 }
 .fixed{
     flex: 1;
@@ -9,7 +9,7 @@
     justify-content: center;
     border-right: 1px solid black;
 }
-.flex-item{
+.expand-container{
     flex: 7;
     background-color:#F2F3F5;
 }
