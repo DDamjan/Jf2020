@@ -1,15 +1,38 @@
 .example-card {
-    background-color: rgb(63, 81, 181);
+    background-color:#01436E;
+    margin: 10px;
+  }
+
+  .example-card1 {
+    background-color:#01578F;
+    margin: 10px;
+  }
+
+  .example-card2 {
+    background-color:#0172BC;
+    margin: 10px;
+  }
+
+  .example-card3 {
+    background-color:#0596F4;
+    margin: 10px;
+  }
+
+  .example-card4 {
+    background-color:#1E9BED;
     margin: 10px;
   }
 
   .info-container{
     display: flex;
     flex-direction: column;
+    padding: 0cm 0cm 0cm 0.6cm;
+    
+    
   }
 
   mat-card{
-    background-color: rgb(63, 81, 181);
+    background-color: #0172BC;
   }
 
   img{
