@@ -159,7 +159,7 @@ function UPDATE_OLD_ACC_TOKEN (userID) {
             WHERE userID = ${userID}`;
 }
 
-const GET_USERS = `SELECT userID, ime, prezime FROM licniPodaci`;
+const GET_USERS = `SELECT userID, ime, prezime, cv FROM licniPodaci`;
 const GET_USER_BY_ID = `SELECT userID, email FROM user WHERE userID = `;
 function GET_USER(email) {
     return `SELECT userID, email 
@@ -878,6 +878,8 @@ function STATS_TOTAL_USERS () {
     return `SELECT count(u.email) as broj
             FROM user as u`;
 }
+
+// function FILTER_
 
 
 module.exports = {
