@@ -15,4 +15,5 @@ export interface User {
     iskustvo?: Iskustvo[];
     ime?: string;
     prezime?: string;
+    cv?: string;
 }

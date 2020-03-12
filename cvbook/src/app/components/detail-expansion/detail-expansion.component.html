@@ -1,29 +1,9 @@
 <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
   <mat-expansion-panel-header>
     <mat-panel-title >
-      First & last name: {{user.ime}} {{user.prezime}}
+      First & Last name: {{user.ime}} {{user.prezime}}
     </mat-panel-title>
-    <!--
-    <mat-panel-title >
-      Faculty: {{user.visokoObrazovanje}}
-    </mat-panel-title>
-    <mat-panel-description >
-      City: {{user.prebivaliste.grad}}
-    </mat-panel-description>
-    <mat-panel-description >
-      CV: {{user.licniPodaci.cv == undefined ? 'Not uploaded' : user.licniPodaci.cv}}
-    </mat-panel-description>
-    -->
   </mat-expansion-panel-header>
-  <!--
-  <p *ngIf='isDriver'>Location: {{driver.currentLocation}}</p>
-  -->
-
   <button mat-raised-button (click)="onOpen()" >Open</button>
-  <button mat-raised-button (click)="onDownloadCV()" >Download CV</button>
-    <!--
-  <p *ngIf='!isDriver'>Pickup location: {{isFavourite ? client.currentLocation : ride.pickupLocation}}</p>
-  <p *ngIf='!isDriver'>Distance: {{isFavourite ? distance : ride.distance}}</p>
-  <button mat-raised-button (click)="onRequest()" *ngIf='requestable'>Request again</button>
-  -->
+  <button mat-raised-button (click)="onDownloadCV()" [disabled]="downloadDisabled">Download CV</button>
 </mat-expansion-panel>

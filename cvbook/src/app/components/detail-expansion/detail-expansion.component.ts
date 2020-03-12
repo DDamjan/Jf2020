@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { User } from '../../models/User';
@@ -10,64 +10,30 @@ import { User } from '../../models/User';
   styleUrls: ['./detail-expansion.component.css']
 })
 
-export class DetailExpansionComponent implements OnInit, AfterViewInit {
+export class DetailExpansionComponent implements OnInit {
 
   panelOpenState = false;
   @Input() public user: User;
+  downloadDisabled: boolean;
 
   constructor(private router: Router) { }
 
   ngOnInit() {
     console.log('this.user');
     console.log(this.user);
-  }
 
-  ngAfterViewInit() {
-    // if (this.isDriver === false && this.isFavourite === true) {
-    //   const pickupCoords = {
-    //     lat: this.client.currentLat,
-    //     lng: this.client.currentLng,
-    //     mode: 'location'
-    //   };
-    //   const destinationCoords = {
-    //     lat: this.ride.destinationLat,
-    //     lng: this.ride.destinationLng
-    //   };
-    // }
-  }
-
-  receiveRouteParams($event) {
-    // this.distance = $event.distance;
-  }
-
-  onMap() {
-    // console.log(this.driver);
-    // const msg = {
-    //   driverID: this.driver.driverID,
-    //   currentLat: this.driver.currentLat,
-    //   currentLng: this.driver.currentLng,
-    //   currentLocation: this.driver.currentLocation
-    // };
-    // this.mapParams.emit(msg);
-  }
-
-  onAssign() {
-    this.router.navigate(['/']);
-  }
-
-  onRequest() {
-    // const msg = {
-    //   pickupLocation: this.ride.pickupLocation,
-    //   destinationLocation: this.ride.destinationLocation
-    // };
-    // this.mapParams.emit(msg);
+    if (this.user.cv !== '') {
+      this.downloadDisabled = false;
+    } else {
+      this.downloadDisabled = true;
+    }
   }
 
   onOpen() {
-    // this.router.navigate(['userdetails']);
     this.router.navigateByUrl(`userdetails/${this.user.userID}`);
   }
 
   onDownloadCV() {
+      window.location.href = this.user.cv;
   }
 }

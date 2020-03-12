@@ -1,12 +1,32 @@
-.container {
+.dashboard {
+    background-color: gainsboro;
+}
+
+.infoDesk {
+    margin: 20px;
+}
+
+.containerRow {
     display: flex;
     flex-direction: row;
 }
 
-.basiccolumnchart {
+.leftColumnG2 {
+    margin: 20px;
     flex-grow: 2;
 }
 
-.piechart {
+.rightColumnG1 {
+    margin: 20px;
+    flex-grow: 1;
+}
+
+.containerColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.leftRowG1 {
+    margin: 10px;
     flex-grow: 1;
 }
