@@ -759,7 +759,7 @@ async function upload(req, res, repo, mode) {
                 mysql.pool.releaseConnection(conn);
             });
         });
-    } catch (err){
+    } catch (err) {
         res.json(err.message);
         res.send();
     }
@@ -787,21 +787,23 @@ async function getStats(res) {
         const nisuPostaviliCVParsed = JSON.parse(temp);
 
         const top10 = await conn.promise().execute(queryStrings.STATS_TOP_10());
-        
+
         temp = JSON.stringify(top10[0]);
         const top10Parsed = JSON.parse(temp);
 
         const totalUsers = await conn.promise().execute(queryStrings.STATS_TOTAL_USERS());
-        
+
         temp = JSON.stringify(totalUsers[0]);
         const totalUsersParsed = JSON.parse(temp);
 
 
         const payload = {
-            cv: {postavili: postaviliCVParsed[0].broj,
-                 nisuPostavili: nisuPostaviliCVParsed[0].broj},
+            cv: {
+                postavili: postaviliCVParsed[0].broj,
+                nisuPostavili: nisuPostaviliCVParsed[0].broj
+            },
             top10: top10Parsed,
-            totalUsers: {broj: totalUsersParsed[0].broj}
+            totalUsers: { broj: totalUsersParsed[0].broj }
         };
 
         res.json(payload);
@@ -809,6 +811,139 @@ async function getStats(res) {
 
         mysql.pool.releaseConnection(conn);
     });
+}
+
+async function filter(req, res) {
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const yos = req.body.yos;
+    const grade = req.body.grade;
+    const faculty = req.body.faculty;
+    const permanentResidenceCity = req.body.permanentResidenceCity;
+    const residenceCity = req.body.residenceCity;
+    const permanentResidenceCountry = req.body.permanentResidenceCountry;
+    const residenceCountry = req.body.residenceCountry;
+    const cv = req.body.cv;
+
+    const queryString = queryStrings.GET_USERS;
+
+
+    if (yos != '' || grade != '' || faculty != '') {
+        queryString.concat(queryStrings.JOIN_STUDIES());
+    }
+
+    if (faculty != '') {
+        queryString.concat(queryStrings.JOIN_FACULTY());
+    }
+
+    if (permanentResidenceCity != '') {
+        queryString.concat(queryStrings.JOIN_PERMANENT_RESIDENCE_CITY())
+    }
+
+    if (residenceCity != '') {
+        queryStrings.concat(queryString.JOIN_RESIDENCE_CITY());
+    }
+
+    if (permanentResidenceCountry != '') {
+        queryStrings.concat(queryStrings.JOIN_PERMANENT_RESIDENCE_COUNTRY());
+    }
+
+    if (residenceCountry != '') {
+        queryStrings.concat(queryStrings.JOIN_RESIDENCE_COUNTRY());
+    }
+
+    if (lastName != '' || yos != '' || grade != '' || faculty != '' || permanentResidenceCity != '' || residenceCity != ''
+        || permanentResidenceCountry != '' || residenceCountry != '' || cv != '') {
+
+        queryString.concat("WHERE");
+    }
+
+    if (firstName != '') {
+        queryString.concat(queryStrings.FILTER_BY_NAME(firstName));
+
+        if (lastName != '' || yos != '' || grade != '' || faculty != '' || permanentResidenceCity != '' || residenceCity != ''
+            || permanentResidenceCountry != '' || residenceCountry != '' || cv != '') {
+
+            queryString.concat('AND');
+        }
+    }
+
+    if (lastName != '') {
+        queryString.concat(queryStrings.FILTER_BY_LAST_NAME(lastName));
+
+        if (yos != '' || grade != '' || faculty != '' || permanentResidenceCity != '' || residenceCity != ''
+            || permanentResidenceCountry != '' || residenceCountry != '' || cv != '') {
+
+            queryString.concat('AND');
+        }
+    }
+
+    if (yos != '') {
+        queryString.concat(queryStrings.FILTER_BY_YOS(yos));
+
+        if (grade != '' || faculty != '' || permanentResidenceCity != '' || residenceCity != '' || permanentResidenceCountry != ''
+            || residenceCountry != '' || cv != '') {
+
+            queryString.concat('AND');
+        }
+    }
+
+    if (grade != '') {
+        queryString.concat(queryStrings.FILTER_BY_GRADE_AVERAGE(grade));
+
+        if (faculty != '' || permanentResidenceCity != '' || residenceCity != '' || permanentResidenceCountry != ''
+            || residenceCountry != '' || cv != '') {
+
+            queryString.concat('AND');
+        }
+    }
+
+    if (faculty != '') {
+        queryString.concat(queryStrings.FILTER_BY_FACULTY(faculty));
+
+        if (permanentResidenceCity != '' || residenceCity != '' || permanentResidenceCountry != ''
+            || residenceCountry != '' || cv != '') {
+
+            queryString.concat('AND');
+        }
+    }
+
+    if (permanentResidenceCity != '') {
+        queryString.concat(queryStrings.FILTER_BY_PERMANENT_RESIDENCE_CITY(permanentResidenceCity));
+
+        if (residenceCity != '' || permanentResidenceCountry != '' || residenceCountry != '' || cv != '') {
+            queryString.concat('AND');
+        }
+    }
+
+    if (residenceCity != '') {
+        queryString.concat(queryStrings.FILTER_BY_RESIDENCE_CITY(residenceCity));
+
+        if (permanentResidenceCountry != '' || permanentResidenceCountry != '' || residenceCountry != '' || cv != '') {
+            queryString.concat('AND');
+        }
+    }
+
+    if (permanentResidenceCountry != '') {
+        queryString.concat(queryStrings.FILTER_BY_PERMANENT_RESIDENCE_COUNTRY(permanentResidenceCountry));
+
+        if (residenceCountry != '' || cv != '') {
+            queryString.concat('AND');
+        }
+    }
+
+    if (residenceCountry != '') {
+        queryString.concat(queryStrings.FILTER_BY_RESIDENCE_COUNTRY(residenceCountry));
+
+        if (cv != '') {
+            queryString.concat('AND');
+        }
+    }
+
+    if (cv != '') {
+        queryString.concat(queryStrings.FILTER_BY_RESIDENCE_COUNTRY(residenceCountry));
+    }
+
 }
 
 

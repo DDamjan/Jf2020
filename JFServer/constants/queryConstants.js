@@ -894,7 +894,7 @@ function FILTER_BY_LAST_NAME (lastName) {
 
 function JOIN_STUDIES () {
     return `INNER JOIN studira as stud
-                ON stud = userID = licni.userID`;
+                ON stud.userID = licni.userID`;
 }
 
 // YOS == Year Of Studies
@@ -916,13 +916,44 @@ function FILTER_BY_FACULTY (faculty) {
 }
 
 function JOIN_PERMANENT_RESIDENCE_CITY () {
-    return `INNER JOIN grad as g
-                ON g.gradID = licni.prebivalisteGrad`;
+    return `INNER JOIN grad as gP
+                ON gP.gradID = licni.prebivalisteGradID`;
 }
 
-// function 
+function  JOIN_RESIDENCE_CITY () {
+    return `INNER JOIN grad as gB
+                ON gB.gradID = licni.boravisteGradID`;
+}
 
+function FILTER_BY_PERMANENT_RESIDENCE_CITY (city) {
+    return `gP.naziv = '${city}'`;
+}
 
+function FILTER_BY_RESIDENCE_CITY (city) {
+    return `gB.naziv = '${city}'`;
+}
+
+function JOIN_PERMANENT_RESIDENCE_COUNTRY () {
+    return `INNER JOIN drzava as dP
+                ON dP.drzavaID = licni.prebivalisteDrzavaID`;
+}
+
+function JOIN_RESIDENCE_COUNTRY () {
+    return `INNER JOIN drzava as dB
+                ON dB.drzavaID = licni.boravisteDrzavaID`;
+}
+
+function FILTER_BY_PERMANENT_RESIDENCE_COUNTRY (country) {
+    return `dP.naziv = '${country}'`;
+}
+
+function FILTER_BY_RESIDENCE_COUNTRY (country) {
+    return `dB.naziv = '${country}'`;
+}
+
+function FILTER_BY_CV () {
+    return `cv <> ''`;
+}
 
 
 module.exports = {
@@ -1006,5 +1037,21 @@ module.exports = {
     DELETE_OSTALE_VESTINE,
     STATS_TOP_10,
     STATS_HAS_CV,
-    STATS_TOTAL_USERS
+    STATS_TOTAL_USERS,
+    FILTER_BY_NAME,
+    FILTER_BY_LAST_NAME,
+    JOIN_STUDIES,
+    FILTER_BY_YOS,
+    FILTER_BY_GRADE_AVERAGE,
+    JOIN_FACULTY,
+    FILTER_BY_FACULTY,
+    JOIN_PERMANENT_RESIDENCE_CITY,
+    JOIN_RESIDENCE_CITY,
+    FILTER_BY_PERMANENT_RESIDENCE_CITY,
+    FILTER_BY_RESIDENCE_CITY,
+    JOIN_PERMANENT_RESIDENCE_COUNTRY,
+    JOIN_RESIDENCE_COUNTRY,
+    FILTER_BY_PERMANENT_RESIDENCE_COUNTRY,
+    FILTER_BY_RESIDENCE_COUNTRY,
+    FILTER_BY_CV
 }

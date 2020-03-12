@@ -26,8 +26,9 @@
       <input matInput placeholder="Grade average" required>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Graduated" required>
+      <input matInput placeholder="Faculty" required>
     </mat-form-field>
+    <p>Permanent residence</p>
     <mat-form-field appearance="legacy">
       <mat-label>City</mat-label>
       <mat-select>
@@ -38,6 +39,23 @@
     </mat-form-field>
     <mat-form-field appearance="legacy">
       <mat-label>Country</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let country of counties" [value]="country.value">
+          {{country.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <p>Temporary residence</p>
+    <mat-form-field appearance="legacy">
+      <mat-label>Residence city</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let city of cities" [value]="city.value">
+          {{city.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="legacy">
+      <mat-label>Residence country</mat-label>
       <mat-select>
         <mat-option *ngFor="let country of counties" [value]="country.value">
           {{country.viewValue}}
