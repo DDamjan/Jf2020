@@ -730,34 +730,40 @@ async function getUser(res, results, token) {
 }
 
 async function upload(req, res, repo, mode) {
-    var form = new formidable.IncomingForm();
-    form.parse(req, async function (err, fields, files) {
-        var oldpath = files.fileUpload.path;
-        var newpath = queryStrings.REPO_PATH + repo + req.query.userid + '_-' + files.fileUpload.name;
-        mv(oldpath, newpath, function (err) {
-            if (err) throw err;
-        });
-        await mysql.pool.getConnection(async (err, conn) => {
-            if (mode == 'picture') {
-                await conn.promise().execute(queryStrings.ADD_PICTURE('http://denicdamjan.ddns.net:8080/users/returnpicture/?file=' + req.query.userid + '_-' + files.fileUpload.name, req.query.userid));
-                const data = {
-                    profilnaSlika: 'http://denicdamjan.ddns.net:8080/users/returnpicture/?file=' + req.query.userid + '_-' + files.fileUpload.name
+    try {
+        var form = new formidable.IncomingForm();
+        form.parse(req, async function (err, fields, files) {
+            var oldpath = files.fileUpload.path;
+            var newpath = queryStrings.REPO_PATH + repo + req.query.userid + '_-' + files.fileUpload.name.replace(/ /g, "_");
+            mv(oldpath, newpath, function (err) {
+                if (err) throw err;
+            });
+            await mysql.pool.getConnection(async (err, conn) => {
+                if (mode == 'picture') {
+                    await conn.promise().execute(queryStrings.ADD_PICTURE('http://server.jobfairnis.rs/users/returnpicture/?file=' + req.query.userid + '_-' + files.fileUpload.name.replace(/ /g, "_"), req.query.userid));
+                    const data = {
+                        profilnaSlika: 'http://server.jobfairnis.rs/users/returnpicture/?file=' + req.query.userid + '_-' + files.fileUpload.name.replace(/ /g, "_")
+                    }
+                    res.status(200);
+                    res.json(data);
+                    res.send();
+                } else if (mode == 'cv') {
+                    await conn.promise().execute(queryStrings.ADD_CV('http://server.jobfairnis.rs/users/returncv/?file=' + req.query.userid + '_-' + files.fileUpload.name.replace(/ /g, "_"), req.query.userid));
+                    const data = {
+                        cv: 'http://server.jobfairnis.rs/users/returncv/?file=' + req.query.userid + '_-' + files.fileUpload.name.replace(/ /g, "_")
+                    }
+                    res.status(200);
+                    res.json(err);
+                    res.send();
                 }
-                res.status(200);
-                res.json(data);
-                res.send();
-            } else if (mode == 'cv') {
-                await conn.promise().execute(queryStrings.ADD_CV('http://denicdamjan.ddns.net:8080/users/returncv/?file=' + req.query.userid + '_-' + files.fileUpload.name, req.query.userid));
-                const data = {
-                    cv: 'http://denicdamjan.ddns.net:8080/users/returncv/?file=' + req.query.userid + '_-' + files.fileUpload.name
-                }
-                res.status(200);
-                res.json(data);
-                res.send();
-            }
-            mysql.pool.releaseConnection(conn);
+                mysql.pool.releaseConnection(conn);
+            });
         });
-    });
+    } catch (err){
+        res.json(err.message);
+        res.send();
+    }
+
 }
 
 async function execFile(res, path) {
@@ -769,27 +775,26 @@ async function execFile(res, path) {
     }
 }
 
-async function execMailCheck(res, mail) {
-    var mailOptions = {
-        from: 'jobfairnisit@gmail.com',
-        to: mail,
-        subject: 'Mail test: Job Fair Nis',
-        html: `<h3>Ovo je test nodemailer servisa</h3>`
-    };
+async function getCVStats(res) {
+    await mysql.pool.getConnection(async (err, conn) => {
+        const postaviliCV = await conn.promise().execute(queryStrings.STATS_HAS_CV('<>'));
+        const nisuPostaviliCV = await conn.promise().execute(queryStrings.STATS_HAS_CV('='));
 
-    nodemailer.transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            //logger.logger.level = 'debug';
-            console.log(error);
-            // logger.logger.debug(error);
-            // res.sendFile(path.join(__dirname + '/logs.log'));
-            res.json({ error: error });
-            res.send();
-        } else {
-            console.log('Email sent: ' + info.response);
-            res.json({ response: info.response });
-            res.send();
-        }
+        temp = JSON.stringify(postaviliCV[0]);
+        const postaviliCVParsed = JSON.parse(temp);
+
+        temp = JSON.stringify(nisuPostaviliCV[0]);
+        const nisuPostaviliCVParsed = JSON.parse(temp);
+
+        const payload = {
+            postavili: postaviliCVParsed[0].broj,
+            nisuPostavili: nisuPostaviliCVParsed[0].broj
+        };
+
+        res.json(payload);
+        res.send();
+
+        mysql.pool.releaseConnection(conn);
     });
 }
 
@@ -811,5 +816,5 @@ module.exports = {
     resetPassword,
     upload,
     execFile,
-    execMailCheck
+    getCVStats
 }

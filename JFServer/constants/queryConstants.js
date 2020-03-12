@@ -1,7 +1,7 @@
 const sha = require('sha.js');
 
 /* REPO */
-const REPO_PATH = __dirname.substring(0, __dirname.indexOf('\\constants')) + '\\repo\\';
+const REPO_PATH = __dirname.substring(0, __dirname.indexOf('\\constants')) + '/repo';
 
 /* USERS */
 function CHECK_USER(payload) {
@@ -857,6 +857,28 @@ function LOGIN_KOMPANIJA(payload) {
                 AND password = '${payload.password}';`;
 }
 
+function STATS_TOP_10 () {
+    return `SELECT f.naziv, count(*) as broj
+            FROM studira as s
+            INNER JOIN fakultet as f
+                ON f.fakultetID = s.fakultetID
+            GROUP BY f.naziv
+            ORDER BY broj DESC
+            LIMIT 10`;
+}
+
+function STATS_HAS_CV (isEqual) {
+    return `SELECT count(l.cv) as broj
+            FROM licniPodaci as l
+            where l.cv ${isEqual} ''
+            ORDER BY broj DESC`;
+}
+
+function STATS_TOTAL_USERS () {
+    return `SELECT count(u.email) as broj
+            FROM user as u`;
+}
+
 
 module.exports = {
     CHECK_USER,
@@ -936,5 +958,8 @@ module.exports = {
     ADD_OSTALE_VESTINE,
     GET_OSTALE_VESTINE_ID,
     EDIT_OSTALE_VESTINE,
-    DELETE_OSTALE_VESTINE
+    DELETE_OSTALE_VESTINE,
+    STATS_TOP_10,
+    STATS_HAS_CV,
+    STATS_TOTAL_USERS
 }

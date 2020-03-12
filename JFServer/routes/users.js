@@ -164,20 +164,19 @@ router.post('/remove', async (req, res) => {
 });
 
 router.post('/addpicture/', async (req, res) => {
-  query.upload(req, res, '//profile//', 'picture');
+  query.upload(req, res, '/profile/', 'picture');
 });
 
 router.post('/addcv', async (req, res) => {
-  query.upload(req, res, '//cv//', 'cv');
+  query.upload(req, res, '/cv/', 'cv');
 });
 
 router.get('/returncv', async (req, res) => {
-  query.execFile(res, queryString.REPO_PATH + '//cv//' + req.query.file);
+  query.execFile(res, queryString.REPO_PATH + '/cv/' + req.query.file);
 });
 
 router.get('/returnpicture/', async (req, res) => {
-  console.log(req.query.file);
-  query.execFile(res, queryString.REPO_PATH + '//profile//' + req.query.file);
+  query.execFile(res, queryString.REPO_PATH + '/profile/' + req.query.file);
 });
 
 router.get('/sendMail', async (req, res) => {
