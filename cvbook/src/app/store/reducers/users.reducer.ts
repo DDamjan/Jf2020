@@ -23,6 +23,7 @@ export function UsersReducer(
         case GET_USERS_SUCCESS: {
             // console.log(action.payload);
             return UsersAdapter.addMany(action.payload, state = UsersInitialState);
+            break;
         }
         default:
             return state;

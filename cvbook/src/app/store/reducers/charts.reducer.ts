@@ -1,7 +1,8 @@
 import {
-    AUTH_COMPANY_SUCCESS,
-    GET_COMPANY_SUCCESS,
-    AUTH_COMPANY_FAIL
+    GET_CHART_SUCCESS,
+    GET_CHART_CV_SUCCESS,
+    GET_CHART_TOP10_SUCCESS,
+    GET_CHART_TOTAL_USERS_SUCCESS
 } from '../../../constants/reducers-constants';
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector} from '@ngrx/store';
@@ -23,18 +24,22 @@ export function ChartReducer(
 ) {
     // console.log(action.type);
     switch (action.type) {
-        // case AUTH_COMPANY_SUCCESS: {
-        //     // console.log('AUTH_COMPANY_SUCCESS');
-        //     // console.log(action.payload);
-        //     return CompanyAdapter.addOne(action.payload, state = CompanyInitialState);
-        // }
-        // case AUTH_COMPANY_FAIL: {
-        //     // console.log('AUTH_COMPANY_FAIL');
-        //     return CompanyAdapter.addOne(action.payload, state = CompanyInitialState);
-        // }
-        // case GET_COMPANY_SUCCESS: {
-        //     return CompanyAdapter.addOne(action.payload, state = CompanyInitialState);
-        // }
+        case GET_CHART_SUCCESS: {
+            return ChartAdapter.addMany(action.payload, state = ChartInitialState);
+            break;
+        }
+        case GET_CHART_CV_SUCCESS: {
+            return ChartAdapter.addOne(action.payload, state = ChartInitialState);
+            break;
+        }
+        case GET_CHART_TOP10_SUCCESS: {
+            return ChartAdapter.addOne(action.payload, state = ChartInitialState);
+            break;
+        }
+        case GET_CHART_TOTAL_USERS_SUCCESS: {
+            return ChartAdapter.addOne(action.payload, state = ChartInitialState);
+            break;
+        }
         default:
             return state;
     }

@@ -1,13 +1,44 @@
-<div class="container">
-  <div class="basiccolumnchart">
-    <app-basiccolumnchart [barChartData]="barChartData" [barChartLabels]="barChartLabels">
-    </app-basiccolumnchart>
+<div class="dashboard">
+  <div class="infoDesk">
+    <mat-card>
+      <div class="containerRow">
+        <div class="leftColumnG2">
+          <mat-card-content>
+            Wecome to CV Book developed by BEST Nis.
+            This Web Aplication is used for browsing registerd users in CV database.
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button (click)="toCVOverview()" >CV overview</button>
+          </mat-card-actions>
+        </div>
+        <div class="rightColumnG1">
+          <div class="containerColumn">
+            <div class="leftRowG1">
+              <img mat-card-image src="public/BESTnis.png" alt="'BEST Nis Logo'">
+            </div>
+            <div class="leftRowG1"> 
+              <img mat-card-image src="public/JobFair20.png" alt="'JF20 Logo'">
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
   </div>
+  <div class="containerRow">
+    <div class="leftColumnG2">
+      <mat-card>
+        <app-basiccolumnchart *ngIf="isReady" [barChartData]="barChartData" [barChartLabels]="barChartLabels">
+        </app-basiccolumnchart>
+      </mat-card>
+    </div>
 
-  <div class="piechart">
-    <app-piechart [pieChartLabels]="pieChartLabels" [pieChartData]="dataPointsYearOfStudy">
-    </app-piechart>
+    <div class="rightColumnG1">
+      <mat-card>
+        <app-piechart *ngIf="isReady" [pieChartLabels]="pieChartLabels" [pieChartData]="pieChartData">
+        </app-piechart>
+      </mat-card>
+    </div>
   </div>
 </div>
 
-<button mat-raised-button (click)="toCVOverview()" >CV overview</button>
+

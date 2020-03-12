@@ -11,9 +11,16 @@ import {
     GET_USERS_SUCCESS,
     GET_CHART,
     GET_CHART_SUCCESS,
+    GET_CHART_CV,
+    GET_CHART_CV_SUCCESS,
+    GET_CHART_TOP10,
+    GET_CHART_TOP10_SUCCESS,
+    GET_CHART_TOTAL_USERS,
+    GET_CHART_TOTAL_USERS_SUCCESS,
     TOKEN_EXPIRED
 } from '../../constants/reducers-constants';
 import { Company } from '../models/Company';
+import { Chart } from '../models/Chart';
 
 export class GetCompany implements Action {
     readonly type = GET_COMPANY;
@@ -71,6 +78,36 @@ export class GetChart implements Action {
 
 export class GetChartSuccess implements Action {
     readonly type = GET_CHART_SUCCESS;
+    constructor(public payload: Chart[]) { }
+}
+
+export class GetChartCV implements Action {
+    readonly type = GET_CHART_CV;
+    constructor(public payload: any) { }
+}
+
+export class GetChartCVSuccess implements Action {
+    readonly type = GET_CHART_CV_SUCCESS;
+    constructor(public payload: Chart) { }
+}
+
+export class GetChartTop10 implements Action {
+    readonly type = GET_CHART_TOP10;
+    constructor(public payload: any) { }
+}
+
+export class GetChartTop10Success implements Action {
+    readonly type = GET_CHART_TOP10_SUCCESS;
+    constructor(public payload: Chart) { }
+}
+
+export class GetChartTotalUsers implements Action {
+    readonly type = GET_CHART_TOTAL_USERS;
+    constructor(public payload: any) { }
+}
+
+export class GetChartTotalUsersSuccess implements Action {
+    readonly type = GET_CHART_TOTAL_USERS_SUCCESS;
     constructor(public payload: Chart) { }
 }
 

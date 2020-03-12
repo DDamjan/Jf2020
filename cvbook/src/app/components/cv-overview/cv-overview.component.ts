@@ -27,8 +27,6 @@ export class CvOverviewComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(new actions.GetUsers({}));
     this.store.select(selectAllUsers).subscribe(users => {
-      console.log('populateUserList');
-      console.log(users);
       if (users.length !== 0) {
         this.userList = users;
         const pageEvents$: Observable<PageEvent> = this.fromMatPaginator(this.paginator);
@@ -39,12 +37,6 @@ export class CvOverviewComponent implements OnInit {
       }
     });
   }
-
-  populateUserList() {
-    console.log('populateUserList');
-    // this.userService.getUsers({}).subscribe(users => {console.log('users'); console.log(users); this.userList = users; });
-  }
-
 
   fromMatPaginator(pager: MatPaginator): Observable<PageEvent> {
     return concat(
