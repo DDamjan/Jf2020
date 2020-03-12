@@ -159,8 +159,8 @@ function UPDATE_OLD_ACC_TOKEN (userID) {
             WHERE userID = ${userID}`;
 }
 
-const GET_USERS = `SELECT userID, ime, prezime, cv FROM licniPodaci`;
 const GET_USER_BY_ID = `SELECT userID, email FROM user WHERE userID = `;
+
 function GET_USER(email) {
     return `SELECT userID, email 
             FROM user 
@@ -879,7 +879,50 @@ function STATS_TOTAL_USERS () {
             FROM user as u`;
 }
 
-// function FILTER_
+// FILTERI
+
+const GET_USERS =   `SELECT licni.userID, licni.ime, licni.prezime, licni.cv 
+                    FROM licniPodaci as licni`;
+
+function FILTER_BY_NAME (name) {
+    return `licni.ime = '${name}'`;
+}
+
+function FILTER_BY_LAST_NAME (lastName) {
+    return `licni.prezime = '${lastName}'`;
+}
+
+function JOIN_STUDIES () {
+    return `INNER JOIN studira as stud
+                ON stud = userID = licni.userID`;
+}
+
+// YOS == Year Of Studies
+function FILTER_BY_YOS (yos) {
+    return `stud.godineStudija = ${yos}`;
+} 
+
+function FILTER_BY_GRADE_AVERAGE (grade) {
+    return `stud.prosek = ${grade}`;
+}
+
+function JOIN_FACULTY () {
+    return `INNER JOIN fakultet as faks
+                ON faks.fakultetID = stud.fakultetID`;
+}
+
+function FILTER_BY_FACULTY (faculty) {
+    return `faks.naziv = ${faculty}`;
+}
+
+function JOIN_PERMANENT_RESIDENCE_CITY () {
+    return `INNER JOIN grad as g
+                ON g.gradID = licni.prebivalisteGrad`;
+}
+
+// function 
+
+
 
 
 module.exports = {

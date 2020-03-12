@@ -775,7 +775,7 @@ async function execFile(res, path) {
     }
 }
 
-async function getCVStats(res) {
+async function getStats(res) {
     await mysql.pool.getConnection(async (err, conn) => {
         const postaviliCV = await conn.promise().execute(queryStrings.STATS_HAS_CV('<>'));
         const nisuPostaviliCV = await conn.promise().execute(queryStrings.STATS_HAS_CV('='));
@@ -786,9 +786,22 @@ async function getCVStats(res) {
         temp = JSON.stringify(nisuPostaviliCV[0]);
         const nisuPostaviliCVParsed = JSON.parse(temp);
 
+        const top10 = await conn.promise().execute(queryStrings.STATS_TOP_10());
+        
+        temp = JSON.stringify(top10[0]);
+        const top10Parsed = JSON.parse(temp);
+
+        const totalUsers = await conn.promise().execute(queryStrings.STATS_TOTAL_USERS());
+        
+        temp = JSON.stringify(totalUsers[0]);
+        const totalUsersParsed = JSON.parse(temp);
+
+
         const payload = {
-            postavili: postaviliCVParsed[0].broj,
-            nisuPostavili: nisuPostaviliCVParsed[0].broj
+            cv: {postavili: postaviliCVParsed[0].broj,
+                 nisuPostavili: nisuPostaviliCVParsed[0].broj},
+            top10: top10Parsed,
+            totalUsers: {broj: totalUsersParsed[0].broj}
         };
 
         res.json(payload);
@@ -816,5 +829,5 @@ module.exports = {
     resetPassword,
     upload,
     execFile,
-    getCVStats
+    getStats
 }

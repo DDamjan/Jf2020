@@ -27,23 +27,7 @@ router.get('/checkMail', async (req, res) => {
 })
 
 router.post('/stats', async (req, res) => {
-  const type = req.body.type;
-  
-  switch(type){
-    case 'top10': {
-      query.exec(req, res, queryString.STATS_TOP_10(), query.get);
-      break;
-    }
-    case 'cv': {
-      query.exec(req, res, '', query.getCVStats(res));
-      break;
-    }
-    case 'totalUsers': {
-      query.exec(req, res, queryString.STATS_TOTAL_USERS(), query.get);
-      break;
-    }
-  }
-  
-})
+      query.exec(req, res, '', query.getStats(res));  
+});
 
 module.exports = router;
