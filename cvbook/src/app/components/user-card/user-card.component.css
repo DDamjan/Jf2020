@@ -43,9 +43,34 @@
     flex: 1;
   }
 
+.personalDataSpacing {
+  margin-bottom: 2%; 
+  display: flex; 
+  flex-direction: row; 
+  justify-content: flex-start;
+}
+
+.residenceDataSpacing {
+  margin-bottom: 1%; 
+  display: flex; 
+  flex-direction: row; 
+  justify-content: flex-start;
+
+}
+
+.educationDataSpacing {
+  margin-bottom: 1%; 
+  display: flex; 
+  flex-direction: row; 
+  justify-content: flex-start;
+}
+
+
   mat-card{
     background-color: #0172BC;
   }
+
+
 
   img{
     src: '../../../../repo/Cab.png';

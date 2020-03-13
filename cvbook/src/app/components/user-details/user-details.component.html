@@ -1,6 +1,9 @@
 <div *ngIf="isReady" class="cards">
+    <div style="padding-top: 0.5%;">
     <app-user-card [title]="'Personal Data'" [type]="'personalData'" [data]="data" >
     </app-user-card>
+
+    </div>
 
     <div class = "flexRow">
         <app-user-card [title]="'Permanent Residence'" [type]="'permanentResidence'" [data]="data" class ="subject" >
