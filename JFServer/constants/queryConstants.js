@@ -881,17 +881,20 @@ function STATS_TOTAL_USERS () {
 
 function GET_ALL_FACULTIES () {
     return `SELECT naziv
-            FROM fakultet`;
+            FROM fakultet
+            ORDER BY naziv ASC`;
 }
 
 function GET_ALL_CITIES () {
     return `SELECT naziv
-            FROM grad`;
+            FROM grad
+            ORDER BY naziv ASC`;
 }
 
 function GET_ALL_COUNTRIES() {
     return `SELECT naziv
-            FROM drzava`;
+            FROM drzava
+            ORDER BY naziv ASC`;
 }
 
 // FILTERI
