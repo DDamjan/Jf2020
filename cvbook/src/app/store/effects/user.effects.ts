@@ -8,6 +8,7 @@ import { ofAction } from 'ngrx-actions/dist';
 import { Router } from '@angular/router';
 import { UserService } from 'app/service/user.service';
 import { CookieService } from 'app/service/cookie.service';
+import { User } from 'app/models/User';
 
 @Injectable()
 export class UserEffects {
@@ -21,7 +22,7 @@ export class UserEffects {
   @Effect()
   getUser$ = this.update$.pipe(
     ofAction(actions.GetUser),
-    switchMap(user =>  this.userService.getUser(user.payload)),
+    switchMap(user => this.userService.getUser(user.payload)),
     map(response => {
       console.log('actions.GetUser');
       console.log(response);
@@ -59,15 +60,19 @@ export class UserEffects {
         this.badToken();
         return new actions.TokenExpired();
       } else {
+        if (response.filteredUsers.length === 0) {
+        return new actions.FilterUsersEmpty();
+      } else {
         return new actions.FilterUsersSuccess(response);
       }
+    }
     })
   );
 
-  badToken() {
-    // console.log('BAD TOKEN USER');
-    localStorage.removeItem('CVBook-CurrentCompany');
-    this.cookieService.deleteCookie('CVBook-Token');
-    this.router.navigate(['/']);
-  }
+badToken() {
+  // console.log('BAD TOKEN USER');
+  localStorage.removeItem('CVBook-CurrentCompany');
+  this.cookieService.deleteCookie('CVBook-Token');
+  this.router.navigate(['/']);
+}
 }

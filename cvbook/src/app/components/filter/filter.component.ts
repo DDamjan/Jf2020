@@ -3,6 +3,7 @@ import { Store, select } from '@ngrx/store';
 import * as actions from '../../store/actions';
 import { UserService } from '../../service/user.service';
 import { CompanyService } from 'app/service/company.service';
+import { selectAllFilters } from 'app/store/reducers/filter.reducer';
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
@@ -13,18 +14,41 @@ export class FilterComponent implements OnInit {
   public cities: any;
   public counties: any;
   public yosOptions: string[] = ['1', '2', '3', '4', '5', '6'];
-  public countryOptions: string[] = [];
-  public cityOptions: string[] = [];
+  public pCountryOptions: string[] = [];
+  public pCityOptions: string[] = [];
+  public tCountryOptions: string[] = [];
+  public tCityOptions: string[] = [];
   public facultyOptions: string[] = [];
+
+  public cv: boolean;
+  public firstName: string;
+  public lastName: string;
+  public yos: string;
+  public grade: string;
+  public faculty: string;
+  public pCity: string;
+  public pCountry: string;
+  public tCity: string;
+  public tCountry: string;
+
   constructor(private store: Store<any>, private userService: UserService, private companyService: CompanyService) { this.error = false; }
 
   ngOnInit() {
+    this.populateformOptions();
+    this.store.select(selectAllFilters).subscribe(filters => {
+
+    });
+  }
+
+  populateformOptions() {
     this.companyService.formOptions().subscribe(options => {
       options.drzave.forEach(drzava => {
-        this.countryOptions.push(drzava.naziv);
+        this.pCountryOptions.push(drzava.naziv);
+        this.tCountryOptions.push(drzava.naziv);
       });
       options.gradovi.forEach(grad => {
-        this.cityOptions.push(grad.naziv);
+        this.pCityOptions.push(grad.naziv);
+        this.tCityOptions.push(grad.naziv);
       });
 
       options.fakulteti.forEach(fakultet => {
@@ -46,6 +70,7 @@ export class FilterComponent implements OnInit {
     const temporaryResidenceCountry = $event.target[10].value;
 
     const payload = {
+      id: 1,
       firstName,
       lastName,
       yos,
@@ -67,5 +92,34 @@ export class FilterComponent implements OnInit {
     this.store.dispatch(new actions.FilterUsers(payload));
   }
 
+  autoCompleteListener($event, type) {
+    console.log($event);
+    switch (type) {
+      case 'faculty': {
+        this.facultyOptions = this.facultyOptions.filter(f => f.toLowerCase().indexOf($event.target.value.toLowerCase()) === 0);
+        break;
+      }
+      case 'pCity': {
+        this.pCityOptions = this.pCityOptions.filter(f => f.toLowerCase().indexOf($event.target.value.toLowerCase()) === 0);
+        break;
+      }
+      case 'pCountry': {
+        this.pCountryOptions = this.pCountryOptions.filter(f => f.toLowerCase().indexOf($event.target.value.toLowerCase()) === 0);
+        break;
+      }
+      case 'tCity': {
+        this.tCityOptions = this.tCityOptions.filter(f => f.toLowerCase().indexOf($event.target.value.toLowerCase()) === 0);
+        break;
+      }
+      case 'tCountry': {
+        this.tCountryOptions = this.tCountryOptions.filter(f => f.toLowerCase().indexOf($event.target.value.toLowerCase()) === 0);
+        break;
+      }
+    }
+    if ($event.target.value.length === 0) {
+      this.populateformOptions();
+    }
+
+  }
 
 }

@@ -881,23 +881,40 @@ function STATS_TOTAL_USERS () {
 
 function GET_ALL_FACULTIES () {
     return `SELECT naziv
-            FROM fakultet`;
+            FROM fakultet
+            ORDER BY naziv ASC`;
 }
 
 function GET_ALL_CITIES () {
     return `SELECT naziv
-            FROM grad`;
+            FROM grad
+            ORDER BY naziv ASC`;
 }
 
 function GET_ALL_COUNTRIES() {
     return `SELECT naziv
-            FROM drzava`;
+            FROM drzava
+            ORDER BY naziv ASC`;
+}
+
+function GET_ALL_USERS () {
+    return `SELECT DISTINCT licni.userID, licni.ime, licni.prezime, licni.cv, s.prosek, f.naziv as fakultet 
+    FROM licniPodaci as licni
+    LEFT JOIN studira as s
+       ON s.userID = licni.userID
+    LEFT JOIN fakultet as f
+       ON f.fakultetID = s.fakultetID
+    GROUP BY licni.userID`;
 }
 
 // FILTERI
 
-const GET_USERS =   `SELECT licni.userID, licni.ime, licni.prezime, licni.cv 
-                    FROM licniPodaci as licni`;
+const GET_USERS =   `SELECT DISTINCT licni.userID, licni.ime, licni.prezime, licni.cv, s.prosek, f.naziv 
+                     FROM licniPodaci as licni
+                     LEFT JOIN studira as s
+                        ON s.userID = licni.userID
+                     LEFT JOIN fakultet as f
+                        ON f.fakultetID = s.fakultetID`;
 
 function FILTER_BY_NAME (name) {
     return `licni.ime = '${name}'`;
@@ -1071,5 +1088,6 @@ module.exports = {
     FILTER_BY_CV,
     GET_ALL_FACULTIES,
     GET_ALL_CITIES,
-    GET_ALL_COUNTRIES
+    GET_ALL_COUNTRIES,
+    GET_ALL_USERS
 }

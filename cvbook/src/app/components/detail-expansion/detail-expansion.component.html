@@ -1,9 +1,10 @@
 <mat-expansion-panel [style.backgroundColor]="color" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-  <mat-expansion-panel-header>
-    <mat-panel-title >
-      First & Last name: {{user.ime}} {{user.prezime}}
-    </mat-panel-title>
-  </mat-expansion-panel-header>
+    <mat-expansion-panel-header class="mat-row">
+      <span class="mat-cell">{{user.ime}}</span>
+      <span class="mat-cell">{{user.prezime}}</span>
+      <span class="mat-cell">{{user.fakultet}}</span>
+      <span class="mat-cell">{{user.prosek}}</span>
+    </mat-expansion-panel-header>
   <button mat-raised-button class="btn" (click)="onOpen()" >Open</button>
   <button mat-raised-button class="btn" (click)="onDownloadCV()" [disabled]="downloadDisabled">Download CV</button>
 </mat-expansion-panel>

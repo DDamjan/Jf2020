@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { selectAllUsers } from 'app/store/reducers/users.reducer';
 import { Observable, of, concat, defer, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PageEvent, MatPaginator } from '@angular/material';
+import { PageEvent, MatPaginator, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-cv-overview',
@@ -24,7 +24,7 @@ export class CvOverviewComponent implements OnInit {
   totalRows$: Observable<number>;
   @ViewChild('paginator', null) paginator: MatPaginator;
 
-  constructor(private store: Store<any>, private userService: UserService, private router: Router) { }
+  constructor(private store: Store<any>, private userService: UserService, private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.pageIndex = 0;
@@ -33,12 +33,18 @@ export class CvOverviewComponent implements OnInit {
     this.store.dispatch(new actions.GetUsers({}));
     this.store.select(selectAllUsers).subscribe(users => {
       if (users.length !== 0) {
-        this.userList = users;
-        const pageEvents$: Observable<PageEvent> = this.fromMatPaginator(this.paginator);
+        if (users[0].userID === -1) {
+          this.snackBar.open(`Users with given criteria aren't in the database!`, 'Close', {
+            duration: 3000
+          });
+        } else {
+          this.userList = users;
+          const pageEvents$: Observable<PageEvent> = this.fromMatPaginator(this.paginator);
 
-        const rows$ = of(this.userList);
-        this.totalRows$ = rows$.pipe(map(rows => rows.length));
-        this.displayedRows$ = rows$.pipe(this.paginateRows(pageEvents$));
+          const rows$ = of(this.userList);
+          this.totalRows$ = rows$.pipe(map(rows => rows.length));
+          this.displayedRows$ = rows$.pipe(this.paginateRows(pageEvents$));
+        }
       }
     });
   }

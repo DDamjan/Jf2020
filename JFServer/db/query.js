@@ -946,6 +946,8 @@ async function filter(req, res) {
         queryString = queryString + " " + queryStrings.FILTER_BY_CV();
     }
 
+    queryString = queryString + " " + 'GROUP BY licni.userID';
+
     console.log(queryString);
 
     await mysql.pool.getConnection(async (err, conn) => {

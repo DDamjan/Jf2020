@@ -5,21 +5,32 @@
   <div class="expand-container">
     <div class="containerRow">
       <div class="btnReturnDiv">
-        <button mat-mini-fab class="btnReturn" (click)="onReturn()"><mat-icon>keyboard_backspace</mat-icon></button>
+        <button mat-mini-fab class="btnReturn" (click)="onReturn()">
+          <mat-icon>keyboard_backspace</mat-icon>
+        </button>
       </div>
       <div class="paginatorDiv">
-        <mat-paginator #paginator [length]="totalRows$ | async" [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons>
+        <mat-paginator #paginator [length]="totalRows$ | async" [pageIndex]="pageIndex" [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizeOptions" showFirstLastButtons>
         </mat-paginator>
       </div>
     </div>
     <div class="flex-item">
-      <mat-accordion *ngFor="let user of displayedRows$ | async; index as i">
-        <app-user-expansion [user]="user" [index] = "i">
-        </app-user-expansion>
+      <mat-accordion displayMode="flat" multi class="mat-table">
+        <section matSort class="mat-elevation-z2 mat-header-row">
+          <span class="mat-header-cell" mat-sort-header="vesselName">First Name</span>
+          <span class="mat-header-cell" mat-sort-header="vesselId">Last Name</span>
+          <span class="mat-header-cell" mat-sort-header="vesselStatus">Faculty</span>
+          <span class="mat-header-cell" mat-sort-header="ircs">Average Grade</span>
+        </section>
+        <div *ngFor="let user of displayedRows$ | async; index as i">
+          <app-user-expansion [user]="user" [index]="i">
+          </app-user-expansion>
+        </div>
       </mat-accordion>
     </div>
-    <mat-paginator (page)="syncPrimaryPaginator($event)" 
-    [pageSize]="paginator.pageSize" [pageIndex]="paginator.pageIndex"
-    [length]="paginator.length" [pageSizeOptions]="paginator.pageSizeOptions"></mat-paginator>
+    <mat-paginator (page)="syncPrimaryPaginator($event)" [pageSize]="paginator.pageSize"
+      [pageIndex]="paginator.pageIndex" [length]="paginator.length" [pageSizeOptions]="paginator.pageSizeOptions">
+    </mat-paginator>
   </div>
 </div>
