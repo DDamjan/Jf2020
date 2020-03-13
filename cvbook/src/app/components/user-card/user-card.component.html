@@ -1,8 +1,13 @@
 <mat-card *ngIf='isPersonalData' class="personalDataCard" >
-  <button mat-mini-fab class="btnReturn" (click)="onReturn()"><mat-icon>keyboard_backspace</mat-icon></button>
+ 
   <!-- <mat-card-title style="color:white">ID: {{data.userID}}</mat-card-title> -->
   <mat-card-header>
+    <button mat-mini-fab class="btnReturn" (click)="onReturn()"><mat-icon>keyboard_backspace</mat-icon></button>
+
+    <div style="margin-top: 0.5%; margin-left: 2%;">
     <mat-card-title style="color:white"><div>{{title}}</div></mat-card-title>
+    
+  </div>
   </mat-card-header>
   <mat-card-content>
     <div class="pesonalDetails">
@@ -36,6 +41,7 @@
         <img mat-card-image src="assets/defaultProfileImg.png" alt="'JF20 Logo'">
       </div>
     </div>
+    
   </mat-card-content>
 
 </mat-card>
