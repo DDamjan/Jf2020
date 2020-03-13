@@ -1,24 +1,24 @@
-.example-card {
+.personalDataCard {
     background-color:#01436E;
     margin: 10px;
   }
 
-  .example-card1 {
+  .permanentResidenceCard {
     background-color:#01578F;
     margin: 10px;
   }
 
-  .example-card2 {
+  .temporaryResidenceCard {
     background-color:#0172BC;
     margin: 10px;
   }
 
-  .example-card3 {
+  .highSchoolCard {
     background-color:#0596F4;
     margin: 10px;
   }
 
-  .example-card4 {
+  .higherEducationCard {
     background-color:#1E9BED;
     margin: 10px;
   }
@@ -32,10 +32,13 @@
     display: flex;
     flex-direction: column;
     padding: 0cm 0cm 0cm 0.6cm;
-    flex-grow: 1;
+    flex: 1;
   }
 
   .defaultProfileImg {
+    
+  
+    
     margin-right: 20px;
     flex: 1;
   }
