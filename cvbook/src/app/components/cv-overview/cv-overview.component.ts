@@ -5,9 +5,10 @@ import { User } from '../../models/User';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { selectAllUsers } from 'app/store/reducers/users.reducer';
-import { Observable, of, concat, defer, combineLatest } from 'rxjs';
+import { Observable, of} from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PageEvent, MatPaginator, MatSnackBar } from '@angular/material';
+import { PageEvent, MatPaginator, MatSnackBar, Sort, MatSort } from '@angular/material';
+import { fromMatSort, fromMatPaginator, sortRows, paginateRows } from './datasource-util';
 
 @Component({
   selector: 'app-cv-overview',
@@ -23,6 +24,7 @@ export class CvOverviewComponent implements OnInit {
   displayedRows$: Observable<User[]>;
   totalRows$: Observable<number>;
   @ViewChild('paginator', null) paginator: MatPaginator;
+  @ViewChild(MatSort, null) sort: MatSort;
 
   constructor(private store: Store<any>, private userService: UserService, private router: Router, private snackBar: MatSnackBar) { }
 
@@ -39,45 +41,15 @@ export class CvOverviewComponent implements OnInit {
           });
         } else {
           this.userList = users;
-          const pageEvents$: Observable<PageEvent> = this.fromMatPaginator(this.paginator);
-
+          const sortEvents$: Observable<Sort> = fromMatSort(this.sort);
+          const pageEvents$: Observable<PageEvent> = fromMatPaginator(this.paginator);
           const rows$ = of(this.userList);
           this.totalRows$ = rows$.pipe(map(rows => rows.length));
-          this.displayedRows$ = rows$.pipe(this.paginateRows(pageEvents$));
+          this.displayedRows$ = rows$.pipe(sortRows(sortEvents$), paginateRows(pageEvents$));
         }
       }
     });
   }
-
-  fromMatPaginator(pager: MatPaginator): Observable<PageEvent> {
-    return concat(
-      defer(() => of({
-        pageIndex: pager.pageIndex,
-        pageSize: pager.pageSize,
-        length: pager.length,
-      })),
-      pager.page.asObservable()
-    );
-  }
-
-  paginateRows<U>(page$: Observable<PageEvent>): (obs$: Observable<U[]>) => Observable<U[]> {
-    return (rows$: Observable<U[]>) => combineLatest(
-      rows$,
-      page$,
-      (rows, page) => {
-        const startIndex = page.pageIndex * page.pageSize;
-        const copy = rows.slice();
-        return copy.splice(startIndex, page.pageSize);
-      }
-    );
-  }
-
-  syncPrimaryPaginator(event: PageEvent) {
-    this.paginator.pageIndex = event.pageIndex;
-    this.paginator.pageSize = event.pageSize;
-    this.paginator.page.emit(event);
-  }
-
   onReturn() {
 
   }
