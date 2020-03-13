@@ -16,7 +16,7 @@ export class DetailExpansionComponent implements OnInit {
   @Input() public user: User;
   @Input() public index: any;
   public color: any;
-  downloadDisabled: boolean;
+  public downloadDisabled: boolean;
   constructor(private router: Router) { }
 
   ngOnInit() {

@@ -4,6 +4,7 @@
 
 .infoDesk {
     margin: 20px;
+    
 }
 
 .containerRow {
@@ -33,4 +34,9 @@
     margin-right: 30px;
     flex-grow: 0.2;
     width: 40%;
+}
+
+.btnCVOverview {
+    color: white;
+    background-color: #0596F4;
 }

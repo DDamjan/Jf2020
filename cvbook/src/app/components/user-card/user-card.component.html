@@ -1,4 +1,6 @@
 <mat-card *ngIf='isPersonalData' class="personalDataCard" >
+  <button mat-mini-fab class="btnReturn" (click)="onReturn()"><mat-icon>keyboard_backspace</mat-icon></button>
+  <!-- <mat-card-title style="color:white">ID: {{data.userID}}</mat-card-title> -->
   <mat-card-header>
     <mat-card-title style="color:white"><div>{{title}}</div></mat-card-title>
   </mat-card-header>
@@ -6,15 +8,15 @@
     <div class="pesonalDetails">
       <div  class="info-container" >
       
-      <div style="margin-bottom: 2%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">First name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.ime}}</span></div></div>
-      <div style="margin-bottom: 2%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Last name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.prezime}}</span></div></div>
-      <div style="margin-bottom: 2%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Date of birth:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.datumRodjenja}}</span></div></div>
-      <div style="margin-bottom: 5%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Parents name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.imeRoditelja}}</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">First name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.ime}}</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Last name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.prezime}}</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Date of birth:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.datumRodjenja}}</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Parents name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.imeRoditelja}}</span></div></div>
       
-      <div style="margin-bottom: 2%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white; font-size: large;">Contact</span></div></div>
-      <div style="margin-bottom: 2%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Telephone number:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.kontakt.telefon}}</span></div></div>
-      <div style="margin-bottom: 2%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Email:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.email}}</span></div></div>
-      <div style="margin-bottom: 8%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">LinkedIn:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.kontakt.linkedIn}}</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white; font-size: large;">Contact</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Telephone number:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.kontakt.telefon}}</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Email:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.email}}</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">LinkedIn:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.kontakt.linkedIn}}</span></div></div>
      
 
 
@@ -28,6 +30,7 @@
       <div style="margin-bottom: 0.3cm;"> <span style="color:white">Email: {{data.email}}</span></div>
       <div style="margin-bottom: 0.3cm;"> <span style="color:white">LinkedIn: {{data.kontakt.linkedIn}}</span></div> -->
       <!---- <img mat-card-image src="{{project.image}}">	-->
+      <button mat-raised-button class="btnDownloadCV" (click)="onDownloadCV()" [disabled]="downloadDisabled">Download CV</button>
       </div>
       <div class="defaultProfileImg"> 
         <img mat-card-image src="assets/defaultProfileImg.png" alt="'JF20 Logo'">
@@ -44,9 +47,9 @@
       </mat-card-header>
       <mat-card-content>
     <div  class='info-container'>
-     <div style="margin-bottom: 1%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Adress:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.adresa}}</span></div></div>
-     <div style="margin-bottom: 1%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.grad}}</span></div></div>
-     <div style="margin-bottom: 1%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.drzava}}</span></div></div>
+     <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Adress:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.adresa}}</span></div></div>
+     <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.grad}}</span></div></div>
+     <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.drzava}}</span></div></div>
 
       <!-- <span style="color:white">Adress: {{data.prebivaliste.adresa}}</span>
       <span style="color:white">City: {{data.prebivaliste.grad}}</span>
@@ -61,9 +64,9 @@
   </mat-card-header>
   <mat-card-content>
     <div  class='info-container'>
-      <div style="margin-bottom: 1%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Adress:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.adresa}}</span></div></div>
-      <div style="margin-bottom: 1%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.grad}}</span></div></div>
-      <div style="margin-bottom: 1%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.drzava}}</span></div></div>
+      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Adress:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.adresa}}</span></div></div>
+      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.grad}}</span></div></div>
+      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.drzava}}</span></div></div>
     <!----  <span style="color:white">Adress: {{data.prebivaliste.adresa}}</span>
       <span style="color:white">City: {{data.prebivaliste.grad}}</span>
       <span style="color:white">County: {{data.prebivaliste.drzava}}</span> -->
@@ -82,8 +85,8 @@
           <mat-expansion-panel-header>
             <mat-panel-title >
              <div style="display: flex; flex-direction: column;"> 
-               <div style="margin-bottom: 2px; "> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Name:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{skola.naziv}}</span></div></div>
-              <div style="margin-bottom: 2px; "> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Type:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{skola.tip}}</span></div></div>
+               <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Name:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{skola.naziv}}</span></div></div>
+              <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Type:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{skola.tip}}</span></div></div>
             </div>
             <!----  Name: {{skola.naziv}}<br>
               Type: {{skola.tip}} -->
@@ -91,10 +94,10 @@
           </mat-expansion-panel-header>
           
             <div style="display: flex; flex-direction: column;">
-           <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Course:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{skola.smer}}</span></div></div>
-           <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">City:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{skola.grad}}</span></div></div>
-           <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">County:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{skola.drzava}}</span></div></div>
-           <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Finishing Year:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{skola.godinaZavrsetka}}</span></div></div>
+           <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Course:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{skola.smer}}</span></div></div>
+           <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{skola.grad}}</span></div></div>
+           <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{skola.drzava}}</span></div></div>
+           <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Finishing Year:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{skola.godinaZavrsetka}}</span></div></div>
           </div>
          <!---- Course: {{skola.smer}}<br>
           City: {{skola.grad}}<br>
@@ -117,8 +120,8 @@
           <mat-expansion-panel-header>
             <mat-panel-title >
               <div style="display: flex; flex-direction: column;"> 
-                <div style="margin-bottom: 2px; "> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Name:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.fakultet}}</span></div></div>
-               <div style="margin-bottom: 2px; "> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Course:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.smer}}</span></div></div>
+                <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Name:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{faks.fakultet}}</span></div></div>
+               <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Course:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{faks.smer}}</span></div></div>
              </div>
              <!---- Name: {{faks.fakultet}}<br>
               Course: {{faks.smer}} -->
@@ -126,15 +129,15 @@
           </mat-expansion-panel-header>
 
           <div style="display: flex; flex-direction: column;">
-            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">ESPB:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.espb}}</span></div></div>
-            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Finished Subjects:</span></div><div style="float: left;"><span style="color: black; font-weight: 550; float: bottom;">{{faks.brojPolozenihIspita}}</span></div></div>
-            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Starting Year:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.godinaUpisa}}</span></div></div>
-            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Year:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.godineStudija}}</span></div></div>
-            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Grade average:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.prosek}}</span></div></div>
-            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Satus:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.status}}</span></div></div>
-            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">University:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.univerzitet}}</span></div></div>
-            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">City:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.grad}}</span></div></div>
-            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">County:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.drzava}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Year:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{faks.godineStudija}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">ESPB:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{faks.espb}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Finished Subjects:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550; float: bottom;">{{faks.brojPolozenihIspita}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Starting Year:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{faks.godinaUpisa}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Grade average:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{faks.prosek}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Satus:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{faks.status}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">University:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{faks.univerzitet}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{faks.grad}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{faks.drzava}}</span></div></div>
 
            </div>
          <!---- ESPB: {{faks.espb}}<br>

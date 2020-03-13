@@ -3,6 +3,10 @@
   opacity: 0.95;
 }
 
+.sidenav-container {
+  background-color: red;
+}
+
 
 .sidenav .mat-toolbar {
   background: inherit;
