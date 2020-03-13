@@ -47,7 +47,7 @@ export class AuthCompanySuccess implements Action {
 
 export class AuthCompanyFail implements Action {
     readonly type = AUTH_COMPANY_FAIL;
-    constructor(public payload: Company) { }
+    constructor(public payload: any) { }
 }
 
 

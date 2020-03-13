@@ -22,24 +22,27 @@ export class UserCardComponent implements OnInit {
   constructor(private store: Store<any>, private router: Router) { }
 
   ngOnInit() {
-    this.isPersonalData = this.type === 'personalData';
-    this.isResidence = this.type === 'residence';
-    this.isPermanentResidence = this.type === 'permanentResidence';
-    this.isHighSchoolEducation = this.type === 'highSchoolEducation';
-    this.isHigherEducation = this.type === 'higherEducation';
+    if (this.data !== undefined) {
+      this.isPersonalData = this.type === 'personalData';
+      this.isResidence = this.type === 'residence';
+      this.isPermanentResidence = this.type === 'permanentResidence';
+      this.isHighSchoolEducation = this.type === 'highSchoolEducation';
+      this.isHigherEducation = this.type === 'higherEducation';
 
-    if (this.isPersonalData) {
-      if (this.data.licniPodaci.profilnaSlika === null) {
-        this.picPath = 'assets/defaultProfileImg.png';
-      } else {
-        this.picPath = this.data.licniPodaci.profilnaSlika;
-      }
-      if (this.data.licniPodaci.cv === null) {
-        this.downloadDisabled = true;
-      } else {
-        this.downloadDisabled = false;
+      if (this.isPersonalData) {
+        if (this.data.licniPodaci.profilnaSlika === null) {
+          this.picPath = 'assets/defaultProfileImg.png';
+        } else {
+          this.picPath = this.data.licniPodaci.profilnaSlika;
+        }
+        if (this.data.licniPodaci.cv === null) {
+          this.downloadDisabled = true;
+        } else {
+          this.downloadDisabled = false;
+        }
       }
     }
+
   }
 
   onReturn() {

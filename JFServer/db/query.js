@@ -107,7 +107,7 @@ async function execLogin(res, req, query, kompanija) {
                         const data = {
                             status: 409
                         };
-                        res.status(409);
+                        res.status(202);
                         res.json(data);
                         res.send();
                     }
@@ -115,7 +115,7 @@ async function execLogin(res, req, query, kompanija) {
                     const data = {
                         status: 409
                     };
-                    res.status(409);
+                    res.status(202);
                     res.json(data);
                     res.send();
                 }

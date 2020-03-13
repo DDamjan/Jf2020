@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import { map, switchMap} from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import * as actions from '../actions';
 import { Store } from '@ngrx/store';
@@ -37,13 +37,19 @@ export class CompanyEffects {
     ofAction(actions.AuthCompany),
     switchMap(data => this.companyService.authCompany(data.payload)),
     map(response => {
-      if (response[0].username !== 'error') {
+      console.log(response);
+      if (response !== undefined && response.status === undefined) {
+        console.log(response[0]);
         localStorage.setItem('CVBook-CurrentCompany', JSON.stringify(response[0]));
         this.cookieService.setCookie('CVBook-Token', response[0].token, 8);
         this.router.navigate([`/dashboard`]);
         return new actions.AuthCompanySuccess(response[0]);
       } else {
-        return new actions.AuthCompanyFail(response[0]);
+        const fail = {
+          kompanijaID: -1,
+          username: 'error'
+      };
+        return new actions.AuthCompanyFail(fail);
       }
     })
   );
