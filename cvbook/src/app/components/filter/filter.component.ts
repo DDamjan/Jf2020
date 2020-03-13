@@ -17,31 +17,37 @@ export class FilterComponent implements OnInit {
   }
 
   onSubmit($event) {
-    const firstName = $event.target[0].value;
-    const lastName = $event.target[1].value;
-    const yearOfStudy = $event.target[2].value;
-    const gradeAverage = $event.target[3].value;
-    const graduated = $event.target[4].value;
-    const hasCV = $event.target[5].value;
-    const city = $event.target[6].value;
-    const country = $event.target[7].value;
+    const cv = $event.target[1].checked;
+    const firstName = $event.target[2].value;
+    const lastName = $event.target[3].value;
+    const yof = $event.target[4].value;
+    const grade = $event.target[5].value;
+    const faculty = $event.target[6].value;
+    const permanentResidenceCity = $event.target[8].value;
+    const permanentResidenceCountry = $event.target[9].value;
+    const temporaryResidenceCity = $event.target[11].value;
+    const temporaryResidenceCountry = $event.target[12].value;
 
     const payload = {
-      firstName,
-      lastName,
-      yearOfStudy,
-      gradeAverage,
-      graduated,
-      hasCV,
-      city,
-      country
+      firstName: firstName === undefined ? '' : firstName,
+      lastName: lastName === undefined ? '' : lastName,
+      yof: yof === undefined ? '' : yof,
+      grade: grade === undefined ? '' : grade,
+      faculty: faculty === undefined ? '' : faculty,
+      cv: cv === false ? '' : true,
+      permanentResidenceCity: permanentResidenceCity === undefined ? '' : permanentResidenceCity,
+      permanentResidenceCountry: permanentResidenceCountry === undefined ? '' : permanentResidenceCountry,
+      temporaryResidenceCity: temporaryResidenceCity === undefined ? '' : temporaryResidenceCity,
+      temporaryResidenceCountry: temporaryResidenceCountry === undefined ? '' : temporaryResidenceCountry
     };
 
-    if (false === false) {
-      this.store.dispatch(new actions.GetUsers(payload));
-    } else {
-      this.error = true;
-    }
+    // if (false === false) {
+    //   this.store.dispatch(new actions.GetUsers(payload));
+    // } else {
+    //   this.error = true;
+    // }
+
+    console.log(payload);
   }
 }
 

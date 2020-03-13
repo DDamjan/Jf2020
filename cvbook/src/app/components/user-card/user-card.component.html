@@ -1,32 +1,35 @@
 <mat-card *ngIf='isPersonalData' class="example-card" >
   <mat-card-header>
     <mat-card-title style="color:white">{{title}}</mat-card-title>
-    <!-- <mat-card-subtitle style="color:white">Car no: {{driver.id}}</mat-card-subtitle> -->
   </mat-card-header>
-  <!-- <img mat-card-image src="http://denicdamjan.ddns.net:8080/users/driver/picture" alt="Cab"> -->
   <mat-card-content>
-    <div  class='info-container' >
-     <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">ID:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.userID}}</span></div></div>
-     <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">First name:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.ime}}</span></div></div>
-     <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">Last name:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.prezime}}</span></div></div>
-     <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">Date of birth:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.datumRodjenja}}</span></div></div>
-     <div style="margin-bottom: 0.6cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">Parents name:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.imeRoditelja}}</span></div></div>
-     
-     <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white; font-size: large;">Contact</span></div></div>
-     <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">Telephone number:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.kontakt.telefon}}</span></div></div>
-     <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">Email:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.email}}</span></div></div>
-     <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">LinkedIn:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.kontakt.linkedIn}}</span></div></div>
+    <div class="pesonalDetails">
+      <div  class="info-container" >
+      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">ID:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.userID}}</span></div></div>
+      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">First name:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.ime}}</span></div></div>
+      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">Last name:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.prezime}}</span></div></div>
+      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">Date of birth:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.datumRodjenja}}</span></div></div>
+      <div style="margin-bottom: 0.6cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">Parents name:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.imeRoditelja}}</span></div></div>
+      
+      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white; font-size: large;">Contact</span></div></div>
+      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">Telephone number:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.kontakt.telefon}}</span></div></div>
+      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">Email:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.email}}</span></div></div>
+      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">LinkedIn:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.kontakt.linkedIn}}</span></div></div>
 
-    <!---- <div style="margin-bottom: 0.3cm;"><span style="color:white">First name: {{data.licniPodaci.ime}}</span></div>
-     <div style="margin-bottom: 0.3cm;"> <span style="color:white">Last name: {{data.licniPodaci.prezime}}</span></div>
-     <div style="margin-bottom: 0.3cm;"><span style="color:white">Date of birth: {{data.licniPodaci.datumRodjenja}}</span></div>
-     <div style="margin-bottom: 0.3cm;"> <span style="color:white">Parents name: {{data.licniPodaci.imeRoditelja }}</span></div>
-     <div style="margin-bottom: 0.3cm;"> <span style="color:white">Last name: {{data.licniPodaci.prezime}}</span></div>
-     <div style="margin-bottom: 0.3cm;"> <span style="text-indent: 15px; line-height: 3; color:white">Contact</span></div>
-     <div style="margin-bottom: 0.3cm;"> <span style="color:white">Telephone number: {{data.kontakt.telefon}}</span></div>
-     <div style="margin-bottom: 0.3cm;"> <span style="color:white">Email: {{data.email}}</span></div>
-     <div style="margin-bottom: 0.3cm;"> <span style="color:white">LinkedIn: {{data.kontakt.linkedIn}}</span></div> -->
-    <!---- <img mat-card-image src="{{project.image}}">	-->
+      <!---- <div style="margin-bottom: 0.3cm;"><span style="color:white">First name: {{data.licniPodaci.ime}}</span></div>
+      <div style="margin-bottom: 0.3cm;"> <span style="color:white">Last name: {{data.licniPodaci.prezime}}</span></div>
+      <div style="margin-bottom: 0.3cm;"><span style="color:white">Date of birth: {{data.licniPodaci.datumRodjenja}}</span></div>
+      <div style="margin-bottom: 0.3cm;"> <span style="color:white">Parents name: {{data.licniPodaci.imeRoditelja }}</span></div>
+      <div style="margin-bottom: 0.3cm;"> <span style="color:white">Last name: {{data.licniPodaci.prezime}}</span></div>
+      <div style="margin-bottom: 0.3cm;"> <span style="text-indent: 15px; line-height: 3; color:white">Contact</span></div>
+      <div style="margin-bottom: 0.3cm;"> <span style="color:white">Telephone number: {{data.kontakt.telefon}}</span></div>
+      <div style="margin-bottom: 0.3cm;"> <span style="color:white">Email: {{data.email}}</span></div>
+      <div style="margin-bottom: 0.3cm;"> <span style="color:white">LinkedIn: {{data.kontakt.linkedIn}}</span></div> -->
+      <!---- <img mat-card-image src="{{project.image}}">	-->
+      </div>
+      <div class="defaultProfileImg"> 
+        <img mat-card-image src="assets/defaultProfileImg.png" alt="'JF20 Logo'">
+      </div>
     </div>
   </mat-card-content>
 

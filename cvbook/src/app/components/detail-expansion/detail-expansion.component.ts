@@ -15,13 +15,11 @@ export class DetailExpansionComponent implements OnInit {
   panelOpenState = false;
   @Input() public user: User;
   downloadDisabled: boolean;
-
   constructor(private router: Router) { }
 
   ngOnInit() {
     console.log('this.user');
     console.log(this.user);
-
     if (this.user.cv !== '') {
       this.downloadDisabled = false;
     } else {

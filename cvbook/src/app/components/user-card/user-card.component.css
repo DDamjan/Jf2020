@@ -23,12 +23,21 @@
     margin: 10px;
   }
 
+  .pesonalDetails {
+    display: flex;
+    flex-direction: row;
+  }
+
   .info-container{
     display: flex;
     flex-direction: column;
     padding: 0cm 0cm 0cm 0.6cm;
-    
-    
+    flex-grow: 1;
+  }
+
+  .defaultProfileImg {
+    margin-right: 20px;
+    flex: 1;
   }
 
   mat-card{

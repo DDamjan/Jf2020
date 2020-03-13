@@ -4,24 +4,27 @@
       <div class="containerRow">
         <div class="leftColumnG2">
           <mat-card-content>
-            Wecome to CV Book developed by BEST Nis.
+            <span style="font-size: medium;">
+            Wecome to <b>CV Book</b> developed by BEST Nis.
             This Web Aplication is used for browsing registerd users in CV database.
+            Current number of users who left their data <span style="font-size: larger;"><b>{{totalUsersData}}</b></span>.
+            </span>
           </mat-card-content>
-          <mat-card-actions>
-            <button mat-raised-button (click)="toCVOverview()" >CV overview</button>
-          </mat-card-actions>
         </div>
         <div class="rightColumnG1">
           <div class="containerColumn">
             <div class="leftRowG1">
-              <img mat-card-image src="public/BESTnis.png" alt="'BEST Nis Logo'">
+              <img mat-card-image src="assets/BESTnis.png" alt="'BEST Nis Logo'">
             </div>
             <div class="leftRowG1"> 
-              <img mat-card-image src="public/JobFair20.png" alt="'JF20 Logo'">
+              <img mat-card-image src="assets/JobFair20.png" alt="'JF20 Logo'">
             </div>
           </div>
         </div>
       </div>
+      <mat-card-actions>
+        <button mat-raised-button (click)="toCVOverview()" >CV overview</button>
+      </mat-card-actions>
     </mat-card>
   </div>
   <div class="containerRow">
