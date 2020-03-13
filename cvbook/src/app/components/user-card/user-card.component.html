@@ -33,7 +33,7 @@
       <button mat-raised-button class="btnDownloadCV" (click)="onDownloadCV()" [disabled]="downloadDisabled">Download CV</button>
       </div>
       <div class="defaultProfileImg"> 
-        <img mat-card-image src="assets/defaultProfileImg.png" alt="'JF20 Logo'">
+        <img mat-card-image [src]="picPath" alt="'JF20 Logo'">
       </div>
     </div>
   </mat-card-content>
