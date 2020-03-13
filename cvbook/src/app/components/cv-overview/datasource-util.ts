@@ -50,7 +50,7 @@ function toSortFn<U>(sortFns: PropertySortFns<U> = {}, useDefault = true): (sort
 
         // By default assume sort.active is a property name, and sort using the default sort
         //  uses < and >.
-        sortFn = (a: U, b: U) => defaultSort((a as any)[sort.active], (b as any)[sort.active]);
+        sortFn = (a: U, b: U) => defaultSort((<any>a)[sort.active], (<any>b)[sort.active]);
       }
 
       return sort.direction === 'asc' ? sortFn : (a: U, b: U) => sortFn(b, a);

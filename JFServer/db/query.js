@@ -957,7 +957,7 @@ async function filter(req, res) {
 
         const payload = {
             filteredUsers: filteredUsersParsed,
-            filters: req.body
+            filters: {...req.body, cv: cv === ''? false: true}
         }
 
         res.json(payload);
@@ -995,8 +995,158 @@ async function filterOptions(res) {
     });
 }
 
+async function upisiKompanije(res) {
+    await mysql.pool.getConnection(async (err, conn) => {
+        const table = {
+            "Sheet1": [
+                {
+                    "Kompanija": "Microsoft",
+                    "Sifra": "MSDCS@JF2020_19"
+                },
+                {
+                    "Kompanija": "Quest /Apex",
+                    "Sifra": "Quest@JF2020_28"
+                },
+                {
+                    "Kompanija": "WRO",
+                    "Sifra": "WRO@JF2020_37"
+                },
+                {
+                    "Kompanija": "Coming",
+                    "Sifra": "Coming@JF2020_46"
+                },
+                {
+                    "Kompanija": "Better Collective",
+                    "Sifra": "BetterCollective@JF2020_55"
+                },
+                {
+                    "Kompanija": "GATR",
+                    "Sifra": "GATR@JF2020_64"
+                },
+                {
+                    "Kompanija": "Nutanix",
+                    "Sifra": "Nutanix@JF2020_73"
+                },
+                {
+                    "Kompanija": "APTIV",
+                    "Sifra": "Aptiv@JF2020_82"
+                },
+                {
+                    "Kompanija": "Nignite",
+                    "Sifra": "Nignite@JF2020_91"
+                },
+                {
+                    "Kompanija": "Enyoj.ing",
+                    "Sifra": "Enyojing@JF2020_100"
+                },
+                {
+                    "Kompanija": "ING",
+                    "Sifra": "ING@JF2020_119"
+                },
+                {
+                    "Kompanija": "BAT",
+                    "Sifra": "BAT@JF2020_128"
+                },
+                {
+                    "Kompanija": "HDL",
+                    "Sifra": "HDL@JF2020_137"
+                },
+                {
+                    "Kompanija": "Connect Up",
+                    "Sifra": "ConnectUp@JF2020_146"
+                },
+                {
+                    "Kompanija": "OIP",
+                    "Sifra": "OIP@JF2020_155"
+                },
+                {
+                    "Kompanija": "Johnson Electric",
+                    "Sifra": "Johnson@JF2020_164"
+                },
+                {
+                    "Kompanija": "Leoni",
+                    "Sifra": "Leoni@JF2020_173"
+                },
+                {
+                    "Kompanija": "Jola",
+                    "Sifra": "Jola@JF2020_182"
+                },
+                {
+                    "Kompanija": "Ates Soft",
+                    "Sifra": "Ates@JF2020_191"
+                },
+                {
+                    "Kompanija": "TetraPak",
+                    "Sifra": "TetraPak@JF2020_200"
+                },
+                {
+                    "Kompanija": "DualSoft",
+                    "Sifra": "DualSoft@JF2020_219"
+                },
+                {
+                    "Kompanija": "HTEC",
+                    "Sifra": "HTEC@JF2020_228"
+                },
+                {
+                    "Kompanija": "Ubisoft",
+                    "Sifra": "Ubisoft@JF2020_237"
+                },
+                {
+                    "Kompanija": "Metro",
+                    "Sifra": "Metro@JF2020_246"
+                },
+                {
+                    "Kompanija": "DMV",
+                    "Sifra": "DMV@JF2020_255"
+                },
+                {
+                    "Kompanija": "Horisen",
+                    "Sifra": "Horisen@JF2020_264"
+                },
+                {
+                    "Kompanija": "Zuhlke",
+                    "Sifra": "Zuhlke@JF2020_273"
+                },
+                {
+                    "Kompanija": "MJob (Work force)",
+                    "Sifra": "MJob@JF2020_282"
+                },
+                {
+                    "Kompanija": "PrimeSW",
+                    "Sifra": "Prime@JF2020_291"
+                },
+                {
+                    "Kompanija": "Bizlink",
+                    "Sifra": "Bizlink@JF2020_230"
+                },
+                {
+                    "Kompanija": "VTool",
+                    "Sifra": "VTool@JF2020_249"
+                },
+                {
+                    "Kompanija": "Syrmia",
+                    "Sifra": "Syrmia@JF2020_258"
+                },
+                {
+                    "Kompanija": "Roaming",
+                    "Sifra": "Roaming@JF2020_267"
+                }
+            ]
+        }
+
+        table.Sheet1.forEach(async record => {
+            await conn.promise().execute(queryStrings.UPISI_KOMPANIJE(record.Kompanija, sha('sha256').update(record.Sifra).digest('hex')));
+        });
+        
+        res.end();
+
+        mysql.pool.releaseConnection(conn);
+    });
+}
+
 
 module.exports = {
+    upisiKompanije,
     execLogin,
     exec,
     get,

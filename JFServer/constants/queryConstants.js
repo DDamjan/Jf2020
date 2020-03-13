@@ -909,7 +909,7 @@ function GET_ALL_USERS () {
 
 // FILTERI
 
-const GET_USERS =   `SELECT DISTINCT licni.userID, licni.ime, licni.prezime, licni.cv, s.prosek, f.naziv 
+const GET_USERS =   `SELECT DISTINCT licni.userID, licni.ime, licni.prezime, licni.cv, s.prosek, f.naziv as fakultet
                      FROM licniPodaci as licni
                      LEFT JOIN studira as s
                         ON s.userID = licni.userID
@@ -987,6 +987,10 @@ function FILTER_BY_CV () {
     return `cv <> ''`;
 }
 
+function UPISI_KOMPANIJE(username, password) {
+    return `INSERT INTO kompanija (username, password)
+            VALUES ('${username}', '${password}')`;
+}
 
 module.exports = {
     CHECK_USER,
@@ -1089,5 +1093,6 @@ module.exports = {
     GET_ALL_FACULTIES,
     GET_ALL_CITIES,
     GET_ALL_COUNTRIES,
-    GET_ALL_USERS
+    GET_ALL_USERS,
+    UPISI_KOMPANIJE
 }

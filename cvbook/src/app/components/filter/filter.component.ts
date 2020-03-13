@@ -36,7 +36,16 @@ export class FilterComponent implements OnInit {
   ngOnInit() {
     this.populateformOptions();
     this.store.select(selectAllFilters).subscribe(filters => {
-
+      this.firstName = filters[0].firstName;
+      this.lastName = filters[0].lastName;
+      this.yos = filters[0].yos;
+      this.grade = filters[0].grade;
+      this.faculty = filters[0].faculty;
+      this.pCity = filters[0].permanentResidenceCity;
+      this.pCountry = filters[0].permanentResidenceCountry;
+      this.tCity = filters[0].temporaryResidenceCity;
+      this.tCountry = filters[0].temporaryResidenceCountry;
+      this.cv = filters[0].cv;
     });
   }
 

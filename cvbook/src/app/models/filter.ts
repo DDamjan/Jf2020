@@ -5,7 +5,7 @@ export interface Filter {
     yos: string;
     grade: string;
     faculty: string;
-    cv: string;
+    cv: boolean;
     permanentResidenceCity: string;
     permanentResidenceCountry: string;
     temporaryResidenceCity: string;

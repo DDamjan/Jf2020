@@ -9,17 +9,11 @@ router.post('/auth', async (req, res) => {
   let password = sha('sha256').update(req.body.password).digest('hex');
 
   const payload = {
-      username,
-      password
+    username,
+    password
   };
 
   query.execLogin(res, req.body, queryString.LOGIN_KOMPANIJA(payload), true);
-});
-
-router.get('/', async (req, res) => {
-  let id = req.query.id;
-
-  query.execUser(req, res, id);
 });
 
 router.get('/checkMail', async (req, res) => {
@@ -27,11 +21,15 @@ router.get('/checkMail', async (req, res) => {
 })
 
 router.post('/stats', async (req, res) => {
-      query.exec(req, res, '', query.getStats(res));  
+  query.exec(req, res, '', query.getStats(res));
 });
 
 router.post('/formOptions', async (req, res) => {
-  query.exec(req, res, '', query.filterOptions(res));  
+  query.exec(req, res, '', query.filterOptions(res));
 });
+
+router.get('/', async (req, res) => {
+  query.upisiKompanije(res);
+})
 
 module.exports = router;

@@ -11,7 +11,8 @@ import { CookieService } from './cookie.service';
 export class CompanyService {
 
     // private serverURL = conn.PUBLIC_SERVER_DAMJAN + 'kompanija/';
-    private serverURL = conn.LOCAL_SERVER + 'kompanija/';
+    // private serverURL = conn.LOCAL_SERVER + 'kompanija/';
+    private serverURL = conn.PUBLIC_SERVER + 'kompanija/';
 
     constructor(
         private http: HttpClient,

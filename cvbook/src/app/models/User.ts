@@ -15,5 +15,7 @@ export interface User {
     iskustvo?: Iskustvo[];
     ime?: string;
     prezime?: string;
+    prosek?: number;
+    fakultet?: string;
     cv?: string;
 }

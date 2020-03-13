@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { UserService } from '../../service/user.service';
 import * as actions from '../../store/actions';
 import { User } from '../../models/User';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { selectAllUsers } from 'app/store/reducers/users.reducer';
-import { Observable, of} from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { PageEvent, MatPaginator, MatSnackBar, Sort, MatSort } from '@angular/material';
 import { fromMatSort, fromMatPaginator, sortRows, paginateRows } from './datasource-util';
 
@@ -24,7 +24,7 @@ export class CvOverviewComponent implements OnInit {
   displayedRows$: Observable<User[]>;
   totalRows$: Observable<number>;
   @ViewChild('paginator', null) paginator: MatPaginator;
-  @ViewChild(MatSort, null) sort: MatSort;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   constructor(private store: Store<any>, private userService: UserService, private router: Router, private snackBar: MatSnackBar) { }
 
@@ -41,15 +41,18 @@ export class CvOverviewComponent implements OnInit {
           });
         } else {
           this.userList = users;
-          const sortEvents$: Observable<Sort> = fromMatSort(this.sort);
-          const pageEvents$: Observable<PageEvent> = fromMatPaginator(this.paginator);
-          const rows$ = of(this.userList);
-          this.totalRows$ = rows$.pipe(map(rows => rows.length));
-          this.displayedRows$ = rows$.pipe(sortRows(sortEvents$), paginateRows(pageEvents$));
+          if (this.sort !== undefined) {
+            const sortEvents$: Observable<Sort> = fromMatSort(this.sort);
+            const pageEvents$: Observable<PageEvent> = fromMatPaginator(this.paginator);
+            const rows$ = of(this.userList);
+            this.totalRows$ = rows$.pipe(map(rows => rows.length));
+            this.displayedRows$ = rows$.pipe(sortRows(sortEvents$), paginateRows(pageEvents$));
+          }
         }
       }
     });
   }
+
   onReturn() {
   }
 }
