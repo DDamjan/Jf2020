@@ -3,6 +3,7 @@ import { Store, select } from '@ngrx/store';
 import * as actions from '../../store/actions';
 import { UserService } from '../../service/user.service';
 import { CompanyService } from 'app/service/company.service';
+import { selectAllFilters } from 'app/store/reducers/filter.reducer';
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
@@ -18,10 +19,25 @@ export class FilterComponent implements OnInit {
   public tCountryOptions: string[] = [];
   public tCityOptions: string[] = [];
   public facultyOptions: string[] = [];
+
+  public cv: boolean;
+  public firstName: string;
+  public lastName: string;
+  public yos: string;
+  public grade: string;
+  public faculty: string;
+  public pCity: string;
+  public pCountry: string;
+  public tCity: string;
+  public tCountry: string;
+
   constructor(private store: Store<any>, private userService: UserService, private companyService: CompanyService) { this.error = false; }
 
   ngOnInit() {
     this.populateformOptions();
+    this.store.select(selectAllFilters).subscribe(filters => {
+
+    });
   }
 
   populateformOptions() {
