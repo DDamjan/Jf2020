@@ -1,20 +1,22 @@
-<mat-card *ngIf='isPersonalData' class="example-card" >
+<mat-card *ngIf='isPersonalData' class="personalDataCard" >
   <mat-card-header>
-    <mat-card-title style="color:white">{{title}}</mat-card-title>
+    <mat-card-title style="color:white"><div>{{title}}</div></mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="pesonalDetails">
       <div  class="info-container" >
-      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">ID:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.userID}}</span></div></div>
-      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">First name:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.ime}}</span></div></div>
-      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">Last name:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.prezime}}</span></div></div>
-      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">Date of birth:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.datumRodjenja}}</span></div></div>
-      <div style="margin-bottom: 0.6cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">Parents name:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.imeRoditelja}}</span></div></div>
       
-      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white; font-size: large;">Contact</span></div></div>
-      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">Telephone number:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.kontakt.telefon}}</span></div></div>
-      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">Email:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.email}}</span></div></div>
-      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 4cm;"><span style="color:white;">LinkedIn:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.kontakt.linkedIn}}</span></div></div>
+      <div style="margin-bottom: 2%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">First name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.ime}}</span></div></div>
+      <div style="margin-bottom: 2%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Last name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.prezime}}</span></div></div>
+      <div style="margin-bottom: 2%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Date of birth:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.datumRodjenja}}</span></div></div>
+      <div style="margin-bottom: 5%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Parents name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.imeRoditelja}}</span></div></div>
+      
+      <div style="margin-bottom: 2%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white; font-size: large;">Contact</span></div></div>
+      <div style="margin-bottom: 2%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Telephone number:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.kontakt.telefon}}</span></div></div>
+      <div style="margin-bottom: 2%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Email:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.email}}</span></div></div>
+      <div style="margin-bottom: 8%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">LinkedIn:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.kontakt.linkedIn}}</span></div></div>
+     
+
 
       <!---- <div style="margin-bottom: 0.3cm;"><span style="color:white">First name: {{data.licniPodaci.ime}}</span></div>
       <div style="margin-bottom: 0.3cm;"> <span style="color:white">Last name: {{data.licniPodaci.prezime}}</span></div>
@@ -36,15 +38,15 @@
 </mat-card>
 
     
-    <mat-card *ngIf='isPermanentResidence' class="example-card1" >
+    <mat-card *ngIf='isPermanentResidence' class="permanentResidenceCard" >
       <mat-card-header>
         <mat-card-title style="color:white">{{title}}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
     <div  class='info-container'>
-     <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 2cm;"><span style="color:white;">Adress:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.adresa}}</span></div></div>
-     <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 2cm;"><span style="color:white;">City:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.grad}}</span></div></div>
-     <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 2cm;"><span style="color:white;">County:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.drzava}}</span></div></div>
+     <div style="margin-bottom: 1%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Adress:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.adresa}}</span></div></div>
+     <div style="margin-bottom: 1%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.grad}}</span></div></div>
+     <div style="margin-bottom: 1%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.drzava}}</span></div></div>
 
       <!-- <span style="color:white">Adress: {{data.prebivaliste.adresa}}</span>
       <span style="color:white">City: {{data.prebivaliste.grad}}</span>
@@ -53,15 +55,15 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf='isResidence' class="example-card2" >
+<mat-card *ngIf='isResidence' class="temporaryResidenceCard" >
   <mat-card-header>
     <mat-card-title style="color:white">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div  class='info-container'>
-      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 2cm;"><span style="color:white;">Adress:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.boraviste.adresa}}</span></div></div>
-      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 2cm;"><span style="color:white;">City:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.boraviste.grad}}</span></div></div>
-      <div style="margin-bottom: 0.3cm; "> <div style="float: left; margin-right: 1cm; width: 2cm;"><span style="color:white;">County:</span></div><div style="float: left;"><span style="color: white; font-weight: 550;">{{data.boraviste.drzava}}</span></div></div>
+      <div style="margin-bottom: 1%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Adress:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.adresa}}</span></div></div>
+      <div style="margin-bottom: 1%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.grad}}</span></div></div>
+      <div style="margin-bottom: 1%; display: flex; flex-direction: row; justify-content: flex-start;"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.drzava}}</span></div></div>
     <!----  <span style="color:white">Adress: {{data.prebivaliste.adresa}}</span>
       <span style="color:white">City: {{data.prebivaliste.grad}}</span>
       <span style="color:white">County: {{data.prebivaliste.drzava}}</span> -->
@@ -69,7 +71,7 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf='isHighSchoolEducation' class="example-card3" >
+<mat-card *ngIf='isHighSchoolEducation' class="highSchoolCard" >
   <mat-card-header>
     <mat-card-title style="color:white">{{title}}</mat-card-title>
   </mat-card-header>
@@ -104,7 +106,7 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf='isHigherEducation' class="example-card4" >
+<mat-card *ngIf='isHigherEducation' class="higherEducationCard" >
   <mat-card-header>
     <mat-card-title style="color:white">{{title}}</mat-card-title>
   </mat-card-header>
