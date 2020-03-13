@@ -9,7 +9,7 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
   styleUrls: ['./piechart.component.css']
 })
 export class PieChartComponent implements OnInit {
-  private backgroundColor: any = ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'];
+  private backgroundColor: any = ['#074F7E', '#0596F4', '#01436E'];
     // Pie
     @Input() public pieChartLabels: Label[];
     @Input() public pieChartData: number[];
@@ -44,7 +44,6 @@ export class PieChartComponent implements OnInit {
       this.chartReady = true;
     }
 
-    // events
     public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
       console.log(event, active);
     }

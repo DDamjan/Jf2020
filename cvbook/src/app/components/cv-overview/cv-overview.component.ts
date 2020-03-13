@@ -51,7 +51,5 @@ export class CvOverviewComponent implements OnInit {
     });
   }
   onReturn() {
-
   }
-
 }

@@ -82,13 +82,6 @@ export class FilterComponent implements OnInit {
       temporaryResidenceCity,
       temporaryResidenceCountry
     };
-
-    // if (false === false) {
-    //   this.store.dispatch(new actions.GetUsers(payload));
-    // } else {
-    //   this.error = true;
-    // }
-
     this.store.dispatch(new actions.FilterUsers(payload));
   }
 

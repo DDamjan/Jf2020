@@ -1,13 +1,17 @@
 <mat-card *ngIf='isPersonalData' class="personalDataCard" >
-  <button mat-mini-fab class="btnReturn" (click)="onReturn()"><mat-icon>keyboard_backspace</mat-icon></button>
+ 
   <!-- <mat-card-title style="color:white">ID: {{data.userID}}</mat-card-title> -->
   <mat-card-header>
+    <button mat-mini-fab class="btnReturn" (click)="onReturn()"><mat-icon>keyboard_backspace</mat-icon></button>
+
+    <div style="margin-top: 0.5%; margin-left: 2%;">
     <mat-card-title style="color:white"><div>{{title}}</div></mat-card-title>
+    
+  </div>
   </mat-card-header>
   <mat-card-content>
     <div class="pesonalDetails">
-      <div  class="info-container" >
-      
+      <div  class="info-container" >   
       <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">First name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.ime}}</span></div></div>
       <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Last name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.prezime}}</span></div></div>
       <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Date of birth:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.datumRodjenja}}</span></div></div>
@@ -17,43 +21,25 @@
       <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Telephone number:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.kontakt.telefon}}</span></div></div>
       <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Email:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.email}}</span></div></div>
       <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">LinkedIn:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.kontakt.linkedIn}}</span></div></div>
-     
-
-
-      <!---- <div style="margin-bottom: 0.3cm;"><span style="color:white">First name: {{data.licniPodaci.ime}}</span></div>
-      <div style="margin-bottom: 0.3cm;"> <span style="color:white">Last name: {{data.licniPodaci.prezime}}</span></div>
-      <div style="margin-bottom: 0.3cm;"><span style="color:white">Date of birth: {{data.licniPodaci.datumRodjenja}}</span></div>
-      <div style="margin-bottom: 0.3cm;"> <span style="color:white">Parents name: {{data.licniPodaci.imeRoditelja }}</span></div>
-      <div style="margin-bottom: 0.3cm;"> <span style="color:white">Last name: {{data.licniPodaci.prezime}}</span></div>
-      <div style="margin-bottom: 0.3cm;"> <span style="text-indent: 15px; line-height: 3; color:white">Contact</span></div>
-      <div style="margin-bottom: 0.3cm;"> <span style="color:white">Telephone number: {{data.kontakt.telefon}}</span></div>
-      <div style="margin-bottom: 0.3cm;"> <span style="color:white">Email: {{data.email}}</span></div>
-      <div style="margin-bottom: 0.3cm;"> <span style="color:white">LinkedIn: {{data.kontakt.linkedIn}}</span></div> -->
-      <!---- <img mat-card-image src="{{project.image}}">	-->
       <button mat-raised-button class="btnDownloadCV" (click)="onDownloadCV()" [disabled]="downloadDisabled">Download CV</button>
       </div>
       <div class="defaultProfileImg"> 
         <img mat-card-image [src]="picPath" alt="'Profile pic'">
       </div>
     </div>
-  </mat-card-content>
-
-</mat-card>
-
     
-    <mat-card *ngIf='isPermanentResidence' class="permanentResidenceCard" >
-      <mat-card-header>
-        <mat-card-title style="color:white">{{title}}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
+  </mat-card-content>
+</mat-card> 
+
+<mat-card *ngIf='isPermanentResidence' class="permanentResidenceCard" >
+  <mat-card-header>
+    <mat-card-title style="color:white">{{title}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
     <div  class='info-container'>
      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Adress:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.adresa}}</span></div></div>
      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.grad}}</span></div></div>
      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.drzava}}</span></div></div>
-
-      <!-- <span style="color:white">Adress: {{data.prebivaliste.adresa}}</span>
-      <span style="color:white">City: {{data.prebivaliste.grad}}</span>
-      <span style="color:white">County: {{data.prebivaliste.drzava}}</span> -->
     </div>
   </mat-card-content>
 </mat-card>
@@ -67,9 +53,6 @@
       <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Adress:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.adresa}}</span></div></div>
       <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.grad}}</span></div></div>
       <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.drzava}}</span></div></div>
-    <!----  <span style="color:white">Adress: {{data.prebivaliste.adresa}}</span>
-      <span style="color:white">City: {{data.prebivaliste.grad}}</span>
-      <span style="color:white">County: {{data.prebivaliste.drzava}}</span> -->
     </div>
   </mat-card-content>
 </mat-card>
@@ -88,8 +71,6 @@
                <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Name:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{skola.naziv}}</span></div></div>
               <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Type:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{skola.tip}}</span></div></div>
             </div>
-            <!----  Name: {{skola.naziv}}<br>
-              Type: {{skola.tip}} -->
             </mat-panel-title>
           </mat-expansion-panel-header>
           
@@ -99,10 +80,6 @@
            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{skola.drzava}}</span></div></div>
            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Finishing Year:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{skola.godinaZavrsetka}}</span></div></div>
           </div>
-         <!---- Course: {{skola.smer}}<br>
-          City: {{skola.grad}}<br>
-          County: {{skola.drzava}}<br>
-          Finishing Year: {{skola.godinaZavrsetka}} -->
         </mat-expansion-panel>
       </mat-accordion>
     </div>
@@ -123,8 +100,6 @@
                 <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Name:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{faks.fakultet}}</span></div></div>
                <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Course:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{faks.smer}}</span></div></div>
              </div>
-             <!---- Name: {{faks.fakultet}}<br>
-              Course: {{faks.smer}} -->
             </mat-panel-title>
           </mat-expansion-panel-header>
 
@@ -138,24 +113,9 @@
             <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">University:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{faks.univerzitet}}</span></div></div>
             <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{faks.grad}}</span></div></div>
             <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{faks.drzava}}</span></div></div>
-
            </div>
-         <!---- ESPB: {{faks.espb}}<br>
-          Number of Finished Subjects: {{faks.godineStudija}}<br>
-          Starting Year: {{faks.godinaUpisa}}<br>
-          Year: {{faks.godineStudija}}<br>
-          Grade average: {{faks.prosek}}<br>
-          Satus: {{faks.status}}<br>
-          University: {{faks.univerzitet}}<br>
-          City: {{faks.grad}}<br>
-          County: {{faks.drzava}}<br> -->
         </mat-expansion-panel>
       </mat-accordion>
     </div>
   </mat-card-content>
-  <!--
-    <mat-card-actions>
-      <button mat-raised-button (click)="onclick()">Go to details</button>
-    </mat-card-actions>
-  -->
 </mat-card>

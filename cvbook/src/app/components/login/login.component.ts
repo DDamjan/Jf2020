@@ -12,6 +12,7 @@ import { selectAllCompanies } from 'app/store/reducers/company.reducer';
 export class LoginComponent implements OnInit, DoCheck {
   public error: boolean;
   constructor(private store: Store<any>, private router: Router) { this.error = false; }
+
   ngOnInit() {
   }
 

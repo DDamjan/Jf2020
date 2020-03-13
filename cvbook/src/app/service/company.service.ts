@@ -17,8 +17,6 @@ export class CompanyService {
         private http: HttpClient,
         private httpService: HttpService) { }
 
-
-    /* GET user by id. */
     getCompany(payload: any): Observable<any> {
         const url = `${this.serverURL}?id=${payload.id}&auth=${payload.auth}`;
         return this.http.get<any>(url).pipe(
@@ -26,15 +24,6 @@ export class CompanyService {
         );
     }
 
-    // /* GET last ID */
-    // getLastID(): Observable<any> {
-    //     const url = `${this.serverURL}currentid`;
-    //     return this.http.get<any>(url).pipe(
-    //         catchError(this.handleError<any>('getLastID'))
-    //     );
-    // }
-
-    /* POST: Authenticate a user */
     authCompany(data: object): Observable<any> {
         const url = `${this.serverURL}auth`;
         return this.http.post<any>(url, data, this.httpService.httpOptions()).pipe(

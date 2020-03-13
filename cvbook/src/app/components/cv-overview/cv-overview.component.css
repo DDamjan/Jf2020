@@ -1,11 +1,10 @@
 .container{
     display: flex;
     height: max-content;
-    background-color:#DCDCDC;
 }
 .fixed{
     flex: 1;
-    background-color:#DCDCDC;
+    background-color:#C1D2DD;
     align-items: center;
     justify-content: center;
     border-right: 1px solid gray;

@@ -29,7 +29,6 @@ export class UserCardComponent implements OnInit {
     this.isHigherEducation = this.type === 'higherEducation';
 
     if (this.isPersonalData) {
-      console.log(this.data.licniPodaci);
       if (this.data.licniPodaci.profilnaSlika === null) {
         this.picPath = 'assets/defaultProfileImg.png';
       } else {
@@ -43,11 +42,8 @@ export class UserCardComponent implements OnInit {
     }
   }
 
-  onclick() {
-    // this.router.navigateByUrl(`operator/details/${this.driver.id}`);
-  }
-
   onReturn() {
+    this.router.navigate(['cvoverview']);
   }
 
   onDownloadCV() {

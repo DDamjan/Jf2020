@@ -42,10 +42,3 @@ export const selectUsersState = createFeatureSelector<UsersState>('users');
 export const { selectAll: selectAllUsers, selectIds } = UsersAdapter.getSelectors(
     selectUsersState
 );
-
-// export const getSelectedUser = createSelector(
-//     selectUserState,
-//     (state, props) => {
-//         return state.entities[props.id];
-//     }
-// );

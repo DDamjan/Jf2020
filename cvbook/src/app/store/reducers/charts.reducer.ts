@@ -22,7 +22,6 @@ export function ChartReducer(
     state: ChartState = ChartInitialState,
     action
 ) {
-    // console.log(action.type);
     switch (action.type) {
         case GET_CHART_SUCCESS: {
             return ChartAdapter.addMany(action.payload, state = ChartInitialState);
@@ -50,10 +49,3 @@ export const selectChartState = createFeatureSelector<ChartState>('chart');
 export const { selectAll: selectAllCharts, selectIds } = ChartAdapter.getSelectors(
     selectChartState
 );
-
-// export const getSelectedUser = createSelector(
-//     selectUserState,
-//     (state, props) => {
-//         return state.entities[props.id];
-//     }
-// );

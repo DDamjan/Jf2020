@@ -27,102 +27,48 @@ export class ChartEffects {
     ofAction(actions.GetChart),
     switchMap(chart => this.chartService.getChart()),
     map(response => {
-      console.log('getChart');
-      console.log(response);
-      if (response.success !== undefined && response.success === false) {
+      if (Array.isArray(response) && response[0].success !== undefined && response[0].success === false) {
         this.badToken();
         return new actions.TokenExpired();
       } else {
-        let labelFaculty: Label[];
-        let dataFaculty: ChartDataSets[];
-
-        labelFaculty = [];
-        dataFaculty = [{data: [], label: ''}];
-
-        dataFaculty[0].label = 'Faculties';
-        response.top10.forEach(row => {
-          labelFaculty.push(row.naziv);
-          dataFaculty[0].data.push(row.broj);
-        });
-        let charts: Chart[];
-        charts = [
-          {
-            chartID: 1,
-            labels: [['Uploaded CV'], ['No CV']],
-            data: [response.cv.postavili, response.cv.nisuPostavili]
-          },
-          {
-            chartID: 2,
-            labels: labelFaculty,
-            data: dataFaculty
-          },
-          {
-            chartID: 3,
-            labels: [['Total amount of users']],
-            data: [response.totalUsers.broj]
-          },
-        ];
-        return new actions.GetChartSuccess(charts);
+        return new actions.GetChartSuccess(this.makeChartsObject(response));
       }
     })
   );
 
-  // getChartCV$ = this.update$.pipe(
-  //   ofAction(actions.GetChartCV),
-  //   switchMap(chart => this.chartService.getChartCV()),
-  //   map(response => {
-  //     console.log('getChartCV');
-  //     console.log(response);
-  //     if (response.success !== undefined && response.success === false) {
-  //       this.badToken();
-  //       return new actions.TokenExpired();
-  //     } else {
-  //       let pieChartCVUploads: Chart;
-  //       pieChartCVUploads = {
-  //         chartID: 1,
-  //         labels: [['UploadedCV'], ['NoCV']],
-  //         data: [response.postavili, response.nisuPostavili]
-  //       };
-  //       return new actions.GetChartCVSuccess(pieChartCVUploads);
-  //     }
-  //   })
-  // );
+  makeChartsObject(response) {
+    let labelFaculty: Label[];
+    let dataFaculty: ChartDataSets[];
 
-  // @Effect()
-  // getChartTop10$ = this.update$.pipe(
-  //   ofAction(actions.GetChartTop10),
-  //   switchMap(chart => this.chartService.getChartTop10()),
-  //   map(response => {
-  //     console.log('getChartTop10');
-  //     console.log(response);
-  //     if (response[0].success !== undefined && response[0].success === false) {
-  //       this.badToken();
-  //       return new actions.TokenExpired();
-  //     } else {
-  //       return new actions.GetChartTop10Success(response[0]);
-  //     }
-  //   })
-  // );
+    labelFaculty = [];
+    dataFaculty = [{data: [], label: ''}];
 
-  // @Effect()
-  // getChartTotalUsers$ = this.update$.pipe(
-  //   ofAction(actions.GetChartTotalUsers),
-  //   switchMap(chart => this.chartService.getChartTotalUsers()),
-  //   map(response => {
-  //     console.log('getChartTotalUsers');
-  //     console.log(response);
-  //     if (response[0].success !== undefined && response[0].success === false) {
-  //       this.badToken();
-  //       return new actions.TokenExpired();
-  //     } else {
-  //       return new actions.GetChartTotalUsersSuccess(response[0]);
-  //     }
-  //   })
-  // );
-
+    dataFaculty[0].label = 'Faculties';
+    response.top10.forEach(row => {
+      labelFaculty.push(row.naziv);
+      dataFaculty[0].data.push(row.broj);
+    });
+    let charts: Chart[];
+    return charts = [
+      {
+        chartID: 1,
+        labels: [['Uploaded CV'], ['No CV']],
+        data: [response.cv.postavili, response.cv.nisuPostavili]
+      },
+      {
+        chartID: 2,
+        labels: labelFaculty,
+        data: dataFaculty
+      },
+      {
+        chartID: 3,
+        labels: [['Total amount of users']],
+        data: [response.totalUsers.broj]
+      },
+    ];
+  }
 
   badToken() {
-    // console.log('BAD TOKEN COMPANY');
     localStorage.removeItem('CVBook-CurrentCompany');
     this.cookieService.deleteCookie('CVBook-Token');
     this.router.navigate(['/']);

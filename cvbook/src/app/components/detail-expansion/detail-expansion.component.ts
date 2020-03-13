@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl } from '@angular/forms';
 import { User } from '../../models/User';
-
 
 @Component({
   selector: 'app-user-expansion',
@@ -26,7 +24,7 @@ export class DetailExpansionComponent implements OnInit {
       this.downloadDisabled = true;
     }
     if (this.index % 2 === 0) {
-      this.color = '#E8E8E8';
+      this.color = '#A9DDFF';
     } else {
       this.color = 'white';
     }

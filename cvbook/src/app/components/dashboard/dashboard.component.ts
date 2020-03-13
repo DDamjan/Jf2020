@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import * as actions from '../../store/actions';
-import { selectAllUser } from '../../store/reducers/user.reducer';
-import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
-
+import { ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
 import { selectAllCharts } from 'app/store/reducers/charts.reducer';
 
@@ -27,12 +25,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.isReady = false;
-    // const __dirname = path.resolve();
-    // this.BESTimage = __dirname.substring(0, __dirname.indexOf('/src')) + '/repo/BESTnis.png';
-    // this.JF20image = __dirname.substring(0, __dirname.indexOf('/src')) + '/repo/JobFair20.png';
-    // this.BESTimage = '../../../../repo/BESTnis.png';
-    // this.JF20image = '../../../../repo/JobFair20.png';
-
     this.store.select(selectAllCharts).subscribe(data => {
       if (data.length === 0 ) {
         this.store.dispatch(new actions.GetChart({}));
