@@ -12,10 +12,10 @@ export class FilterComponent implements OnInit {
   public error: boolean;
   public cities: any;
   public counties: any;
-  private yosOptions: string[] = ['1', '2', '3', '4', '5', '6'];
-  private countryOptions: string[] = [];
-  private cityOptions: string[] = [];
-  private facultyOptions: string[] = [];
+  public yosOptions: string[] = ['1', '2', '3', '4', '5', '6'];
+  public countryOptions: string[] = [];
+  public cityOptions: string[] = [];
+  public facultyOptions: string[] = [];
   constructor(private store: Store<any>, private userService: UserService, private companyService: CompanyService) { this.error = false; }
 
   ngOnInit() {

@@ -25,6 +25,7 @@ export function UsersReducer(
             console.log(action.payload);
             // UsersAdapter.removeAll(state = UsersInitialState);
             // return UsersAdapter.addMany(action.payload.filteredUsers, state = UsersInitialState);
+            break;
         }
         default:
             return state;
