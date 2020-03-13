@@ -4,15 +4,15 @@
   </div>
   <p class="error" *ngIf='error'>ERROR</p>
   <div class="inputs">
-    <mat-checkbox>Has CV</mat-checkbox>
+    <mat-checkbox isChecked= "cv">Has CV</mat-checkbox>
     <mat-form-field>
-      <input matInput placeholder="First name" required>
+      <input matInput placeholder="First name" value="firstName">
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Last name" required>
+      <input matInput placeholder="Last name" value="lastName">
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Year of study" [matAutocomplete]="yos"> 
+      <input matInput placeholder="Year of study" [matAutocomplete]="yos" value="yos"> 
       <mat-autocomplete #yos="matAutocomplete">
         <mat-option *ngFor="let option of yosOptions" [value]="option">
           {{ option }}
@@ -20,10 +20,10 @@
       </mat-autocomplete>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Grade average" required>
+      <input matInput placeholder="Grade average" >
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Faculty" [matAutocomplete]="faculty" (keyup)="autoCompleteListener($event, 'faculty')">
+      <input matInput placeholder="Faculty" [matAutocomplete]="faculty" value="faculty" (keyup)="autoCompleteListener($event, 'faculty')">
       <mat-autocomplete #faculty="matAutocomplete">
         <mat-option *ngFor="let option of facultyOptions" [value]="option">
           {{ option }}

@@ -29,7 +29,8 @@ export class UserCardComponent implements OnInit {
     this.isHigherEducation = this.type === 'higherEducation';
 
     if (this.isPersonalData) {
-      if (this.data.licniPodaci.profilnaSlika === '') {
+      console.log(this.data.licniPodaci);
+      if (this.data.licniPodaci.profilnaSlika === null) {
         this.picPath = 'assets/defaultProfileImg.png';
       } else {
         this.picPath = this.data.licniPodaci.profilnaSlika;
