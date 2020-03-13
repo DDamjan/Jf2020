@@ -24,7 +24,7 @@ export class DetailExpansionComponent implements OnInit {
       this.downloadDisabled = true;
     }
     if (this.index % 2 === 0) {
-      this.color = '#B5D6EB';
+      this.color = '#A9DDFF';
     } else {
       this.color = 'white';
     }
