@@ -23,9 +23,8 @@ export function UsersReducer(
         }
         case FILTER_USERS_SUCCESS: {
             console.log(action.payload);
-            // UsersAdapter.removeAll(state = UsersInitialState);
-            // return UsersAdapter.addMany(action.payload.filteredUsers, state = UsersInitialState);
-            break;
+            UsersAdapter.removeAll(state = UsersInitialState);
+            return UsersAdapter.addMany(action.payload.filteredUsers, state = UsersInitialState);
         }
         default:
             return state;
