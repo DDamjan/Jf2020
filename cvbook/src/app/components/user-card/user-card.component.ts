@@ -42,6 +42,6 @@ export class UserCardComponent implements OnInit {
   }
 
   onDownloadCV() {
-    window.location.href = this.data.cv;
+    window.location.href = this.data.licniPodaci.cv;
   }
 }
