@@ -1,4 +1,6 @@
 <mat-card *ngIf='isPersonalData' class="personalDataCard" >
+  <button mat-mini-fab class="btnReturn" (click)="onReturn()"><mat-icon>keyboard_backspace</mat-icon></button>
+  <!-- <mat-card-title style="color:white">ID: {{data.userID}}</mat-card-title> -->
   <mat-card-header>
     <mat-card-title style="color:white"><div>{{title}}</div></mat-card-title>
   </mat-card-header>
@@ -28,6 +30,7 @@
       <div style="margin-bottom: 0.3cm;"> <span style="color:white">Email: {{data.email}}</span></div>
       <div style="margin-bottom: 0.3cm;"> <span style="color:white">LinkedIn: {{data.kontakt.linkedIn}}</span></div> -->
       <!---- <img mat-card-image src="{{project.image}}">	-->
+      <button mat-raised-button class="btnDownloadCV" (click)="onDownloadCV()" [disabled]="downloadDisabled">Download CV</button>
       </div>
       <div class="defaultProfileImg"> 
         <img mat-card-image src="assets/defaultProfileImg.png" alt="'JF20 Logo'">

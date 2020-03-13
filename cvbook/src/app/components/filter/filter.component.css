@@ -1,10 +1,11 @@
 .btnSerach{
     margin: 7px;
+    margin-left: 10%;
     background-color: #0596F4;
-    width: 70%;
+    width: 80%;
     color: white;
-    justify-self:  center;
 }
+
 
 .inputs{
     margin-left: 5px;

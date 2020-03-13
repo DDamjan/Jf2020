@@ -16,6 +16,7 @@ export class UserCardComponent implements OnInit {
   public isPermanentResidence: boolean;
   public isHighSchoolEducation: boolean;
   public isHigherEducation: boolean;
+  public downloadDisabled: boolean;
 
   constructor(private store: Store<any>, private router: Router) { }
 
@@ -25,9 +26,22 @@ export class UserCardComponent implements OnInit {
     this.isPermanentResidence  = this.type === 'permanentResidence';
     this.isHighSchoolEducation = this.type === 'highSchoolEducation';
     this.isHigherEducation = this.type === 'higherEducation';
+
+    if (this.data.cv !== '') {
+      this.downloadDisabled = false;
+    } else {
+      this.downloadDisabled = true;
+    }
   }
 
   onclick() {
     // this.router.navigateByUrl(`operator/details/${this.driver.id}`);
+  }
+
+  onReturn() {
+  }
+
+  onDownloadCV() {
+    window.location.href = this.data.cv;
   }
 }
