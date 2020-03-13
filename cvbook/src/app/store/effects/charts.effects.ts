@@ -29,7 +29,8 @@ export class ChartEffects {
     map(response => {
       console.log('getChart');
       console.log(response);
-      if (response.success !== undefined && response.success === false) {
+      console.log(Array.isArray(response));
+      if (Array.isArray(response) && response[0].success !== undefined && response[0].success === false) {
         this.badToken();
         return new actions.TokenExpired();
       } else {
