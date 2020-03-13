@@ -17,20 +17,28 @@ export class UserCardComponent implements OnInit {
   public isHighSchoolEducation: boolean;
   public isHigherEducation: boolean;
   public downloadDisabled: boolean;
+  public picPath: string;
 
   constructor(private store: Store<any>, private router: Router) { }
 
   ngOnInit() {
     this.isPersonalData = this.type === 'personalData';
     this.isResidence = this.type === 'residence';
-    this.isPermanentResidence  = this.type === 'permanentResidence';
+    this.isPermanentResidence = this.type === 'permanentResidence';
     this.isHighSchoolEducation = this.type === 'highSchoolEducation';
     this.isHigherEducation = this.type === 'higherEducation';
 
-    if (this.data.cv !== '') {
-      this.downloadDisabled = false;
-    } else {
-      this.downloadDisabled = true;
+    if (this.isPersonalData) {
+      if (this.data.licniPodaci.profilnaSlika === '') {
+        this.picPath = 'assets/defaultProfileImg.png';
+      } else {
+        this.picPath = this.data.licniPodaci.profilnaSlika;
+      }
+      if (this.data.licniPodaci.cv === '') {
+        this.downloadDisabled = false;
+      } else {
+        this.downloadDisabled = true;
+      }
     }
   }
 
