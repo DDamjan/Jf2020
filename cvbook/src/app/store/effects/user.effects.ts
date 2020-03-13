@@ -53,9 +53,9 @@ export class UserEffects {
   @Effect()
   filterUsers$ = this.update$.pipe(
     ofAction(actions.FilterUsers),
-    switchMap(filters => this.userService.filterUsers(filters)),
+    switchMap(filters => this.userService.filterUsers(filters.payload)),
     map(response => {
-      if (response[0].success !== undefined && response[0].success === false) {
+      if (response.success !== undefined && response.success === false) {
         this.badToken();
         return new actions.TokenExpired();
       } else {

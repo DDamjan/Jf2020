@@ -820,131 +820,132 @@ async function filter(req, res) {
     const grade = req.body.grade;
     const faculty = req.body.faculty;
     const permanentResidenceCity = req.body.permanentResidenceCity;
-    const residenceCity = req.body.residenceCity;
+    const temporaryResidenceCity = req.body.temporaryResidenceCity;
     const permanentResidenceCountry = req.body.permanentResidenceCountry;
-    const residenceCountry = req.body.residenceCountry;
+    const temporaryResidenceCountry = req.body.temporaryResidenceCountry;
     const cv = req.body.cv;
+
+    console.log(req.body);
 
     let queryString = queryStrings.GET_USERS;
 
 
     if (yos != '' || grade != '' || faculty != '') {
-        queryString.concat(queryStrings.JOIN_STUDIES());
+        queryString = queryString + " " + queryStrings.JOIN_STUDIES();
     }
 
     if (faculty != '') {
-        queryString.concat(queryStrings.JOIN_FACULTY());
+        queryString = queryString + " " + queryStrings.JOIN_FACULTY();
     }
 
     if (permanentResidenceCity != '') {
-        queryString.concat(queryStrings.JOIN_PERMANENT_RESIDENCE_CITY())
+        queryString = queryString + " " + queryStrings.JOIN_PERMANENT_RESIDENCE_CITY();
     }
 
-    if (residenceCity != '') {
-        queryString.concat(queryStrings.JOIN_RESIDENCE_CITY());
+    if (temporaryResidenceCity != '') {
+        queryString = queryString + " " + queryStrings.JOIN_RESIDENCE_CITY();
     }
 
     if (permanentResidenceCountry != '') {
-        queryString.concat(queryStrings.JOIN_PERMANENT_RESIDENCE_COUNTRY());
+        queryString = queryString + " " + queryStrings.JOIN_PERMANENT_RESIDENCE_COUNTRY();
     }
 
-    if (residenceCountry != '') {
-        queryString.concat(queryStrings.JOIN_RESIDENCE_COUNTRY());
+    if (temporaryResidenceCountry != '') {
+        queryString = queryString + " " + queryStrings.JOIN_RESIDENCE_COUNTRY();
     }
 
-    if (lastName != '' || yos != '' || grade != '' || faculty != '' || permanentResidenceCity != '' || residenceCity != ''
-        || permanentResidenceCountry != '' || residenceCountry != '' || cv != '') {
+    if (firstName != '' || lastName != '' || yos != '' || grade != '' || faculty != '' || permanentResidenceCity != '' || temporaryResidenceCity != ''
+        || permanentResidenceCountry != '' || temporaryResidenceCountry != '' || cv != '') {
 
-        queryString.concat("WHERE");
+        queryString = queryString + " WHERE ";
     }
 
     if (firstName != '') {
-        queryString.concat(queryStrings.FILTER_BY_NAME(firstName));
+        queryString = queryString + " " + queryStrings.FILTER_BY_NAME(firstName);
 
-        if (lastName != '' || yos != '' || grade != '' || faculty != '' || permanentResidenceCity != '' || residenceCity != ''
-            || permanentResidenceCountry != '' || residenceCountry != '' || cv != '') {
+        if (lastName != '' || yos != '' || grade != '' || faculty != '' || permanentResidenceCity != '' || temporaryResidenceCity != ''
+            || permanentResidenceCountry != '' || temporaryResidenceCountry != '' || cv != '') {
 
-            queryString.concat('AND');
+            queryString = queryString + ' AND ';
         }
     }
 
     if (lastName != '') {
-        queryString.concat(queryStrings.FILTER_BY_LAST_NAME(lastName));
+        queryString = queryString + " " + queryStrings.FILTER_BY_LAST_NAME(lastName);
 
-        if (yos != '' || grade != '' || faculty != '' || permanentResidenceCity != '' || residenceCity != ''
-            || permanentResidenceCountry != '' || residenceCountry != '' || cv != '') {
+        if (yos != '' || grade != '' || faculty != '' || permanentResidenceCity != '' || temporaryResidenceCity != ''
+            || permanentResidenceCountry != '' || temporaryResidenceCountry != '' || cv != '') {
 
-            queryString.concat('AND');
+            queryString = queryString + ' AND ';
         }
     }
 
     if (yos != '') {
-        queryString.concat(queryStrings.FILTER_BY_YOS(yos));
+        queryString = queryString + " " + queryStrings.FILTER_BY_YOS(yos);
 
-        if (grade != '' || faculty != '' || permanentResidenceCity != '' || residenceCity != '' || permanentResidenceCountry != ''
-            || residenceCountry != '' || cv != '') {
+        if (grade != '' || faculty != '' || permanentResidenceCity != '' || temporaryResidenceCity != '' || permanentResidenceCountry != ''
+            || temporaryResidenceCountry != '' || cv != '') {
 
-            queryString.concat('AND');
+            queryString = queryString + ' AND ';
         }
     }
 
     if (grade != '') {
-        queryString.concat(queryStrings.FILTER_BY_GRADE_AVERAGE(grade));
+        queryString = queryString + " " + queryStrings.FILTER_BY_GRADE_AVERAGE(grade);
 
-        if (faculty != '' || permanentResidenceCity != '' || residenceCity != '' || permanentResidenceCountry != ''
-            || residenceCountry != '' || cv != '') {
+        if (faculty != '' || permanentResidenceCity != '' || temporaryResidenceCity != '' || permanentResidenceCountry != ''
+            || temporaryResidenceCountry != '' || cv != '') {
 
-            queryString.concat('AND');
+            queryString = queryString + ' AND ';
         }
     }
 
     if (faculty != '') {
-        queryString.concat(queryStrings.FILTER_BY_FACULTY(faculty));
+        queryString = queryString + " " + queryStrings.FILTER_BY_FACULTY(faculty);
 
-        if (permanentResidenceCity != '' || residenceCity != '' || permanentResidenceCountry != ''
-            || residenceCountry != '' || cv != '') {
+        if (permanentResidenceCity != '' || temporaryResidenceCity != '' || permanentResidenceCountry != ''
+            || temporaryResidenceCountry != '' || cv != '') {
 
-            queryString.concat('AND');
+            queryString = queryString + ' AND ';
         }
     }
 
     if (permanentResidenceCity != '') {
-        queryString.concat(queryStrings.FILTER_BY_PERMANENT_RESIDENCE_CITY(permanentResidenceCity));
+        queryString = queryString + " " + queryStrings.FILTER_BY_PERMANENT_RESIDENCE_CITY(permanentResidenceCity);
 
-        if (residenceCity != '' || permanentResidenceCountry != '' || residenceCountry != '' || cv != '') {
-            queryString.concat('AND');
+        if (temporaryResidenceCity != '' || permanentResidenceCountry != '' || temporaryResidenceCountry != '' || cv != '') {
+            queryString = queryString + ' AND ';
         }
     }
 
-    if (residenceCity != '') {
-        queryString.concat(queryStrings.FILTER_BY_RESIDENCE_CITY(residenceCity));
+    if (temporaryResidenceCity != '') {
+        queryString = queryString + " " + queryStrings.FILTER_BY_RESIDENCE_CITY(temporaryResidenceCity);
 
-        if (permanentResidenceCountry != '' || permanentResidenceCountry != '' || residenceCountry != '' || cv != '') {
-            queryString.concat('AND');
+        if (permanentResidenceCountry != '' || temporaryResidenceCountry != '' || cv != '') {
+            queryString = queryString + ' AND ';
         }
     }
 
     if (permanentResidenceCountry != '') {
-        queryString.concat(queryStrings.FILTER_BY_PERMANENT_RESIDENCE_COUNTRY(permanentResidenceCountry));
+        queryString = queryString + " " + queryStrings.FILTER_BY_PERMANENT_RESIDENCE_COUNTRY(permanentResidenceCountry);
 
-        if (residenceCountry != '' || cv != '') {
-            queryString.concat('AND');
+        if (temporaryResidenceCountry != '' || cv != '') {
+            queryString = queryString + ' AND ';
         }
     }
 
-    if (residenceCountry != '') {
-        queryString.concat(queryStrings.FILTER_BY_RESIDENCE_COUNTRY(residenceCountry));
+    if (temporaryResidenceCountry != '') {
+        queryString = queryString + " " + queryStrings.FILTER_BY_RESIDENCE_COUNTRY(temporaryResidenceCountry);
 
         if (cv != '') {
-            queryString.concat('AND');
+            queryString = queryString + ' AND ';
         }
     }
 
     if (cv != '') {
-        queryString.concat(queryStrings.FILTER_BY_RESIDENCE_COUNTRY(residenceCountry));
+        queryString = queryString + " " + queryStrings.FILTER_BY_CV();
     }
 
-    queryString = queryString+"KURAAC";
     console.log(queryString);
 
     await mysql.pool.getConnection(async (err, conn) => {

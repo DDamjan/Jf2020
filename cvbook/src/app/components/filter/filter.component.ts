@@ -37,7 +37,7 @@ export class FilterComponent implements OnInit {
     const cv = $event.target[1].checked;
     const firstName = $event.target[2].value;
     const lastName = $event.target[3].value;
-    const yof = $event.target[4].value;
+    const yos = $event.target[4].value;
     const grade = $event.target[5].value;
     const faculty = $event.target[6].value;
     const permanentResidenceCity = $event.target[7].value;
@@ -48,7 +48,7 @@ export class FilterComponent implements OnInit {
     const payload = {
       firstName,
       lastName,
-      yof,
+      yos,
       grade,
       faculty,
       cv: cv === false ? '' : true,
