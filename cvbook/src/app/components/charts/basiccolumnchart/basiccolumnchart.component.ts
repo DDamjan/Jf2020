@@ -9,11 +9,12 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
   styleUrls: ['./basiccolumnchart.component.css']
 })
 export class BasicColumnChartComponent implements OnInit {
-  // @Input() public type: any;
   @Input() public barChartData: ChartDataSets[];
   @Input() public barChartLabels: Label[];
   public chartReady: boolean;
 
+  private backgroundColor: any =
+  ['#1E9BED', '#0596F4', '#0172BC', '#01578F', '#195C87', '#074F7E', '#01436E', '#053A5C', '#053A5C', '#022A45'];
   public barChartOptions: ChartOptions = {
     responsive: true,
     // We use these empty structures as placeholders for dynamic theming.
@@ -28,6 +29,11 @@ export class BasicColumnChartComponent implements OnInit {
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [pluginDataLabels];
+  public barChartColors = [
+    {
+      backgroundColor: this.backgroundColor,
+    },
+  ];
   constructor() { }
 
   ngOnInit() {
@@ -41,18 +47,5 @@ export class BasicColumnChartComponent implements OnInit {
 
   public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
-  }
-
-  public randomize(): void {
-    // Only Change 3 values
-    const data = [
-      Math.round(Math.random() * 100),
-      59,
-      80,
-      (Math.random() * 100),
-      56,
-      (Math.random() * 100),
-      40];
-    this.barChartData[0].data = data;
   }
 }

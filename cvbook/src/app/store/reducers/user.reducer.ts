@@ -18,15 +18,12 @@ export function UserReducer(
     state: UserState = UserInitialState,
     action
 ) {
-    // console.log('UserReducer');
-    // console.log(action.type);
     switch (action.type) {
         case GET_USER: {
             return UserAdapter.removeAll(state = UserInitialState);
             break;
         }
         case GET_USER_SUCCESS: {
-            // console.log(action.payload);
             UserAdapter.removeAll(state = UserInitialState);
             return UserAdapter.addOne(action.payload, state = UserInitialState);
             break;
@@ -41,10 +38,3 @@ export const selectUserState = createFeatureSelector<UserState>('user');
 export const { selectAll: selectAllUser, selectIds } = UserAdapter.getSelectors(
     selectUserState
 );
-
-// export const getSelectedUser = createSelector(
-//     selectUserState,
-//     (state, props) => {
-//         return state.entities[props.id];
-//     }
-// );

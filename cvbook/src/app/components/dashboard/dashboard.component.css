@@ -4,7 +4,6 @@
 
 .infoDesk {
     margin: 20px;
-    
 }
 
 .containerRow {
@@ -20,7 +19,6 @@
 .rightColumnG1 {
     margin: 20px;
     flex-grow: 1;
-
 }
 
 .containerColumn {

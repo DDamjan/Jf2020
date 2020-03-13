@@ -4,9 +4,11 @@
   </div>
   <div class="expand-container">
     <div class="containerRow">
-      <div class="btnReturnDiv">
-        <button mat-mini-fab class="btnReturn" (click)="onReturn()"><mat-icon>keyboard_backspace</mat-icon></button>
-      </div>
+      <!--
+        <div class="btnReturnDiv">
+          <button mat-mini-fab class="btnReturn" (click)="onReturn()"><mat-icon>keyboard_backspace</mat-icon></button>
+        </div>
+      -->
       <div class="paginatorDiv">
         <mat-paginator #paginator [length]="totalRows$ | async" [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons>
         </mat-paginator>

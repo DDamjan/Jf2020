@@ -29,5 +29,4 @@ export class MainNavComponent {
     this.cookieService.deleteCookie('CVBook-Token');
     this.router.navigate(['/']);
   }
-
 }

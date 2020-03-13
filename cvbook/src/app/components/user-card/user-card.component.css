@@ -28,7 +28,7 @@
     flex-direction: row;
   }
 
-  .info-container{
+  .info-container {
     display: flex;
     flex-direction: column;
     padding: 0cm 0cm 0cm 0.6cm;
@@ -36,9 +36,6 @@
   }
 
   .defaultProfileImg {
-    
-  
-    
     margin-right: 20px;
     flex: 1;
   }
@@ -80,8 +77,6 @@
   mat-card{
     background-color: #0172BC;
   }
-
-
 
   img{
     src: '../../../../repo/Cab.png';
