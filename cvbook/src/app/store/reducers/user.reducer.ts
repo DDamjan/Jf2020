@@ -1,8 +1,7 @@
 import { User } from '../../models/User';
 import {
-    TOKEN_EXPIRED,
+    GET_USER,
     GET_USER_SUCCESS,
-    GET_USERS_SUCCESS
  } from '../../../constants/reducers-constants';
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector } from '@ngrx/store';
@@ -22,6 +21,10 @@ export function UserReducer(
     // console.log('UserReducer');
     // console.log(action.type);
     switch (action.type) {
+        case GET_USER: {
+            return UserAdapter.removeAll(state = UserInitialState);
+            break;
+        }
         case GET_USER_SUCCESS: {
             // console.log(action.payload);
             UserAdapter.removeAll(state = UserInitialState);

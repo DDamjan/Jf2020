@@ -3,13 +3,23 @@
     <app-filter></app-filter>
   </div>
   <div class="expand-container">
+    <div class="containerRow">
+      <div class="btnReturnDiv">
+        <button mat-mini-fab class="btnReturn" (click)="onReturn()"><mat-icon>keyboard_backspace</mat-icon></button>
+      </div>
+      <div class="paginatorDiv">
+        <mat-paginator #paginator [length]="totalRows$ | async" [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons>
+        </mat-paginator>
+      </div>
+    </div>
     <div class="flex-item">
-      <mat-accordion *ngFor="let user of displayedRows$ | async">
-        <app-user-expansion [user]="user">
+      <mat-accordion *ngFor="let user of displayedRows$ | async; index as i">
+        <app-user-expansion [user]="user" [index] = "i">
         </app-user-expansion>
       </mat-accordion>
     </div>
-    <mat-paginator #paginator [length]="totalRows$ | async" [pageIndex]="0" [pageSize]="20" [pageSizeOptions]="[5, 10, 15, 20, 25, 100]">
-    </mat-paginator>
+    <mat-paginator (page)="syncPrimaryPaginator($event)" 
+    [pageSize]="paginator.pageSize" [pageIndex]="paginator.pageIndex"
+    [length]="paginator.length" [pageSizeOptions]="paginator.pageSizeOptions"></mat-paginator>
   </div>
 </div>

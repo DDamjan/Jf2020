@@ -1,7 +1,9 @@
 .btnSerach{
-    margin: 5px;
-    background-color: #F2F3F5;
-    width: 95%;
+    margin: 7px;
+    background-color: #0596F4;
+    width: 70%;
+    color: white;
+    justify-self:  center;
 }
 
 .inputs{

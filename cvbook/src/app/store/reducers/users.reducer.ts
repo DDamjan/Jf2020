@@ -17,11 +17,8 @@ export function UsersReducer(
     state: UsersState = UsersInitialState,
     action
 ) {
-    // console.log('UserReducer');
-    // console.log(action.type);
     switch (action.type) {
         case GET_USERS_SUCCESS: {
-            // console.log(action.payload);
             return UsersAdapter.addMany(action.payload, state = UsersInitialState);
             break;
         }

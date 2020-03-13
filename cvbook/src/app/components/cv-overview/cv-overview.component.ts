@@ -15,7 +15,9 @@ import { PageEvent, MatPaginator } from '@angular/material';
   styleUrls: ['./cv-overview.component.css']
 })
 export class CvOverviewComponent implements OnInit {
-
+  public pageIndex: any;
+  public pageSize: any;
+  public pageSizeOptions: any;
   public userList: User[];
 
   displayedRows$: Observable<User[]>;
@@ -25,6 +27,9 @@ export class CvOverviewComponent implements OnInit {
   constructor(private store: Store<any>, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
+    this.pageIndex = 0;
+    this.pageSize = 20;
+    this.pageSizeOptions = [5, 10, 15, 20, 25, 100];
     this.store.dispatch(new actions.GetUsers({}));
     this.store.select(selectAllUsers).subscribe(users => {
       if (users.length !== 0) {
@@ -59,6 +64,16 @@ export class CvOverviewComponent implements OnInit {
         return copy.splice(startIndex, page.pageSize);
       }
     );
+  }
+
+  syncPrimaryPaginator(event: PageEvent) {
+    this.paginator.pageIndex = event.pageIndex;
+    this.paginator.pageSize = event.pageSize;
+    this.paginator.page.emit(event);
+  }
+
+  onReturn() {
+
   }
 
 }

@@ -1,4 +1,4 @@
-<mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+<mat-expansion-panel [style.backgroundColor]="color" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
   <mat-expansion-panel-header>
     <mat-panel-title >
       First & Last name: {{user.ime}} {{user.prezime}}

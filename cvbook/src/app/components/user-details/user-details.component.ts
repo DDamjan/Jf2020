@@ -22,22 +22,23 @@ export class UserDetailsComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     console.log(id);
+    this.store.dispatch(new actions.GetUser(id));
     this.store.select(selectAllUser).subscribe(user => {
-      if (user.length === 0 || user[0].userID !== Number(id)) {
-        console.log('koj ID');
-        console.log(id);
-        console.log(user);
-        this.store.dispatch(new actions.GetUser(id));
+      if (user.length === 0) {
+        // console.log('koj ID');
+        // console.log(id);
+        // console.log(user);
+        // this.store.dispatch(new actions.GetUser(id));
         this.isReady = false;
       } else {
-        console.log('selectAllUser');
-        console.log(user[0]);
+        // console.log('selectAllUser');
+        // console.log(user);
         this.data = user[0];
         this.isReady = true;
       }
     });
   }
-  update() {
-    this.ngOnInit();
-  }
+  // update() {
+  //   this.ngOnInit();
+  // }
 }

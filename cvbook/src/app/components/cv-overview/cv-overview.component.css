@@ -4,7 +4,7 @@
 }
 .fixed{
     flex: 1;
-    background-color:#F2F3F5;
+    background-color:#DCDCDC;
     align-items: center;
     justify-content: center;
     border-right: 1px solid black;
@@ -13,3 +13,26 @@
     flex: 7;
     background-color:#F2F3F5;
 }
+
+.containerRow {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+}
+
+.btnReturnDiv {
+    flex-grow: 1;
+    background-color: white;
+    align-self: center;
+    justify-self: center;
+}
+
+.btnReturn {
+    margin-left: 7px;
+    background-color: #0596F4;
+}
+
+.paginatorDiv {
+    flex-grow: 100;
+}
+

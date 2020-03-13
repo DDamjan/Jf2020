@@ -20,8 +20,6 @@ export class UserService {
 
     /* GET user by id. */
     getUser(id: any): Observable<any> {
-        console.log('getUserSERVICE');
-        console.log(id);
         const url = `${this.serverURL}getbyid`;
         return this.http.post<any>(url, { 'userID': id }, this.httpService.httpOptions()).pipe(
             catchError(this.handleError<any>(`getUser id=${id}`))

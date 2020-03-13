@@ -14,16 +14,21 @@ export class DetailExpansionComponent implements OnInit {
 
   panelOpenState = false;
   @Input() public user: User;
+  @Input() public index: any;
+  public color: any;
   downloadDisabled: boolean;
   constructor(private router: Router) { }
 
   ngOnInit() {
-    console.log('this.user');
-    console.log(this.user);
     if (this.user.cv !== '') {
       this.downloadDisabled = false;
     } else {
       this.downloadDisabled = true;
+    }
+    if (this.index % 2 === 0) {
+      this.color = '#E8E8E8';
+    } else {
+      this.color = 'white';
     }
   }
 
