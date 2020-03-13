@@ -30,4 +30,7 @@ export class UserCardComponent implements OnInit {
   onclick() {
     // this.router.navigateByUrl(`operator/details/${this.driver.id}`);
   }
+
+  onReturn() {
+  }
 }

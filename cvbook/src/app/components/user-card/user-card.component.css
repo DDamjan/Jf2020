@@ -40,6 +40,11 @@
     flex: 1;
   }
 
+  .btnReturn {
+    position: absolute;
+    background-color: #0596F4;
+  }
+
   mat-card{
     background-color: #0172BC;
   }

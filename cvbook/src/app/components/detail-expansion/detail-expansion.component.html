@@ -4,6 +4,6 @@
       First & Last name: {{user.ime}} {{user.prezime}}
     </mat-panel-title>
   </mat-expansion-panel-header>
-  <button mat-raised-button (click)="onOpen()" >Open</button>
-  <button mat-raised-button (click)="onDownloadCV()" [disabled]="downloadDisabled">Download CV</button>
+  <button mat-raised-button class="btn" (click)="onOpen()" >Open</button>
+  <button mat-raised-button class="btn" (click)="onDownloadCV()" [disabled]="downloadDisabled">Download CV</button>
 </mat-expansion-panel>
