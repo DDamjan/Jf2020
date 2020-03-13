@@ -19,7 +19,8 @@ import {
     GET_CHART_TOTAL_USERS_SUCCESS,
     TOKEN_EXPIRED,
     FILTER_USERS,
-    FILTER_USERS_SUCCESS
+    FILTER_USERS_SUCCESS,
+    FILTER_USERS_EMPTY
 } from '../../constants/reducers-constants';
 import { Company } from '../models/Company';
 import { Chart } from '../models/Chart';
@@ -79,6 +80,11 @@ export class FilterUsers implements Action {
 export class FilterUsersSuccess implements Action {
     readonly type = FILTER_USERS_SUCCESS;
     constructor(public payload: any) { }
+}
+
+export class FilterUsersEmpty implements Action {
+    readonly type = FILTER_USERS_EMPTY;
+    constructor() { }
 }
 
 // ------------------------------------------------------------------------------
