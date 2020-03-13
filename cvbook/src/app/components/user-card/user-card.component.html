@@ -30,6 +30,7 @@
       <div style="margin-bottom: 0.3cm;"> <span style="color:white">Email: {{data.email}}</span></div>
       <div style="margin-bottom: 0.3cm;"> <span style="color:white">LinkedIn: {{data.kontakt.linkedIn}}</span></div> -->
       <!---- <img mat-card-image src="{{project.image}}">	-->
+      <button mat-raised-button class="btnDownloadCV" (click)="onDownloadCV()" [disabled]="downloadDisabled">Download CV</button>
       </div>
       <div class="defaultProfileImg"> 
         <img mat-card-image src="assets/defaultProfileImg.png" alt="'JF20 Logo'">

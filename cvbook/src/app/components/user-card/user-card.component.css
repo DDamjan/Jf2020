@@ -48,6 +48,13 @@
     background-color: #0596F4;
   }
 
+  .btnDownloadCV {
+    width: 80%;
+    margin-left: 10%;
+    background-color: #0596F4;
+    color: white;
+  }
+
   mat-card{
     background-color: #0172BC;
   }
