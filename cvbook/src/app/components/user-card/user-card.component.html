@@ -76,14 +76,25 @@
         <mat-expansion-panel style="background-color: #CDE5F5; margin-bottom: 10px;" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title >
-              Name: {{skola.naziv}}<br>
-              Type: {{skola.tip}}
+             <div style="display: flex; flex-direction: column;"> 
+               <div style="margin-bottom: 2px; "> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Name:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{skola.naziv}}</span></div></div>
+              <div style="margin-bottom: 2px; "> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Type:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{skola.tip}}</span></div></div>
+            </div>
+            <!----  Name: {{skola.naziv}}<br>
+              Type: {{skola.tip}} -->
             </mat-panel-title>
           </mat-expansion-panel-header>
-          Course: {{skola.smer}}<br>
+          
+            <div style="display: flex; flex-direction: column;">
+           <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Course:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{skola.smer}}</span></div></div>
+           <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">City:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{skola.grad}}</span></div></div>
+           <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">County:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{skola.drzava}}</span></div></div>
+           <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Finishing Year:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{skola.godinaZavrsetka}}</span></div></div>
+          </div>
+         <!---- Course: {{skola.smer}}<br>
           City: {{skola.grad}}<br>
           County: {{skola.drzava}}<br>
-          Finishing Year: {{skola.godinaZavrsetka}}
+          Finishing Year: {{skola.godinaZavrsetka}} -->
         </mat-expansion-panel>
       </mat-accordion>
     </div>
@@ -100,11 +111,28 @@
         <mat-expansion-panel style="background-color: #CDE5F5; margin-bottom: 10px;" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title >
-              Name: {{faks.fakultet}}<br>
-              Course: {{faks.smer}}
+              <div style="display: flex; flex-direction: column;"> 
+                <div style="margin-bottom: 2px; "> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Name:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.fakultet}}</span></div></div>
+               <div style="margin-bottom: 2px; "> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Course:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.smer}}</span></div></div>
+             </div>
+             <!---- Name: {{faks.fakultet}}<br>
+              Course: {{faks.smer}} -->
             </mat-panel-title>
           </mat-expansion-panel-header>
-          ESPB: {{faks.espb}}<br>
+
+          <div style="display: flex; flex-direction: column;">
+            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">ESPB:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.espb}}</span></div></div>
+            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Finished Subjects:</span></div><div style="float: left;"><span style="color: black; font-weight: 550; float: bottom;">{{faks.brojPolozenihIspita}}</span></div></div>
+            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Starting Year:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.godinaUpisa}}</span></div></div>
+            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Year:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.godineStudija}}</span></div></div>
+            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Grade average:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.prosek}}</span></div></div>
+            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">Satus:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.status}}</span></div></div>
+            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">University:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.univerzitet}}</span></div></div>
+            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">City:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.grad}}</span></div></div>
+            <div style="margin-bottom: 4px; float: left;"> <div style="float: left; margin-right: 20px; width: 3cm;"><span style="color:black;">County:</span></div><div style="float: left;"><span style="color: black; font-weight: 550;">{{faks.drzava}}</span></div></div>
+
+           </div>
+         <!---- ESPB: {{faks.espb}}<br>
           Number of Finished Subjects: {{faks.godineStudija}}<br>
           Starting Year: {{faks.godinaUpisa}}<br>
           Year: {{faks.godineStudija}}<br>
@@ -112,7 +140,7 @@
           Satus: {{faks.status}}<br>
           University: {{faks.univerzitet}}<br>
           City: {{faks.grad}}<br>
-          County: {{faks.drzava}}<br>
+          County: {{faks.drzava}}<br> -->
         </mat-expansion-panel>
       </mat-accordion>
     </div>
