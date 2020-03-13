@@ -183,4 +183,8 @@ router.get('/sendMail', async (req, res) => {
   query.execMailCheck(res, req.query.mail);
 });
 
+router.post('/filter', async (req, res) => {
+  query.exec(req, res, '', query.filter(req, res));
+})
+
 module.exports = router;

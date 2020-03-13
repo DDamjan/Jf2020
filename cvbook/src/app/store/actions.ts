@@ -17,7 +17,9 @@ import {
     GET_CHART_TOP10_SUCCESS,
     GET_CHART_TOTAL_USERS,
     GET_CHART_TOTAL_USERS_SUCCESS,
-    TOKEN_EXPIRED
+    TOKEN_EXPIRED,
+    FILTER_USERS,
+    FILTER_USERS_SUCCESS
 } from '../../constants/reducers-constants';
 import { Company } from '../models/Company';
 import { Chart } from '../models/Chart';
@@ -66,6 +68,16 @@ export class GetUsers implements Action {
 
 export class GetUsersSuccess implements Action {
     readonly type = GET_USERS_SUCCESS;
+    constructor(public payload: any) { }
+}
+
+export class FilterUsers implements Action {
+    readonly type = FILTER_USERS;
+    constructor(public payload: any) { }
+}
+
+export class FilterUsersSuccess implements Action {
+    readonly type = FILTER_USERS_SUCCESS;
     constructor(public payload: any) { }
 }
 

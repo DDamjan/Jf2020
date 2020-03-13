@@ -879,6 +879,21 @@ function STATS_TOTAL_USERS () {
             FROM user as u`;
 }
 
+function GET_ALL_FACULTIES () {
+    return `SELECT naziv
+            FROM fakultet`;
+}
+
+function GET_ALL_CITIES () {
+    return `SELECT naziv
+            FROM grad`;
+}
+
+function GET_ALL_COUNTRIES() {
+    return `SELECT naziv
+            FROM drzava`;
+}
+
 // FILTERI
 
 const GET_USERS =   `SELECT licni.userID, licni.ime, licni.prezime, licni.cv 
@@ -1053,5 +1068,8 @@ module.exports = {
     JOIN_RESIDENCE_COUNTRY,
     FILTER_BY_PERMANENT_RESIDENCE_COUNTRY,
     FILTER_BY_RESIDENCE_COUNTRY,
-    FILTER_BY_CV
+    FILTER_BY_CV,
+    GET_ALL_FACULTIES,
+    GET_ALL_CITIES,
+    GET_ALL_COUNTRIES
 }

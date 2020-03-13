@@ -1,6 +1,6 @@
 import { User } from '../../models/User';
 import {
-    GET_USERS_SUCCESS
+    GET_USERS_SUCCESS, FILTER_USERS_SUCCESS
  } from '../../../constants/reducers-constants';
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector } from '@ngrx/store';
@@ -20,7 +20,11 @@ export function UsersReducer(
     switch (action.type) {
         case GET_USERS_SUCCESS: {
             return UsersAdapter.addMany(action.payload, state = UsersInitialState);
-            break;
+        }
+        case FILTER_USERS_SUCCESS: {
+            console.log(action.payload);
+            // UsersAdapter.removeAll(state = UsersInitialState);
+            // return UsersAdapter.addMany(action.payload.filteredUsers, state = UsersInitialState);
         }
         default:
             return state;
