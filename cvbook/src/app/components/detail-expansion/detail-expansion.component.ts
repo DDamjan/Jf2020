@@ -18,8 +18,8 @@ export class DetailExpansionComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    console.log('this.user');
-    console.log(this.user);
+    // console.log('this.user');
+    // console.log(this.user);
     if (this.user.cv !== '') {
       this.downloadDisabled = false;
     } else {

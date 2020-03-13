@@ -825,7 +825,7 @@ async function filter(req, res) {
     const residenceCountry = req.body.residenceCountry;
     const cv = req.body.cv;
 
-    const queryString = queryStrings.GET_USERS;
+    let queryString = queryStrings.GET_USERS;
 
 
     if (yos != '' || grade != '' || faculty != '') {
@@ -841,15 +841,15 @@ async function filter(req, res) {
     }
 
     if (residenceCity != '') {
-        queryStrings.concat(queryString.JOIN_RESIDENCE_CITY());
+        queryString.concat(queryStrings.JOIN_RESIDENCE_CITY());
     }
 
     if (permanentResidenceCountry != '') {
-        queryStrings.concat(queryStrings.JOIN_PERMANENT_RESIDENCE_COUNTRY());
+        queryString.concat(queryStrings.JOIN_PERMANENT_RESIDENCE_COUNTRY());
     }
 
     if (residenceCountry != '') {
-        queryStrings.concat(queryStrings.JOIN_RESIDENCE_COUNTRY());
+        queryString.concat(queryStrings.JOIN_RESIDENCE_COUNTRY());
     }
 
     if (lastName != '' || yos != '' || grade != '' || faculty != '' || permanentResidenceCity != '' || residenceCity != ''
@@ -944,6 +944,52 @@ async function filter(req, res) {
         queryString.concat(queryStrings.FILTER_BY_RESIDENCE_COUNTRY(residenceCountry));
     }
 
+    queryString = queryString+"KURAAC";
+    console.log(queryString);
+
+    await mysql.pool.getConnection(async (err, conn) => {
+        const filteredUsers = await conn.promise().execute(queryString);
+        temp = JSON.stringify(filteredUsers[0]);
+        const filteredUsersParsed = JSON.parse(temp);
+
+        const payload = {
+            filteredUsers: filteredUsersParsed,
+            filters: req.body
+        }
+
+        res.json(payload);
+        res.send();
+
+        mysql.pool.releaseConnection(conn);
+    });
+
+}
+
+async function filterOptions(res) {
+    await mysql.pool.getConnection(async (err, conn) => {
+        const drzave = await conn.promise().execute(queryStrings.GET_ALL_COUNTRIES());
+        temp = JSON.stringify(drzave[0]);
+        const drzaveParsed = JSON.parse(temp);
+
+        const gradovi = await conn.promise().execute(queryStrings.GET_ALL_CITIES());
+        temp = JSON.stringify(gradovi[0]);
+        const gradoviParsed = JSON.parse(temp);
+
+        const fakulteti = await conn.promise().execute(queryStrings.GET_ALL_FACULTIES());
+        temp = JSON.stringify(fakulteti[0]);
+        const fakultetiParsed = JSON.parse(temp);
+
+        const payload = {
+            drzave: drzaveParsed,
+            gradovi: gradoviParsed,
+            fakulteti: fakultetiParsed
+        }
+
+        res.json(payload);
+        res.send();
+
+        mysql.pool.releaseConnection(conn);
+    });
 }
 
 
@@ -964,5 +1010,7 @@ module.exports = {
     resetPassword,
     upload,
     execFile,
-    getStats
+    getStats,
+    filter,
+    filterOptions
 }

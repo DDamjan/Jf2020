@@ -35,6 +35,13 @@ export class UserService {
         );
     }
 
+    filterUsers(data: any): Observable<any> {
+        const url = `${this.serverURL}filter`;
+        return this.http.post<any>(url, data, this.httpService.httpOptions()).pipe(
+            catchError(this.handleError<any>('filterUsers'))
+        );
+    }
+
     // /* GET last ID */
     // getLastID(): Observable<any> {
     //     const url = `${this.serverURL}currentid`;

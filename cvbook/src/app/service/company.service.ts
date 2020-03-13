@@ -42,11 +42,10 @@ export class CompanyService {
         );
     }
 
-     /* POST: Check the username */
-     checkUsername(data: object): Observable<boolean> {
-        const url = `${this.serverURL}checkuser`;
-        return this.http.post<boolean>(url, data, this.httpService.httpOptions()).pipe(
-            catchError(this.handleError<boolean>('authUser'))
+    formOptions(): Observable<any> {
+        const url = `${this.serverURL}formOptions`;
+        return this.http.post<any>(url, {}, this.httpService.httpOptions()).pipe(
+            catchError(this.handleError<any>('formOptions'))
         );
     }
 

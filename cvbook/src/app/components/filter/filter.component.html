@@ -11,56 +11,58 @@
     <mat-form-field>
       <input matInput placeholder="Last name" required>
     </mat-form-field>
-    <mat-form-field appearance="legacy">
-      <mat-label>Year of Study</mat-label>
-      <mat-select>
-        <mat-option value="1">1</mat-option>
-        <mat-option value="2">2</mat-option>
-        <mat-option value="3">3</mat-option>
-        <mat-option value="4">4</mat-option>
-        <mat-option value="5">5</mat-option>
-        <mat-option value="6">6</mat-option>
-      </mat-select>
+    <mat-form-field>
+      <input matInput placeholder="Year of study" [matAutocomplete]="yos">
+      <mat-autocomplete #yos="matAutocomplete">
+        <mat-option *ngFor="let option of yosOptions" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
     <mat-form-field>
       <input matInput placeholder="Grade average" required>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Faculty" required>
+      <input matInput placeholder="Faculty" [matAutocomplete]="faculty">
+      <mat-autocomplete #faculty="matAutocomplete">
+        <mat-option *ngFor="let option of facultyOptions" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
     <p>Permanent residence</p>
     <mat-form-field appearance="legacy">
-      <mat-label>City</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let city of cities" [value]="city.value">
-          {{city.viewValue}}
+      <input matInput placeholder="City" [matAutocomplete]="pCity">
+      <mat-autocomplete #pCity="matAutocomplete">
+        <mat-option *ngFor="let option of cityOptions" [value]="option">
+          {{ option }}
         </mat-option>
-      </mat-select>
+      </mat-autocomplete>
     </mat-form-field>
     <mat-form-field appearance="legacy">
-      <mat-label>Country</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let country of counties" [value]="country.value">
-          {{country.viewValue}}
+      <input matInput placeholder="Country" [matAutocomplete]="pCountry">
+      <mat-autocomplete #pCountry="matAutocomplete">
+        <mat-option *ngFor="let option of countryOptions" [value]="option">
+          {{ option }}
         </mat-option>
-      </mat-select>
+      </mat-autocomplete>
     </mat-form-field>
     <p>Temporary residence</p>
     <mat-form-field appearance="legacy">
-      <mat-label>Residence city</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let city of cities" [value]="city.value">
-          {{city.viewValue}}
+      <input matInput placeholder="City" [matAutocomplete]="tCity">
+      <mat-autocomplete #tCity="matAutocomplete">
+        <mat-option *ngFor="let option of cityOptions" [value]="option">
+          {{ option }}
         </mat-option>
-      </mat-select>
+      </mat-autocomplete>
     </mat-form-field>
     <mat-form-field appearance="legacy">
-      <mat-label>Residence country</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let country of counties" [value]="country.value">
-          {{country.viewValue}}
+      <input matInput placeholder="Country" [matAutocomplete]="tCountry">
+      <mat-autocomplete #tCountry="matAutocomplete">
+        <mat-option *ngFor="let option of countryOptions" [value]="option">
+          {{ option }}
         </mat-option>
-      </mat-select>
+      </mat-autocomplete>
     </mat-form-field>
   </div>
 </form>

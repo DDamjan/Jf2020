@@ -30,4 +30,8 @@ router.post('/stats', async (req, res) => {
       query.exec(req, res, '', query.getStats(res));  
 });
 
+router.post('/formOptions', async (req, res) => {
+  query.exec(req, res, '', query.filterOptions(res));  
+});
+
 module.exports = router;
