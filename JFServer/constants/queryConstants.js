@@ -172,6 +172,15 @@ function GET_GRAD_BY_NAZIV(naziv) {
     return `SELECT * FROM grad 
             WHERE naziv = '${naziv}'`;
 }
+
+function GET_CV (userID) {
+    return `SELECT cv.cv
+            FROM cv
+            WHERE userID = ${userID}
+            ORDER BY ID DESC
+            LIMIT 1`;
+}
+
 const GET_DRZAVA = `SELECT * FROM drzava WHERE drzavaID = `;
 function GET_DRZAVA_BY_NAZIV(naziv) {
     return `SELECT * FROM grad 
@@ -200,19 +209,17 @@ function GET_FAKULTET(userID) {
                 studira.brojPolozenihIspita,
                 studira.prosek,
                 studira.status,
-                fakultetSmer.naziv as smer,
+                studira.smer,
                 fakultet.naziv as fakultet,
-                univerzitet.naziv as univerzitet, 
+                fakultet.univerzitet, 
                 grad.naziv as grad,
                 drzava.naziv as drzava,
                 studira.godineStudija,
                 studira.espb
             FROM studira
-            INNER JOIN fakultetSmer ON studira.smerID = fakultetSmer.smerID
             INNER JOIN fakultet ON studira.fakultetID = fakultet.fakultetID
-            INNER JOIN univerzitet ON fakultet.univerzitetID = univerzitet.univerzitetID
-            INNER JOIN grad ON univerzitet.gradID = grad.gradID
-            INNER JOIN drzava ON univerzitet.drzavaID = drzava.drzavaID
+            INNER JOIN grad ON fakultet.gradID = grad.gradID
+            INNER JOIN drzava ON fakultet.drzavaID = drzava.drzavaID
             WHERE studira.userID = ${userID}`;
 }
 function GET_RADNO_ISKUSTVO(userID) {
@@ -384,103 +391,56 @@ function GET_SREDNJE_OBRAZOVANJE_ID(naziv, userID, smer, godinaZavrsetka) {
                 AND userID = ${userID};`;
 }
 
-function ADD_UNIVERZITET(payload) {
-    return `INSERT INTO univerzitet (drzavaID, gradID, naziv) 
-            SELECT  (
-                        SELECT drzavaID 
-                        FROM drzava 
-                        WHERE naziv = '${payload.drzava}' LIMIT 1
-                    ), 
+function ADD_FAKULTET(payload) {
+    return `INSERT INTO fakultet (naziv, gradID, univerzitet, drzavaID) 
+            SELECT '${payload.fakultet}',
                     (
                         SELECT gradID 
                         FROM grad 
-                        WHERE naziv = '${payload.grad}' LIMIT 1
+                        WHERE naziv = '${payload.grad}' 
                     ), 
-                    '${payload.univerzitet}' 
+                    '${payload.univerzitet}',
+                    (
+                        SELECT drzavaID
+                        FROM drzava
+                        WHERE naziv = '${payload.drzava}'
+                    )
             WHERE   (
-                        SELECT univerzitetID 
-                        FROM univerzitet 
-                        WHERE naziv = '${payload.univerzitet}' 
-                            AND gradID =    (
-                                                SELECT gradID 
-                                                FROM grad 
-                                                WHERE naziv = '${payload.grad}' LIMIT 1
-                                            ) 
-                            AND drzavaID =  (
-                                                SELECT drzavaID 
-                                                FROM drzava 
+                        SELECT fakultetID 
+                        FROM fakultet 
+                        WHERE naziv = '${payload.fakultet}' 
+                            AND univerzitet = '${payload.univerzitet}'
+                            AND gradID = (
+                                            SELECT gradID
+                                            FROM grad
+                                            WHERE naziv = '${payload.grad}' LIMIT 1
+                                        )
+                            AND drzavaID = (
+                                                SELECT drzavaID
+                                                FROM drzava
                                                 WHERE naziv = '${payload.drzava}' LIMIT 1
                                             )
                     ) IS NULL;`;
 }
 
-function ADD_FAKULTET(payload) {
-    return `INSERT INTO fakultet (univerzitetID, naziv) 
-            SELECT  (
-                        SELECT univerzitetID 
-                        FROM univerzitet 
-                        WHERE naziv = '${payload.univerzitet}' 
+function ADD_STUDIRA(payload) {
+    return `INSERT INTO studira (userID, smer, fakultetID, godinaUpisa, prosek, status, espb, godineStudija, brojPolozenihIspita) 
+            SELECT  ${payload.userID},
+                    '${payload.smer}',
+                    (
+                        SELECT fakultetID 
+                        FROM fakultet 
+                        WHERE naziv = '${payload.fakultet}'
                             AND gradID =    (
-                                                SELECT gradID 
-                                                FROM grad 
+                                                SELECT gradID
+                                                FROM grad
                                                 WHERE naziv = '${payload.grad}' LIMIT 1
                                             ) 
                             AND drzavaID =  (
-                                                SELECT drzavaID 
-                                                FROM drzava 
+                                                SELECT drzavaID
+                                                FROM drzava
                                                 WHERE naziv = '${payload.drzava}' LIMIT 1
-                                            ) LIMIT 1
-                    ), 
-                    '${payload.fakultet}' 
-            WHERE   (
-                        SELECT fakultetID 
-                        FROM fakultet 
-                        WHERE naziv = '${payload.fakultet}' 
-                            AND univerzitetID =     (
-                                                        SELECT univerzitetID 
-                                                        FROM univerzitet 
-                                                        WHERE naziv = '${payload.univerzitet}' 
-                                                            AND gradID =    (
-                                                                                SELECT gradID 
-                                                                                FROM grad 
-                                                                                WHERE naziv = '${payload.grad}' LIMIT 1
-                                                                            ) 
-                                                            AND drzavaID =  (
-                                                                                SELECT drzavaID 
-                                                                                FROM drzava 
-                                                                                WHERE naziv = '${payload.drzava}' LIMIT 1
-                                                                            ) LIMIT 1
-                                                    ) LIMIT 1
-                    ) IS NULL;`;
-}
-
-function ADD_SMER(payload) {
-    return `INSERT INTO fakultetSmer (fakultetID, naziv) 
-            SELECT  (
-                        SELECT fakultetID 
-                        FROM fakultet 
-                        WHERE naziv = '${payload.fakultet}' LIMIT 1
-                    ), 
-                    '${payload.smer}' 
-            WHERE   (
-                        SELECT smerID 
-                        FROM fakultetSmer 
-                        WHERE naziv = '${payload.smer}' LIMIT 1
-                    ) IS NULL;`;
-}
-
-function ADD_STUDIRA(payload) {
-    return `INSERT INTO studira (userID, smerID, fakultetID, godinaUpisa, prosek, status, espb, godineStudija, brojPolozenihIspita) 
-            SELECT  ${payload.userID},
-                    (
-                        SELECT smerID 
-                        FROM fakultetSmer 
-                        WHERE naziv = '${payload.smer}' LIMIT 1
-                    ), 
-                    (
-                        SELECT fakultetID 
-                        FROM fakultet 
-                        WHERE naziv = '${payload.fakultet}' LIMIT 1
+                                            ) 
                     ), 
                     ${payload.godinaUpisa}, 
                     ${payload.prosek}, 
@@ -495,32 +455,44 @@ function ADD_STUDIRA(payload) {
                             AND fakultetID =    (
                                                     SELECT fakultetID 
                                                     FROM fakultet 
-                                                    WHERE naziv = '${payload.fakultet}' LIMIT 1
+                                                    WHERE naziv = '${payload.fakultet}'
+                                                        AND gradID =    (
+                                                                            SELECT gradID
+                                                                            FROM grad
+                                                                            WHERE naziv = '${payload.grad}' LIMIT 1
+                                                                        ) 
+                                                        AND drzavaID =  (
+                                                                            SELECT drzavaID
+                                                                            FROM drzava
+                                                                            WHERE naziv = '${payload.drzava}' LIMIT 1
+                                                                        ) LIMIT 1
                                                 ) 
-                            AND smerID =        (
-                                                    SELECT smerID 
-                                                    FROM fakultetSmer 
-                                                    WHERE smerID = '${payload.smer}' LIMIT 1
-                                                ) 
+                            AND smer = '${payload.smer}'
                             AND status = '${payload.status}' LIMIT 1
                     ) IS NULL`;
 }
 
-function GET_VISOKO_OBRAZOVANJE_ID(fakultet, smer, userID, status) {
+function GET_VISOKO_OBRAZOVANJE_ID(payload) {
     return `SELECT ID 
             FROM studira 
             WHERE fakultetID =  (
                                     SELECT fakultetID 
                                     FROM fakultet 
-                                    WHERE naziv = '${fakultet}' LIMIT 1
+                                    WHERE naziv = '${payload.fakultet}'
+                                        AND gradID =    (
+                                                            SELECT gradID
+                                                            FROM grad
+                                                            WHERE naziv = '${payload.grad}' LIMIT 1
+                                                        ) 
+                                        AND drzavaID =  (
+                                                            SELECT drzavaID
+                                                            FROM drzava
+                                                            WHERE naziv = '${payload.drzava}' LIMIT 1
+                                                        ) 
                                 ) 
-                AND smerID =    (
-                                    SELECT smerID 
-                                    FROM fakultetSmer 
-                                    WHERE naziv = '${smer}' LIMIT 1
-                                ) 
-                AND status = '${status}' 
-                AND userID = ${userID};`;
+                AND smer = '${payload.smer}' 
+                AND status = '${payload.status}' 
+                AND userID = ${payload.userID};`;
 }
 
 function UPDATE_SREDNJA_SKOLA(payload) {
@@ -538,36 +510,30 @@ function UPDATE_SREDNJA_SKOLA(payload) {
 
 function UPDATE_FAKULTET(payload) {
     return `UPDATE studira 
-            SET smerID =    (
-                                SELECT smerID 
-                                FROM fakultetSmer 
-                                WHERE naziv = '${payload.smer}' LIMIT 1
-                            ), 
-            fakultetID =    (
-                                SELECT fakultetID 
-                                FROM fakultet 
-                                WHERE naziv = '${payload.fakultet}' 
-                                    AND univerzitetID =     (
-                                                                SELECT univerzitetID 
-                                                                FROM univerzitet 
-                                                                WHERE naziv = '${payload.univerzitet}' 
-                                                                AND drzavaID =  (
-                                                                                    SELECT drzavaID 
-                                                                                    FROM drzava 
-                                                                                    WHERE naziv = '${payload.drzava}' LIMIT 1
-                                                                                ) 
-                                                                AND gradID =    (
-                                                                                    SELECT gradID 
-                                                                                    FROM grad 
-                                                                                    WHERE naziv = '${payload.grad}' LIMIT 1
-                                                                                )LIMIT 1
-                                                            ) LIMIT 1
-                            ), 
+            SET smer = '${payload.smer}', 
+                fakultetID =    (
+                                    SELECT fakultetID 
+                                    FROM fakultet 
+                                    WHERE naziv = '${payload.fakultet}' 
+                                        AND univerzitet =  '${payload.univerzitet}'
+                                        AND gradID =    (
+                                                            SELECT gradID
+                                                            FROM grad
+                                                            WHERE naziv = '${payload.grad}' LIMIT 1
+                                                        )
+                                        AND drzavaID =  (
+                                                            SELECT drzavaID
+                                                            FROM drzava
+                                                            WHERE naziv = '${payload.drzava}' LIMIT 1
+                                                        ) LIMIT 1
+                                                                
+                                ), 
             godinaUpisa = ${payload.godinaUpisa}, 
             prosek = ${payload.prosek}, 
             status = '${payload.status}', 
             godineStudija = ${payload.godineStudija}, 
-            brojPolozenihIspita = ${payload.brojPolozenihIspita}, 
+            brojPolozenihIspita = ${payload.brojPolozenihIspita},
+            smer = '${payload.smer}',
             espb = ${payload.espb} 
             WHERE ID = ${payload.id};`;
 }
@@ -844,9 +810,9 @@ function ADD_PICTURE (payload, userID) {
 
 function ADD_CV (payload, userID) {
     console.log(userID);
-    return `UPDATE licniPodaci 
-            SET cv = '${payload}' 
-            WHERE userID = ${userID}`;
+    return `INSERT INTO cv 
+            SET cv.cv = '${payload}',
+                cv.userID = ${userID}`;
 }
 
 /* KOMPANIJA */
@@ -867,10 +833,9 @@ function STATS_TOP_10 () {
             LIMIT 10`;
 }
 
-function STATS_HAS_CV (isEqual) {
-    return `SELECT count(l.cv) as broj
-            FROM licniPodaci as l
-            where l.cv ${isEqual} ''
+function STATS_HAS_CV () {
+    return `SELECT count(distinct l.userID) as broj
+            FROM cv as l
             ORDER BY broj DESC`;
 }
 
@@ -898,23 +863,27 @@ function GET_ALL_COUNTRIES() {
 }
 
 function GET_ALL_USERS () {
-    return `SELECT DISTINCT licni.userID, licni.ime, licni.prezime, licni.cv, s.prosek, f.naziv as fakultet 
+    return `SELECT DISTINCT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet 
     FROM licniPodaci as licni
     LEFT JOIN studira as s
        ON s.userID = licni.userID
     LEFT JOIN fakultet as f
        ON f.fakultetID = s.fakultetID
+    LEFT JOIN cv
+        ON cv.userID = licni.userID
     GROUP BY licni.userID`;
 }
 
 // FILTERI
 
-const GET_USERS =   `SELECT DISTINCT licni.userID, licni.ime, licni.prezime, licni.cv, s.prosek, f.naziv as fakultet
+const GET_USERS =   `SELECT DISTINCT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet
                      FROM licniPodaci as licni
                      LEFT JOIN studira as s
-                        ON s.userID = licni.userID
+                     ON s.userID = licni.userID
                      LEFT JOIN fakultet as f
-                        ON f.fakultetID = s.fakultetID`;
+                        ON f.fakultetID = s.fakultetID
+                     LEFT JOIN cv
+                        ON cv.userID = licni.userID`;
 
 function FILTER_BY_NAME (name) {
     return `licni.ime = '${name}'`;
@@ -983,13 +952,13 @@ function FILTER_BY_RESIDENCE_COUNTRY (country) {
     return `dB.naziv = '${country}'`;
 }
 
-function FILTER_BY_CV () {
-    return `cv <> ''`;
+function JOIN_CV() {
+    return `INNER JOIN cv as r
+                ON r.userID = licni.userID`;
 }
 
-function UPISI_KOMPANIJE(username, password) {
-    return `INSERT INTO kompanija (username, password)
-            VALUES ('${username}', '${password}')`;
+function FILTER_BY_CV(){
+    return `r.cv <> ''`;
 }
 
 module.exports = {
@@ -1022,9 +991,7 @@ module.exports = {
     ADD_SREDNJA_SKOLA,
     ADD_IDE_U_SREDNJU,
     GET_SREDNJE_OBRAZOVANJE_ID,
-    ADD_UNIVERZITET,
     ADD_FAKULTET,
-    ADD_SMER,
     ADD_STUDIRA,
     GET_VISOKO_OBRAZOVANJE_ID,
     UPDATE_SREDNJA_SKOLA,
@@ -1089,10 +1056,11 @@ module.exports = {
     JOIN_RESIDENCE_COUNTRY,
     FILTER_BY_PERMANENT_RESIDENCE_COUNTRY,
     FILTER_BY_RESIDENCE_COUNTRY,
-    FILTER_BY_CV,
     GET_ALL_FACULTIES,
     GET_ALL_CITIES,
     GET_ALL_COUNTRIES,
     GET_ALL_USERS,
-    UPISI_KOMPANIJE
+    GET_CV,
+    JOIN_CV,
+    FILTER_BY_CV
 }

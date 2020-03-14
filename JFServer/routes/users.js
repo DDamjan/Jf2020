@@ -23,7 +23,6 @@ router.post('/newpassword', async (req, res) => {
 });
 
 router.post('/auth', async (req, res) => {
-  console.log(req.body);
   query.execLogin(res, req.body, queryString.CHECK_USER(req.body), false);
 });
 

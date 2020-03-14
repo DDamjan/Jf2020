@@ -320,9 +320,7 @@ async function update(res, payload) {
                 break;
             }
             case 'visokoObrazovanje': {
-                await conn.promise().execute(queryStrings.ADD_UNIVERZITET(payload.payload));
                 await conn.promise().execute(queryStrings.ADD_FAKULTET(payload.payload));
-                await conn.promise().execute(queryStrings.ADD_SMER(payload.payload));
                 await conn.promise().execute(queryStrings.UPDATE_FAKULTET(payload.payload));
                 break;
             }
@@ -409,11 +407,9 @@ async function addFakultet(res, payload) {
         console.log(payload.payload);
         await conn.promise().execute(queryStrings.REGISTER_USER_DRZAVA(payload.payload.drzava));
         await conn.promise().execute(queryStrings.REGISTER_USER_GRAD(payload.payload.grad));
-        await conn.promise().execute(queryStrings.ADD_UNIVERZITET(payload.payload));
         await conn.promise().execute(queryStrings.ADD_FAKULTET(payload.payload));
-        await conn.promise().execute(queryStrings.ADD_SMER(payload.payload));
         await conn.promise().execute(queryStrings.ADD_STUDIRA(payload.payload));
-        const faksID = await conn.promise().execute(queryStrings.GET_VISOKO_OBRAZOVANJE_ID(payload.payload.fakultet, payload.payload.smer, payload.payload.userID, payload.payload.status));
+        const faksID = await conn.promise().execute(queryStrings.GET_VISOKO_OBRAZOVANJE_ID(payload.payload));
 
         temp = JSON.stringify(faksID[0]);
         const faksIDParsed = JSON.parse(temp);
@@ -633,6 +629,11 @@ async function getUser(res, results, token) {
         temp = JSON.stringify(licniPodaci[0]);
         const licniPodaciParsed = JSON.parse(temp);
 
+        let cv = await conn.promise().execute(queryStrings.GET_CV(userParsed[0].userID));
+
+        temp = JSON.stringify(cv[0]);
+        const cvParsed = JSON.parse(temp);
+
         let boravisteGrad = await conn.promise().execute(queryStrings.GET_GRAD + licniPodaciParsed[0].boravisteGradID);
         let boravisteDrzava = await conn.promise().execute(queryStrings.GET_DRZAVA + licniPodaciParsed[0].boravisteDrzavaID);
         let prebivalisteGrad = await conn.promise().execute(queryStrings.GET_GRAD + licniPodaciParsed[0].prebivalisteGradID);
@@ -692,7 +693,7 @@ async function getUser(res, results, token) {
                 prezime: licniPodaciParsed[0].prezime,
                 imeRoditelja: licniPodaciParsed[0].imeRoditelja,
                 datumRodjenja: licniPodaciParsed[0].datumRodjenja,
-                cv: licniPodaciParsed[0].cv == '' || licniPodaciParsed[0].cv == 'null' ? null : licniPodaciParsed[0].cv,
+                cv: cvParsed[0] == undefined || cvParsed[0].cv == '' || cvParsed[0].cv == 'null' ? null : cvParsed[0].cv,
                 profilnaSlika: licniPodaciParsed[0].profilnaSlika == '' || licniPodaciParsed[0].cv == 'null' ? null : licniPodaciParsed[0].profilnaSlika
             },
             kontakt: {
@@ -777,14 +778,10 @@ async function execFile(res, path) {
 
 async function getStats(res) {
     await mysql.pool.getConnection(async (err, conn) => {
-        const postaviliCV = await conn.promise().execute(queryStrings.STATS_HAS_CV('<>'));
-        const nisuPostaviliCV = await conn.promise().execute(queryStrings.STATS_HAS_CV('='));
+        const postaviliCV = await conn.promise().execute(queryStrings.STATS_HAS_CV());
 
         temp = JSON.stringify(postaviliCV[0]);
         const postaviliCVParsed = JSON.parse(temp);
-
-        temp = JSON.stringify(nisuPostaviliCV[0]);
-        const nisuPostaviliCVParsed = JSON.parse(temp);
 
         const top10 = await conn.promise().execute(queryStrings.STATS_TOP_10());
 
@@ -796,11 +793,16 @@ async function getStats(res) {
         temp = JSON.stringify(totalUsers[0]);
         const totalUsersParsed = JSON.parse(temp);
 
+        console.log(postaviliCVParsed[0].broj);
+
+        const nisuPostaviliCV = totalUsersParsed[0].broj - postaviliCVParsed[0].broj;
+
+        console.log(nisuPostaviliCV);
 
         const payload = {
             cv: {
                 postavili: postaviliCVParsed[0].broj,
-                nisuPostavili: nisuPostaviliCVParsed[0].broj
+                nisuPostavili: nisuPostaviliCV
             },
             top10: top10Parsed,
             totalUsers: { broj: totalUsersParsed[0].broj }
@@ -852,6 +854,10 @@ async function filter(req, res) {
 
     if (temporaryResidenceCountry != '') {
         queryString = queryString + " " + queryStrings.JOIN_RESIDENCE_COUNTRY();
+    }
+
+    if (cv != '' ){
+        queryString = queryString + ' ' + queryStrings.JOIN_CV();
     }
 
     if (firstName != '' || lastName != '' || yos != '' || grade != '' || faculty != '' || permanentResidenceCity != '' || temporaryResidenceCity != ''
@@ -995,158 +1001,7 @@ async function filterOptions(res) {
     });
 }
 
-async function upisiKompanije(res) {
-    await mysql.pool.getConnection(async (err, conn) => {
-        const table = {
-            "Sheet1": [
-                {
-                    "Kompanija": "Microsoft",
-                    "Sifra": "MSDCS@JF2020_19"
-                },
-                {
-                    "Kompanija": "Quest /Apex",
-                    "Sifra": "Quest@JF2020_28"
-                },
-                {
-                    "Kompanija": "WRO",
-                    "Sifra": "WRO@JF2020_37"
-                },
-                {
-                    "Kompanija": "Coming",
-                    "Sifra": "Coming@JF2020_46"
-                },
-                {
-                    "Kompanija": "Better Collective",
-                    "Sifra": "BetterCollective@JF2020_55"
-                },
-                {
-                    "Kompanija": "GATR",
-                    "Sifra": "GATR@JF2020_64"
-                },
-                {
-                    "Kompanija": "Nutanix",
-                    "Sifra": "Nutanix@JF2020_73"
-                },
-                {
-                    "Kompanija": "APTIV",
-                    "Sifra": "Aptiv@JF2020_82"
-                },
-                {
-                    "Kompanija": "Nignite",
-                    "Sifra": "Nignite@JF2020_91"
-                },
-                {
-                    "Kompanija": "Enyoj.ing",
-                    "Sifra": "Enyojing@JF2020_100"
-                },
-                {
-                    "Kompanija": "ING",
-                    "Sifra": "ING@JF2020_119"
-                },
-                {
-                    "Kompanija": "BAT",
-                    "Sifra": "BAT@JF2020_128"
-                },
-                {
-                    "Kompanija": "HDL",
-                    "Sifra": "HDL@JF2020_137"
-                },
-                {
-                    "Kompanija": "Connect Up",
-                    "Sifra": "ConnectUp@JF2020_146"
-                },
-                {
-                    "Kompanija": "OIP",
-                    "Sifra": "OIP@JF2020_155"
-                },
-                {
-                    "Kompanija": "Johnson Electric",
-                    "Sifra": "Johnson@JF2020_164"
-                },
-                {
-                    "Kompanija": "Leoni",
-                    "Sifra": "Leoni@JF2020_173"
-                },
-                {
-                    "Kompanija": "Jola",
-                    "Sifra": "Jola@JF2020_182"
-                },
-                {
-                    "Kompanija": "Ates Soft",
-                    "Sifra": "Ates@JF2020_191"
-                },
-                {
-                    "Kompanija": "TetraPak",
-                    "Sifra": "TetraPak@JF2020_200"
-                },
-                {
-                    "Kompanija": "DualSoft",
-                    "Sifra": "DualSoft@JF2020_219"
-                },
-                {
-                    "Kompanija": "HTEC",
-                    "Sifra": "HTEC@JF2020_228"
-                },
-                {
-                    "Kompanija": "Ubisoft",
-                    "Sifra": "Ubisoft@JF2020_237"
-                },
-                {
-                    "Kompanija": "Metro",
-                    "Sifra": "Metro@JF2020_246"
-                },
-                {
-                    "Kompanija": "DMV",
-                    "Sifra": "DMV@JF2020_255"
-                },
-                {
-                    "Kompanija": "Horisen",
-                    "Sifra": "Horisen@JF2020_264"
-                },
-                {
-                    "Kompanija": "Zuhlke",
-                    "Sifra": "Zuhlke@JF2020_273"
-                },
-                {
-                    "Kompanija": "MJob (Work force)",
-                    "Sifra": "MJob@JF2020_282"
-                },
-                {
-                    "Kompanija": "PrimeSW",
-                    "Sifra": "Prime@JF2020_291"
-                },
-                {
-                    "Kompanija": "Bizlink",
-                    "Sifra": "Bizlink@JF2020_230"
-                },
-                {
-                    "Kompanija": "VTool",
-                    "Sifra": "VTool@JF2020_249"
-                },
-                {
-                    "Kompanija": "Syrmia",
-                    "Sifra": "Syrmia@JF2020_258"
-                },
-                {
-                    "Kompanija": "Roaming",
-                    "Sifra": "Roaming@JF2020_267"
-                }
-            ]
-        }
-
-        table.Sheet1.forEach(async record => {
-            await conn.promise().execute(queryStrings.UPISI_KOMPANIJE(record.Kompanija, sha('sha256').update(record.Sifra).digest('hex')));
-        });
-        
-        res.end();
-
-        mysql.pool.releaseConnection(conn);
-    });
-}
-
-
 module.exports = {
-    upisiKompanije,
     execLogin,
     exec,
     get,

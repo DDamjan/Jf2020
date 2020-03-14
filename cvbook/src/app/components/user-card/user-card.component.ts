@@ -35,7 +35,7 @@ export class UserCardComponent implements OnInit {
         } else {
           this.picPath = this.data.licniPodaci.profilnaSlika;
         }
-        if (this.data.licniPodaci.cv === null) {
+        if (this.data.licniPodaci.cv == null) {
           this.downloadDisabled = true;
         } else {
           this.downloadDisabled = false;

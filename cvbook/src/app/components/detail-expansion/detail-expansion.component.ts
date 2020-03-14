@@ -18,10 +18,10 @@ export class DetailExpansionComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    if (this.user.cv !== '') {
-      this.downloadDisabled = false;
-    } else {
+    if (this.user.cv == null || this.user.cv === '') {
       this.downloadDisabled = true;
+    } else {
+      this.downloadDisabled = false;
     }
     if (this.index % 2 === 0) {
       this.color = '#A9DDFF';
