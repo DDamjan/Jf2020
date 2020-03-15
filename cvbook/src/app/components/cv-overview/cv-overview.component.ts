@@ -7,8 +7,9 @@ import { Router } from '@angular/router';
 import { selectAllUsers } from 'app/store/reducers/users.reducer';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { PageEvent, MatPaginator, MatSnackBar, Sort, MatSort } from '@angular/material';
+import { PageEvent, MatPaginator, MatSnackBar, Sort, MatSort, MatDialog} from '@angular/material';
 import { fromMatSort, fromMatPaginator, sortRows, paginateRows } from '../../util/datasource-util';
+import {FilterComponent } from '../filter/filter.component';
 
 @Component({
   selector: 'app-cv-overview',
@@ -26,7 +27,12 @@ export class CvOverviewComponent implements OnInit {
   @ViewChild('paginator', null) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(private store: Store<any>, private userService: UserService, private router: Router, private snackBar: MatSnackBar) { }
+  constructor(
+    private store: Store<any>,
+    private userService: UserService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.pageIndex = 0;
@@ -54,6 +60,18 @@ export class CvOverviewComponent implements OnInit {
   }
 
   onReturn() {
+  }
+
+  onFilter(): void {
+    const dialogRef = this.dialog.open(FilterComponent, {
+      width: '75%'
+      // data: {name: this.name, animal: this.animal}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // this.animal = result;
+    });
   }
 
   syncPrimaryPaginator(event: PageEvent) {

@@ -8,9 +8,9 @@ import * as conn from '../../constants/server-urls';
 @Injectable()
 export class ChartService {
 
-    // private serverURL = conn.PUBLIC_SERVER_DAMJAN + 'kompanija/stats/';
+    private serverURL = conn.PUBLIC_SERVER_DAMJAN + 'kompanija/stats/';
     // private serverURL = conn.LOCAL_SERVER + 'kompanija/stats/';
-    private serverURL = conn.PUBLIC_SERVER +  'kompanija/stats/';
+    // private serverURL = conn.PUBLIC_SERVER +  'kompanija/stats/';
 
     constructor(
         private http: HttpClient,

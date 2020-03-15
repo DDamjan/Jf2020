@@ -1,14 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 import * as actions from '../../store/actions';
-import { UserService } from '../../service/user.service';
 import { CompanyService } from 'app/service/company.service';
 import { selectAllFilters } from 'app/store/reducers/filter.reducer';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+export interface DialogData {
+  animal: string;
+  name: string;
+}
+
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.css']
 })
+
 export class FilterComponent implements OnInit {
   public error: boolean;
   public cities: any;
@@ -31,7 +38,12 @@ export class FilterComponent implements OnInit {
   public tCity: string;
   public tCountry: string;
 
-  constructor(private store: Store<any>, private userService: UserService, private companyService: CompanyService) { this.error = false; }
+  constructor(
+    private store: Store<any>,
+    private companyService: CompanyService,
+    public dialogRef: MatDialogRef<FilterComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    ) { this.error = false; }
 
   ngOnInit() {
     this.populateformOptions();
@@ -94,6 +106,7 @@ export class FilterComponent implements OnInit {
       temporaryResidenceCountry
     };
     this.store.dispatch(new actions.FilterUsers(payload));
+    this.dialogRef.close();
   }
 
   autoCompleteListener($event, type) {
@@ -123,7 +136,9 @@ export class FilterComponent implements OnInit {
     if ($event.target.value.length === 0) {
       this.populateformOptions();
     }
-
   }
 
+  onCancel(): void {
+    this.dialogRef.close();
+  }
 }

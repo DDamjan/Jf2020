@@ -33,6 +33,19 @@
     background-color: #0596F4;
 }
 
+.btnFilterDiv {
+    flex-grow: 1;
+    background-color: white;
+    align-self: center;
+    justify-self: center;
+}
+
+.btnFilter {
+    margin-left: 7px;
+    background-color: #0596F4;
+    color:  white;
+}
+
 .inputs {
     height: 100%; 
 }
