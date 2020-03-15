@@ -1,14 +1,11 @@
 .personalDataCard {
-    background-color:#01436E;
-    margin: 10px;
-  }
-
-  .permanentResidenceCard {
     background-color:#01578F;
     margin: 10px;
   }
 
-  .temporaryResidenceCard {
+  
+
+  .residenceCard {
     background-color:#0172BC;
     margin: 10px;
   }
@@ -23,17 +20,19 @@
     margin: 10px;
   }
 
+  .ExperienceCard {
+    background-color:#1E9BED;
+    margin: 10px;
+  }
+
   .pesonalDetails {
-    padding-top: 2%;
     display: flex;
-    flex-direction: row;
-    
+    flex-direction: row;  
   }
 
   .info-container {
     display: flex;
     flex-direction: column;
-    padding: 0% 0% 0% 1%;
     flex: 1;
     
   }

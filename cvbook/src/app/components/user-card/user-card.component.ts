@@ -16,6 +16,13 @@ export class UserCardComponent implements OnInit {
   public isPermanentResidence: boolean;
   public isHighSchoolEducation: boolean;
   public isHigherEducation: boolean;
+  public isWorkExperience: boolean;
+  public isInternshipExperience: boolean;
+  public isComputerSkills: boolean;
+  public isProjectWork: boolean;
+  public isLanguages: boolean;
+  public isOtehrSkills: boolean;
+
   public downloadDisabled: boolean;
   public picPath: string;
 
@@ -28,6 +35,17 @@ export class UserCardComponent implements OnInit {
       this.isPermanentResidence = this.type === 'permanentResidence';
       this.isHighSchoolEducation = this.type === 'highSchoolEducation';
       this.isHigherEducation = this.type === 'higherEducation';
+      this.isWorkExperience = this.type === 'workExperience';
+      this.isInternshipExperience = this.type === 'internshipExperience';
+      this.isComputerSkills = this.type === 'computerSkills';
+      this.isProjectWork = this.type === 'projectsWork';
+      this.isLanguages = this.type === 'languages';
+      this.isOtehrSkills = this.type === 'otherSkills';
+
+      if(this.isWorkExperience){
+        console.log(this.data.iskustvo);
+      }
+
 
       if (this.isPersonalData) {
         if (this.data.licniPodaci.profilnaSlika === null) {

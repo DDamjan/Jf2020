@@ -1,13 +1,11 @@
 <mat-card *ngIf='isPersonalData' class="personalDataCard" >
- 
-  <!-- <mat-card-title style="color:white">ID: {{data.userID}}</mat-card-title> -->
   <mat-card-header>
-    <button mat-mini-fab class="btnReturn" (click)="onReturn()"><mat-icon>keyboard_backspace</mat-icon></button>
-
-    <div style="margin-top: 0.5%; margin-left: 2%;">
+    <!--
+      <mat-card-title style="color:white">ID: {{data.userID}}</mat-card-title>
+      <button mat-mini-fab class="btnReturn" (click)="onReturn()"><mat-icon>keyboard_backspace</mat-icon></button>
+      <div style="margin-top: 0.5%; margin-left: 2%;"></div> 
+    -->
     <mat-card-title style="color:white"><div>{{title}}</div></mat-card-title>
-    
-  </div>
   </mat-card-header>
   <mat-card-content>
     <div class="pesonalDetails">
@@ -31,12 +29,12 @@
   </mat-card-content>
 </mat-card> 
 
-<mat-card *ngIf='isPermanentResidence' class="permanentResidenceCard" >
+<mat-card *ngIf="isPermanentResidence" class="residenceCard" >
   <mat-card-header>
     <mat-card-title style="color:white">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div  class='info-container'>
+    <div  class="info-container">
      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Adress:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.adresa}}</span></div></div>
      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.grad}}</span></div></div>
      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.drzava}}</span></div></div>
@@ -44,12 +42,12 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf='isResidence' class="temporaryResidenceCard" >
+<mat-card *ngIf="isResidence" class="residenceCard" >
   <mat-card-header>
     <mat-card-title style="color:white">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div  class='info-container'>
+    <div  class="info-container">
       <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Adress:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.adresa}}</span></div></div>
       <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.grad}}</span></div></div>
       <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.drzava}}</span></div></div>
@@ -57,12 +55,12 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf='isHighSchoolEducation' class="highSchoolCard" >
+<mat-card *ngIf="isHighSchoolEducation" class="highSchoolCard" >
   <mat-card-header>
     <mat-card-title style="color:white">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div  class='info-container'>
+    <div  class="info-container">
       <mat-accordion *ngFor="let skola of data.srednjeObrazovanje">
         <mat-expansion-panel style="background-color: #CDE5F5; margin-bottom: 10px;" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
@@ -86,12 +84,12 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf='isHigherEducation' class="higherEducationCard" >
+<mat-card *ngIf="isHigherEducation" class="higherEducationCard" >
   <mat-card-header>
     <mat-card-title style="color:white">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div  class='info-container'>
+    <div  class="info-container">
       <mat-accordion *ngFor="let faks of data.visokoObrazovanje">
         <mat-expansion-panel style="background-color: #CDE5F5; margin-bottom: 10px;" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
@@ -119,3 +117,185 @@
     </div>
   </mat-card-content>
 </mat-card>
+<!------------------------------------------------------------------------------->
+<mat-card *ngIf="isWorkExperience" class="ExperienceCard" >
+  <mat-card-header>
+    <mat-card-title style="color:white">{{title}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div  class="info-container">
+      <mat-accordion *ngFor="let rad of data.iskustvo.radnoIskustvo">
+        <mat-expansion-panel style="background-color: #CDE5F5; margin-bottom: 10px;" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title >
+              <div style="display: flex; flex-direction: column;"> 
+                <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Company:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{rad.kompanija}}</span></div></div>
+               <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Function:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{rad.funkcija}}</span></div></div>
+             </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div style="display: flex; flex-direction: column;">
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Start date:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{rad.datumPocetka}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">End date:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{rad.datumZavrsetka}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Description:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550; float: bottom;">{{rad.opis}}</span></div></div>
+           
+           </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!------------------------------------------------------------------------------->
+<mat-card *ngIf="isInternshipExperience" class="ExperienceCard" >
+  <mat-card-header>
+    <mat-card-title style="color:white">{{title}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div  class="info-container">
+      <mat-accordion *ngFor="let strucno of data.iskustvo.strucnoUsavrsavanje">
+        <mat-expansion-panel style="background-color: #CDE5F5; margin-bottom: 10px;" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title >
+              <div style="display: flex; flex-direction: column;"> 
+                <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Name:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{strucno.naziv}}</span></div></div>
+               <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Organizer:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{strucno.organizator}}</span></div></div>
+             </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div style="display: flex; flex-direction: column;">
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Start date:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{strucno.datumPocetka}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">End date:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{strucno.datumZavrsetka}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Description:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550; float: bottom;">{{strucno.opis}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Certificate:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{strucno.sertifikat}}</span></div></div>
+            
+           </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!------------------------------------------------------------------------------->
+<mat-card *ngIf="isComputerSkills" class="ExperienceCard" >
+  <mat-card-header>
+    <mat-card-title style="color:white">{{title}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div  class="info-container">
+      <mat-accordion *ngFor="let kompjuter of data.iskustvo.radNaRacunaru">
+        <mat-expansion-panel style="background-color: #CDE5F5; margin-bottom: 10px;" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title >
+              <div style="display: flex; flex-direction: column;"> 
+                <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Name:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{kompjuter.naziv}}</span></div></div>
+                <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Level:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{kompjuter.nivo}}</span></div></div>
+        
+             </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div style="display: flex; flex-direction: column;">
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Certificate:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{kompjuter.sertifikat}}</span></div></div>
+           
+           </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!------------------------------------------------------------------------------->
+<mat-card *ngIf="isProjectWork" class="ExperienceCard" >
+  <mat-card-header>
+    <mat-card-title style="color:white">{{title}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div  class="info-container">
+      <mat-accordion *ngFor="let projekat of data.iskustvo.radNaProjektu">
+        <mat-expansion-panel style="background-color: #CDE5F5; margin-bottom: 10px;" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title >
+              <div style="display: flex; flex-direction: column;"> 
+                <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Name:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{projekat.naziv}}</span></div></div>
+               <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Role:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{projekat.uloga}}</span></div></div>
+             </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div style="display: flex; flex-direction: column;">
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Start date:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{projekat.datumPocetka}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">End date:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{projekat.datumZavrsetka}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Description:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550; float: bottom;">{{projekat.opis}}</span></div></div>
+            
+           </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!------------------------------------------------------------------------------->
+<mat-card *ngIf="isLanguages" class="ExperienceCard" >
+  <mat-card-header>
+    <mat-card-title style="color:white">{{title}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div  class="info-container">
+      <mat-accordion *ngFor="let jezici of data.iskustvo.poznavanjeJezika">
+        <mat-expansion-panel style="background-color: #CDE5F5; margin-bottom: 10px;" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title >
+              <div style="display: flex; flex-direction: column;"> 
+                <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Language:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{jezici.jezik}}</span></div></div>
+               
+             </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div style="display: flex; flex-direction: column;">
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Reading level:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{jezici.nivoCitanja}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Writing level:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{jezici.nivoPisanja}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Understanding level:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550; float: bottom;">{{jezici.nivoRazumevanja}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Speaking level:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{jezici.nivoGovora}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Certificate:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{jezici.sertifikat}}</span></div></div>
+          
+           </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!------------------------------------------------------------------------------->
+<mat-card *ngIf="isOtehrSkills" class="ExperienceCard" >
+  <mat-card-header>
+    <mat-card-title style="color:white">{{title}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div  class="info-container">
+      <mat-accordion *ngFor="let skills of data.iskustvo.ostaleVestine">
+        <mat-expansion-panel style="background-color: #CDE5F5; margin-bottom: 10px;" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title >
+              <div style="display: flex; flex-direction: column;"> 
+                <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Skills:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{skills.vestine}}</span></div></div>
+
+             </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div style="display: flex; flex-direction: column;">
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Drivers licence:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{skills.vozackeDozvole}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">My personality traits:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{skills.osobine}}</span></div></div>
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Personal interests:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550; float: bottom;">{{skills.interesovanja}}</span></div></div>
+            
+           </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </mat-card-content>
+</mat-card>
+

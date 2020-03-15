@@ -1,68 +1,78 @@
 <form (ngSubmit)="onSubmit($event)">
-  <div class="btnSerachDiv">
-    <button mat-raised-button type="submit" class="btnSerach">Search</button>
+  <div mat-dialog-content class="dialogContent">
+    <div class="inputs">
+      <mat-checkbox isChecked= "cv">Has CV</mat-checkbox>
+      <mat-checkbox isChecked= "cv" class="input">Favorited</mat-checkbox>
+      <p>Personal Details</p>
+      <mat-form-field>
+        <input matInput placeholder="First name">
+      </mat-form-field>
+      <mat-form-field class="input" >
+        <input matInput placeholder="Last name">
+      </mat-form-field>
+      <p></p>
+      <mat-form-field>
+        <input matInput placeholder="Year of study" [matAutocomplete]="yos"> 
+        <mat-autocomplete #yos="matAutocomplete">
+          <mat-option *ngFor="let option of yosOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field class="input">
+        <input matInput placeholder="Grade average">
+      </mat-form-field>
+      <mat-form-field class="input">
+        <input matInput placeholder="Faculty" [matAutocomplete]="faculty" (keyup)="autoCompleteListener($event, 'faculty')">
+        <mat-autocomplete #faculty="matAutocomplete">
+          <mat-option *ngFor="let option of facultyOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <p>Permanent residence</p>
+      <mat-form-field appearance="legacy">
+        <input matInput placeholder="City" name="pCity" [matAutocomplete]="pCity" (keyup)="autoCompleteListener($event, 'pCity')">
+        <mat-autocomplete #pCity="matAutocomplete">
+          <mat-option *ngFor="let option of pCityOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="input">
+        <input matInput placeholder="Country" name="pCountry" [matAutocomplete]="pCountry" (keyup)="autoCompleteListener($event, 'pCountry')">
+        <mat-autocomplete #pCountry="matAutocomplete">
+          <mat-option *ngFor="let option of pCountryOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <p>Temporary residence</p>
+      <mat-form-field appearance="legacy">
+        <input matInput placeholder="City" name="tCity" [matAutocomplete]="tCity" (keyup)="autoCompleteListener($event, 'tCity')">
+        <mat-autocomplete #tCity="matAutocomplete">
+          <mat-option *ngFor="let option of tCityOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="input">
+        <input matInput placeholder="Country" name="tCountry" [matAutocomplete]="tCountry" (keyup)="autoCompleteListener($event, 'tCountry')">
+        <mat-autocomplete #tCountry="matAutocomplete">
+          <mat-option *ngFor="let option of tCountryOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
   </div>
-  <p class="error" *ngIf='error'>ERROR</p>
-  <div class="inputs">
-    <mat-checkbox isChecked= "cv">Has CV</mat-checkbox>
-    <mat-form-field>
-      <input matInput placeholder="First name">
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Last name">
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Year of study" [matAutocomplete]="yos" > 
-      <mat-autocomplete #yos="matAutocomplete">
-        <mat-option *ngFor="let option of yosOptions" [value]="option">
-          {{ option }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Grade average" >
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Faculty" [matAutocomplete]="faculty" (keyup)="autoCompleteListener($event, 'faculty')">
-      <mat-autocomplete #faculty="matAutocomplete">
-        <mat-option *ngFor="let option of facultyOptions" [value]="option">
-          {{ option }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    <p>Permanent residence</p>
-    <mat-form-field appearance="legacy">
-      <input matInput placeholder="City" name="pCity" [matAutocomplete]="pCity" (keyup)="autoCompleteListener($event, 'pCity')" >
-      <mat-autocomplete #pCity="matAutocomplete">
-        <mat-option *ngFor="let option of pCityOptions" [value]="option">
-          {{ option }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    <mat-form-field appearance="legacy">
-      <input matInput placeholder="Country" name="pCountry" [matAutocomplete]="pCountry" (keyup)="autoCompleteListener($event, 'pCountry')" >
-      <mat-autocomplete #pCountry="matAutocomplete">
-        <mat-option *ngFor="let option of pCountryOptions" [value]="option">
-          {{ option }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    <p>Temporary residence</p>
-    <mat-form-field appearance="legacy">
-      <input matInput placeholder="City" name="tCity" [matAutocomplete]="tCity" (keyup)="autoCompleteListener($event, 'tCity')" >
-      <mat-autocomplete #tCity="matAutocomplete">
-        <mat-option *ngFor="let option of tCityOptions" [value]="option">
-          {{ option }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    <mat-form-field appearance="legacy">
-      <input matInput placeholder="Country" name="tCountry" [matAutocomplete]="tCountry" (keyup)="autoCompleteListener($event, 'tCountry')" >
-      <mat-autocomplete #tCountry="matAutocomplete">
-        <mat-option *ngFor="let option of tCountryOptions" [value]="option">
-          {{ option }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+  <div mat-dialog-actions class="dialogActions">
+    <div class="btnSerachDiv">
+      <button mat-raised-button type="submit" class="btnSerach" >Search</button>
+    </div>
+    <div class="btnCancelDiv">
+      <button mat-raised-button (click)="onCancel()" class="btnCancel" >Cancel</button>
+    </div>
+    <p class="error" *ngIf='error'>ERROR</p>
   </div>
 </form>
