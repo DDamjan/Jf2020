@@ -1,6 +1,11 @@
 .sidenav {
   width: 200px;
   opacity: 0.95;
+  z-index: 10;
+}
+
+.sidenav-container {
+  z-index: 10;
 }
 
 

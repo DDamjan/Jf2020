@@ -22,7 +22,7 @@
 </div>
 
 <div *ngIf="isReady && isNewUserDetails" class="cards" >
-    <mat-tab-group>
+    <mat-tab-group class="tabGroup">
         <mat-tab label="Personal Data" >
             <app-user-card [title]="'Personal Data'" [type]="'personalData'" [data]="data" >
             </app-user-card>

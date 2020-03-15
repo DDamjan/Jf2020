@@ -1,4 +1,5 @@
 .dialogContent {
+    margin: 0%;
 }
 
 .dialogActions {
@@ -29,4 +30,5 @@
 }
 
 .btnCancel {
+    margin: 0%;
 }

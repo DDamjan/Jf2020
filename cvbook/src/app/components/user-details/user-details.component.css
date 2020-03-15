@@ -1,3 +1,7 @@
+.tabGroup {
+    z-index: 0;
+}
+
 .cards {
     align-items:  center;
     justify-content:  center;

@@ -13,6 +13,7 @@ export class UserDetailsComponent implements OnInit {
   public data: any;
   public isReady: boolean;
   public isNewUserDetails: boolean;
+  
   constructor(
     private store: Store<any>,
     private router: Router,
