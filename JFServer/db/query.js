@@ -856,7 +856,7 @@ async function filter(req, res) {
         queryString = queryString + " " + queryStrings.JOIN_RESIDENCE_COUNTRY();
     }
 
-    if (cv != '' ){
+    if (cv != '') {
         queryString = queryString + ' ' + queryStrings.JOIN_CV();
     }
 
@@ -963,7 +963,7 @@ async function filter(req, res) {
 
         const payload = {
             filteredUsers: filteredUsersParsed,
-            filters: {...req.body, cv: cv === ''? false: true}
+            filters: { ...req.body, cv: cv === '' ? false : true }
         }
 
         res.json(payload);
@@ -996,6 +996,18 @@ async function filterOptions(res) {
 
         res.json(payload);
         res.send();
+
+        mysql.pool.releaseConnection(conn);
+    });
+}
+
+async function getHistory(res) {
+    await mysql.pool.getConnection(async (err, conn) => {
+        const history = await conn.promise().execute(queryStrings.GET_ALL_COUNTRIES());
+        temp = JSON.stringify(history[0]);
+        const historyParsed = JSON.parse(temp);
+
+        
 
         mysql.pool.releaseConnection(conn);
     });
