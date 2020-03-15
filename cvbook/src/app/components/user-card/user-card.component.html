@@ -179,7 +179,7 @@
 </mat-card>
 
 <!------------------------------------------------------------------------------->
-<mat-card *ngIf="isComputerSkills" class="ExperienceCard" >
+<mat-card *ngIf="isComputerSkills" class="lngAndCompCard" >
   <mat-card-header>
     <mat-card-title style="color:white">{{title}}</mat-card-title>
   </mat-card-header>
@@ -238,7 +238,7 @@
 </mat-card>
 
 <!------------------------------------------------------------------------------->
-<mat-card *ngIf="isLanguages" class="ExperienceCard" >
+<mat-card *ngIf="isLanguages" class="lngAndCompCard" >
   <mat-card-header>
     <mat-card-title style="color:white">{{title}}</mat-card-title>
   </mat-card-header>
@@ -270,32 +270,22 @@
 </mat-card>
 
 <!------------------------------------------------------------------------------->
-<mat-card *ngIf="isOtehrSkills" class="ExperienceCard" >
+
+<mat-card *ngIf="isOtehrSkills" class="skillCard" >
   <mat-card-header>
     <mat-card-title style="color:white">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div  class="info-container">
-      <mat-accordion *ngFor="let skills of data.iskustvo.ostaleVestine">
-        <mat-expansion-panel style="background-color: #CDE5F5; margin-bottom: 10px;" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-          <mat-expansion-panel-header>
-            <mat-panel-title >
-              <div style="display: flex; flex-direction: column;"> 
-                <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Skills:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{skills.vestine}}</span></div></div>
 
-             </div>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
+    <mat-accordion *ngFor="let skills of data.iskustvo.ostaleVestine">
+      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Skills:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{skills.vestine}}</span></div></div>
+      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Drivers licence:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{skills.vozackeDozvole}}</span></div></div>
+      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">My personality traits:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{skills.osobine}}</span></div></div>
+      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Personal interests:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{skills.interesovanja}}</span></div></div>
+  </mat-accordion>
+</div>
 
-          <div style="display: flex; flex-direction: column;">
-            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Drivers licence:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{skills.vozackeDozvole}}</span></div></div>
-            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">My personality traits:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{skills.osobine}}</span></div></div>
-            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Personal interests:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550; float: bottom;">{{skills.interesovanja}}</span></div></div>
-            
-           </div>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </div>
   </mat-card-content>
 </mat-card>
 
