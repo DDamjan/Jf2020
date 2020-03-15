@@ -32,4 +32,8 @@ router.get('/', async (req, res) => {
   query.upisiKompanije(res);
 })
 
+router.post('/history/add', async (req, res) => {
+  query.exec(req, res, queryString.ADD_TO_HISTORY(req.body), query.get);
+})
+
 module.exports = router;

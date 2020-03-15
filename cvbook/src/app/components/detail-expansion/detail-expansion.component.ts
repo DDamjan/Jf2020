@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../models/User';
+import { Store } from '@ngrx/store';
+import { CompanyService } from 'app/service/company.service';
 
 @Component({
   selector: 'app-user-expansion',
@@ -15,7 +17,7 @@ export class DetailExpansionComponent implements OnInit {
   @Input() public displayedRows$: any;
   public color: any;
   public downloadDisabled: boolean;
-  constructor(private router: Router) { }
+  constructor(private router: Router, private kompanijaService: CompanyService) { }
 
   ngOnInit() {
     if (this.user.cv == null || this.user.cv === '') {
@@ -29,14 +31,16 @@ export class DetailExpansionComponent implements OnInit {
       } else {
         this.color = 'white';
       }
-    } );
+    });
   }
 
   onOpen() {
+    const company = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
+    this.kompanijaService.addToHistory(this.user.userID, company.kompanijaID).subscribe();
     this.router.navigateByUrl(`userdetails/${this.user.userID}`);
   }
 
   onDownloadCV() {
-      window.location.href = this.user.cv;
+    window.location.href = this.user.cv;
   }
 }

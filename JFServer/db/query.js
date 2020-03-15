@@ -1001,6 +1001,13 @@ async function filterOptions(res) {
     });
 }
 
+async function getHistory(res) {
+    await mysql.pool.getConnection(async (err, conn) => {
+        const history = 
+        mysql.pool.releaseConnection(conn);
+    });
+}
+
 module.exports = {
     execLogin,
     exec,

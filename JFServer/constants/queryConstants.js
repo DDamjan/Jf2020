@@ -440,7 +440,7 @@ function ADD_STUDIRA(payload) {
                                                 SELECT drzavaID
                                                 FROM drzava
                                                 WHERE naziv = '${payload.drzava}' LIMIT 1
-                                            ) 
+                                            ) LIMIT 1
                     ), 
                     ${payload.godinaUpisa}, 
                     ${payload.prosek}, 
@@ -466,7 +466,7 @@ function ADD_STUDIRA(payload) {
                                                                             FROM drzava
                                                                             WHERE naziv = '${payload.drzava}' LIMIT 1
                                                                         ) LIMIT 1
-                                                ) 
+                                                )
                             AND smer = '${payload.smer}'
                             AND status = '${payload.status}' LIMIT 1
                     ) IS NULL`;
@@ -488,7 +488,7 @@ function GET_VISOKO_OBRAZOVANJE_ID(payload) {
                                                             SELECT drzavaID
                                                             FROM drzava
                                                             WHERE naziv = '${payload.drzava}' LIMIT 1
-                                                        ) 
+                                                        ) LIMIT 1
                                 ) 
                 AND smer = '${payload.smer}' 
                 AND status = '${payload.status}' 
@@ -874,6 +874,25 @@ function GET_ALL_USERS () {
     GROUP BY licni.userID`;
 }
 
+function ADD_TO_HISTORY (payload) {
+    return `INSERT INTO kompanija_read (kompanijaID, userID)
+            VALUES (${payload.kompanijaID}, ${payload.userID})`;
+}
+
+function GET_HISTORY () {
+    return `SELECT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet, CONVERT(history.date, DATE) as visited
+            FROM licniPodaci as licni
+            LEFT JOIN studira as s
+                ON s.userID = licni.userID
+            LEFT JOIN fakultet as f
+                ON f.fakultetID = s.fakultetID
+            LEFT JOIN cv
+                ON cv.userID = licni.userID
+            INNER JOIN kopmpanija_read as history
+                ON history.userID = licni.userID
+            GROUP BY licni.userID`;
+}
+
 // FILTERI
 
 const GET_USERS =   `SELECT DISTINCT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet
@@ -1062,5 +1081,7 @@ module.exports = {
     GET_ALL_USERS,
     GET_CV,
     JOIN_CV,
-    FILTER_BY_CV
+    FILTER_BY_CV,
+    GET_HISTORY,
+    ADD_TO_HISTORY
 }
