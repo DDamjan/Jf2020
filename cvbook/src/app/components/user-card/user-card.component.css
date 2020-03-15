@@ -1,27 +1,37 @@
 .personalDataCard {
-    background-color:#01578F;
+    background-color:#043E63;
     margin: 10px;
   }
 
   
 
   .residenceCard {
-    background-color:#0172BC;
+    background-color:#074F7E;
     margin: 10px;
   }
 
   .highSchoolCard {
-    background-color:#0596F4;
+    background-color:#074F7E;
     margin: 10px;
   }
 
   .higherEducationCard {
-    background-color:#1E9BED;
+    background-color:#074F7E;
     margin: 10px;
   }
 
   .ExperienceCard {
-    background-color:#1E9BED;
+    background-color:#043E63;
+    margin: 10px;
+  }
+
+  .lngAndCompCard {
+    background-color:#074F7E;
+    margin: 10px;
+  }
+
+  .skillCard {
+    background-color:#0A67A3;
     margin: 10px;
   }
 

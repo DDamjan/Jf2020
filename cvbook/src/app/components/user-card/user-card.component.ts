@@ -43,7 +43,7 @@ export class UserCardComponent implements OnInit {
       this.isOtehrSkills = this.type === 'otherSkills';
 
       if(this.isWorkExperience){
-        console.log(this.data.iskustvo);
+        console.log(this.data.iskustvo.ostaleVestine);
       }
 
 
