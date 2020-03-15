@@ -15,9 +15,11 @@ export class DetailExpansionComponent implements OnInit {
   @Input() public displayedRows$: any;
   public color: any;
   public downloadDisabled: boolean;
+  public isBookmarked: boolean;
   constructor(private router: Router) { }
 
   ngOnInit() {
+    this.isBookmarked = false; // eYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY menjaj ovo
     if (this.user.cv == null || this.user.cv === '') {
       this.downloadDisabled = true;
     } else {
@@ -38,5 +40,9 @@ export class DetailExpansionComponent implements OnInit {
 
   onDownloadCV() {
       window.location.href = this.user.cv;
+  }
+
+  onToggleBookmarked(marked) {
+    this.isBookmarked = marked;
   }
 }
