@@ -12,7 +12,7 @@ export class DetailExpansionComponent implements OnInit {
 
   panelOpenState = false;
   @Input() public user: User;
-  @Input() public index: any;
+  @Input() public displayedRows$: any;
   public color: any;
   public downloadDisabled: boolean;
   constructor(private router: Router) { }
@@ -23,11 +23,13 @@ export class DetailExpansionComponent implements OnInit {
     } else {
       this.downloadDisabled = false;
     }
-    if (this.index % 2 === 0) {
-      this.color = '#A9DDFF';
-    } else {
-      this.color = 'white';
-    }
+    this.displayedRows$.subscribe((userList) => {
+      if (userList.indexOf(this.user) % 2 === 0) {
+        this.color = '#A9DDFF';
+      } else {
+        this.color = 'white';
+      }
+    } );
   }
 
   onOpen() {

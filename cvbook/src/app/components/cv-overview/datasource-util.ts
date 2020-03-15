@@ -20,7 +20,7 @@ function defaultSort(a: any, b: any): number {
   if (a === null) { return -1; }
   if (b === null) { return 1; }
 
-  //from this point on a & b can not be null or undefined.
+  // from this point on a & b can not be null or undefined.
 
   if (a > b) {
     return 1;

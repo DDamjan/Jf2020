@@ -55,4 +55,10 @@ export class CvOverviewComponent implements OnInit {
 
   onReturn() {
   }
+
+  syncPrimaryPaginator(event: PageEvent) {
+    this.paginator.pageIndex = event.pageIndex;
+    this.paginator.pageSize = event.pageSize;
+    this.paginator.page.emit(event);
+  }
 }
