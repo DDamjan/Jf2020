@@ -24,7 +24,8 @@ import {
   MatSnackBarModule,
   MatTableModule,
   MatPaginatorModule,
-  MatSortModule
+  MatSortModule,
+  MatDialogModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
@@ -99,7 +100,11 @@ import { HistoryComponent } from './components/history/history.component';
     MatPaginatorModule,
     MatSortModule,
     MatAutocompleteModule,
-    ChartsModule
+    ChartsModule,
+    MatDialogModule
+  ],
+  entryComponents: [
+    FilterComponent
   ],
   providers: [UserService, CompanyService, CookieService, HttpService, ChartService],
   bootstrap: [AppComponent]

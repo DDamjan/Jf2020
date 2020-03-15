@@ -1,11 +1,32 @@
-.btnSerach {
-    margin: 7px;
-    margin-left: 10%;
-    background-color: #0596F4;
-    width: 80%;
-    color: white;
+.dialogContent {
+}
+
+.dialogActions {
+    display: flex;
+    flex-direction: row;
+    direction: rtl;
 }
 
 .inputs {
     margin-left: 5px;
+}
+
+.input {
+    margin-left: 4%;
+}
+
+.btnSerachDiv {
+    margin-right: 5%;
+}
+
+.btnSerach {
+    background-color: #0596F4;
+    color: white;
+}
+
+.btnCancelDiv {
+    margin-right: 2%;
+}
+
+.btnCancel {
 }
