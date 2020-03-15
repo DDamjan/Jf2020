@@ -440,7 +440,7 @@ function ADD_STUDIRA(payload) {
                                                 SELECT drzavaID
                                                 FROM drzava
                                                 WHERE naziv = '${payload.drzava}' LIMIT 1
-                                            ) 
+                                            ) LIMIT 1
                     ), 
                     ${payload.godinaUpisa}, 
                     ${payload.prosek}, 
@@ -466,7 +466,7 @@ function ADD_STUDIRA(payload) {
                                                                             FROM drzava
                                                                             WHERE naziv = '${payload.drzava}' LIMIT 1
                                                                         ) LIMIT 1
-                                                ) 
+                                                )
                             AND smer = '${payload.smer}'
                             AND status = '${payload.status}' LIMIT 1
                     ) IS NULL`;
@@ -488,7 +488,7 @@ function GET_VISOKO_OBRAZOVANJE_ID(payload) {
                                                             SELECT drzavaID
                                                             FROM drzava
                                                             WHERE naziv = '${payload.drzava}' LIMIT 1
-                                                        ) 
+                                                        ) LIMIT 1
                                 ) 
                 AND smer = '${payload.smer}' 
                 AND status = '${payload.status}' 
@@ -874,6 +874,35 @@ function GET_ALL_USERS () {
     GROUP BY licni.userID`;
 }
 
+function ADD_TO_HISTORY (payload) {
+    return `INSERT INTO kompanija_read (kompanijaID, userID)
+            VALUES (${payload.kompanijaID}, ${payload.userID})`;
+}
+
+function ADD_TO_DOWNLOADED (payload) {
+    return `INSERT INTO kompanija_download (kompanijaID, userID)
+            VALUES (${payload.kompanijaID}, ${payload.userID})`;
+}
+
+function ADD_TO_FAVOURITES (payload) {
+    return `INSERT INTO kompanija_favourite (kompanijaID, userID)
+            VALUES (${payload.kompanijaID}, ${payload.userID})`;
+}
+
+function GET_HISTORY (kompanijaID) {
+    return `SELECT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet, history.date as visited
+            FROM licniPodaci as licni
+            LEFT JOIN studira as s
+                ON s.userID = licni.userID
+            LEFT JOIN fakultet as f
+                ON f.fakultetID = s.fakultetID
+            LEFT JOIN cv
+                ON cv.userID = licni.userID
+            INNER JOIN kompanija_read as history
+                ON history.userID = licni.userID AND history.kompanijaID = ${kompanijaID}
+            GROUP BY history.date`;
+}
+
 // FILTERI
 
 const GET_USERS =   `SELECT DISTINCT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet
@@ -913,7 +942,7 @@ function JOIN_FACULTY () {
 }
 
 function FILTER_BY_FACULTY (faculty) {
-    return `faks.naziv = ${faculty}`;
+    return `faks.naziv = '${faculty}'`;
 }
 
 function JOIN_PERMANENT_RESIDENCE_CITY () {
@@ -1062,5 +1091,9 @@ module.exports = {
     GET_ALL_USERS,
     GET_CV,
     JOIN_CV,
-    FILTER_BY_CV
+    FILTER_BY_CV,
+    GET_HISTORY,
+    ADD_TO_HISTORY,
+    ADD_TO_DOWNLOADED,
+    ADD_TO_FAVOURITES
 }
