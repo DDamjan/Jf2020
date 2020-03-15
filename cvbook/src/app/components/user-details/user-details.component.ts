@@ -12,6 +12,7 @@ import { selectAllUser } from 'app/store/reducers/user.reducer';
 export class UserDetailsComponent implements OnInit {
   public data: any;
   public isReady: boolean;
+  public isNewUserDetails: boolean;
   constructor(
     private store: Store<any>,
     private router: Router,
@@ -19,6 +20,7 @@ export class UserDetailsComponent implements OnInit {
     ) {}
 
   ngOnInit() {
+    this.isNewUserDetails = true;
     const id = this.route.snapshot.paramMap.get('id');
     this.store.dispatch(new actions.GetUser(id));
     this.store.select(selectAllUser).subscribe(user => {
@@ -26,6 +28,7 @@ export class UserDetailsComponent implements OnInit {
         this.isReady = false;
       } else {
         this.data = user[0];
+        console.log(this.data);
         this.isReady = true;
       }
     });

@@ -23,17 +23,19 @@
     margin: 10px;
   }
 
+  .ExperienceCard {
+    background-color:#1E9BED;
+    margin: 10px;
+  }
+
   .pesonalDetails {
-    padding-top: 2%;
     display: flex;
-    flex-direction: row;
-    
+    flex-direction: row;  
   }
 
   .info-container {
     display: flex;
     flex-direction: column;
-    padding: 0% 0% 0% 1%;
     flex: 1;
     
   }

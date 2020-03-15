@@ -2,7 +2,7 @@
     align-items:  center;
     justify-content:  center;
     background-color: #B5D6EB;
-    
+    height: 100%;
 }
 
 .flexRow {
@@ -12,4 +12,8 @@
 
 .subject {
     flex-grow: 1;
+}
+
+.tabStyle {
+    height: 100%;
 }

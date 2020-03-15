@@ -1,4 +1,4 @@
-<div *ngIf="isReady" class="cards">
+<div *ngIf="isReady && !isNewUserDetails" class="cards" >
     <div style="padding-top: 0.5%;">
     <app-user-card [title]="'Personal Data'" [type]="'personalData'" [data]="data" >
     </app-user-card>
@@ -20,4 +20,32 @@
         <app-user-card [title]="'Higher Education'" [type]="'higherEducation'" [data]="data" class ="subject">
         </app-user-card>
     </div>
+</div>
+
+<div *ngIf="isReady && isNewUserDetails" class="cards" >
+    <mat-tab-group>
+        <mat-tab label="Personal Data" class="tabStyle">
+            <app-user-card [title]="'Personal Data'" [type]="'personalData'" [data]="data" >
+            </app-user-card>
+
+            <div class = "flexRow">
+                <app-user-card [title]="'Permanent Residence'" [type]="'permanentResidence'" [data]="data" class ="subject" >
+                </app-user-card>
+        
+                <app-user-card [title]="'Temporary Residence'" [type]="'residence'" [data]="data" class ="subject">
+                </app-user-card>
+            </div>
+        </mat-tab>
+        <mat-tab label="Education" class="tabStyle">
+            <app-user-card [title]="'High School Education'" [type]="'highSchoolEducation'" [data]="data" class ="subject">
+            </app-user-card>
+    
+            <app-user-card [title]="'Higher Education'" [type]="'higherEducation'" [data]="data" class ="subject">
+            </app-user-card>
+        </mat-tab>
+        <mat-tab label="Experience" class="tabStyle">
+            <app-user-card [title]="'Experience'" [type]="'experience'" [data]="data" class ="subject">
+            </app-user-card>
+        </mat-tab>
+      </mat-tab-group>
 </div>

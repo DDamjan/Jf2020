@@ -16,6 +16,7 @@ export class UserCardComponent implements OnInit {
   public isPermanentResidence: boolean;
   public isHighSchoolEducation: boolean;
   public isHigherEducation: boolean;
+  public isExperience: boolean;
   public downloadDisabled: boolean;
   public picPath: string;
 
@@ -28,6 +29,7 @@ export class UserCardComponent implements OnInit {
       this.isPermanentResidence = this.type === 'permanentResidence';
       this.isHighSchoolEducation = this.type === 'highSchoolEducation';
       this.isHigherEducation = this.type === 'higherEducation';
+      this.isExperience = this.type === 'experience';
 
       if (this.isPersonalData) {
         if (this.data.licniPodaci.profilnaSlika === null) {

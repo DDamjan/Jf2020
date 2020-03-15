@@ -96,7 +96,6 @@ import { HistoryComponent } from './components/history/history.component';
     HttpClientModule,
     MatSnackBarModule,
     MatTableModule,
-    MatTableModule,
     MatPaginatorModule,
     MatSortModule,
     MatAutocompleteModule,
