@@ -11,11 +11,12 @@ import { PageEvent, MatPaginator, MatSnackBar, Sort, MatSort } from '@angular/ma
 import { fromMatSort, fromMatPaginator, sortRows, paginateRows } from '../../util/datasource-util';
 
 @Component({
-  selector: 'app-cv-overview',
-  templateUrl: './cv-overview.component.html',
-  styleUrls: ['./cv-overview.component.css']
+  selector: 'app-history',
+  templateUrl: './history.component.html',
+  styleUrls: ['./history.component.css']
 })
-export class CvOverviewComponent implements OnInit {
+export class HistoryComponent implements OnInit {
+
   public pageIndex: any;
   public pageSize: any;
   public pageSizeOptions: any;
@@ -32,7 +33,7 @@ export class CvOverviewComponent implements OnInit {
     this.pageIndex = 0;
     this.pageSize = 20;
     this.pageSizeOptions = [5, 10, 15, 20, 25, 100];
-    this.store.dispatch(new actions.GetUsers({}));
+    this.store.dispatch(new actions.GetHistory({}));
     this.store.select(selectAllUsers).subscribe(users => {
       if (users.length !== 0) {
         if (users[0].userID === -1) {
@@ -61,5 +62,4 @@ export class CvOverviewComponent implements OnInit {
     this.paginator.pageSize = event.pageSize;
     this.paginator.page.emit(event);
   }
-
 }

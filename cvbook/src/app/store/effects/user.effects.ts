@@ -64,6 +64,20 @@ export class UserEffects {
     })
   );
 
+  @Effect()
+  getHistory$ = this.update$.pipe(
+    ofAction(actions.GetHistory),
+    switchMap(users => this.userService.getHistory()),
+    map(response => {
+      if (response[0].success !== undefined && response[0].success === false) {
+        this.badToken();
+        return new actions.TokenExpired();
+      } else {
+        return new actions.GetHistorySuccess(response);
+      }
+    })
+  );
+
 badToken() {
   localStorage.removeItem('CVBook-CurrentCompany');
   this.cookieService.deleteCookie('CVBook-Token');

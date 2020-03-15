@@ -40,6 +40,13 @@ export class UserService {
         );
     }
 
+    getHistory(): Observable<any> {
+        const url = `${this.serverURL}history`;
+        return this.http.post<any>(url, {}, this.httpService.httpOptions()).pipe(
+            catchError(this.handleError<any>('getHistory'))
+        );
+    }
+
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
             console.error(error);

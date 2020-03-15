@@ -20,7 +20,9 @@ import {
     TOKEN_EXPIRED,
     FILTER_USERS,
     FILTER_USERS_SUCCESS,
-    FILTER_USERS_EMPTY
+    FILTER_USERS_EMPTY,
+    GET_HISTORY,
+    GET_HISTORY_SUCCESS
 } from '../../constants/reducers-constants';
 import { Company } from '../models/Company';
 import { Chart } from '../models/Chart';
@@ -85,6 +87,16 @@ export class FilterUsersSuccess implements Action {
 export class FilterUsersEmpty implements Action {
     readonly type = FILTER_USERS_EMPTY;
     constructor() { }
+}
+
+export class GetHistory implements Action {
+    readonly type = GET_HISTORY;
+    constructor(public payload: any) { }
+}
+
+export class GetHistorySuccess implements Action {
+    readonly type = GET_HISTORY_SUCCESS;
+    constructor(public payload: any) { }
 }
 
 // ------------------------------------------------------------------------------
