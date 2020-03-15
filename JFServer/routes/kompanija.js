@@ -34,6 +34,19 @@ router.get('/', async (req, res) => {
 
 router.post('/history/add', async (req, res) => {
   query.exec(req, res, queryString.ADD_TO_HISTORY(req.body), query.get);
+});
+
+router.post('/history/get', async (req, res) => {
+  query.exec(req, res, queryString.GET_HISTORY (req.body.kompanijaID), query.get);
 })
+
+router.post('/favourites/add', async (req, res) => {
+  query.exec(req, res, queryString.ADD_TO_FAVOURITES(req.body), query.get);
+});
+
+router.post('/downloaded', async (req, res) => {
+  query.exec(req, res, queryString.ADD_TO_DOWNLOADED(req.body), query.get);
+});
+
 
 module.exports = router;

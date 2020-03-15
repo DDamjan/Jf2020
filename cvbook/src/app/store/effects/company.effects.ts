@@ -40,7 +40,8 @@ export class CompanyEffects {
       console.log(response);
       if (response !== undefined && response.status === undefined) {
         console.log(response[0]);
-        localStorage.setItem('CVBook-CurrentCompany', JSON.stringify(response[0]));
+        localStorage.setItem('CVBook-CurrentCompany',
+        JSON.stringify({ username: response[0].username, kompanijaID: response[0].kompanijaID }));
         this.cookieService.setCookie('CVBook-Token', response[0].token, 8);
         this.router.navigate([`/dashboard`]);
         return new actions.AuthCompanySuccess(response[0]);

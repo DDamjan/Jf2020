@@ -1,0 +1,67 @@
+.container{
+    display: flex;
+    height: max-content;
+}
+.fixed{
+    flex: 1;
+    background-color:#C1D2DD;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid gray;
+}
+
+.expand-container{
+    flex: 7;
+    background-color:#F2F3F5;
+}
+
+.containerRow {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+}
+
+.btnReturnDiv {
+    flex-grow: 1;
+    background-color: white;
+    align-self: center;
+    justify-self: center;
+}
+
+.btnReturn {
+    margin-left: 7px;
+    background-color: #0596F4;
+}
+
+.inputs {
+    height: 100%; 
+}
+
+.paginatorDiv {
+    flex-grow: 100;
+}
+
+.mat-accordion .mat-header-row {
+    padding-left: 1.5rem;
+    padding-right: 2rem;
+    border-bottom: none;
+  }
+
+  .mat-header-row {
+    min-height: 56px;
+  }
+
+  .mat-row, .mat-header-row {
+    display: flex;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    align-items: center;
+    padding: 0 24px;
+    box-sizing: border-box;
+  }
+
+  .mat-cell, .mat-header-cell {
+    flex: 1;
+    overflow: hidden;
+    word-wrap: break-word;
+  }

@@ -96,7 +96,7 @@ export class GetHistory implements Action {
 
 export class GetHistorySuccess implements Action {
     readonly type = GET_HISTORY_SUCCESS;
-    constructor() { }
+    constructor(public payload: any) { }
 }
 
 // ------------------------------------------------------------------------------

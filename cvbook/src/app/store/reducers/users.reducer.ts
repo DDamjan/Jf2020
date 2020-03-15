@@ -1,6 +1,9 @@
 import { User } from '../../models/User';
 import {
-    GET_USERS_SUCCESS, FILTER_USERS_SUCCESS, FILTER_USERS_EMPTY
+    GET_USERS_SUCCESS,
+    FILTER_USERS_SUCCESS,
+    FILTER_USERS_EMPTY,
+    GET_HISTORY_SUCCESS
  } from '../../../constants/reducers-constants';
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector } from '@ngrx/store';
@@ -31,6 +34,9 @@ export function UsersReducer(
                 userID: -1
             };
             return UsersAdapter.addOne(data, state = UsersInitialState);
+        }
+        case GET_HISTORY_SUCCESS: {
+            return UsersAdapter.addMany(action.payload, state = UsersInitialState);
         }
         default:
             return state;

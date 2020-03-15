@@ -51,6 +51,7 @@ import { BasicColumnChartComponent } from './components/charts/basiccolumnchart/
 import { ChartsModule } from 'ng2-charts';
 import { ChartEffects } from './store/effects/charts.effects';
 import { ChartService } from './service/chart.service';
+import { HistoryComponent } from './components/history/history.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { ChartService } from './service/chart.service';
     UserCardComponent,
     UserDetailsComponent,
     PieChartComponent,
-    BasicColumnChartComponent
+    BasicColumnChartComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,

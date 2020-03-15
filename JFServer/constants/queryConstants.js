@@ -879,8 +879,18 @@ function ADD_TO_HISTORY (payload) {
             VALUES (${payload.kompanijaID}, ${payload.userID})`;
 }
 
-function GET_HISTORY () {
-    return `SELECT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet, CONVERT(history.date, DATE) as visited
+function ADD_TO_DOWNLOADED (payload) {
+    return `INSERT INTO kompanija_download (kompanijaID, userID)
+            VALUES (${payload.kompanijaID}, ${payload.userID})`;
+}
+
+function ADD_TO_FAVOURITES (payload) {
+    return `INSERT INTO kompanija_favourite (kompanijaID, userID)
+            VALUES (${payload.kompanijaID}, ${payload.userID})`;
+}
+
+function GET_HISTORY (kompanijaID) {
+    return `SELECT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet, history.date as visited
             FROM licniPodaci as licni
             LEFT JOIN studira as s
                 ON s.userID = licni.userID
@@ -888,9 +898,9 @@ function GET_HISTORY () {
                 ON f.fakultetID = s.fakultetID
             LEFT JOIN cv
                 ON cv.userID = licni.userID
-            INNER JOIN kopmpanija_read as history
-                ON history.userID = licni.userID
-            GROUP BY licni.userID`;
+            INNER JOIN kompanija_read as history
+                ON history.userID = licni.userID AND history.kompanijaID = ${kompanijaID}
+            GROUP BY history.date`;
 }
 
 // FILTERI
@@ -932,7 +942,7 @@ function JOIN_FACULTY () {
 }
 
 function FILTER_BY_FACULTY (faculty) {
-    return `faks.naziv = ${faculty}`;
+    return `faks.naziv = '${faculty}'`;
 }
 
 function JOIN_PERMANENT_RESIDENCE_CITY () {
@@ -1083,5 +1093,7 @@ module.exports = {
     JOIN_CV,
     FILTER_BY_CV,
     GET_HISTORY,
-    ADD_TO_HISTORY
+    ADD_TO_HISTORY,
+    ADD_TO_DOWNLOADED,
+    ADD_TO_FAVOURITES
 }

@@ -11,9 +11,9 @@ import { CookieService } from './cookie.service';
 @Injectable()
 export class UserService {
 
-    // private serverURL = conn.PUBLIC_SERVER_DAMJAN + 'users/';
+    private serverURL = conn.PUBLIC_SERVER_DAMJAN + 'users/';
     // private serverURL = conn.LOCAL_SERVER + 'users/';
-    private serverURL = conn.PUBLIC_SERVER + 'users/';
+    // private serverURL = conn.PUBLIC_SERVER + 'users/';
 
     constructor(
         private http: HttpClient,
@@ -37,6 +37,13 @@ export class UserService {
         const url = `${this.serverURL}filter`;
         return this.http.post<any>(url, data, this.httpService.httpOptions()).pipe(
             catchError(this.handleError<any>('filterUsers'))
+        );
+    }
+
+    getHistory(): Observable<any> {
+        const url = `${this.serverURL}history`;
+        return this.http.post<any>(url, {}, this.httpService.httpOptions()).pipe(
+            catchError(this.handleError<any>('getHistory'))
         );
     }
 
