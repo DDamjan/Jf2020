@@ -42,10 +42,9 @@ export class UserCardComponent implements OnInit {
       this.isLanguages = this.type === 'languages';
       this.isOtehrSkills = this.type === 'otherSkills';
 
-      if(this.isWorkExperience){
+      if (this.isWorkExperience) {
         console.log(this.data.iskustvo.ostaleVestine);
       }
-
 
       if (this.isPersonalData) {
         if (this.data.licniPodaci.profilnaSlika === null) {
