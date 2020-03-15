@@ -1,14 +1,11 @@
 .personalDataCard {
-    background-color:#01436E;
-    margin: 10px;
-  }
-
-  .permanentResidenceCard {
     background-color:#01578F;
     margin: 10px;
   }
 
-  .temporaryResidenceCard {
+  
+
+  .residenceCard {
     background-color:#0172BC;
     margin: 10px;
   }
