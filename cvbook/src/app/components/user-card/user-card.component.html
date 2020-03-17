@@ -5,20 +5,20 @@
       <button mat-mini-fab class="btnReturn" (click)="onReturn()"><mat-icon>keyboard_backspace</mat-icon></button>
       <div style="margin-top: 0.5%; margin-left: 2%;"></div> 
     -->
-    <mat-card-title style="color:white"><div>{{title}}</div></mat-card-title>
+    <mat-card-title style="color:#0172BC"><div>{{title}}</div></mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="pesonalDetails">
       <div  class="info-container" >   
-      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">First name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.ime}}</span></div></div>
-      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Last name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.prezime}}</span></div></div>
-      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Date of birth:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.datumRodjenja}}</span></div></div>
-      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Parents name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.licniPodaci.imeRoditelja}}</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">First name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: black; font-weight: 550;">{{data.licniPodaci.ime}}</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Last name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: black; font-weight: 550;">{{data.licniPodaci.prezime}}</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Date of birth:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: black; font-weight: 550;">{{data.licniPodaci.datumRodjenja}}</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Parents name:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: black; font-weight: 550;">{{data.licniPodaci.imeRoditelja}}</span></div></div>
       
-      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white; font-size: large;">Contact</span></div></div>
-      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Telephone number:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.kontakt.telefon}}</span></div></div>
-      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Email:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.email}}</span></div></div>
-      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">LinkedIn:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: white; font-weight: 550;">{{data.kontakt.linkedIn}}</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black; font-size: large;">Contact</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Telephone number:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: black; font-weight: 550;">{{data.kontakt.telefon}}</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Email:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: black; font-weight: 550;">{{data.email}}</span></div></div>
+      <div class="personalDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">LinkedIn:</span></div><div style="display: flex; flex-grow: 10;"><span style="color: black; font-weight: 550;">{{data.kontakt.linkedIn}}</span></div></div>
       <button mat-raised-button class="btnDownloadCV" (click)="onDownloadCV()" [disabled]="downloadDisabled">Download CV</button>
       </div>
       <div class="defaultProfileImg"> 
@@ -31,33 +31,33 @@
 
 <mat-card *ngIf="isPermanentResidence" class="residenceCard" >
   <mat-card-header>
-    <mat-card-title style="color:white">{{title}}</mat-card-title>
+    <mat-card-title style="color:#0172BC">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div  class="info-container">
-     <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Adress:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.adresa}}</span></div></div>
-     <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.grad}}</span></div></div>
-     <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.prebivaliste.drzava}}</span></div></div>
+     <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Adress:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{data.prebivaliste.adresa}}</span></div></div>
+     <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{data.prebivaliste.grad}}</span></div></div>
+     <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{data.prebivaliste.drzava}}</span></div></div>
     </div>
   </mat-card-content>
 </mat-card>
 
 <mat-card *ngIf="isResidence" class="residenceCard" >
   <mat-card-header>
-    <mat-card-title style="color:white">{{title}}</mat-card-title>
+    <mat-card-title style="color:#0172BC">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div  class="info-container">
-      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Adress:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.adresa}}</span></div></div>
-      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.grad}}</span></div></div>
-      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{data.boraviste.drzava}}</span></div></div>
+      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Adress:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{data.boraviste.adresa}}</span></div></div>
+      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">City:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{data.boraviste.grad}}</span></div></div>
+      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">County:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{data.boraviste.drzava}}</span></div></div>
     </div>
   </mat-card-content>
 </mat-card>
 
 <mat-card *ngIf="isHighSchoolEducation" class="highSchoolCard" >
   <mat-card-header>
-    <mat-card-title style="color:white">{{title}}</mat-card-title>
+    <mat-card-title style="color:#0172BC">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div  class="info-container">
@@ -86,7 +86,7 @@
 
 <mat-card *ngIf="isHigherEducation" class="higherEducationCard" >
   <mat-card-header>
-    <mat-card-title style="color:white">{{title}}</mat-card-title>
+    <mat-card-title style="color:#0172BC">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div  class="info-container">
@@ -120,7 +120,7 @@
 <!------------------------------------------------------------------------------->
 <mat-card *ngIf="isWorkExperience" class="ExperienceCard" >
   <mat-card-header>
-    <mat-card-title style="color:white">{{title}}</mat-card-title>
+    <mat-card-title style="color:#0172BC">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div  class="info-container">
@@ -150,7 +150,7 @@
 <!------------------------------------------------------------------------------->
 <mat-card *ngIf="isInternshipExperience" class="ExperienceCard" >
   <mat-card-header>
-    <mat-card-title style="color:white">{{title}}</mat-card-title>
+    <mat-card-title style="color:#0172BC">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div  class="info-container">
@@ -181,7 +181,7 @@
 <!------------------------------------------------------------------------------->
 <mat-card *ngIf="isComputerSkills" class="lngAndCompCard" >
   <mat-card-header>
-    <mat-card-title style="color:white">{{title}}</mat-card-title>
+    <mat-card-title style="color:#0172BC">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div  class="info-container">
@@ -191,13 +191,14 @@
             <mat-panel-title >
               <div style="display: flex; flex-direction: column;"> 
                 <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Name:</span></div><div style="display: flex; flex-grow: 14; width: 400px;"><span style="color: black; font-weight: 550;">{{kompjuter.naziv}}</span></div></div>
-                <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Level:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{kompjuter.nivo}}</span></div></div>
         
              </div>
             </mat-panel-title>
           </mat-expansion-panel-header>
 
           <div style="display: flex; flex-direction: column;">
+            <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Level:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{kompjuter.nivo}}</span></div></div>
+
             <div class="educationDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Certificate:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{kompjuter.sertifikat}}</span></div></div>
            
            </div>
@@ -210,7 +211,7 @@
 <!------------------------------------------------------------------------------->
 <mat-card *ngIf="isProjectWork" class="ExperienceCard" >
   <mat-card-header>
-    <mat-card-title style="color:white">{{title}}</mat-card-title>
+    <mat-card-title style="color:#0172BC">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div  class="info-container">
@@ -240,7 +241,7 @@
 <!------------------------------------------------------------------------------->
 <mat-card *ngIf="isLanguages" class="lngAndCompCard" >
   <mat-card-header>
-    <mat-card-title style="color:white">{{title}}</mat-card-title>
+    <mat-card-title style="color:#0172BC">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div  class="info-container">
@@ -273,16 +274,16 @@
 
 <mat-card *ngIf="isOtehrSkills" class="skillCard" >
   <mat-card-header>
-    <mat-card-title style="color:white">{{title}}</mat-card-title>
+    <mat-card-title style="color:#0172BC">{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div  class="info-container">
 
     <mat-accordion *ngFor="let skills of data.iskustvo.ostaleVestine">
-      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Skills:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{skills.vestine}}</span></div></div>
-      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Drivers licence:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{skills.vozackeDozvole}}</span></div></div>
-      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">My personality traits:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{skills.osobine}}</span></div></div>
-      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:white;">Personal interests:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: white; font-weight: 550;">{{skills.interesovanja}}</span></div></div>
+      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Skills:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{skills.vestine}}</span></div></div>
+      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Drivers licence:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{skills.vozackeDozvole}}</span></div></div>
+      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">My personality traits:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{skills.osobine}}</span></div></div>
+      <div class="residenceDataSpacing"> <div style="display: flex; flex-grow: 2;"><span style="color:black;">Personal interests:</span></div><div style="display: flex; flex-grow: 14;"><span style="color: black; font-weight: 550;">{{skills.interesovanja}}</span></div></div>
   </mat-accordion>
 </div>
 

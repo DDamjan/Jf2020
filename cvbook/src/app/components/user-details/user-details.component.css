@@ -12,8 +12,11 @@
 .flexRow {
     display: flex;
     flex-direction: row;
+   
 }
 
 .subject {
     flex-grow: 1;
 }
+
+
