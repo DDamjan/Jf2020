@@ -793,11 +793,7 @@ async function getStats(res) {
         temp = JSON.stringify(totalUsers[0]);
         const totalUsersParsed = JSON.parse(temp);
 
-        console.log(postaviliCVParsed[0].broj);
-
         const nisuPostaviliCV = totalUsersParsed[0].broj - postaviliCVParsed[0].broj;
-
-        console.log(nisuPostaviliCV);
 
         const payload = {
             cv: {
@@ -826,10 +822,11 @@ async function filter(req, res) {
     const permanentResidenceCountry = req.body.permanentResidenceCountry;
     const temporaryResidenceCountry = req.body.temporaryResidenceCountry;
     const cv = req.body.cv;
+    const favourite = req.body.favourite;
 
     console.log(req.body);
 
-    let queryString = queryStrings.GET_USERS;
+    let queryString = queryStrings.GET_USERS(req.body.kompanijaID);
 
 
     if (yos != '' || grade != '' || faculty != '') {
@@ -861,7 +858,7 @@ async function filter(req, res) {
     }
 
     if (firstName != '' || lastName != '' || yos != '' || grade != '' || faculty != '' || permanentResidenceCity != '' || temporaryResidenceCity != ''
-        || permanentResidenceCountry != '' || temporaryResidenceCountry != '' || cv != '') {
+        || permanentResidenceCountry != '' || temporaryResidenceCountry != '' || favourite != '' || cv != '') {
 
         queryString = queryString + " WHERE ";
     }
@@ -870,7 +867,7 @@ async function filter(req, res) {
         queryString = queryString + " " + queryStrings.FILTER_BY_NAME(firstName);
 
         if (lastName != '' || yos != '' || grade != '' || faculty != '' || permanentResidenceCity != '' || temporaryResidenceCity != ''
-            || permanentResidenceCountry != '' || temporaryResidenceCountry != '' || cv != '') {
+            || permanentResidenceCountry != '' || temporaryResidenceCountry != '' || favourite != '' || cv != '') {
 
             queryString = queryString + ' AND ';
         }
@@ -880,7 +877,7 @@ async function filter(req, res) {
         queryString = queryString + " " + queryStrings.FILTER_BY_LAST_NAME(lastName);
 
         if (yos != '' || grade != '' || faculty != '' || permanentResidenceCity != '' || temporaryResidenceCity != ''
-            || permanentResidenceCountry != '' || temporaryResidenceCountry != '' || cv != '') {
+            || permanentResidenceCountry != '' || temporaryResidenceCountry != '' || favourite != '' || cv != '') {
 
             queryString = queryString + ' AND ';
         }
@@ -890,7 +887,7 @@ async function filter(req, res) {
         queryString = queryString + " " + queryStrings.FILTER_BY_YOS(yos);
 
         if (grade != '' || faculty != '' || permanentResidenceCity != '' || temporaryResidenceCity != '' || permanentResidenceCountry != ''
-            || temporaryResidenceCountry != '' || cv != '') {
+            || temporaryResidenceCountry != '' || favourite != '' || cv != '') {
 
             queryString = queryString + ' AND ';
         }
@@ -900,7 +897,7 @@ async function filter(req, res) {
         queryString = queryString + " " + queryStrings.FILTER_BY_GRADE_AVERAGE(grade);
 
         if (faculty != '' || permanentResidenceCity != '' || temporaryResidenceCity != '' || permanentResidenceCountry != ''
-            || temporaryResidenceCountry != '' || cv != '') {
+            || temporaryResidenceCountry != '' || favourite != '' || cv != '') {
 
             queryString = queryString + ' AND ';
         }
@@ -910,7 +907,7 @@ async function filter(req, res) {
         queryString = queryString + " " + queryStrings.FILTER_BY_FACULTY(faculty);
 
         if (permanentResidenceCity != '' || temporaryResidenceCity != '' || permanentResidenceCountry != ''
-            || temporaryResidenceCountry != '' || cv != '') {
+            || temporaryResidenceCountry != '' || favourite != '' || cv != '') {
 
             queryString = queryString + ' AND ';
         }
@@ -919,7 +916,7 @@ async function filter(req, res) {
     if (permanentResidenceCity != '') {
         queryString = queryString + " " + queryStrings.FILTER_BY_PERMANENT_RESIDENCE_CITY(permanentResidenceCity);
 
-        if (temporaryResidenceCity != '' || permanentResidenceCountry != '' || temporaryResidenceCountry != '' || cv != '') {
+        if (temporaryResidenceCity != '' || permanentResidenceCountry != '' || temporaryResidenceCountry != '' || favourite != '' || cv != '') {
             queryString = queryString + ' AND ';
         }
     }
@@ -927,7 +924,7 @@ async function filter(req, res) {
     if (temporaryResidenceCity != '') {
         queryString = queryString + " " + queryStrings.FILTER_BY_RESIDENCE_CITY(temporaryResidenceCity);
 
-        if (permanentResidenceCountry != '' || temporaryResidenceCountry != '' || cv != '') {
+        if (permanentResidenceCountry != '' || temporaryResidenceCountry != '' || favourite != '' || cv != '') {
             queryString = queryString + ' AND ';
         }
     }
@@ -935,13 +932,21 @@ async function filter(req, res) {
     if (permanentResidenceCountry != '') {
         queryString = queryString + " " + queryStrings.FILTER_BY_PERMANENT_RESIDENCE_COUNTRY(permanentResidenceCountry);
 
-        if (temporaryResidenceCountry != '' || cv != '') {
+        if (temporaryResidenceCountry != '' || favourite != '' || cv != '') {
             queryString = queryString + ' AND ';
         }
     }
 
     if (temporaryResidenceCountry != '') {
         queryString = queryString + " " + queryStrings.FILTER_BY_RESIDENCE_COUNTRY(temporaryResidenceCountry);
+
+        if (favourite != '' || cv != '') {
+            queryString = queryString + ' AND ';
+        }
+    }
+
+    if (favourite != '') {
+        queryString = queryString + " " + queryStrings.FILTER_BY_FAVOURITE();
 
         if (cv != '') {
             queryString = queryString + ' AND ';
@@ -952,7 +957,7 @@ async function filter(req, res) {
         queryString = queryString + " " + queryStrings.FILTER_BY_CV();
     }
 
-    queryString = queryString + " " + 'GROUP BY licni.userID';
+    queryString = queryString + " " + queryStrings.GROUP_BY();
 
     console.log(queryString);
 

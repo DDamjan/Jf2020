@@ -38,7 +38,8 @@ export class CvOverviewComponent implements OnInit {
     this.pageIndex = 0;
     this.pageSize = 20;
     this.pageSizeOptions = [5, 10, 15, 20, 25, 100];
-    this.store.dispatch(new actions.GetUsers({}));
+    const lStorage = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
+    this.store.dispatch(new actions.GetUsers(lStorage.kompanijaID));
     this.store.select(selectAllUsers).subscribe(users => {
       if (users.length !== 0) {
         if (users[0].userID === -1) {

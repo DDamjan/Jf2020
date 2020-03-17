@@ -19,4 +19,5 @@ export interface User {
     fakultet?: string;
     cv?: string;
     visitedT?: string;
+    isFavourite?: number;
 }

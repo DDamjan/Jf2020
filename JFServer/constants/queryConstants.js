@@ -85,7 +85,7 @@ function REGISTER_USER_LICNI_PODACI(email, ime, prezime, imeRoditelja, datumRodj
                     ) IS NULL;`;
 }
 
-function REGISTER_TOKEN (token, email){
+function REGISTER_TOKEN(token, email) {
     return `INSERT INTO userRegisterToken (userID, token) 
             SELECT  (
                         SELECT userID 
@@ -95,13 +95,13 @@ function REGISTER_TOKEN (token, email){
                     '${token}';`;
 }
 
-function CHECK_REGISTER_TOKEN (token){
+function CHECK_REGISTER_TOKEN(token) {
     return `SELECT userID 
             FROM userRegisterToken 
             WHERE token = '${token}'`;
 }
 
-function ACTIVATE_USER (token){
+function ACTIVATE_USER(token) {
     return `UPDATE user 
             SET aktiviran = 1 
             WHERE userID =  (
@@ -111,17 +111,17 @@ function ACTIVATE_USER (token){
                             );`;
 }
 
-function DELETE_REGISTER_TOKEN (token){
+function DELETE_REGISTER_TOKEN(token) {
     return `DELETE FROM userRegisterToken 
             WHERE token = '${token}'`;
 }
 
-function CHECK_EMAIL (email){
+function CHECK_EMAIL(email) {
     return `SELECT * FROM user 
             WHERE email = '${email}'`;
 }
 
-function PASSWORD_TOKEN (token, email){
+function PASSWORD_TOKEN(token, email) {
     return `INSERT INTO forgotPassword (userID, token) 
             SELECT  (
                         SELECT userID 
@@ -131,29 +131,29 @@ function PASSWORD_TOKEN (token, email){
                     '${token}';`;
 }
 
-function CHECK_PASSWORD_TOKEN (token){
+function CHECK_PASSWORD_TOKEN(token) {
     return `SELECT userID FROM forgotPassword 
             WHERE token = '${token}'`;
 }
 
-function DELETE_PASSWORD_TOKEN (token){
+function DELETE_PASSWORD_TOKEN(token) {
     return `DELETE FROM forgotPassword 
             WHERE token = '${token}'`;
 }
 
-function CHANGE_PASSWORD (password, userID) {
+function CHANGE_PASSWORD(password, userID) {
     return `UPDATE user 
             SET password = '${sha('sha256').update(password).digest('hex')}' 
             WHERE userID = ${userID};`;
 }
 
-function GET_OLD_ACC_TOKEN (userID) {
+function GET_OLD_ACC_TOKEN(userID) {
     return `SELECT oldAcc 
             FROM user
             WHERE userID = ${userID}`;
 }
 
-function UPDATE_OLD_ACC_TOKEN (userID) {
+function UPDATE_OLD_ACC_TOKEN(userID) {
     return `UPDATE user
             SET oldAcc = 0
             WHERE userID = ${userID}`;
@@ -173,7 +173,7 @@ function GET_GRAD_BY_NAZIV(naziv) {
             WHERE naziv = '${naziv}'`;
 }
 
-function GET_CV (userID) {
+function GET_CV(userID) {
     return `SELECT cv.cv
             FROM cv
             WHERE userID = ${userID}
@@ -802,13 +802,13 @@ function DELETE_OSTALE_VESTINE(payload) {
             WHERE ostaleVestineID = ${payload}`;
 }
 
-function ADD_PICTURE (payload, userID) {
+function ADD_PICTURE(payload, userID) {
     return `UPDATE licniPodaci 
             SET profilnaSlika = '${payload}' 
             WHERE userID = ${userID}`;
 }
 
-function ADD_CV (payload, userID) {
+function ADD_CV(payload, userID) {
     console.log(userID);
     return `INSERT INTO cv 
             SET cv.cv = '${payload}',
@@ -823,7 +823,7 @@ function LOGIN_KOMPANIJA(payload) {
                 AND password = '${payload.password}';`;
 }
 
-function STATS_TOP_10 () {
+function STATS_TOP_10() {
     return `SELECT f.naziv, count(*) as broj
             FROM studira as s
             INNER JOIN fakultet as f
@@ -833,24 +833,24 @@ function STATS_TOP_10 () {
             LIMIT 10`;
 }
 
-function STATS_HAS_CV () {
+function STATS_HAS_CV() {
     return `SELECT count(distinct l.userID) as broj
             FROM cv as l
             ORDER BY broj DESC`;
 }
 
-function STATS_TOTAL_USERS () {
+function STATS_TOTAL_USERS() {
     return `SELECT count(u.email) as broj
             FROM user as u`;
 }
 
-function GET_ALL_FACULTIES () {
+function GET_ALL_FACULTIES() {
     return `SELECT naziv
             FROM fakultet
             ORDER BY naziv ASC`;
 }
 
-function GET_ALL_CITIES () {
+function GET_ALL_CITIES() {
     return `SELECT naziv
             FROM grad
             ORDER BY naziv ASC`;
@@ -862,8 +862,8 @@ function GET_ALL_COUNTRIES() {
             ORDER BY naziv ASC`;
 }
 
-function GET_ALL_USERS () {
-    return `SELECT DISTINCT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet 
+function GET_ALL_USERS(kompanijaID) {
+    return `SELECT DISTINCT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet, IFNULL(favourite.ID, false) as isFavourite
     FROM licniPodaci as licni
     LEFT JOIN studira as s
        ON s.userID = licni.userID
@@ -871,26 +871,34 @@ function GET_ALL_USERS () {
        ON f.fakultetID = s.fakultetID
     LEFT JOIN cv
         ON cv.userID = licni.userID
+    LEFT JOIN kompanija_favourite as favourite
+        ON favourite.kompanijaID = ${kompanijaID} AND favourite.userID = licni.userID
     GROUP BY licni.userID`;
 }
 
-function ADD_TO_HISTORY (payload) {
+function ADD_TO_HISTORY(payload) {
     return `INSERT INTO kompanija_read (kompanijaID, userID)
             VALUES (${payload.kompanijaID}, ${payload.userID})`;
 }
 
-function ADD_TO_DOWNLOADED (payload) {
+function ADD_TO_DOWNLOADED(payload) {
     return `INSERT INTO kompanija_download (kompanijaID, userID)
             VALUES (${payload.kompanijaID}, ${payload.userID})`;
 }
 
-function ADD_TO_FAVOURITES (payload) {
+function ADD_TO_FAVOURITES(payload) {
     return `INSERT INTO kompanija_favourite (kompanijaID, userID)
             VALUES (${payload.kompanijaID}, ${payload.userID})`;
 }
 
-function GET_HISTORY (kompanijaID) {
-    return `SELECT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet, CONVERT(history.date, time) as visitedT, CONVERT(history.date, date) as visitedD
+function REMOVE_FROM_FAVOURITES(payload) {
+    return `DELETE FROM kompanija_favourite
+            WHERE kompanijaID = ${payload.kompanijaID}
+                AND userID = ${payload.userID}`;
+}
+
+function GET_HISTORY(kompanijaID) {
+    return `SELECT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet, CONVERT(history.date, time) as visitedT, CONVERT(history.date, date) as visitedD, IFNULL(favourite.ID, false) as isFavourite
             FROM licniPodaci as licni
             LEFT JOIN studira as s
                 ON s.userID = licni.userID
@@ -900,85 +908,91 @@ function GET_HISTORY (kompanijaID) {
                 ON cv.userID = licni.userID
             INNER JOIN kompanija_read as history
                 ON history.userID = licni.userID AND history.kompanijaID = ${kompanijaID}
+            LEFT JOIN kompanija_favourite as favourite
+                ON favourite.kompanijaID = ${kompanijaID} AND favourite.userID = licni.userID
             GROUP BY history.date, licni.userID
             ORDER BY history.date DESC`;
 }
 
 // FILTERI
 
-const GET_USERS =   `SELECT DISTINCT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet
-                     FROM licniPodaci as licni
-                     LEFT JOIN studira as s
-                     ON s.userID = licni.userID
-                     LEFT JOIN fakultet as f
-                        ON f.fakultetID = s.fakultetID
-                     LEFT JOIN cv
-                        ON cv.userID = licni.userID`;
+function GET_USERS(kompanijaID) {
+    return `SELECT DISTINCT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet, IFNULL(favourite.ID, false) as isFavourite
+            FROM licniPodaci as licni
+            LEFT JOIN studira as s
+                ON s.userID = licni.userID
+            LEFT JOIN fakultet as f
+                ON f.fakultetID = s.fakultetID
+            LEFT JOIN cv
+                ON cv.userID = licni.userID
+            LEFT JOIN kompanija_favourite as favourite
+                ON favourite.kompanijaID = ${kompanijaID} AND favourite.userID = licni.userID`;
+}
 
-function FILTER_BY_NAME (name) {
+function FILTER_BY_NAME(name) {
     return `licni.ime = '${name}'`;
 }
 
-function FILTER_BY_LAST_NAME (lastName) {
+function FILTER_BY_LAST_NAME(lastName) {
     return `licni.prezime = '${lastName}'`;
 }
 
-function JOIN_STUDIES () {
+function JOIN_STUDIES() {
     return `INNER JOIN studira as stud
                 ON stud.userID = licni.userID`;
 }
 
 // YOS == Year Of Studies
-function FILTER_BY_YOS (yos) {
+function FILTER_BY_YOS(yos) {
     return `stud.godineStudija = ${yos}`;
-} 
+}
 
-function FILTER_BY_GRADE_AVERAGE (grade) {
+function FILTER_BY_GRADE_AVERAGE(grade) {
     return `stud.prosek = ${grade}`;
 }
 
-function JOIN_FACULTY () {
+function JOIN_FACULTY() {
     return `INNER JOIN fakultet as faks
                 ON faks.fakultetID = stud.fakultetID`;
 }
 
-function FILTER_BY_FACULTY (faculty) {
+function FILTER_BY_FACULTY(faculty) {
     return `faks.naziv = '${faculty}'`;
 }
 
-function JOIN_PERMANENT_RESIDENCE_CITY () {
+function JOIN_PERMANENT_RESIDENCE_CITY() {
     return `INNER JOIN grad as gP
                 ON gP.gradID = licni.prebivalisteGradID`;
 }
 
-function  JOIN_RESIDENCE_CITY () {
+function JOIN_RESIDENCE_CITY() {
     return `INNER JOIN grad as gB
                 ON gB.gradID = licni.boravisteGradID`;
 }
 
-function FILTER_BY_PERMANENT_RESIDENCE_CITY (city) {
+function FILTER_BY_PERMANENT_RESIDENCE_CITY(city) {
     return `gP.naziv = '${city}'`;
 }
 
-function FILTER_BY_RESIDENCE_CITY (city) {
+function FILTER_BY_RESIDENCE_CITY(city) {
     return `gB.naziv = '${city}'`;
 }
 
-function JOIN_PERMANENT_RESIDENCE_COUNTRY () {
+function JOIN_PERMANENT_RESIDENCE_COUNTRY() {
     return `INNER JOIN drzava as dP
                 ON dP.drzavaID = licni.prebivalisteDrzavaID`;
 }
 
-function JOIN_RESIDENCE_COUNTRY () {
+function JOIN_RESIDENCE_COUNTRY() {
     return `INNER JOIN drzava as dB
                 ON dB.drzavaID = licni.boravisteDrzavaID`;
 }
 
-function FILTER_BY_PERMANENT_RESIDENCE_COUNTRY (country) {
+function FILTER_BY_PERMANENT_RESIDENCE_COUNTRY(country) {
     return `dP.naziv = '${country}'`;
 }
 
-function FILTER_BY_RESIDENCE_COUNTRY (country) {
+function FILTER_BY_RESIDENCE_COUNTRY(country) {
     return `dB.naziv = '${country}'`;
 }
 
@@ -987,8 +1001,16 @@ function JOIN_CV() {
                 ON r.userID = licni.userID`;
 }
 
-function FILTER_BY_CV(){
+function FILTER_BY_CV() {
     return `r.cv <> ''`;
+}
+
+function FILTER_BY_FAVOURITE() {
+    return `favourite.ID <> 0`
+}
+
+function GROUP_BY() {
+    return `GROUP BY licni.userID`;
 }
 
 module.exports = {
@@ -1096,5 +1118,8 @@ module.exports = {
     GET_HISTORY,
     ADD_TO_HISTORY,
     ADD_TO_DOWNLOADED,
-    ADD_TO_FAVOURITES
+    ADD_TO_FAVOURITES,
+    GROUP_BY,
+    REMOVE_FROM_FAVOURITES,
+    FILTER_BY_FAVOURITE
 }

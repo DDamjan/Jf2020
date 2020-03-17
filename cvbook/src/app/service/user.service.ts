@@ -26,9 +26,9 @@ export class UserService {
         );
     }
 
-    getUsers(): Observable<any> {
+    getUsers(kompanijaID): Observable<any> {
         const url = `${this.serverURL}`;
-        return this.http.post<any>(url, {}, this.httpService.httpOptions()).pipe(
+        return this.http.post<any>(url, {kompanijaID}, this.httpService.httpOptions()).pipe(
             catchError(this.handleError<any>('getUsers'))
         );
     }

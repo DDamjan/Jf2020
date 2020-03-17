@@ -45,10 +45,25 @@ export class CompanyService {
             catchError(this.handleError<any>('addToHistory'))
         );
     }
+
     getHistory(kompanijaID): Observable<any> {
         const url = `${this.serverURL}history/get`;
         return this.http.post<any>(url, {kompanijaID}, this.httpService.httpOptions()).pipe(
             catchError(this.handleError<any>('addToHistory'))
+        );
+    }
+
+    addToFavourites(payload): Observable<any> {
+        const url = `${this.serverURL}favourites/add`;
+        return this.http.post<any>(url, payload, this.httpService.httpOptions()).pipe(
+            catchError(this.handleError<any>('addToFavourites'))
+        );
+    }
+
+    removeFromFavourites(payload): Observable<any> {
+        const url = `${this.serverURL}favourites/remove`;
+        return this.http.post<any>(url, payload, this.httpService.httpOptions()).pipe(
+            catchError(this.handleError<any>('addToFavourites'))
         );
     }
 

@@ -32,18 +32,16 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit() {
     this.pageIndex = 0;
-    this.pageSize = 20;
-    this.pageSizeOptions = [5, 10, 15, 20, 25, 100];
+    this.pageSize = 3;
+    this.pageSizeOptions = [3, 5, 10, 15, 20, 25, 100];
 
     const lStorage = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
 
     this.companyService.getHistory(lStorage.kompanijaID).subscribe(history => {
-      console.log(history);
       // if (this.sort !== undefined) {
       // const sortEvents$: Observable<Sort> = fromMatSort(this.sort);
       const pageEvents$: Observable<PageEvent> = fromMatPaginator(this.paginator);
       const rows$ = of(history);
-      console.log(rows$);
       this.totalRows$ = rows$.pipe(map(rows => rows.length));
       this.displayedRows$ = rows$.pipe(/*sortRows(sortEvents$),*/ paginateRows(pageEvents$));
       // }

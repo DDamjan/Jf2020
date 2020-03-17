@@ -27,7 +27,7 @@ router.post('/auth', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  query.exec(req, res, queryString.GET_ALL_USERS(), query.get);
+  query.exec(req, res, queryString.GET_ALL_USERS(req.body.kompanijaID), query.get);
 });
 
 router.post('/getbyid', async (req, res) => {

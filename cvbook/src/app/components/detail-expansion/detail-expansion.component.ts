@@ -22,7 +22,13 @@ export class DetailExpansionComponent implements OnInit {
   constructor(private router: Router, private kompanijaService: CompanyService) { }
 
   ngOnInit() {
-    this.isBookmarked = false; // eYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY menjaj ovo
+    console.log(this.user);
+    if (this.user.isFavourite === 0) {
+      this.isBookmarked = false;
+    } else {
+      this.isBookmarked = true;
+    }
+
     if (this.user.cv == null || this.user.cv === '') {
       this.downloadDisabled = true;
     } else {
@@ -49,5 +55,11 @@ export class DetailExpansionComponent implements OnInit {
 
   onToggleBookmarked(marked) {
     this.isBookmarked = marked;
+    const company = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
+    if (marked === true) {
+      this.kompanijaService.addToFavourites({ userID: this.user.userID, kompanijaID: company.kompanijaID }).subscribe();
+    } else {
+      this.kompanijaService.removeFromFavourites({ userID: this.user.userID, kompanijaID: company.kompanijaID }).subscribe();
+    }
   }
 }

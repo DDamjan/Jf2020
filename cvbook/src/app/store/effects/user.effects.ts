@@ -35,7 +35,7 @@ export class UserEffects {
   @Effect()
   getUsers$ = this.update$.pipe(
     ofAction(actions.GetUsers),
-    switchMap(users => this.userService.getUsers()),
+    switchMap(users => this.userService.getUsers(users.payload)),
     map(response => {
       if (response[0].success !== undefined && response[0].success === false) {
         this.badToken();

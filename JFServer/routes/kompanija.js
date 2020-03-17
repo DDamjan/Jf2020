@@ -44,6 +44,10 @@ router.post('/favourites/add', async (req, res) => {
   query.exec(req, res, queryString.ADD_TO_FAVOURITES(req.body), query.get);
 });
 
+router.post('/favourites/remove', async (req, res) => {
+  query.exec(req, res, queryString.REMOVE_FROM_FAVOURITES(req.body), query.get);
+});
+
 router.post('/downloaded', async (req, res) => {
   query.exec(req, res, queryString.ADD_TO_DOWNLOADED(req.body), query.get);
 });
