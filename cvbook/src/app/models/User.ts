@@ -18,4 +18,5 @@ export interface User {
     prosek?: number;
     fakultet?: string;
     cv?: string;
+    visitedT?: string;
 }

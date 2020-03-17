@@ -15,6 +15,7 @@ export class DetailExpansionComponent implements OnInit {
   panelOpenState = false;
   @Input() public user: User;
   @Input() public displayedRows$: any;
+  @Input() public isHistory: boolean;
   public color: any;
   public downloadDisabled: boolean;
   public isBookmarked: boolean;

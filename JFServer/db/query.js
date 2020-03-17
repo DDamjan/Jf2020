@@ -1014,7 +1014,7 @@ async function getHistory(res, payload) {
             if (j === 0) {
                 const date = new Date(his.visitedD);
                 arr[i] = {
-                    date: date.getDate() + '/' + date.getMonth() + 1 + '/' + date.getFullYear(),
+                    date: (date.getDate()<10?"0"+(date.getDate()):date.getDate()) + '.' + (date.getMonth()+1<10?"0"+(date.getMonth()+1):date.getMonth()+1) + '.' + date.getFullYear()+".",
                     history: [his]
                 };
                 j++;
@@ -1026,7 +1026,7 @@ async function getHistory(res, payload) {
                     i++;
                     const date = new Date(his.visitedD);
                     arr[i] = {
-                        date: date.getDate() + '/' + date.getMonth() + 1 + '/' + date.getFullYear(),
+                        date: (date.getDate()<10?"0"+(date.getDate()):date.getDate()) + '.' + (date.getMonth()+1<10?"0"+(date.getMonth()+1):date.getMonth()+1) + '.' + date.getFullYear()+".",
                         history: [his]
                     };
                     j = 0;

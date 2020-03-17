@@ -26,7 +26,7 @@ export class HistoryComponent implements OnInit {
   displayedRows$: Observable<User[]>;
   totalRows$: Observable<number>;
   @ViewChild('paginator', null) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  // @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   constructor(private store: Store<any>, private router: Router, private snackBar: MatSnackBar, private companyService: CompanyService) { }
 
@@ -38,16 +38,18 @@ export class HistoryComponent implements OnInit {
     const lStorage = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
 
     this.companyService.getHistory(lStorage.kompanijaID).subscribe(history => {
-      if (this.sort !== undefined) {
-        const sortEvents$: Observable<Sort> = fromMatSort(this.sort);
-        const pageEvents$: Observable<PageEvent> = fromMatPaginator(this.paginator);
-        const rows$ = of(history);
-        this.totalRows$ = rows$.pipe(map(rows => rows.length));
-        this.displayedRows$ = rows$.pipe(sortRows(sortEvents$), paginateRows(pageEvents$));
-      }
+      console.log(history);
+      // if (this.sort !== undefined) {
+      // const sortEvents$: Observable<Sort> = fromMatSort(this.sort);
+      const pageEvents$: Observable<PageEvent> = fromMatPaginator(this.paginator);
+      const rows$ = of(history);
+      console.log(rows$);
+      this.totalRows$ = rows$.pipe(map(rows => rows.length));
+      this.displayedRows$ = rows$.pipe(/*sortRows(sortEvents$),*/ paginateRows(pageEvents$));
+      // }
     });
 
-    
+
   }
 
   onReturn() {

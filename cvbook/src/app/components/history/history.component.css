@@ -42,7 +42,7 @@
 }
 
 .mat-accordion .mat-header-row {
-    padding-left: 1.5rem;
+    padding-left: 3rem;
     padding-right: 2rem;
     border-bottom: none;
   }
@@ -64,4 +64,8 @@
     flex: 1;
     overflow: hidden;
     word-wrap: break-word;
+  }
+
+  .history-date {
+      margin-left: 1%;
   }
