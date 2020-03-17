@@ -37,7 +37,7 @@ router.post('/history/add', async (req, res) => {
 });
 
 router.post('/history/get', async (req, res) => {
-  query.exec(req, res, queryString.GET_HISTORY (req.body.kompanijaID), query.get);
+  query.exec(req, res, '', query.getHistory(res, req.body));
 })
 
 router.post('/favourites/add', async (req, res) => {

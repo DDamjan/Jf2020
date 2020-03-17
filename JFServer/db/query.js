@@ -1001,14 +1001,41 @@ async function filterOptions(res) {
     });
 }
 
-async function getHistory(res) {
+async function getHistory(res, payload) {
     await mysql.pool.getConnection(async (err, conn) => {
-        const history = await conn.promise().execute(queryStrings.GET_ALL_COUNTRIES());
+        const history = await conn.promise().execute(queryStrings.GET_HISTORY(payload.kompanijaID));
         temp = JSON.stringify(history[0]);
         const historyParsed = JSON.parse(temp);
 
-        
+        let arr = [];
+        let i = 0;
+        let j = 0;
+        historyParsed.forEach(his => {
+            if (j === 0) {
+                const date = new Date(his.visitedD);
+                arr[i] = {
+                    date: date.getDate() + '/' + date.getMonth() + 1 + '/' + date.getFullYear(),
+                    history: [his]
+                };
+                j++;
+            } else {
+                if (arr[i].history[j-1].visitedD == his.visitedD) {
+                    arr[i].history.push(his);
+                    j++;
+                } else {
+                    i++;
+                    const date = new Date(his.visitedD);
+                    arr[i] = {
+                        date: date.getDate() + '/' + date.getMonth() + 1 + '/' + date.getFullYear(),
+                        history: [his]
+                    };
+                    j = 0;
+                }
+            }
+        });
 
+        res.json(arr);
+        res.send();
         mysql.pool.releaseConnection(conn);
     });
 }
@@ -1032,5 +1059,6 @@ module.exports = {
     execFile,
     getStats,
     filter,
-    filterOptions
+    filterOptions,
+    getHistory
 }

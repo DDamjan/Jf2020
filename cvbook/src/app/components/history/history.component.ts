@@ -9,6 +9,7 @@ import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { PageEvent, MatPaginator, MatSnackBar, Sort, MatSort } from '@angular/material';
 import { fromMatSort, fromMatPaginator, sortRows, paginateRows } from '../../util/datasource-util';
+import { CompanyService } from 'app/service/company.service';
 
 @Component({
   selector: 'app-history',
@@ -27,31 +28,26 @@ export class HistoryComponent implements OnInit {
   @ViewChild('paginator', null) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(private store: Store<any>, private userService: UserService, private router: Router, private snackBar: MatSnackBar) { }
+  constructor(private store: Store<any>, private router: Router, private snackBar: MatSnackBar, private companyService: CompanyService) { }
 
   ngOnInit() {
     this.pageIndex = 0;
     this.pageSize = 20;
     this.pageSizeOptions = [5, 10, 15, 20, 25, 100];
-    this.store.dispatch(new actions.GetHistory({}));
-    this.store.select(selectAllUsers).subscribe(users => {
-      if (users.length !== 0) {
-        if (users[0].userID === -1) {
-          this.snackBar.open(`Users with given criteria aren't in the database!`, 'Close', {
-            duration: 3000
-          });
-        } else {
-          this.userList = users;
-          if (this.sort !== undefined) {
-            const sortEvents$: Observable<Sort> = fromMatSort(this.sort);
-            const pageEvents$: Observable<PageEvent> = fromMatPaginator(this.paginator);
-            const rows$ = of(this.userList);
-            this.totalRows$ = rows$.pipe(map(rows => rows.length));
-            this.displayedRows$ = rows$.pipe(sortRows(sortEvents$), paginateRows(pageEvents$));
-          }
-        }
+
+    const lStorage = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
+
+    this.companyService.getHistory(lStorage.kompanijaID).subscribe(history => {
+      if (this.sort !== undefined) {
+        const sortEvents$: Observable<Sort> = fromMatSort(this.sort);
+        const pageEvents$: Observable<PageEvent> = fromMatPaginator(this.paginator);
+        const rows$ = of(history);
+        this.totalRows$ = rows$.pipe(map(rows => rows.length));
+        this.displayedRows$ = rows$.pipe(sortRows(sortEvents$), paginateRows(pageEvents$));
       }
     });
+
+    
   }
 
   onReturn() {

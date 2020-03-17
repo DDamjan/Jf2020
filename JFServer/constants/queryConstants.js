@@ -890,7 +890,7 @@ function ADD_TO_FAVOURITES (payload) {
 }
 
 function GET_HISTORY (kompanijaID) {
-    return `SELECT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet, history.date as visited
+    return `SELECT licni.userID, licni.ime, licni.prezime, cv.cv, s.prosek, f.naziv as fakultet, CONVERT(history.date, time) as visitedT, CONVERT(history.date, date) as visitedD
             FROM licniPodaci as licni
             LEFT JOIN studira as s
                 ON s.userID = licni.userID
@@ -900,7 +900,8 @@ function GET_HISTORY (kompanijaID) {
                 ON cv.userID = licni.userID
             INNER JOIN kompanija_read as history
                 ON history.userID = licni.userID AND history.kompanijaID = ${kompanijaID}
-            GROUP BY history.date`;
+            GROUP BY history.date, licni.userID
+            ORDER BY history.date DESC`;
 }
 
 // FILTERI
