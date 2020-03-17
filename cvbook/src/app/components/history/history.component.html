@@ -14,20 +14,25 @@
     </div>
     <div class="flex-item">
       <mat-accordion displayMode="flat" multi class="mat-table">
-        <section matSort #sort class="mat-elevation-z2 mat-header-row">
-          <span class="mat-header-cell" mat-sort-header="ime">First Name</span>
-          <span class="mat-header-cell" mat-sort-header="prezime">Last Name</span>
-          <span class="mat-header-cell" mat-sort-header="prosek">Faculty</span>
-          <span class="mat-header-cell" mat-sort-header="fakultet">Average Grade</span>
+        <section class="mat-elevation-z2 mat-header-row">
+          <span class="mat-header-cell">First Name</span>
+          <span class="mat-header-cell">Last Name</span>
+          <span class="mat-header-cell">Faculty</span>
+          <span class="mat-header-cell">Average Grade</span>
+          <span class="mat-header-cell">Time</span>
         </section>
-        <div *ngFor="let user of displayedRows$ | async;">
-          <app-user-expansion [user]="user" [displayedRows$]="displayedRows$" >
-          </app-user-expansion>
+        <div *ngFor="let history of displayedRows$ | async;">
+          <h2 class="history-date">{{history.date}}</h2>
+          <div *ngFor="let user of history.history">
+            <app-user-expansion [user]="user" [isHistory]="true"[displayedRows$]="displayedRows$">
+            </app-user-expansion>
+          </div>
         </div>
       </mat-accordion>
     </div>
     <mat-paginator (page)="syncPrimaryPaginator($event)" [pageSize]="paginator.pageSize"
-      [pageIndex]="paginator.pageIndex" [length]="paginator.length" [pageSizeOptions]="paginator.pageSizeOptions" showFirstLastButtons>
+      [pageIndex]="paginator.pageIndex" [length]="paginator.length" [pageSizeOptions]="paginator.pageSizeOptions"
+      showFirstLastButtons>
     </mat-paginator>
   </div>
 </div>

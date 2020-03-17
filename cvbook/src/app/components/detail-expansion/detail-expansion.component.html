@@ -6,6 +6,7 @@
       <span class="mat-cell">{{user.prezime}}</span>
       <span class="mat-cell">{{user.fakultet}}</span>
       <span class="mat-cell">{{user.prosek}}</span>
+      <span class="mat-cell" *ngIf="isHistory">{{user.visitedT}}</span>
     </mat-expansion-panel-header>
   <button mat-raised-button class="btn" (click)="onOpen()" >Open</button>
   <button mat-raised-button class="btn" (click)="onDownloadCV()" [disabled]="downloadDisabled">Download CV</button>

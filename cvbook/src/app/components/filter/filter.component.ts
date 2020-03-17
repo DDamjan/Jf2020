@@ -81,7 +81,8 @@ export class FilterComponent implements OnInit {
   }
 
   onSubmit($event) {
-    const cv = $event.target[1].checked;
+    const cv = $event.target[0].checked;
+    const favourite = $event.target[1].checked;
     const firstName = $event.target[2].value;
     const lastName = $event.target[3].value;
     const yos = $event.target[4].value;
@@ -91,6 +92,7 @@ export class FilterComponent implements OnInit {
     const permanentResidenceCountry = $event.target[8].value;
     const temporaryResidenceCity = $event.target[9].value;
     const temporaryResidenceCountry = $event.target[10].value;
+    const lStorage = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
 
     const payload = {
       id: 1,
@@ -100,10 +102,12 @@ export class FilterComponent implements OnInit {
       grade,
       faculty,
       cv: cv === false ? '' : true,
+      favourite: favourite === false ? '' : true,
       permanentResidenceCity,
       permanentResidenceCountry,
       temporaryResidenceCity,
-      temporaryResidenceCountry
+      temporaryResidenceCountry,
+      kompanijaID: lStorage.kompanijaID
     };
     this.store.dispatch(new actions.FilterUsers(payload));
     this.dialogRef.close();

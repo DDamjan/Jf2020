@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
+import { CompanyService } from 'app/service/company.service';
 
 @Component({
   selector: 'app-user-card',
@@ -41,7 +42,6 @@ export class UserCardComponent implements OnInit {
       this.isProjectWork = this.type === 'projectsWork';
       this.isLanguages = this.type === 'languages';
       this.isOtehrSkills = this.type === 'otherSkills';
-
       if (this.isWorkExperience) {
         console.log(this.data.iskustvo.ostaleVestine);
       }

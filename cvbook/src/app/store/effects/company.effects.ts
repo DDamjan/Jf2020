@@ -55,6 +55,20 @@ export class CompanyEffects {
     })
   );
 
+  // @Effect()
+  // getHistory$ = this.update$.pipe(
+  //   ofAction(actions.GetHistory),
+  //   switchMap(company => this.companyService.getHistory(company.payload)),
+  //   map(response => {
+  //     if (response !== undefined && response.status === undefined) {
+  //       this.badToken();
+  //       return new actions.TokenExpired();
+  //     } else {
+  //       return new actions.GetHistorySuccess(response);
+  //     }
+  //   })
+  // );
+
   badToken() {
     localStorage.removeItem('CVBook-CurrentCompany');
     this.cookieService.deleteCookie('CVBook-Token');
