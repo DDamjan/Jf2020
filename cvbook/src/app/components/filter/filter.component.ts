@@ -25,7 +25,6 @@ export interface DialogData {
 
 export class FilterComponent implements OnInit, OnDestroy {
   public error: boolean;
-  public cities: any;
   public counties: any;
   public yosOptions: string[] = ['1', '2', '3', '4', '5', '6'];
   public pCountryOptions: string[] = [];
@@ -48,16 +47,29 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   private storeCall: any;
 
-  public faculties: string[] = [];
   public selectable: boolean;
   public removable: boolean;
   public addOnBlur: boolean;
   public separatorKeysCodes: number[] = [ENTER, COMMA];
-  public filteredFaculties: Observable<string[]>;
+
+  public faculties: string[] = [];
+  public pcities: string[] = [];
+  public tcities: string[] = [];
+  public pcountries: string[] = [];
+  public tcountries: string[] = [];
 
 
   @ViewChild('facultyInput', {static: false}) facultyInput: ElementRef<HTMLInputElement>;
-  @ViewChild('faculty', {static: false}) matAutocomplete: MatAutocomplete;
+  @ViewChild('pCityInput', {static: false}) pCityInput: ElementRef<HTMLInputElement>;
+  @ViewChild('tCityInput', {static: false}) tCityInput: ElementRef<HTMLInputElement>;
+  @ViewChild('pCountryInput', {static: false}) pCountryInput: ElementRef<HTMLInputElement>;
+  @ViewChild('tCountryInput', {static: false}) tCountryInput: ElementRef<HTMLInputElement>;
+
+  @ViewChild('faculty', {static: false}) facultyMatAutocomplete: MatAutocomplete;
+  @ViewChild('pCity', {static: false}) pCityMatAutocomplete: MatAutocomplete;
+  @ViewChild('tCity', {static: false}) tCityMatAutocomplete: MatAutocomplete;
+  @ViewChild('pCountry', {static: false}) pCountryMatAutocomplete: MatAutocomplete;
+  @ViewChild('tCountry', {static: false}) tCountryMatAutocomplete: MatAutocomplete;
   constructor(
     private store: Store<any>,
     private companyService: CompanyService,
@@ -117,6 +129,18 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   onSubmit($event) {
+    console.log(this.faculties);
+    console.log(this.pcities);
+    console.log(this.tcities);
+    console.log(this.pcountries);
+    console.log(this.tcountries);
+    // CONSOLE LOGOVAO SAM TI SVE DA ODAVDE UZIMAS PODATKE
+    // I POPUNJAVA IH SVE SAVRSENO
+    // MENE JE MRZELO A VERUJEM DA CE I TEBE DA SE NAPRAVI KOMPONENTA ZA INPUT FIELD
+    // SA SVOJIM ULAZNIM I IZLAZNIM FUNKCIJAMA UMESTO DA SE OVOLIKO KOPIRA KOD
+
+    // ono sto ne radi ne pamte se cipsevi izmedju searchovanja
+
     const cv = $event.target[0].checked;
     const favourite = $event.target[1].checked;
     const firstName = $event.target[2].value;
@@ -150,7 +174,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.dialogRef.close();
   }
 
-  autoCompleteListener($event, type) {
+  autoCompleteListener($event, type: string) {
     console.log($event);
     switch (type) {
       case 'faculty': {
@@ -179,39 +203,95 @@ export class FilterComponent implements OnInit, OnDestroy {
     }
   }
 
-  add(event: MatChipInputEvent): void {
-    // Add fruit only when MatAutocomplete is not open
-    // To make sure this does not conflict with OptionSelected Event
-    if (!this.matAutocomplete.isOpen) {
+  add(event: MatChipInputEvent, type: string): void {
+    switch (type) {
+      case 'faculty': {
+        this.addFunction(event, this.facultyMatAutocomplete, this.faculties, this.facultyControl);
+        break;
+      }
+      case 'pCity': {
+        this.addFunction(event, this.pCityMatAutocomplete, this.pcities, this.pCityControl);
+        break;
+      }
+      case 'pCountry': {
+        this.addFunction(event, this.pCountryMatAutocomplete, this.pcountries, this.pCountryControl);
+        break;
+      }
+      case 'tCity': {
+        this.addFunction(event, this.tCityMatAutocomplete, this.tcities, this.tCityControl);
+        break;
+      }
+      case 'tCountry': {
+        this.addFunction(event, this.tCountryMatAutocomplete, this.tcountries, this.tCountryControl);
+        break;
+      }
+    }
+  }
+
+  addFunction(event: MatChipInputEvent, matAutocom: any, list: any, control: any) {
+    if (!matAutocom.isOpen) {
       const input = event.input;
       const value = event.value;
-
-      // Add our fruit
-      if ((value || '').trim()) {
-        this.faculties.push(value.trim());
-      }
-
-      // Reset the input value
-      if (input) {
-        input.value = '';
-      }
-
-      this.facultyControl.setValue(null);
+      if ((value || '').trim()) { list.push(value.trim()); }
+      if (input) { input.value = ''; }
+      control.setValue(null);
     }
   }
 
-  remove(faculty: string): void {
-    const index = this.faculties.indexOf(faculty);
-
-    if (index >= 0) {
-      this.faculties.splice(index, 1);
+  remove(data: string, type: string): void {
+    switch (type) {
+      case 'faculty': {
+        this.removeFunction(data, this.faculties); break;
+      }
+      case 'pCity': {
+        this.removeFunction(data, this.pcities); break;
+      }
+      case 'pCountry': {
+        this.removeFunction(data, this.pcountries); break;
+      }
+      case 'tCity': {
+        this.removeFunction(data, this.tcities); break;
+      }
+      case 'tCountry': {
+        this.removeFunction(data, this.tcountries); break;
+      }
     }
   }
 
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.faculties.push(event.option.viewValue);
-    this.facultyInput.nativeElement.value = '';
-    this.facultyControl.setValue(null);
+  removeFunction(data: any, list: any) {
+    const index = list.indexOf(data);
+    if (index >= 0) { list.splice(index, 1); }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent, type: string): void {
+    switch (type) {
+      case 'faculty': {
+        this.selectedFunction(event, this.faculties, this.facultyInput, this.facultyControl);
+        break;
+      }
+      case 'pCity': {
+        this.selectedFunction(event, this.pcities, this.pCityInput, this.pCityControl);
+        break;
+      }
+      case 'pCountry': {
+        this.selectedFunction(event, this.pcountries, this.pCountryInput, this.pCountryControl);
+        break;
+      }
+      case 'tCity': {
+        this.selectedFunction(event, this.tcities, this.tCityInput, this.tCityControl);
+        break;
+      }
+      case 'tCountry': {
+        this.selectedFunction(event, this.tcountries, this.tCountryInput, this.tCountryControl);
+        break;
+      }
+    }
+  }
+
+  selectedFunction(event: MatAutocompleteSelectedEvent, list: any, input: any, control: any) {
+    list.push(event.option.viewValue);
+    input.nativeElement.value = '';
+    control.setValue(null);
   }
 
   // private _filter(value: string): string[] {
