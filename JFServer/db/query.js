@@ -919,7 +919,18 @@ async function filter(req, res) {
     }
 
     if (faculty != '') {
-        queryString = queryString + " " + queryStrings.FILTER_BY_FACULTY(faculty);
+        queryString = queryString + " " + queryStrings.FILTER_BY_FACULTY();
+
+        faculty.forEach((f, index) => {
+            if (index === 0) {
+                queryString = queryString+`'${f}'`;
+            }else{
+                queryString = queryString+`,'${f}'`;
+            }
+            
+        });
+
+        queryString = queryString + ")";
 
         if (permanentResidenceCity != '' || temporaryResidenceCity != '' || permanentResidenceCountry != ''
             || temporaryResidenceCountry != '' || favourite != '' || cv != '') {

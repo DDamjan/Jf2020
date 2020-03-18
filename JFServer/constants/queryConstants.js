@@ -967,8 +967,8 @@ function JOIN_FACULTY() {
                 ON faks.fakultetID = stud.fakultetID`;
 }
 
-function FILTER_BY_FACULTY(faculty) {
-    return `faks.naziv = '${faculty}'`;
+function FILTER_BY_FACULTY() {
+    return `faks.naziv IN (`;
 }
 
 function JOIN_PERMANENT_RESIDENCE_CITY() {

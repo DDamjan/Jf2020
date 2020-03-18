@@ -93,8 +93,10 @@ export class CvOverviewComponent implements OnInit {
             kompanijaID: lStorage.kompanijaID
           };
           if (users.length === 0) {
+            this.render = true;
             this.store.dispatch(new actions.FilterUsers(payload));
           } else {
+            this.render = true;
             this.populateList(users);
           }
         }
@@ -126,7 +128,7 @@ export class CvOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.obs.unsubscribe();
+      // this.obs.unsubscribe();
     });
   }
 
