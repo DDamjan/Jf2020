@@ -159,7 +159,13 @@ function UPDATE_OLD_ACC_TOKEN(userID) {
             WHERE userID = ${userID}`;
 }
 
-function GET_USER_BY_ID(kompanijaID, userID) {
+function GET_USER_BY_ID(userID) {
+    return `SELECT u.userID, u.email
+            FROM user as u
+            WHERE u.userID = ${userID}`;
+}
+
+function COMPANY_GET_USER_BY_ID(kompanijaID, userID) {
     return `SELECT u.userID, u.email, IFNULL(favourite.ID, false) as isFavourite
             FROM user as u
             LEFT JOIN kompanija_favourite as favourite
@@ -1126,5 +1132,6 @@ module.exports = {
     ADD_TO_FAVOURITES,
     GROUP_BY,
     REMOVE_FROM_FAVOURITES,
-    FILTER_BY_FAVOURITE
+    FILTER_BY_FAVOURITE,
+    COMPANY_GET_USER_BY_ID
 }

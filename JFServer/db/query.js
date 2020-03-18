@@ -619,7 +619,12 @@ async function getUser(res, results, token) {
         if (results[0] != undefined) {
             user = await conn.promise().execute(queryStrings.GET_USER(results[0].email));
         } else {
-            user = await conn.promise().execute(queryStrings.GET_USER_BY_ID(results.kompanijaID, results.userID));
+            if (results.kompanijaID != undefined) {
+                user = await conn.promise().execute(queryStrings.COMPANY_GET_USER_BY_ID(results.kompanijaID, results.userID));
+            } else {
+                user = await conn.promise().execute(queryStrings.GET_USER_BY_ID(results.userID));
+            }
+
         }
 
         let temp = JSON.stringify(user[0]);
