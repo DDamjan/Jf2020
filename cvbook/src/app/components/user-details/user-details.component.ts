@@ -57,6 +57,6 @@ export class UserDetailsComponent implements OnInit {
   }
 
   onReturn() {
-    this.router.navigate(['cvoverview']);
+    history.back();
   }
 }
