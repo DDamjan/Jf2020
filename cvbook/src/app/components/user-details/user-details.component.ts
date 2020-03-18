@@ -22,7 +22,7 @@ export class UserDetailsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private companyService: CompanyService
-    ) {}
+  ) { }
 
   ngOnInit() {
     document.body.style.backgroundColor = '#B5D6EB';
@@ -39,6 +39,7 @@ export class UserDetailsComponent implements OnInit {
         this.isReady = false;
       } else {
         this.data = user[0];
+        this.isBookmarked = user[0].isFavourite !== 0 ? true : false;
         console.log(this.data);
         this.isReady = true;
       }
@@ -47,5 +48,11 @@ export class UserDetailsComponent implements OnInit {
 
   onToggleBookmarked() {
     this.isBookmarked = !this.isBookmarked;
+    const company = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
+    if (this.isBookmarked === true) {
+      this.companyService.addToFavourites({ userID: this.data.userID, kompanijaID: company.kompanijaID }).subscribe();
+    } else {
+      this.companyService.removeFromFavourites({ userID: this.data.userID, kompanijaID: company.kompanijaID }).subscribe();
+    }
   }
 }

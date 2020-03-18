@@ -37,7 +37,6 @@ function exec(req, res, query, fun) {
             success: false,
             message: 'Auth token is not supplied'
         });
-        res.send();
     }
 }
 
