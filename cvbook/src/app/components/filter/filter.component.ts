@@ -107,12 +107,19 @@ export class FilterComponent implements OnInit, OnDestroy {
   populateformOptions() {
     console.log('populateformOptions');
     this.companyService.formOptions().subscribe(options => {
-      options.drzave.forEach(drzava => {
+      options.drzavePrebivaliste.forEach(drzava => {
         this.pCountryOptions.push(drzava.naziv);
+      });
+
+      options.drzaveBoraviste.forEach(drzava => {
         this.tCountryOptions.push(drzava.naziv);
       });
-      options.gradovi.forEach(grad => {
+
+      options.gradoviPrebivaliste.forEach(grad => {
         this.pCityOptions.push(grad.naziv);
+      });
+
+      options.gradoviBoraviste.forEach(grad => {
         this.tCityOptions.push(grad.naziv);
       });
 

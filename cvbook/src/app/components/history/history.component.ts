@@ -38,13 +38,11 @@ export class HistoryComponent implements OnInit {
     const lStorage = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
 
     this.companyService.getHistory(lStorage.kompanijaID).subscribe(history => {
-      // if (this.sort !== undefined) {
-      // const sortEvents$: Observable<Sort> = fromMatSort(this.sort);
+
       const pageEvents$: Observable<PageEvent> = fromMatPaginator(this.paginator);
       const rows$ = of(history);
       this.totalRows$ = rows$.pipe(map(rows => rows.length));
-      this.displayedRows$ = rows$.pipe(/*sortRows(sortEvents$),*/ paginateRows(pageEvents$));
-      // }
+      this.displayedRows$ = rows$.pipe(paginateRows(pageEvents$));
     });
 
 

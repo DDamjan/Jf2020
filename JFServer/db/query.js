@@ -920,14 +920,13 @@ async function filter(req, res) {
 
     if (faculty != '') {
         queryString = queryString + " " + queryStrings.FILTER_BY_FACULTY();
-
         faculty.forEach((f, index) => {
             if (index === 0) {
-                queryString = queryString+`'${f}'`;
-            }else{
-                queryString = queryString+`,'${f}'`;
+                queryString = queryString + `'${f == '\\' ? '\\\\' : f}'`;
+            } else {
+                queryString = queryString + `,'${f == '\\' ? '\\\\' : f}'`;
             }
-            
+
         });
 
         queryString = queryString + ")";
@@ -940,7 +939,18 @@ async function filter(req, res) {
     }
 
     if (permanentResidenceCity != '') {
-        queryString = queryString + " " + queryStrings.FILTER_BY_PERMANENT_RESIDENCE_CITY(permanentResidenceCity);
+        queryString = queryString + " " + queryStrings.FILTER_BY_PERMANENT_RESIDENCE_CITY();
+
+        permanentResidenceCity.forEach((pc, index) => {
+            if (index === 0) {
+                queryString = queryString + `'${pc == '\\' ? '\\\\' : pc}'`;
+            } else {
+                queryString = queryString + `,'${pc == '\\' ? '\\\\' : pc}'`;
+            }
+
+        });
+
+        queryString = queryString + ")";
 
         if (temporaryResidenceCity != '' || permanentResidenceCountry != '' || temporaryResidenceCountry != '' || favourite != '' || cv != '') {
             queryString = queryString + ' AND ';
@@ -948,7 +958,18 @@ async function filter(req, res) {
     }
 
     if (temporaryResidenceCity != '') {
-        queryString = queryString + " " + queryStrings.FILTER_BY_RESIDENCE_CITY(temporaryResidenceCity);
+        queryString = queryString + " " + queryStrings.FILTER_BY_RESIDENCE_CITY();
+
+        temporaryResidenceCity.forEach((tc, index) => {
+            if (index === 0) {
+                queryString = queryString + `'${tc == '\\' ? '\\\\' : tc}'`;
+            } else {
+                queryString = queryString + `,'${tc == '\\' ? '\\\\' : tc}'`;
+            }
+
+        });
+
+        queryString = queryString + ")";
 
         if (permanentResidenceCountry != '' || temporaryResidenceCountry != '' || favourite != '' || cv != '') {
             queryString = queryString + ' AND ';
@@ -956,7 +977,18 @@ async function filter(req, res) {
     }
 
     if (permanentResidenceCountry != '') {
-        queryString = queryString + " " + queryStrings.FILTER_BY_PERMANENT_RESIDENCE_COUNTRY(permanentResidenceCountry);
+        queryString = queryString + " " + queryStrings.FILTER_BY_PERMANENT_RESIDENCE_COUNTRY();
+
+        permanentResidenceCountry.forEach((pc, index) => {
+            if (index === 0) {
+                queryString = queryString + `'${pc == '\\' ? '\\\\' : pc}'`;
+            } else {
+                queryString = queryString + `,'${pc == '\\' ? '\\\\' : pc}'`;
+            }
+
+        });
+
+        queryString = queryString + ")";
 
         if (temporaryResidenceCountry != '' || favourite != '' || cv != '') {
             queryString = queryString + ' AND ';
@@ -965,6 +997,17 @@ async function filter(req, res) {
 
     if (temporaryResidenceCountry != '') {
         queryString = queryString + " " + queryStrings.FILTER_BY_RESIDENCE_COUNTRY(temporaryResidenceCountry);
+
+        temporaryResidenceCountry.forEach((tc, index) => {
+            if (index === 0) {
+                queryString = queryString + `'${tc == '\\' ? '\\\\' : tc}'`;
+            } else {
+                queryString = queryString + `,'${tc == '\\' ? '\\\\' : tc}'`;
+            }
+
+        });
+
+        queryString = queryString + ")";
 
         if (favourite != '' || cv != '') {
             queryString = queryString + ' AND ';
@@ -1007,21 +1050,31 @@ async function filter(req, res) {
 
 async function filterOptions(res) {
     await mysql.pool.getConnection(async (err, conn) => {
-        const drzave = await conn.promise().execute(queryStrings.GET_ALL_COUNTRIES());
-        temp = JSON.stringify(drzave[0]);
-        const drzaveParsed = JSON.parse(temp);
+        const drzavePrebivaliste = await conn.promise().execute(queryStrings.GET_ALL_COUNTRIES_PERMANENT());
+        temp = JSON.stringify(drzavePrebivaliste[0]);
+        const drzavePrebivalisteParsed = JSON.parse(temp);
 
-        const gradovi = await conn.promise().execute(queryStrings.GET_ALL_CITIES());
-        temp = JSON.stringify(gradovi[0]);
-        const gradoviParsed = JSON.parse(temp);
+        const drzaveBoraviste = await conn.promise().execute(queryStrings.GET_ALL_COUNTRIES_TEMPORARY());
+        temp = JSON.stringify(drzaveBoraviste[0]);
+        const drzaveBoravisteParsed = JSON.parse(temp);
+
+        const gradoviPrebivaliste = await conn.promise().execute(queryStrings.GET_ALL_CITIES_PERMANENT());
+        temp = JSON.stringify(gradoviPrebivaliste[0]);
+        const gradoviPrebivalisteParsed = JSON.parse(temp);
+
+        const gradoviBoraviste = await conn.promise().execute(queryStrings.GET_ALL_CITIES_TEMPORARY());
+        temp = JSON.stringify(gradoviBoraviste[0]);
+        const gradoviBoravisteParsed = JSON.parse(temp);
 
         const fakulteti = await conn.promise().execute(queryStrings.GET_ALL_FACULTIES());
         temp = JSON.stringify(fakulteti[0]);
         const fakultetiParsed = JSON.parse(temp);
 
         const payload = {
-            drzave: drzaveParsed,
-            gradovi: gradoviParsed,
+            drzavePrebivaliste: drzavePrebivalisteParsed,
+            drzaveBoraviste: drzaveBoravisteParsed,
+            gradoviPrebivaliste: gradoviPrebivalisteParsed,
+            gradoviBoraviste: gradoviBoravisteParsed,
             fakulteti: fakultetiParsed
         }
 
