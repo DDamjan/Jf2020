@@ -222,41 +222,26 @@
           (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <div style="display: flex; flex-direction: column;">
-                <div class="educationDataSpacing">
-                  <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Company:</span>
-                  </div>
-                  <div style="display: flex; flex-grow: 14; width: 400px;"><span
-                      style="color: black; font-weight: 550;">{{rad.kompanija}}</span></div>
-                </div>
-                <div class="educationDataSpacing">
-                  <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span
-                      style="color:black;">Function:</span></div>
-                  <div style="display: flex; flex-grow: 14; width: 400px;"><span
-                      style="color: black; font-weight: 550;">{{rad.funkcija}}</span></div>
-                </div>
-              </div>
+              <pre>Company: </pre> <pre style="font-weight: 550;">{{rad.kompanija}}</pre>
+            </mat-panel-title>
+            <mat-panel-title>
+              <pre>Function: </pre> <pre style="font-weight: 550;">{{rad.funkcija}}</pre>
             </mat-panel-title>
           </mat-expansion-panel-header>
-
-          <div style="display: flex; flex-direction: column;">
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">Start date:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550;">{{rad.datumPocetka}}</span></div>
-            </div>
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">End date:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550;">{{rad.datumZavrsetka}}</span></div>
-            </div>
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">Description:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550; float: bottom;">{{rad.opis}}</span></div>
-            </div>
-
-          </div>
+          <table>
+            <tr>
+              <td class="header">Start date:</td>
+              <td class="data">{{rad.datumPocetka}}</td>
+            </tr>
+            <tr>
+              <td class="header">End date:</td>
+              <td class="data">{{rad.datumZavrsetka}}</td>
+            </tr>
+            <tr>
+              <td class="header">Description:</td>
+              <td class="data">{{rad.opis}}</td>
+            </tr>
+          </table>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
@@ -275,46 +260,30 @@
           (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <div style="display: flex; flex-direction: column;">
-                <div class="educationDataSpacing">
-                  <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Name:</span>
-                  </div>
-                  <div style="display: flex; flex-grow: 14; width: 400px;"><span
-                      style="color: black; font-weight: 550;">{{strucno.naziv}}</span></div>
-                </div>
-                <div class="educationDataSpacing">
-                  <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span
-                      style="color:black;">Organizer:</span></div>
-                  <div style="display: flex; flex-grow: 14; width: 400px;"><span
-                      style="color: black; font-weight: 550;">{{strucno.organizator}}</span></div>
-                </div>
-              </div>
+              <pre>Name: </pre> <pre style="font-weight: 550;">{{strucno.naziv}}</pre>
+            </mat-panel-title>
+            <mat-panel-title>
+              <pre>Organizer: </pre> <pre style="font-weight: 550;">{{strucno.organizator}}</pre>
             </mat-panel-title>
           </mat-expansion-panel-header>
-
-          <div style="display: flex; flex-direction: column;">
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">Start date:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550;">{{strucno.datumPocetka}}</span></div>
-            </div>
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">End date:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550;">{{strucno.datumZavrsetka}}</span></div>
-            </div>
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">Description:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550; float: bottom;">{{strucno.opis}}</span></div>
-            </div>
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">Certificate:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550;">{{strucno.sertifikat}}</span></div>
-            </div>
-
-          </div>
+          <table>
+            <tr>
+              <td class="header">Start date:</td>
+              <td class="data">{{strucno.datumPocetka}}</td>
+            </tr>
+            <tr>
+              <td class="header">End date:</td>
+              <td class="data">{{strucno.datumZavrsetka}}</td>
+            </tr>
+            <tr>
+              <td class="header">Description:</td>
+              <td class="data">{{strucno.opis}}</td>
+            </tr>
+            <tr>
+              <td class="header">Certificate:</td>
+              <td class="data">{{strucno.sertifikat}}</td>
+            </tr>
+          </table>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
@@ -333,32 +302,19 @@
           (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <div style="display: flex; flex-direction: column;">
-                <div class="educationDataSpacing">
-                  <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Name:</span>
-                  </div>
-                  <div style="display: flex; flex-grow: 14; width: 400px;"><span
-                      style="color: black; font-weight: 550;">{{kompjuter.naziv}}</span></div>
-                </div>
-
-              </div>
+              <pre>Name: </pre> <pre style="font-weight: 550;">{{kompjuter.naziv}}</pre>
             </mat-panel-title>
           </mat-expansion-panel-header>
-
-          <div style="display: flex; flex-direction: column;">
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">Level:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550;">{{kompjuter.nivo}}</span></div>
-            </div>
-
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">Certificate:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550;">{{kompjuter.sertifikat}}</span></div>
-            </div>
-
-          </div>
+          <table>
+            <tr>
+              <td class="header">Level:</td>
+              <td class="data">{{kompjuter.nivo}}</td>
+            </tr>
+            <tr>
+              <td class="header">Certificate:</td>
+              <td class="data">{{kompjuter.sertifikat}}</td>
+            </tr>
+          </table>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
