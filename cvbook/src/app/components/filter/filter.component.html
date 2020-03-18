@@ -14,8 +14,8 @@
 
       <p></p>
 
-      <mat-form-field class="inlargeInput">
-        <input matInput placeholder="Year of study" [matAutocomplete]="yos" [formControl]="yosControl">
+      <mat-form-field >
+        <input matInput placeholder="Year of study from" [matAutocomplete]="yos" [formControl]="yosFromControl">
         <mat-autocomplete #yos="matAutocomplete">
           <mat-option *ngFor="let option of yosOptions" [value]="option">
             {{ option }}
@@ -23,8 +23,21 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field class="input inlargeInput">
-        <input matInput placeholder="Grade average" [formControl]="gradeControl">
+      <mat-form-field >
+        <input matInput placeholder="Year of study to" [matAutocomplete]="yos" [formControl]="yosToControl">
+        <mat-autocomplete #yos="matAutocomplete">
+          <mat-option *ngFor="let option of yosOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="input">
+        <input matInput placeholder="Grade average from" [formControl]="gradeFromControl">
+      </mat-form-field>
+
+      <mat-form-field >
+        <input matInput placeholder="Grade average to" [formControl]="gradeToControl">
       </mat-form-field>
 
       <mat-form-field class="input inlargeInput">

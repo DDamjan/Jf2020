@@ -37,8 +37,10 @@ export class FilterComponent implements OnInit, OnDestroy {
   public favouriteControl = new FormControl();
   public firstNameControl = new FormControl();
   public lastNameControl = new FormControl();
-  public yosControl = new FormControl();
-  public gradeControl = new FormControl();
+  public yosFromControl = new FormControl();
+  public yosToControl = new FormControl();
+  public gradeFromControl = new FormControl();
+  public gradeToControl = new FormControl();
   public facultyControl = new FormControl();
   public pCityControl = new FormControl();
   public pCountryControl = new FormControl();
@@ -93,8 +95,10 @@ export class FilterComponent implements OnInit, OnDestroy {
         this.favouriteControl.setValue(filters[0].favourite);
         this.firstNameControl.setValue(filters[0].firstName);
         this.lastNameControl.setValue(filters[0].lastName);
-        this.yosControl.setValue(filters[0].yos);
-        this.gradeControl.setValue(filters[0].grade);
+        this.yosFromControl.setValue(filters[0].yos);
+        this.yosToControl.setValue(filters[0].yos);
+        this.gradeFromControl.setValue(filters[0].grade);
+        this.gradeToControl.setValue(filters[0].grade);
         this.faculties = filters[0].faculty;
         this.pCities = filters[0].permanentResidenceCity;
         this.pCountries = filters[0].permanentResidenceCountry;
