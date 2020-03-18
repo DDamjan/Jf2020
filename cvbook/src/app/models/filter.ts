@@ -4,11 +4,11 @@ export interface Filter {
     lastName: string;
     yos: string;
     grade: string;
-    faculty: string;
+    faculty: string[];
     cv: boolean;
-    permanentResidenceCity: string;
-    permanentResidenceCountry: string;
-    temporaryResidenceCity: string;
-    temporaryResidenceCountry: string;
+    permanentResidenceCity: string[];
+    permanentResidenceCountry: string[];
+    temporaryResidenceCity: string[];
+    temporaryResidenceCountry: string[];
     favourite: boolean;
 }

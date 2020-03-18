@@ -30,6 +30,8 @@ export class CvOverviewComponent implements OnInit {
 
   private obs: any;
 
+  public render: boolean;
+
   constructor(
     private store: Store<any>,
     private userService: UserService,
@@ -48,10 +50,15 @@ export class CvOverviewComponent implements OnInit {
         if (filters.length === 0) {
           if (users.length !== 0) {
             if (users[0].userID === -1) {
-              this.snackBar.open(`Users with given criteria aren't in the database!`, 'Close', {
-                duration: 3000
-              });
+              this.populateList([]);
+              if (this.render === true) {
+                this.snackBar.open(`Users with given criteria aren't in the database!`, 'Close', {
+                  duration: 3000
+                });
+                this.render = false;
+              }
             } else {
+              this.render = true;
               this.populateList(users);
             }
           } else {
@@ -97,7 +104,7 @@ export class CvOverviewComponent implements OnInit {
 
   populateList(users) {
     setTimeout(() => {
-      this.userList = users;
+      this.userList = users.userID === -1 ? [] : users;
       const sortEvents$: Observable<Sort> = fromMatSort(this.sort);
       const pageEvents$: Observable<PageEvent> = fromMatPaginator(this.paginator);
       const rows$ = of(this.userList);

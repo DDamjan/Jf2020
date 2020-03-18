@@ -23,7 +23,7 @@
           <span class="mat-header-cell" mat-sort-header="prosek">Average Grade</span>
         </section>
         <div *ngFor="let user of displayedRows$ | async;">
-          <app-user-expansion [user]="user" [isHistory]="false" [displayedRows$]="displayedRows$" >
+          <app-user-expansion [user]="user" [isHistory]="false" [displayedRows$]="displayedRows$" *ngIf="render">
           </app-user-expansion>
         </div>
       </mat-accordion>

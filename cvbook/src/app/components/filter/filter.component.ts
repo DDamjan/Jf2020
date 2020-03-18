@@ -53,10 +53,10 @@ export class FilterComponent implements OnInit, OnDestroy {
   public separatorKeysCodes: number[] = [ENTER, COMMA];
 
   public faculties: string[] = [];
-  public pcities: string[] = [];
-  public tcities: string[] = [];
-  public pcountries: string[] = [];
-  public tcountries: string[] = [];
+  public pCities: string[] = [];
+  public tCities: string[] = [];
+  public pCountries: string[] = [];
+  public tCountries: string[] = [];
 
 
   @ViewChild('facultyInput', {static: false}) facultyInput: ElementRef<HTMLInputElement>;
@@ -78,9 +78,6 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   ) {
     this.error = false;
-    // this.filteredFaculties = this.facultyControl.valueChanges.pipe(
-    //   startWith(null),
-    //   map((fruit: string | null) => fruit ? this._filter(fruit) : this.facultyOptions.slice()));
   }
 
   ngOnInit() {
@@ -98,11 +95,11 @@ export class FilterComponent implements OnInit, OnDestroy {
         this.lastNameControl.setValue(filters[0].lastName);
         this.yosControl.setValue(filters[0].yos);
         this.gradeControl.setValue(filters[0].grade);
-        this.facultyControl.setValue(filters[0].faculty);
-        this.pCityControl.setValue(filters[0].permanentResidenceCity);
-        this.pCountryControl.setValue(filters[0].permanentResidenceCountry);
-        this.tCityControl.setValue(filters[0].temporaryResidenceCity);
-        this.tCountryControl.setValue(filters[0].temporaryResidenceCountry);
+        this.faculties = filters[0].faculty;
+        this.pCities = filters[0].permanentResidenceCity;
+        this.pCountries = filters[0].permanentResidenceCountry;
+        this.tCities = filters[0].temporaryResidenceCity;
+        this.tCountries = filters[0].temporaryResidenceCountry;
       }
     });
   }
@@ -129,32 +126,19 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   onSubmit($event) {
-    console.log(this.faculties);
-    console.log(this.pcities);
-    console.log(this.tcities);
-    console.log(this.pcountries);
-    console.log(this.tcountries);
-    // CONSOLE LOGOVAO SAM TI SVE DA ODAVDE UZIMAS PODATKE
-    // I POPUNJAVA IH SVE SAVRSENO
-    // MENE JE MRZELO A VERUJEM DA CE I TEBE DA SE NAPRAVI KOMPONENTA ZA INPUT FIELD
-    // SA SVOJIM ULAZNIM I IZLAZNIM FUNKCIJAMA UMESTO DA SE OVOLIKO KOPIRA KOD
-
-    // ono sto ne radi ne pamte se cipsevi izmedju searchovanja
-
     const cv = $event.target[0].checked;
     const favourite = $event.target[1].checked;
     const firstName = $event.target[2].value;
     const lastName = $event.target[3].value;
     const yos = $event.target[4].value;
     const grade = $event.target[5].value;
-    const faculty = $event.target[6].value;
-    const permanentResidenceCity = $event.target[7].value;
-    const permanentResidenceCountry = $event.target[8].value;
-    const temporaryResidenceCity = $event.target[9].value;
-    const temporaryResidenceCountry = $event.target[10].value;
+    const faculty = this.faculties;
+    const permanentResidenceCity = this.pCities;
+    const permanentResidenceCountry = this.pCountries;
+    const temporaryResidenceCity = this.tCities;
+    const temporaryResidenceCountry = this.tCountries;
     const lStorage = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
 
-    console.log(this.facultyControl);
     const payload = {
       id: 1,
       firstName,
@@ -176,7 +160,6 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   autoCompleteListener($event, type: string) {
-    console.log($event);
     switch (type) {
       case 'faculty': {
         this.facultyOptions = this.facultyOptions.filter(f => f.toLowerCase().indexOf($event.target.value.toLowerCase()) === 0);
@@ -211,19 +194,19 @@ export class FilterComponent implements OnInit, OnDestroy {
         break;
       }
       case 'pCity': {
-        this.addFunction(event, this.pCityMatAutocomplete, this.pcities, this.pCityControl);
+        this.addFunction(event, this.pCityMatAutocomplete, this.pCities, this.pCityControl);
         break;
       }
       case 'pCountry': {
-        this.addFunction(event, this.pCountryMatAutocomplete, this.pcountries, this.pCountryControl);
+        this.addFunction(event, this.pCountryMatAutocomplete, this.pCountries, this.pCountryControl);
         break;
       }
       case 'tCity': {
-        this.addFunction(event, this.tCityMatAutocomplete, this.tcities, this.tCityControl);
+        this.addFunction(event, this.tCityMatAutocomplete, this.tCities, this.tCityControl);
         break;
       }
       case 'tCountry': {
-        this.addFunction(event, this.tCountryMatAutocomplete, this.tcountries, this.tCountryControl);
+        this.addFunction(event, this.tCountryMatAutocomplete, this.tCountries, this.tCountryControl);
         break;
       }
     }
@@ -245,16 +228,16 @@ export class FilterComponent implements OnInit, OnDestroy {
         this.removeFunction(data, this.faculties); break;
       }
       case 'pCity': {
-        this.removeFunction(data, this.pcities); break;
+        this.removeFunction(data, this.pCities); break;
       }
       case 'pCountry': {
-        this.removeFunction(data, this.pcountries); break;
+        this.removeFunction(data, this.pCountries); break;
       }
       case 'tCity': {
-        this.removeFunction(data, this.tcities); break;
+        this.removeFunction(data, this.tCities); break;
       }
       case 'tCountry': {
-        this.removeFunction(data, this.tcountries); break;
+        this.removeFunction(data, this.tCountries); break;
       }
     }
   }
@@ -271,19 +254,19 @@ export class FilterComponent implements OnInit, OnDestroy {
         break;
       }
       case 'pCity': {
-        this.selectedFunction(event, this.pcities, this.pCityInput, this.pCityControl);
+        this.selectedFunction(event, this.pCities, this.pCityInput, this.pCityControl);
         break;
       }
       case 'pCountry': {
-        this.selectedFunction(event, this.pcountries, this.pCountryInput, this.pCountryControl);
+        this.selectedFunction(event, this.pCountries, this.pCountryInput, this.pCountryControl);
         break;
       }
       case 'tCity': {
-        this.selectedFunction(event, this.tcities, this.tCityInput, this.tCityControl);
+        this.selectedFunction(event, this.tCities, this.tCityInput, this.tCityControl);
         break;
       }
       case 'tCountry': {
-        this.selectedFunction(event, this.tcountries, this.tCountryInput, this.tCountryControl);
+        this.selectedFunction(event, this.tCountries, this.tCountryInput, this.tCountryControl);
         break;
       }
     }
