@@ -33,7 +33,7 @@ export class UserDetailsComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     const lStorage = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
     this.companyService.addToHistory(id, lStorage.kompanijaID).subscribe();
-    this.store.dispatch(new actions.GetUser(id));
+    this.store.dispatch(new actions.GetUser({userID: id, kompanijaID: lStorage.kompanijaID}));
     this.store.select(selectAllUser).subscribe(user => {
       if (user.length === 0) {
         this.isReady = false;

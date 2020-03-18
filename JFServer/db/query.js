@@ -614,17 +614,17 @@ function loginKompanija(res, results, token) {
 
 async function getUser(res, results, token) {
     await mysql.pool.getConnection(async (err, conn) => {
-        let user
+        let user;
+        console.log(results);
         if (results[0] != undefined) {
             user = await conn.promise().execute(queryStrings.GET_USER(results[0].email));
         } else {
-            user = await conn.promise().execute(queryStrings.GET_USER_BY_ID + results.userID);
+            user = await conn.promise().execute(queryStrings.GET_USER_BY_ID(results.kompanijaID, results.userID));
         }
 
         let temp = JSON.stringify(user[0]);
         const userParsed = JSON.parse(temp);
 
-        console.log(userParsed.length);
         if (userParsed.length != 0) {
             let licniPodaci = await conn.promise().execute(queryStrings.GET_LICNI_PODACI_BY_USERID + userParsed[0].userID);
             temp = JSON.stringify(licniPodaci[0]);
@@ -689,6 +689,7 @@ async function getUser(res, results, token) {
             let payload = {
                 userID: userParsed[0].userID,
                 email: userParsed[0].email,
+                isFavourite: userParsed[0].isFavourite,
                 licniPodaci: {
                     ime: licniPodaciParsed[0].ime,
                     prezime: licniPodaciParsed[0].prezime,

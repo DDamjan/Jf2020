@@ -159,8 +159,13 @@ function UPDATE_OLD_ACC_TOKEN(userID) {
             WHERE userID = ${userID}`;
 }
 
-const GET_USER_BY_ID = `SELECT userID, email FROM user WHERE userID = `;
-
+function GET_USER_BY_ID(kompanijaID, userID) {
+    return `SELECT u.userID, u.email, IFNULL(favourite.ID, false) as isFavourite
+            FROM user as u
+            LEFT JOIN kompanija_favourite as favourite
+                ON favourite.userID = u.userID AND favourite.kompanijaID = ${kompanijaID}
+            WHERE u.userID = ${userID}`;
+}
 function GET_USER(email) {
     return `SELECT userID, email 
             FROM user 
