@@ -167,7 +167,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <!-- <table>
+          <table>
             <tr>
               <td class="header">Year:</td>
               <td class="data">{{faks.godineStudija}}</td>
@@ -377,40 +377,27 @@
           (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <div style="display: flex; flex-direction: column;">
-                <div class="educationDataSpacing">
-                  <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Name:</span>
-                  </div>
-                  <div style="display: flex; flex-grow: 14; width: 400px;"><span
-                      style="color: black; font-weight: 550;">{{projekat.naziv}}</span></div>
-                </div>
-                <div class="educationDataSpacing">
-                  <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span style="color:black;">Role:</span>
-                  </div>
-                  <div style="display: flex; flex-grow: 14; width: 400px;"><span
-                      style="color: black; font-weight: 550;">{{projekat.uloga}}</span></div>
-                </div>
-              </div>
+                <pre>Name: </pre> <pre style="font-weight: 550;">{{projekat.naziv}}</pre>
+            </mat-panel-title>
+            <mat-panel-title>
+                <pre>Role: </pre> <pre style="font-weight: 550;">{{projekat.uloga}}</pre>
             </mat-panel-title>
           </mat-expansion-panel-header>
-
           <div style="display: flex; flex-direction: column;">
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">Start date:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550;">{{projekat.datumPocetka}}</span></div>
-            </div>
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">End date:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550;">{{projekat.datumZavrsetka}}</span></div>
-            </div>
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">Description:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550; float: bottom;">{{projekat.opis}}</span></div>
-            </div>
-
+            <table>
+              <tr>
+                <td class="header">Start date:</td>
+                <td class="data">{{projekat.datumPocetka}}</td>
+              </tr>
+              <tr>
+                <td class="header">End date:</td>
+                <td class="data">{{projekat.datumZavrsetka}}</td>
+              </tr>
+              <tr>
+                <td class="header">Description:</td>
+                <td class="data">{{projekat.opis}}</td>
+              </tr>
+            </table>
           </div>
         </mat-expansion-panel>
       </mat-accordion>
@@ -430,45 +417,33 @@
           (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <div style="display: flex; flex-direction: column;">
-                <div class="educationDataSpacing">
-                  <div style="display: flex; flex-grow: 2; margin-right: 5%;"><span
-                      style="color:black;">Language:</span></div>
-                  <div style="display: flex; flex-grow: 14; width: 400px;"><span
-                      style="color: black; font-weight: 550;">{{jezici.jezik}}</span></div>
-                </div>
-
-              </div>
+              <pre>Language: </pre> <pre style="font-weight: 550;">{{jezici.jezik}}</pre>
             </mat-panel-title>
           </mat-expansion-panel-header>
 
           <div style="display: flex; flex-direction: column;">
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">Reading level:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550;">{{jezici.nivoCitanja}}</span></div>
-            </div>
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">Writing level:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550;">{{jezici.nivoPisanja}}</span></div>
-            </div>
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">Understanding level:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550; float: bottom;">{{jezici.nivoRazumevanja}}</span></div>
-            </div>
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">Speaking level:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550;">{{jezici.nivoGovora}}</span></div>
-            </div>
-            <div class="educationDataSpacing">
-              <div style="display: flex; flex-grow: 2;"><span style="color:black;">Certificate:</span></div>
-              <div style="display: flex; flex-grow: 14;"><span
-                  style="color: black; font-weight: 550;">{{jezici.sertifikat}}</span></div>
-            </div>
-
+            <table>
+              <tr>
+                <td class="header">Reading level:</td>
+                <td class="data">{{jezici.nivoCitanja}}</td>
+              </tr>
+              <tr>
+                <td class="header">Writing level:</td>
+                <td class="data">{{jezici.nivoPisanja}}</td>
+              </tr>
+              <tr>
+                <td class="header">Understanding level:</td>
+                <td class="data">{{jezici.nivoRazumevanja}}</td>
+              </tr>
+              <tr>
+                <td class="header">Speaking level:</td>
+                <td class="data">{{jezici.nivoGovora}}</td>
+              </tr>
+              <tr>
+                <td class="header">Certificate:</td>
+                <td class="data">{{jezici.sertifikat}}</td>
+              </tr>
+            </table>
           </div>
         </mat-expansion-panel>
       </mat-accordion>
@@ -504,26 +479,6 @@
             <td class="data">{{skills.interesovanja}}</td>
           </tr>
         </table>
-        <!-- <div class="residenceDataSpacing">
-          <div style="display: flex; flex-grow: 2;"><span style="color:black;">Skills:</span></div>
-          <div style="display: flex; flex-grow: 14;"><span
-              style="color: black; font-weight: 550;">{{skills.vestine}}</span></div>
-        </div>
-        <div class="residenceDataSpacing">
-          <div style="display: flex; flex-grow: 2;"><span style="color:black;">Drivers licence:</span></div>
-          <div style="display: flex; flex-grow: 14;"><span
-              style="color: black; font-weight: 550;">{{skills.vozackeDozvole}}</span></div>
-        </div>
-        <div class="residenceDataSpacing">
-          <div style="display: flex; flex-grow: 2;"><span style="color:black;">My personality traits:</span></div>
-          <div style="display: flex; flex-grow: 14;"><span
-              style="color: black; font-weight: 550;">{{skills.osobine}}</span></div>
-        </div>
-        <div class="residenceDataSpacing">
-          <div style="display: flex; flex-grow: 2;"><span style="color:black;">Personal interests:</span></div>
-          <div style="display: flex; flex-grow: 14;"><span
-              style="color: black; font-weight: 550;">{{skills.interesovanja}}</span></div>
-        </div> -->
       </mat-accordion>
     </div>
 
