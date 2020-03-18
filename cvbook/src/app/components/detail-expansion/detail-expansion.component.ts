@@ -22,7 +22,6 @@ export class DetailExpansionComponent implements OnInit {
   constructor(private router: Router, private kompanijaService: CompanyService) { }
 
   ngOnInit() {
-    console.log(this.user);
     if (this.user.isFavourite === 0) {
       this.isBookmarked = false;
     } else {

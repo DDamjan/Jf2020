@@ -11,6 +11,7 @@
       -->
       <div class="btnFilterDiv">
         <button mat-raised-button class="btnFilter" (click)="onFilter()">Filterd Search</button>
+        <button mat-raised-button class="btnFilter" (click)="onReset()">Reset filters</button>
       </div>
       <div class="paginatorDiv">
         <mat-paginator #paginator [length]="totalRows$ | async" [pageIndex]="pageIndex" [pageSize]="pageSize"

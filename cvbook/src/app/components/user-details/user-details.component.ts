@@ -23,6 +23,7 @@ export class UserDetailsComponent implements OnInit {
     ) {}
 
   ngOnInit() {
+    document.body.style.backgroundColor = '#B5D6EB';
     this.isNewUserDetails = true;
     const id = this.route.snapshot.paramMap.get('id');
     const lStorage = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
