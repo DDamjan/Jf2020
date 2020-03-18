@@ -1,64 +1,181 @@
 <form (ngSubmit)="onSubmit($event)">
   <div mat-dialog-content class="dialogContent">
     <div class="inputs">
-      <mat-checkbox isChecked= "cv">Has CV</mat-checkbox>
-      <mat-checkbox isChecked= "cv" class="input">Favorited</mat-checkbox>
+      <mat-checkbox [formControl]="cvControl">Has CV</mat-checkbox>
+      <mat-checkbox [formControl]="favouriteControl" class="input">Favorited</mat-checkbox>
       <p>Personal Details</p>
-      <mat-form-field>
-        <input matInput placeholder="First name">
+      <mat-form-field class="inlargeInput">
+        <input matInput placeholder="First name" [formControl]="firstNameControl">
       </mat-form-field>
-      <mat-form-field class="input" >
-        <input matInput placeholder="Last name">
+
+      <mat-form-field class="input inlargeInput" >
+        <input matInput placeholder="Last name" [formControl]="lastNameControl">
       </mat-form-field>
+
       <p></p>
-      <mat-form-field>
-        <input matInput placeholder="Year of study" [matAutocomplete]="yos"> 
+
+      <mat-form-field class="inlargeInput">
+        <input matInput placeholder="Year of study" [matAutocomplete]="yos" [formControl]="yosControl">
         <mat-autocomplete #yos="matAutocomplete">
           <mat-option *ngFor="let option of yosOptions" [value]="option">
             {{ option }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <mat-form-field class="input">
-        <input matInput placeholder="Grade average">
+
+      <mat-form-field class="input inlargeInput">
+        <input matInput placeholder="Grade average" [formControl]="gradeControl">
       </mat-form-field>
-      <mat-form-field class="input">
-        <input matInput placeholder="Faculty" [matAutocomplete]="faculty" (keyup)="autoCompleteListener($event, 'faculty')">
-        <mat-autocomplete #faculty="matAutocomplete">
+
+      <mat-form-field class="input inlargeInput">
+        <mat-chip-list #facultyChipList aria-label="Faculty selection">
+          <mat-chip
+            *ngFor="let faculty of faculties"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(faculty, 'faculty')">
+            {{faculty}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Faculty"
+            #facultyInput
+            [formControl]="facultyControl"
+            [matAutocomplete]="faculty"
+            [matChipInputFor]="facultyChipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event, 'faculty')"
+            (keyup)="autoCompleteListener($event, 'faculty')" 
+            [formControl]="facultyControl">
+        </mat-chip-list>
+        <!--
+          <input matInput placeholder="Faculty" [matAutocomplete]="faculty" (keyup)="autoCompleteListener($event, 'faculty')" [formControl]="facultyControl"> 
+        -->
+        <mat-autocomplete #faculty="matAutocomplete" (optionSelected)="selected($event, 'faculty')">
           <mat-option *ngFor="let option of facultyOptions" [value]="option">
             {{ option }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+
       <p>Permanent residence</p>
-      <mat-form-field appearance="legacy">
-        <input matInput placeholder="City" name="pCity" [matAutocomplete]="pCity" (keyup)="autoCompleteListener($event, 'pCity')">
-        <mat-autocomplete #pCity="matAutocomplete">
+      <mat-form-field appearance="legacy" class="inlargeInput">
+        <mat-chip-list #pCityChipList aria-label="City selection">
+          <mat-chip
+            *ngFor="let city of pCities"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(city, 'pCity')">
+            {{city}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            matInput
+            placeholder="City"
+            #pCityInput
+            [formControl]="pCityControl"
+            [matAutocomplete]="pCity"
+            [matChipInputFor]="pCityChipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event, 'pCity')"
+            (keyup)="autoCompleteListener($event, 'pCity')">
+        </mat-chip-list>
+        <!-- <input matInput placeholder="City" name="pCity" [matAutocomplete]="pCity" (keyup)="autoCompleteListener($event, 'pCity')" [formControl]="pCityControl"> -->
+        <mat-autocomplete #pCity="matAutocomplete" (optionSelected)="selected($event, 'pCity')">
           <mat-option *ngFor="let option of pCityOptions" [value]="option">
             {{ option }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <mat-form-field appearance="legacy" class="input">
-        <input matInput placeholder="Country" name="pCountry" [matAutocomplete]="pCountry" (keyup)="autoCompleteListener($event, 'pCountry')">
-        <mat-autocomplete #pCountry="matAutocomplete">
+
+      <mat-form-field appearance="legacy" class="input inlargeInput">
+        <mat-chip-list #pCountryChipList aria-label="Country selection">
+          <mat-chip
+            *ngFor="let country of pCountries"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(country, 'pCountry')">
+            {{country}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            matInput
+            placeholder="Country"
+            #pCountryInput
+            [formControl]="pCountryControl"
+            [matAutocomplete]="pCountry"
+            [matChipInputFor]="pCountryChipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event, 'pCountry')"
+            (keyup)="autoCompleteListener($event, 'pCountry')">
+        </mat-chip-list>
+        <!--<input matInput placeholder="Country" name="pCountry" [matAutocomplete]="pCountry" (keyup)="autoCompleteListener($event, 'pCountry')" [formControl]="pCountryControl"> -->
+        <mat-autocomplete #pCountry="matAutocomplete" (optionSelected)="selected($event, 'pCountry')">
           <mat-option *ngFor="let option of pCountryOptions" [value]="option">
             {{ option }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+
       <p>Temporary residence</p>
-      <mat-form-field appearance="legacy">
-        <input matInput placeholder="City" name="tCity" [matAutocomplete]="tCity" (keyup)="autoCompleteListener($event, 'tCity')">
-        <mat-autocomplete #tCity="matAutocomplete">
+      <mat-form-field appearance="legacy" class="inlargeInput">
+        <mat-chip-list #tCityChipList aria-label="City selection">
+          <mat-chip
+            *ngFor="let city of tCities"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(city, 'tCity')">
+            {{city}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            matInput
+            placeholder="City"
+            #tCityInput
+            [formControl]="tCityControl"
+            [matAutocomplete]="tCity"
+            [matChipInputFor]="tCityChipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event, 'tCity')"
+            (keyup)="autoCompleteListener($event, 'tCity')">
+        </mat-chip-list>
+        <!-- <input matInput placeholder="City" name="tCity" [matAutocomplete]="tCity" (keyup)="autoCompleteListener($event, 'tCity')" [formControl]="tCityControl"> -->
+        <mat-autocomplete #tCity="matAutocomplete" (optionSelected)="selected($event, 'tCity')">
           <mat-option *ngFor="let option of tCityOptions" [value]="option">
             {{ option }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <mat-form-field appearance="legacy" class="input">
-        <input matInput placeholder="Country" name="tCountry" [matAutocomplete]="tCountry" (keyup)="autoCompleteListener($event, 'tCountry')">
-        <mat-autocomplete #tCountry="matAutocomplete">
+
+
+      <mat-form-field appearance="legacy" class="input inlargeInput">
+        <mat-chip-list #tCountrychipList aria-label="Country selection">
+          <mat-chip
+            *ngFor="let country of tCountries"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(country, 'tCountry')">
+            {{country}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            matInput
+            placeholder="Country"
+            #tCountryInput
+            [formControl]="tCountryControl"
+            [matAutocomplete]="tCountry"
+            [matChipInputFor]="tCountrychipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event, 'tCountry')"
+            (keyup)="autoCompleteListener($event, 'tCountry')">
+        </mat-chip-list>
+        <!-- <input matInput placeholder="Country" name="tCountry" [matAutocomplete]="tCountry" (keyup)="autoCompleteListener($event, 'tCountry')" [formControl]="tCountryControl"> -->
+        <mat-autocomplete #tCountry="matAutocomplete" (optionSelected)="selected($event, 'tCountry')">
           <mat-option *ngFor="let option of tCountryOptions" [value]="option">
             {{ option }}
           </mat-option>
@@ -66,12 +183,13 @@
       </mat-form-field>
     </div>
   </div>
+
   <div mat-dialog-actions class="dialogActions">
     <div class="btnSerachDiv">
       <button mat-raised-button type="submit" class="btnSerach" >Search</button>
     </div>
     <div class="btnCancelDiv">
-      <button mat-raised-button (click)="onCancel()" class="btnCancel" >Cancel</button>
+      <button mat-raised-button type="button" (click)="onCancel()" class="btnCancel" >Cancel</button>
     </div>
     <p class="error" *ngIf='error'>ERROR</p>
   </div>

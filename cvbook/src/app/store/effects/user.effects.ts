@@ -26,6 +26,10 @@ export class UserEffects {
       if (response.success !== undefined && response.success === false) {
         this.badToken();
         return new actions.TokenExpired();
+      } else if (response.statusNo === 409) {
+        console.log(response.status);
+        this.router.navigate(['dashboard']);
+        return new actions.GetChart({});
       } else {
         return new actions.GetUserSuccess(response);
       }

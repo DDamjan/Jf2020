@@ -19,10 +19,10 @@ export class UserService {
         private http: HttpClient,
         private httpService: HttpService) {}
 
-    getUser(id: any): Observable<any> {
+    getUser(payload: any): Observable<any> {
         const url = `${this.serverURL}getbyid`;
-        return this.http.post<any>(url, { 'userID': id }, this.httpService.httpOptions()).pipe(
-            catchError(this.handleError<any>(`getUser id=${id}`))
+        return this.http.post<any>(url, payload, this.httpService.httpOptions()).pipe(
+            catchError(this.handleError<any>(`getUser id=${payload.userID}`))
         );
     }
 

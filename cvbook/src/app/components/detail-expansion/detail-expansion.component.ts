@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../models/User';
-import { Store } from '@ngrx/store';
 import { CompanyService } from 'app/service/company.service';
 
 @Component({
@@ -50,6 +49,8 @@ export class DetailExpansionComponent implements OnInit {
   }
 
   onDownloadCV() {
+    const company = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
+    this.kompanijaService.addToDownloaded({userID: this.user.userID, kompanijaID: company.kompanijaID}).subscribe();
     window.location.href = this.user.cv;
   }
 

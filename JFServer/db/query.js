@@ -37,7 +37,6 @@ function exec(req, res, query, fun) {
             success: false,
             message: 'Auth token is not supplied'
         });
-        res.send();
     }
 }
 
@@ -615,118 +614,134 @@ function loginKompanija(res, results, token) {
 
 async function getUser(res, results, token) {
     await mysql.pool.getConnection(async (err, conn) => {
-        let user
+        let user;
+        console.log(results);
         if (results[0] != undefined) {
             user = await conn.promise().execute(queryStrings.GET_USER(results[0].email));
         } else {
-            user = await conn.promise().execute(queryStrings.GET_USER_BY_ID + results.userID);
+            if (results.kompanijaID != undefined) {
+                user = await conn.promise().execute(queryStrings.COMPANY_GET_USER_BY_ID(results.kompanijaID, results.userID));
+            } else {
+                user = await conn.promise().execute(queryStrings.GET_USER_BY_ID(results.userID));
+            }
+
         }
 
         let temp = JSON.stringify(user[0]);
         const userParsed = JSON.parse(temp);
 
-        let licniPodaci = await conn.promise().execute(queryStrings.GET_LICNI_PODACI_BY_USERID + userParsed[0].userID);
-        temp = JSON.stringify(licniPodaci[0]);
-        const licniPodaciParsed = JSON.parse(temp);
+        if (userParsed.length != 0) {
+            let licniPodaci = await conn.promise().execute(queryStrings.GET_LICNI_PODACI_BY_USERID + userParsed[0].userID);
+            temp = JSON.stringify(licniPodaci[0]);
+            const licniPodaciParsed = JSON.parse(temp);
 
-        let cv = await conn.promise().execute(queryStrings.GET_CV(userParsed[0].userID));
+            let cv = await conn.promise().execute(queryStrings.GET_CV(userParsed[0].userID));
 
-        temp = JSON.stringify(cv[0]);
-        const cvParsed = JSON.parse(temp);
+            temp = JSON.stringify(cv[0]);
+            const cvParsed = JSON.parse(temp);
 
-        let boravisteGrad = await conn.promise().execute(queryStrings.GET_GRAD + licniPodaciParsed[0].boravisteGradID);
-        let boravisteDrzava = await conn.promise().execute(queryStrings.GET_DRZAVA + licniPodaciParsed[0].boravisteDrzavaID);
-        let prebivalisteGrad = await conn.promise().execute(queryStrings.GET_GRAD + licniPodaciParsed[0].prebivalisteGradID);
-        let prebivalisteDrzava = await conn.promise().execute(queryStrings.GET_DRZAVA + licniPodaciParsed[0].prebivalisteDrzavaID);
+            let boravisteGrad = await conn.promise().execute(queryStrings.GET_GRAD + licniPodaciParsed[0].boravisteGradID);
+            let boravisteDrzava = await conn.promise().execute(queryStrings.GET_DRZAVA + licniPodaciParsed[0].boravisteDrzavaID);
+            let prebivalisteGrad = await conn.promise().execute(queryStrings.GET_GRAD + licniPodaciParsed[0].prebivalisteGradID);
+            let prebivalisteDrzava = await conn.promise().execute(queryStrings.GET_DRZAVA + licniPodaciParsed[0].prebivalisteDrzavaID);
 
-        let srednjaSkola = await conn.promise().execute(queryStrings.GET_SREDNJA_SKOLA(userParsed[0].userID));
-        let fakultet = await conn.promise().execute(queryStrings.GET_FAKULTET(userParsed[0].userID));
+            let srednjaSkola = await conn.promise().execute(queryStrings.GET_SREDNJA_SKOLA(userParsed[0].userID));
+            let fakultet = await conn.promise().execute(queryStrings.GET_FAKULTET(userParsed[0].userID));
 
-        let radnoIskustvo = await conn.promise().execute(queryStrings.GET_RADNO_ISKUSTVO(userParsed[0].userID));
-        let strucnoUsavrsavanje = await conn.promise().execute(queryStrings.GET_STRUCNO_USAVRSAVANJE(userParsed[0].userID));
-        let radNaRacunaru = await conn.promise().execute(queryStrings.GET_RAD_NA_RACUNARU(userParsed[0].userID));
-        let radNaProjektu = await conn.promise().execute(queryStrings.GET_RAD_NA_PROJEKTU(userParsed[0].userID));
-        let poznavanjeJezika = await conn.promise().execute(queryStrings.GET_POZNAVANJE_JEZIKA(userParsed[0].userID));
-        let ostaleVestine = await conn.promise().execute(queryStrings.GET_OSTALE_VESTINE(userParsed[0].userID));
+            let radnoIskustvo = await conn.promise().execute(queryStrings.GET_RADNO_ISKUSTVO(userParsed[0].userID));
+            let strucnoUsavrsavanje = await conn.promise().execute(queryStrings.GET_STRUCNO_USAVRSAVANJE(userParsed[0].userID));
+            let radNaRacunaru = await conn.promise().execute(queryStrings.GET_RAD_NA_RACUNARU(userParsed[0].userID));
+            let radNaProjektu = await conn.promise().execute(queryStrings.GET_RAD_NA_PROJEKTU(userParsed[0].userID));
+            let poznavanjeJezika = await conn.promise().execute(queryStrings.GET_POZNAVANJE_JEZIKA(userParsed[0].userID));
+            let ostaleVestine = await conn.promise().execute(queryStrings.GET_OSTALE_VESTINE(userParsed[0].userID));
 
-        temp = JSON.stringify(prebivalisteDrzava[0]);
-        const prebivalisteDrzavaParsed = JSON.parse(temp);
+            temp = JSON.stringify(prebivalisteDrzava[0]);
+            const prebivalisteDrzavaParsed = JSON.parse(temp);
 
-        temp = JSON.stringify(boravisteDrzava[0]);
-        const boravisteDrzavaParsed = JSON.parse(temp);
+            temp = JSON.stringify(boravisteDrzava[0]);
+            const boravisteDrzavaParsed = JSON.parse(temp);
 
-        temp = JSON.stringify(prebivalisteGrad[0]);
-        const prebivalisteGradParsed = JSON.parse(temp);
+            temp = JSON.stringify(prebivalisteGrad[0]);
+            const prebivalisteGradParsed = JSON.parse(temp);
 
-        temp = JSON.stringify(boravisteGrad[0]);
-        const boravisteGradParsed = JSON.parse(temp);
+            temp = JSON.stringify(boravisteGrad[0]);
+            const boravisteGradParsed = JSON.parse(temp);
 
-        temp = JSON.stringify(srednjaSkola[0]);
-        const srednjaSkolaParsed = JSON.parse(temp);
+            temp = JSON.stringify(srednjaSkola[0]);
+            const srednjaSkolaParsed = JSON.parse(temp);
 
-        temp = JSON.stringify(fakultet[0]);
-        const fakultetParsed = JSON.parse(temp);
+            temp = JSON.stringify(fakultet[0]);
+            const fakultetParsed = JSON.parse(temp);
 
-        temp = JSON.stringify(radnoIskustvo[0]);
-        const radnoIskustvoParsed = JSON.parse(temp);
+            temp = JSON.stringify(radnoIskustvo[0]);
+            const radnoIskustvoParsed = JSON.parse(temp);
 
-        temp = JSON.stringify(strucnoUsavrsavanje[0]);
-        const strucnoUsavrsavanjeParsed = JSON.parse(temp);
+            temp = JSON.stringify(strucnoUsavrsavanje[0]);
+            const strucnoUsavrsavanjeParsed = JSON.parse(temp);
 
-        temp = JSON.stringify(radNaRacunaru[0]);
-        const radNaRacunaruParsed = JSON.parse(temp);
+            temp = JSON.stringify(radNaRacunaru[0]);
+            const radNaRacunaruParsed = JSON.parse(temp);
 
-        temp = JSON.stringify(radNaProjektu[0]);
-        const radNaProjektuParsed = JSON.parse(temp);
+            temp = JSON.stringify(radNaProjektu[0]);
+            const radNaProjektuParsed = JSON.parse(temp);
 
-        temp = JSON.stringify(poznavanjeJezika[0]);
-        const poznavanjeJezikaParsed = JSON.parse(temp);
+            temp = JSON.stringify(poznavanjeJezika[0]);
+            const poznavanjeJezikaParsed = JSON.parse(temp);
 
-        temp = JSON.stringify(ostaleVestine[0]);
-        const ostaleVestineParsed = JSON.parse(temp);
+            temp = JSON.stringify(ostaleVestine[0]);
+            const ostaleVestineParsed = JSON.parse(temp);
 
-        let payload = {
-            userID: userParsed[0].userID,
-            email: userParsed[0].email,
-            licniPodaci: {
-                ime: licniPodaciParsed[0].ime,
-                prezime: licniPodaciParsed[0].prezime,
-                imeRoditelja: licniPodaciParsed[0].imeRoditelja,
-                datumRodjenja: licniPodaciParsed[0].datumRodjenja,
-                cv: cvParsed[0] == undefined || cvParsed[0].cv == '' || cvParsed[0].cv == 'null' ? null : cvParsed[0].cv,
-                profilnaSlika: licniPodaciParsed[0].profilnaSlika == '' || licniPodaciParsed[0].cv == 'null' ? null : licniPodaciParsed[0].profilnaSlika
-            },
-            kontakt: {
-                telefon: licniPodaciParsed[0].telefon,
-                linkedIn: licniPodaciParsed[0].linkedIn
-            },
-            prebivaliste: {
-                drzava: prebivalisteDrzavaParsed[0].naziv,
-                grad: prebivalisteGradParsed[0].naziv,
-                adresa: licniPodaciParsed[0].prebivalisteAdresa
-            },
-            boraviste: {
-                drzava: boravisteDrzavaParsed[0].naziv,
-                grad: boravisteGradParsed[0].naziv,
-                adresa: licniPodaciParsed[0].boravisteAdresa
-            },
-            srednjeObrazovanje: srednjaSkolaParsed,
-            visokoObrazovanje: fakultetParsed,
-            iskustvo: {
-                radnoIskustvo: radnoIskustvoParsed,
-                strucnoUsavrsavanje: strucnoUsavrsavanjeParsed,
-                radNaRacunaru: radNaRacunaruParsed,
-                radNaProjektu: radNaProjektuParsed,
-                poznavanjeJezika: poznavanjeJezikaParsed,
-                ostaleVestine: ostaleVestineParsed
-            },
-            token: token,
-            status: 200
+            let payload = {
+                userID: userParsed[0].userID,
+                email: userParsed[0].email,
+                isFavourite: userParsed[0].isFavourite,
+                licniPodaci: {
+                    ime: licniPodaciParsed[0].ime,
+                    prezime: licniPodaciParsed[0].prezime,
+                    imeRoditelja: licniPodaciParsed[0].imeRoditelja,
+                    datumRodjenja: licniPodaciParsed[0].datumRodjenja,
+                    cv: cvParsed[0] == undefined || cvParsed[0].cv == '' || cvParsed[0].cv == 'null' ? null : cvParsed[0].cv,
+                    profilnaSlika: licniPodaciParsed[0].profilnaSlika == '' || licniPodaciParsed[0].cv == 'null' ? null : licniPodaciParsed[0].profilnaSlika
+                },
+                kontakt: {
+                    telefon: licniPodaciParsed[0].telefon,
+                    linkedIn: licniPodaciParsed[0].linkedIn
+                },
+                prebivaliste: {
+                    drzava: prebivalisteDrzavaParsed[0].naziv,
+                    grad: prebivalisteGradParsed[0].naziv,
+                    adresa: licniPodaciParsed[0].prebivalisteAdresa
+                },
+                boraviste: {
+                    drzava: boravisteDrzavaParsed[0].naziv,
+                    grad: boravisteGradParsed[0].naziv,
+                    adresa: licniPodaciParsed[0].boravisteAdresa
+                },
+                srednjeObrazovanje: srednjaSkolaParsed,
+                visokoObrazovanje: fakultetParsed,
+                iskustvo: {
+                    radnoIskustvo: radnoIskustvoParsed,
+                    strucnoUsavrsavanje: strucnoUsavrsavanjeParsed,
+                    radNaRacunaru: radNaRacunaruParsed,
+                    radNaProjektu: radNaProjektuParsed,
+                    poznavanjeJezika: poznavanjeJezikaParsed,
+                    ostaleVestine: ostaleVestineParsed
+                },
+                token: token,
+                status: 200
+            }
+            mysql.pool.releaseConnection(conn);
+            res.status(200);
+            res.json(payload);
+            res.send();
+        } else {
+            const data = {
+                statusNo: 409
+            }
+            res.json(data);
+            res.send();
         }
-        mysql.pool.releaseConnection(conn);
-        res.status(200);
-        res.json(payload);
-        res.send();
+
     });
 }
 
@@ -904,7 +919,17 @@ async function filter(req, res) {
     }
 
     if (faculty != '') {
-        queryString = queryString + " " + queryStrings.FILTER_BY_FACULTY(faculty);
+        queryString = queryString + " " + queryStrings.FILTER_BY_FACULTY();
+        faculty.forEach((f, index) => {
+            if (index === 0) {
+                queryString = queryString + `'${f == '\\' ? '\\\\' : f}'`;
+            } else {
+                queryString = queryString + `,'${f == '\\' ? '\\\\' : f}'`;
+            }
+
+        });
+
+        queryString = queryString + ")";
 
         if (permanentResidenceCity != '' || temporaryResidenceCity != '' || permanentResidenceCountry != ''
             || temporaryResidenceCountry != '' || favourite != '' || cv != '') {
@@ -914,7 +939,18 @@ async function filter(req, res) {
     }
 
     if (permanentResidenceCity != '') {
-        queryString = queryString + " " + queryStrings.FILTER_BY_PERMANENT_RESIDENCE_CITY(permanentResidenceCity);
+        queryString = queryString + " " + queryStrings.FILTER_BY_PERMANENT_RESIDENCE_CITY();
+
+        permanentResidenceCity.forEach((pc, index) => {
+            if (index === 0) {
+                queryString = queryString + `'${pc == '\\' ? '\\\\' : pc}'`;
+            } else {
+                queryString = queryString + `,'${pc == '\\' ? '\\\\' : pc}'`;
+            }
+
+        });
+
+        queryString = queryString + ")";
 
         if (temporaryResidenceCity != '' || permanentResidenceCountry != '' || temporaryResidenceCountry != '' || favourite != '' || cv != '') {
             queryString = queryString + ' AND ';
@@ -922,7 +958,18 @@ async function filter(req, res) {
     }
 
     if (temporaryResidenceCity != '') {
-        queryString = queryString + " " + queryStrings.FILTER_BY_RESIDENCE_CITY(temporaryResidenceCity);
+        queryString = queryString + " " + queryStrings.FILTER_BY_RESIDENCE_CITY();
+
+        temporaryResidenceCity.forEach((tc, index) => {
+            if (index === 0) {
+                queryString = queryString + `'${tc == '\\' ? '\\\\' : tc}'`;
+            } else {
+                queryString = queryString + `,'${tc == '\\' ? '\\\\' : tc}'`;
+            }
+
+        });
+
+        queryString = queryString + ")";
 
         if (permanentResidenceCountry != '' || temporaryResidenceCountry != '' || favourite != '' || cv != '') {
             queryString = queryString + ' AND ';
@@ -930,7 +977,18 @@ async function filter(req, res) {
     }
 
     if (permanentResidenceCountry != '') {
-        queryString = queryString + " " + queryStrings.FILTER_BY_PERMANENT_RESIDENCE_COUNTRY(permanentResidenceCountry);
+        queryString = queryString + " " + queryStrings.FILTER_BY_PERMANENT_RESIDENCE_COUNTRY();
+
+        permanentResidenceCountry.forEach((pc, index) => {
+            if (index === 0) {
+                queryString = queryString + `'${pc == '\\' ? '\\\\' : pc}'`;
+            } else {
+                queryString = queryString + `,'${pc == '\\' ? '\\\\' : pc}'`;
+            }
+
+        });
+
+        queryString = queryString + ")";
 
         if (temporaryResidenceCountry != '' || favourite != '' || cv != '') {
             queryString = queryString + ' AND ';
@@ -939,6 +997,17 @@ async function filter(req, res) {
 
     if (temporaryResidenceCountry != '') {
         queryString = queryString + " " + queryStrings.FILTER_BY_RESIDENCE_COUNTRY(temporaryResidenceCountry);
+
+        temporaryResidenceCountry.forEach((tc, index) => {
+            if (index === 0) {
+                queryString = queryString + `'${tc == '\\' ? '\\\\' : tc}'`;
+            } else {
+                queryString = queryString + `,'${tc == '\\' ? '\\\\' : tc}'`;
+            }
+
+        });
+
+        queryString = queryString + ")";
 
         if (favourite != '' || cv != '') {
             queryString = queryString + ' AND ';
@@ -981,21 +1050,31 @@ async function filter(req, res) {
 
 async function filterOptions(res) {
     await mysql.pool.getConnection(async (err, conn) => {
-        const drzave = await conn.promise().execute(queryStrings.GET_ALL_COUNTRIES());
-        temp = JSON.stringify(drzave[0]);
-        const drzaveParsed = JSON.parse(temp);
+        const drzavePrebivaliste = await conn.promise().execute(queryStrings.GET_ALL_COUNTRIES_PERMANENT());
+        temp = JSON.stringify(drzavePrebivaliste[0]);
+        const drzavePrebivalisteParsed = JSON.parse(temp);
 
-        const gradovi = await conn.promise().execute(queryStrings.GET_ALL_CITIES());
-        temp = JSON.stringify(gradovi[0]);
-        const gradoviParsed = JSON.parse(temp);
+        const drzaveBoraviste = await conn.promise().execute(queryStrings.GET_ALL_COUNTRIES_TEMPORARY());
+        temp = JSON.stringify(drzaveBoraviste[0]);
+        const drzaveBoravisteParsed = JSON.parse(temp);
+
+        const gradoviPrebivaliste = await conn.promise().execute(queryStrings.GET_ALL_CITIES_PERMANENT());
+        temp = JSON.stringify(gradoviPrebivaliste[0]);
+        const gradoviPrebivalisteParsed = JSON.parse(temp);
+
+        const gradoviBoraviste = await conn.promise().execute(queryStrings.GET_ALL_CITIES_TEMPORARY());
+        temp = JSON.stringify(gradoviBoraviste[0]);
+        const gradoviBoravisteParsed = JSON.parse(temp);
 
         const fakulteti = await conn.promise().execute(queryStrings.GET_ALL_FACULTIES());
         temp = JSON.stringify(fakulteti[0]);
         const fakultetiParsed = JSON.parse(temp);
 
         const payload = {
-            drzave: drzaveParsed,
-            gradovi: gradoviParsed,
+            drzavePrebivaliste: drzavePrebivalisteParsed,
+            drzaveBoraviste: drzaveBoravisteParsed,
+            gradoviPrebivaliste: gradoviPrebivalisteParsed,
+            gradoviBoraviste: gradoviBoravisteParsed,
             fakulteti: fakultetiParsed
         }
 
@@ -1019,19 +1098,19 @@ async function getHistory(res, payload) {
             if (j === 0) {
                 const date = new Date(his.visitedD);
                 arr[i] = {
-                    date: (date.getDate()<10?"0"+(date.getDate()):date.getDate()) + '.' + (date.getMonth()+1<10?"0"+(date.getMonth()+1):date.getMonth()+1) + '.' + date.getFullYear()+".",
+                    date: (date.getDate() < 10 ? "0" + (date.getDate()) : date.getDate()) + '.' + (date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1) + '.' + date.getFullYear() + ".",
                     history: [his]
                 };
                 j++;
             } else {
-                if (arr[i].history[j-1].visitedD == his.visitedD) {
+                if (arr[i].history[j - 1].visitedD == his.visitedD) {
                     arr[i].history.push(his);
                     j++;
                 } else {
                     i++;
                     const date = new Date(his.visitedD);
                     arr[i] = {
-                        date: (date.getDate()<10?"0"+(date.getDate()):date.getDate()) + '.' + (date.getMonth()+1<10?"0"+(date.getMonth()+1):date.getMonth()+1) + '.' + date.getFullYear()+".",
+                        date: (date.getDate() < 10 ? "0" + (date.getDate()) : date.getDate()) + '.' + (date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1) + '.' + date.getFullYear() + ".",
                         history: [his]
                     };
                     j = 0;

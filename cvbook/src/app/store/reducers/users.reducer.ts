@@ -25,7 +25,6 @@ export function UsersReducer(
             return UsersAdapter.addMany(action.payload, state = UsersInitialState);
         }
         case FILTER_USERS_SUCCESS: {
-            console.log(action.payload);
             UsersAdapter.removeAll(state = UsersInitialState);
             return UsersAdapter.addMany(action.payload.filteredUsers, state = UsersInitialState);
         }

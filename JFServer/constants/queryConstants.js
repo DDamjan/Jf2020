@@ -159,8 +159,19 @@ function UPDATE_OLD_ACC_TOKEN(userID) {
             WHERE userID = ${userID}`;
 }
 
-const GET_USER_BY_ID = `SELECT userID, email FROM user WHERE userID = `;
+function GET_USER_BY_ID(userID) {
+    return `SELECT u.userID, u.email
+            FROM user as u
+            WHERE u.userID = ${userID}`;
+}
 
+function COMPANY_GET_USER_BY_ID(kompanijaID, userID) {
+    return `SELECT u.userID, u.email, IFNULL(favourite.ID, false) as isFavourite
+            FROM user as u
+            LEFT JOIN kompanija_favourite as favourite
+                ON favourite.userID = u.userID AND favourite.kompanijaID = ${kompanijaID}
+            WHERE u.userID = ${userID}`;
+}
 function GET_USER(email) {
     return `SELECT userID, email 
             FROM user 
@@ -847,18 +858,45 @@ function STATS_TOTAL_USERS() {
 function GET_ALL_FACULTIES() {
     return `SELECT naziv
             FROM fakultet
+            INNER JOIN studira as s
+                ON s.fakultetID = fakultet.fakultetID
+            GROUP BY fakultet.fakultetID
             ORDER BY naziv ASC`;
 }
 
-function GET_ALL_CITIES() {
+function GET_ALL_CITIES_PERMANENT() {
     return `SELECT naziv
             FROM grad
+            INNER JOIN licniPodaci as l
+                ON grad.gradID = l.prebivalisteGradID
+            GROUP BY grad.gradID
             ORDER BY naziv ASC`;
 }
 
-function GET_ALL_COUNTRIES() {
+function GET_ALL_CITIES_TEMPORARY() {
+    return `SELECT naziv
+            FROM grad
+            INNER JOIN licniPodaci as l
+                ON grad.gradID = l.boravisteGradID
+            GROUP BY grad.gradID
+            ORDER BY naziv ASC`;
+}
+
+function GET_ALL_COUNTRIES_PERMANENT() {
     return `SELECT naziv
             FROM drzava
+            INNER JOIN licniPodaci as l
+                ON l.prebivalisteDrzavaID = drzava.drzavaID
+            GROUP BY drzava.drzavaID
+            ORDER BY naziv ASC`;
+}
+
+function GET_ALL_COUNTRIES_TEMPORARY() {
+    return `SELECT naziv
+            FROM drzava
+            INNER JOIN licniPodaci as l
+                ON l.boravisteDrzavaID = drzava.drzavaID
+            GROUP BY drzava.drzavaID
             ORDER BY naziv ASC`;
 }
 
@@ -956,8 +994,8 @@ function JOIN_FACULTY() {
                 ON faks.fakultetID = stud.fakultetID`;
 }
 
-function FILTER_BY_FACULTY(faculty) {
-    return `faks.naziv = '${faculty}'`;
+function FILTER_BY_FACULTY() {
+    return `faks.naziv IN (`;
 }
 
 function JOIN_PERMANENT_RESIDENCE_CITY() {
@@ -970,12 +1008,12 @@ function JOIN_RESIDENCE_CITY() {
                 ON gB.gradID = licni.boravisteGradID`;
 }
 
-function FILTER_BY_PERMANENT_RESIDENCE_CITY(city) {
-    return `gP.naziv = '${city}'`;
+function FILTER_BY_PERMANENT_RESIDENCE_CITY() {
+    return `gP.naziv IN (`;
 }
 
-function FILTER_BY_RESIDENCE_CITY(city) {
-    return `gB.naziv = '${city}'`;
+function FILTER_BY_RESIDENCE_CITY() {
+    return `gB.naziv IN (`;
 }
 
 function JOIN_PERMANENT_RESIDENCE_COUNTRY() {
@@ -988,12 +1026,12 @@ function JOIN_RESIDENCE_COUNTRY() {
                 ON dB.drzavaID = licni.boravisteDrzavaID`;
 }
 
-function FILTER_BY_PERMANENT_RESIDENCE_COUNTRY(country) {
-    return `dP.naziv = '${country}'`;
+function FILTER_BY_PERMANENT_RESIDENCE_COUNTRY() {
+    return `dP.naziv IN (`;
 }
 
-function FILTER_BY_RESIDENCE_COUNTRY(country) {
-    return `dB.naziv = '${country}'`;
+function FILTER_BY_RESIDENCE_COUNTRY() {
+    return `dB.naziv IN ()`;
 }
 
 function JOIN_CV() {
@@ -1109,8 +1147,10 @@ module.exports = {
     FILTER_BY_PERMANENT_RESIDENCE_COUNTRY,
     FILTER_BY_RESIDENCE_COUNTRY,
     GET_ALL_FACULTIES,
-    GET_ALL_CITIES,
-    GET_ALL_COUNTRIES,
+    GET_ALL_CITIES_TEMPORARY,
+    GET_ALL_CITIES_PERMANENT,
+    GET_ALL_COUNTRIES_PERMANENT,
+    GET_ALL_COUNTRIES_TEMPORARY,
     GET_ALL_USERS,
     GET_CV,
     JOIN_CV,
@@ -1121,5 +1161,6 @@ module.exports = {
     ADD_TO_FAVOURITES,
     GROUP_BY,
     REMOVE_FROM_FAVOURITES,
-    FILTER_BY_FAVOURITE
+    FILTER_BY_FAVOURITE,
+    COMPANY_GET_USER_BY_ID
 }

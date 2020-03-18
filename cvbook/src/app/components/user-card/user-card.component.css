@@ -45,6 +45,22 @@
     
   }
 
+  pre{
+    font-family: Roboto,Helvetica Neue,sans-serif; 
+    font-size: 15px;
+  }
+
+  .data {
+    font-weight: 550;
+  }
+  .header {
+    width: 30%;
+  }
+
+  table{
+    table-layout: fixed;
+  }
+
   .defaultProfileImg {
     padding-left: 10%;
     padding-right: 10%;
