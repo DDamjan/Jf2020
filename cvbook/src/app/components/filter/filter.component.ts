@@ -130,6 +130,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     const temporaryResidenceCountry = $event.target[10].value;
     const lStorage = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
 
+    console.log(this.facultyControl);
     const payload = {
       id: 1,
       firstName,
