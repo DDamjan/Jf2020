@@ -15,7 +15,7 @@ export class UserDetailsComponent implements OnInit {
   public isReady: boolean;
   public isNewUserDetails: boolean;
   public isBookmarked: boolean;
-  public selectedIndex: 2;
+  public selectedIndex: any;
 
   constructor(
     private store: Store<any>,
@@ -27,7 +27,9 @@ export class UserDetailsComponent implements OnInit {
   ngOnInit() {
     document.body.style.backgroundColor = '#B5D6EB';
     this.isNewUserDetails = true;
+    this.selectedIndex = 1;
     this.isBookmarked = false;
+
     const id = this.route.snapshot.paramMap.get('id');
     const lStorage = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
     this.companyService.addToHistory(id, lStorage.kompanijaID).subscribe();

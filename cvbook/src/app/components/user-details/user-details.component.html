@@ -23,12 +23,6 @@
 
 <div *ngIf="isReady && isNewUserDetails" class="cards" >
     <mat-tab-group class="tabGroup" [(selectedIndex)]="selectedIndex" >
-        <!--
-                        <button mat-mini-fab class="btnFavourited" (click)="onToggleBookmarked()">
-                <mat-icon *ngIf="isBookmarked" >bookmark</mat-icon>
-                <mat-icon *ngIf="!isBookmarked" >bookmark_border</mat-icon>
-            </button>
-        -->
         <mat-tab disabled>
             <ng-template mat-tab-label>
                 <button mat-mini-fab class="btnFavourited" (click)="onToggleBookmarked()">

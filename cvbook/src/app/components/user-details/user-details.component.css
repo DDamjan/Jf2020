@@ -17,4 +17,6 @@
     flex-grow: 1;
 }
 
-
+.btnFavourited {
+    background-color: #0596F4;
+}

@@ -109,7 +109,7 @@ export class CvOverviewComponent implements OnInit {
   onReset() {
     const lStorage = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
     this.store.dispatch(new actions.FilterUsersReset());
-    this.store.dispatch(new actions.GetUsers(lStorage.kompanijaID))
+    this.store.dispatch(new actions.GetUsers(lStorage.kompanijaID));
   }
 
   onFilter(): void {
