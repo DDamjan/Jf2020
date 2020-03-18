@@ -167,7 +167,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <table>
+          <!-- <table>
             <tr>
               <td class="header">Profile:</td>
               <td class="data">{{skola.smer}}</td>
@@ -184,7 +184,7 @@
               <td class="header">Finishing Year:</td>
               <td class="data">{{skola.godinaZavrsetka}}</td>
             </tr>
-          </table>
+          </table> -->
           <!-- <div style="display: flex; flex-direction: column;">
             <div class="educationDataSpacing">
               <div style="display: flex; flex-grow: 2;"><span style="color:black;">Year:</span></div>
@@ -513,7 +513,25 @@
     <div class="info-container">
 
       <mat-accordion *ngFor="let skills of data.iskustvo.ostaleVestine">
-        <div class="residenceDataSpacing">
+        <table>
+          <tr>
+            <td class="header">Skills:</td>
+            <td class="data">{{skills.vestine}}</td>
+          </tr>
+          <tr>
+            <td class="header">Drivers licence:</td>
+            <td class="data">{{skills.vestine}}</td>
+          </tr>
+          <tr>
+            <td class="header">My personality traits:</td>
+            <td class="data">{{skills.osobine}}</td>
+          </tr>
+          <tr>
+            <td class="header">Personal interests:</td>
+            <td class="data">{{skills.interesovanja}}</td>
+          </tr>
+        </table>
+        <!-- <div class="residenceDataSpacing">
           <div style="display: flex; flex-grow: 2;"><span style="color:black;">Skills:</span></div>
           <div style="display: flex; flex-grow: 14;"><span
               style="color: black; font-weight: 550;">{{skills.vestine}}</span></div>
@@ -532,7 +550,7 @@
           <div style="display: flex; flex-grow: 2;"><span style="color:black;">Personal interests:</span></div>
           <div style="display: flex; flex-grow: 14;"><span
               style="color: black; font-weight: 550;">{{skills.interesovanja}}</span></div>
-        </div>
+        </div> -->
       </mat-accordion>
     </div>
 
