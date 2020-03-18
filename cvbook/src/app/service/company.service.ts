@@ -67,6 +67,13 @@ export class CompanyService {
         );
     }
 
+    addToDownloaded(payload): Observable<any> {
+        const url = `${this.serverURL}downloaded`;
+        return this.http.post<any>(url, payload, this.httpService.httpOptions()).pipe(
+            catchError(this.handleError<any>('addToFavourites'))
+        );
+    }
+
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
             console.error(error);
