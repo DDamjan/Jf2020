@@ -14,6 +14,8 @@ export class UserDetailsComponent implements OnInit {
   public data: any;
   public isReady: boolean;
   public isNewUserDetails: boolean;
+  public isBookmarked: boolean;
+  public selectedIndex: 2;
 
   constructor(
     private store: Store<any>,
@@ -24,6 +26,7 @@ export class UserDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.isNewUserDetails = true;
+    this.isBookmarked = false;
     const id = this.route.snapshot.paramMap.get('id');
     const lStorage = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
     this.companyService.addToHistory(id, lStorage.kompanijaID).subscribe();
@@ -37,5 +40,9 @@ export class UserDetailsComponent implements OnInit {
         this.isReady = true;
       }
     });
+  }
+
+  onToggleBookmarked() {
+    this.isBookmarked = !this.isBookmarked;
   }
 }
