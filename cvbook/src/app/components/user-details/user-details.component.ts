@@ -25,6 +25,7 @@ export class UserDetailsComponent implements OnInit {
     ) {}
 
   ngOnInit() {
+    document.body.style.backgroundColor = '#B5D6EB';
     this.isNewUserDetails = true;
     this.isBookmarked = false;
     const id = this.route.snapshot.paramMap.get('id');

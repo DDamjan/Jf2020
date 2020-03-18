@@ -10,4 +10,5 @@ export interface Filter {
     permanentResidenceCountry: string;
     temporaryResidenceCity: string;
     temporaryResidenceCountry: string;
+    favourite: boolean;
 }

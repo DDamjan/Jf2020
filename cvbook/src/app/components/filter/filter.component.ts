@@ -1,9 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as actions from '../../store/actions';
 import { CompanyService } from 'app/service/company.service';
 import { selectAllFilters } from 'app/store/reducers/filter.reducer';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { filter } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 
 export interface DialogData {
   animal: string;
@@ -16,7 +18,7 @@ export interface DialogData {
   styleUrls: ['./filter.component.css']
 })
 
-export class FilterComponent implements OnInit {
+export class FilterComponent implements OnInit, OnDestroy {
   public error: boolean;
   public cities: any;
   public counties: any;
@@ -27,38 +29,42 @@ export class FilterComponent implements OnInit {
   public tCityOptions: string[] = [];
   public facultyOptions: string[] = [];
 
-  public cv: boolean;
-  public firstName: string;
-  public lastName: string;
-  public yos: string;
-  public grade: string;
-  public faculty: string;
-  public pCity: string;
-  public pCountry: string;
-  public tCity: string;
-  public tCountry: string;
+  public cvControl = new FormControl();
+  public favouriteControl = new FormControl();
+  public firstNameControl = new FormControl();
+  public lastNameControl = new FormControl();
+  public yosControl = new FormControl();
+  public gradeControl = new FormControl();
+  public facultyControl = new FormControl();
+  public pCityControl = new FormControl();
+  public pCountryControl = new FormControl();
+  public tCityControl = new FormControl();
+  public tCountryControl = new FormControl();
+
+  private storeCall: any;
 
   constructor(
     private store: Store<any>,
     private companyService: CompanyService,
     public dialogRef: MatDialogRef<FilterComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
-    ) { this.error = false; }
+  ) { this.error = false; }
 
   ngOnInit() {
     this.populateformOptions();
-    this.store.select(selectAllFilters).subscribe(filters => {
+    this.storeCall = this.store.select(selectAllFilters).subscribe(filters => {
       if (filters.length !== 0) {
-        this.firstName = filters[0].firstName;
-        this.lastName = filters[0].lastName;
-        this.yos = filters[0].yos;
-        this.grade = filters[0].grade;
-        this.faculty = filters[0].faculty;
-        this.pCity = filters[0].permanentResidenceCity;
-        this.pCountry = filters[0].permanentResidenceCountry;
-        this.tCity = filters[0].temporaryResidenceCity;
-        this.tCountry = filters[0].temporaryResidenceCountry;
-        this.cv = filters[0].cv;
+        this.cvControl.setValue(filters[0].cv);
+        this.favouriteControl.setValue(filters[0].favourite);
+        this.firstNameControl.setValue(filters[0].firstName);
+        this.lastNameControl.setValue(filters[0].lastName);
+        this.yosControl.setValue(filters[0].yos);
+        this.gradeControl.setValue(filters[0].grade);
+        this.facultyControl.setValue(filters[0].faculty);
+        this.pCityControl.setValue(filters[0].permanentResidenceCity);
+        this.pCountryControl.setValue(filters[0].permanentResidenceCountry);
+        this.tCityControl.setValue(filters[0].temporaryResidenceCity);
+        this.tCountryControl.setValue(filters[0].temporaryResidenceCountry);
       }
     });
   }
@@ -78,6 +84,9 @@ export class FilterComponent implements OnInit {
         this.facultyOptions.push(fakultet.naziv);
       });
     });
+  }
+  ngOnDestroy() {
+    this.storeCall.unsubscribe();
   }
 
   onSubmit($event) {

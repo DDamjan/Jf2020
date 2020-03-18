@@ -7,9 +7,10 @@ import { Router } from '@angular/router';
 import { selectAllUsers } from 'app/store/reducers/users.reducer';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { PageEvent, MatPaginator, MatSnackBar, Sort, MatSort, MatDialog} from '@angular/material';
+import { PageEvent, MatPaginator, MatSnackBar, Sort, MatSort, MatDialog } from '@angular/material';
 import { fromMatSort, fromMatPaginator, sortRows, paginateRows } from '../../util/datasource-util';
-import {FilterComponent } from '../filter/filter.component';
+import { FilterComponent } from '../filter/filter.component';
+import { selectAllFilters } from 'app/store/reducers/filter.reducer';
 
 @Component({
   selector: 'app-cv-overview',
@@ -27,6 +28,8 @@ export class CvOverviewComponent implements OnInit {
   @ViewChild('paginator', null) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
+  private obs: any;
+
   constructor(
     private store: Store<any>,
     private userService: UserService,
@@ -39,28 +42,74 @@ export class CvOverviewComponent implements OnInit {
     this.pageSize = 20;
     this.pageSizeOptions = [5, 10, 15, 20, 25, 100];
     const lStorage = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
-    this.store.dispatch(new actions.GetUsers(lStorage.kompanijaID));
-    this.store.select(selectAllUsers).subscribe(users => {
-      if (users.length !== 0) {
-        if (users[0].userID === -1) {
-          this.snackBar.open(`Users with given criteria aren't in the database!`, 'Close', {
-            duration: 3000
-          });
+
+    this.obs = this.store.select(selectAllFilters).subscribe(filters => {
+      this.store.select(selectAllUsers).subscribe(users => {
+        if (filters.length === 0) {
+          if (users.length !== 0) {
+            if (users[0].userID === -1) {
+              this.snackBar.open(`Users with given criteria aren't in the database!`, 'Close', {
+                duration: 3000
+              });
+            } else {
+              this.populateList(users);
+            }
+          } else {
+            this.store.dispatch(new actions.GetUsers(lStorage.kompanijaID));
+          }
         } else {
-          this.userList = users;
-          if (this.sort !== undefined) {
-            const sortEvents$: Observable<Sort> = fromMatSort(this.sort);
-            const pageEvents$: Observable<PageEvent> = fromMatPaginator(this.paginator);
-            const rows$ = of(this.userList);
-            this.totalRows$ = rows$.pipe(map(rows => rows.length));
-            this.displayedRows$ = rows$.pipe(sortRows(sortEvents$), paginateRows(pageEvents$));
+          const cv = filters[0].cv;
+          const favourite = filters[0].favourite;
+          const firstName = filters[0].firstName;
+          const lastName = filters[0].lastName;
+          const yos = filters[0].yos;
+          const grade = filters[0].grade;
+          const faculty = filters[0].faculty;
+          const permanentResidenceCity = filters[0].permanentResidenceCity;
+          const permanentResidenceCountry = filters[0].permanentResidenceCountry;
+          const temporaryResidenceCity = filters[0].temporaryResidenceCity;
+          const temporaryResidenceCountry = filters[0].temporaryResidenceCountry;
+
+          const payload = {
+            id: 1,
+            firstName,
+            lastName,
+            yos,
+            grade,
+            faculty,
+            cv: cv === false ? '' : true,
+            favourite: favourite === false ? '' : true,
+            permanentResidenceCity,
+            permanentResidenceCountry,
+            temporaryResidenceCity,
+            temporaryResidenceCountry,
+            kompanijaID: lStorage.kompanijaID
+          };
+          if (users.length === 0) {
+            this.store.dispatch(new actions.FilterUsers(payload));
+          } else {
+            this.populateList(users);
           }
         }
-      }
+      });
     });
   }
 
-  onReturn() {
+  populateList(users) {
+    setTimeout(() => {
+      this.userList = users;
+      const sortEvents$: Observable<Sort> = fromMatSort(this.sort);
+      const pageEvents$: Observable<PageEvent> = fromMatPaginator(this.paginator);
+      const rows$ = of(this.userList);
+      this.totalRows$ = rows$.pipe(map(rows => rows.length));
+      this.displayedRows$ = rows$.pipe(sortRows(sortEvents$), paginateRows(pageEvents$));
+    }, 100);
+  }
+
+  onReset() {
+    const lStorage = JSON.parse(localStorage.getItem('CVBook-CurrentCompany'));
+    this.store.dispatch(new actions.FilterUsersReset());
+    this.store.dispatch(new actions.GetUsers(lStorage.kompanijaID))
   }
 
   onFilter(): void {
@@ -70,8 +119,7 @@ export class CvOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
+      this.obs.unsubscribe();
     });
   }
 
