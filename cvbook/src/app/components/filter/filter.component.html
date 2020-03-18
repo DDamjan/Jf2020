@@ -10,7 +10,9 @@
       <mat-form-field class="input" >
         <input matInput placeholder="Last name" [formControl]="lastNameControl">
       </mat-form-field>
+
       <p></p>
+
       <mat-form-field>
         <input matInput placeholder="Year of study" [matAutocomplete]="yos" [formControl]="yosControl">
         <mat-autocomplete #yos="matAutocomplete">
@@ -19,17 +21,44 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+
       <mat-form-field class="input">
         <input matInput placeholder="Grade average" [formControl]="gradeControl">
       </mat-form-field>
+
       <mat-form-field class="input">
-        <input matInput placeholder="Faculty" [matAutocomplete]="faculty" (keyup)="autoCompleteListener($event, 'faculty')" [formControl]="facultyControl">
-        <mat-autocomplete #faculty="matAutocomplete">
+        <mat-chip-list #chipList aria-label="Faculty selection">
+          <mat-chip
+            *ngFor="let faculty of faculties"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(faculty)">
+            {{faculty}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            matInput
+            placeholder="Faculty"
+            #facultyInput
+            [formControl]="facultyControl"
+            [matAutocomplete]="faculty"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)"
+            (keyup)="autoCompleteListener($event, 'faculty')" 
+            [formControl]="facultyControl">
+        </mat-chip-list>
+        <!--
+          <input matInput placeholder="Faculty" [matAutocomplete]="faculty" (keyup)="autoCompleteListener($event, 'faculty')" [formControl]="facultyControl"> 
+        -->
+        <mat-autocomplete #faculty="matAutocomplete" (optionSelected)="selected($event)">
           <mat-option *ngFor="let option of facultyOptions" [value]="option">
             {{ option }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+
       <p>Permanent residence</p>
       <mat-form-field appearance="legacy">
         <input matInput placeholder="City" name="pCity" [matAutocomplete]="pCity" (keyup)="autoCompleteListener($event, 'pCity')" [formControl]="pCityControl">

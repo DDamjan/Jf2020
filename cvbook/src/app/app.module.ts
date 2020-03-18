@@ -25,7 +25,8 @@ import {
   MatTableModule,
   MatPaginatorModule,
   MatSortModule,
-  MatDialogModule
+  MatDialogModule,
+  MatChipsModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
@@ -102,7 +103,8 @@ import { HistoryComponent } from './components/history/history.component';
     MatAutocompleteModule,
     ChartsModule,
     MatDialogModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatChipsModule
   ],
   entryComponents: [
     FilterComponent

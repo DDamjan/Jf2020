@@ -1,11 +1,16 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as actions from '../../store/actions';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { CompanyService } from 'app/service/company.service';
 import { selectAllFilters } from 'app/store/reducers/filter.reducer';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { filter } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
+import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 export interface DialogData {
   animal: string;
@@ -43,14 +48,35 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   private storeCall: any;
 
+  public faculties: string[] = [];
+  public selectable: boolean;
+  public removable: boolean;
+  public addOnBlur: boolean;
+  public separatorKeysCodes: number[] = [ENTER, COMMA];
+  public filteredFaculties: Observable<string[]>;
+
+
+  @ViewChild('facultyInput', {static: false}) facultyInput: ElementRef<HTMLInputElement>;
+  @ViewChild('faculty', {static: false}) matAutocomplete: MatAutocomplete;
   constructor(
     private store: Store<any>,
     private companyService: CompanyService,
     public dialogRef: MatDialogRef<FilterComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) { this.error = false; }
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+
+  ) {
+    this.error = false;
+    // this.filteredFaculties = this.facultyControl.valueChanges.pipe(
+    //   startWith(null),
+    //   map((fruit: string | null) => fruit ? this._filter(fruit) : this.facultyOptions.slice()));
+  }
 
   ngOnInit() {
+    this.selectable = true;
+    this.removable = true;
+    this.addOnBlur = true;
+    this.separatorKeysCodes = [ENTER, COMMA];
+
     this.populateformOptions();
     this.storeCall = this.store.select(selectAllFilters).subscribe(filters => {
       if (filters.length !== 0) {
@@ -70,6 +96,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   populateformOptions() {
+    console.log('populateformOptions');
     this.companyService.formOptions().subscribe(options => {
       options.drzave.forEach(drzava => {
         this.pCountryOptions.push(drzava.naziv);
@@ -118,6 +145,7 @@ export class FilterComponent implements OnInit, OnDestroy {
       temporaryResidenceCountry,
       kompanijaID: lStorage.kompanijaID
     };
+    console.log(payload);
     this.store.dispatch(new actions.FilterUsers(payload));
     this.dialogRef.close();
   }
@@ -150,6 +178,47 @@ export class FilterComponent implements OnInit, OnDestroy {
       this.populateformOptions();
     }
   }
+
+  add(event: MatChipInputEvent): void {
+    // Add fruit only when MatAutocomplete is not open
+    // To make sure this does not conflict with OptionSelected Event
+    if (!this.matAutocomplete.isOpen) {
+      const input = event.input;
+      const value = event.value;
+
+      // Add our fruit
+      if ((value || '').trim()) {
+        this.faculties.push(value.trim());
+      }
+
+      // Reset the input value
+      if (input) {
+        input.value = '';
+      }
+
+      this.facultyControl.setValue(null);
+    }
+  }
+
+  remove(faculty: string): void {
+    const index = this.faculties.indexOf(faculty);
+
+    if (index >= 0) {
+      this.faculties.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.faculties.push(event.option.viewValue);
+    this.facultyInput.nativeElement.value = '';
+    this.facultyControl.setValue(null);
+  }
+
+  // private _filter(value: string): string[] {
+  //   const filterValue = value.toLowerCase();
+
+  //   return this.facultyOptions.filter(faculty => faculty.toLowerCase().indexOf(filterValue) === 0);
+  // }
 
   onCancel(): void {
     this.dialogRef.close();
