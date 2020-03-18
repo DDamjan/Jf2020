@@ -55,4 +55,8 @@ export class UserDetailsComponent implements OnInit {
       this.companyService.removeFromFavourites({ userID: this.data.userID, kompanijaID: company.kompanijaID }).subscribe();
     }
   }
+
+  onReturn() {
+    this.router.navigate(['cvoverview']);
+  }
 }
