@@ -4,16 +4,17 @@
       <mat-checkbox [formControl]="cvControl">Has CV</mat-checkbox>
       <mat-checkbox [formControl]="favouriteControl" class="input">Favorited</mat-checkbox>
       <p>Personal Details</p>
-      <mat-form-field>
+      <mat-form-field class="inlargeInput">
         <input matInput placeholder="First name" [formControl]="firstNameControl">
       </mat-form-field>
-      <mat-form-field class="input" >
+
+      <mat-form-field class="input inlargeInput" >
         <input matInput placeholder="Last name" [formControl]="lastNameControl">
       </mat-form-field>
 
       <p></p>
 
-      <mat-form-field>
+      <mat-form-field class="inlargeInput">
         <input matInput placeholder="Year of study" [matAutocomplete]="yos" [formControl]="yosControl">
         <mat-autocomplete #yos="matAutocomplete">
           <mat-option *ngFor="let option of yosOptions" [value]="option">
@@ -22,11 +23,11 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field class="input">
+      <mat-form-field class="input inlargeInput">
         <input matInput placeholder="Grade average" [formControl]="gradeControl">
       </mat-form-field>
 
-      <mat-form-field class="input">
+      <mat-form-field class="input inlargeInput">
         <mat-chip-list #chipList aria-label="Faculty selection">
           <mat-chip
             *ngFor="let faculty of faculties"
@@ -60,7 +61,7 @@
       </mat-form-field>
 
       <p>Permanent residence</p>
-      <mat-form-field appearance="legacy">
+      <mat-form-field appearance="legacy" class="inlargeInput">
         <input matInput placeholder="City" name="pCity" [matAutocomplete]="pCity" (keyup)="autoCompleteListener($event, 'pCity')" [formControl]="pCityControl">
         <mat-autocomplete #pCity="matAutocomplete">
           <mat-option *ngFor="let option of pCityOptions" [value]="option">
@@ -68,7 +69,7 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <mat-form-field appearance="legacy" class="input">
+      <mat-form-field appearance="legacy" class="input inlargeInput">
         <input matInput placeholder="Country" name="pCountry" [matAutocomplete]="pCountry" (keyup)="autoCompleteListener($event, 'pCountry')" [formControl]="pCountryControl">
         <mat-autocomplete #pCountry="matAutocomplete">
           <mat-option *ngFor="let option of pCountryOptions" [value]="option">
@@ -76,8 +77,9 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+
       <p>Temporary residence</p>
-      <mat-form-field appearance="legacy">
+      <mat-form-field appearance="legacy" class="inlargeInput">
         <input matInput placeholder="City" name="tCity" [matAutocomplete]="tCity" (keyup)="autoCompleteListener($event, 'tCity')" [formControl]="tCityControl">
         <mat-autocomplete #tCity="matAutocomplete">
           <mat-option *ngFor="let option of tCityOptions" [value]="option">
@@ -85,7 +87,7 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <mat-form-field appearance="legacy" class="input">
+      <mat-form-field appearance="legacy" class="input inlargeInput">
         <input matInput placeholder="Country" name="tCountry" [matAutocomplete]="tCountry" (keyup)="autoCompleteListener($event, 'tCountry')" [formControl]="tCountryControl">
         <mat-autocomplete #tCountry="matAutocomplete">
           <mat-option *ngFor="let option of tCountryOptions" [value]="option">
@@ -95,6 +97,7 @@
       </mat-form-field>
     </div>
   </div>
+  
   <div mat-dialog-actions class="dialogActions">
     <div class="btnSerachDiv">
       <button mat-raised-button type="submit" class="btnSerach" >Search</button>
