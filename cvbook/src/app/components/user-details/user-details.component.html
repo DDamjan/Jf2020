@@ -25,6 +25,9 @@
     <mat-tab-group class="tabGroup" [(selectedIndex)]="selectedIndex" >
         <mat-tab disabled>
             <ng-template mat-tab-label>
+                <button mat-mini-fab class="btnReturn" (click)="onReturn()">
+                    <mat-icon>keyboard_backspace</mat-icon>
+                </button>
                 <button mat-mini-fab class="btnFavourited" (click)="onToggleBookmarked()">
                     <mat-icon *ngIf="isBookmarked" >bookmark</mat-icon>
                     <mat-icon *ngIf="!isBookmarked" >bookmark_border</mat-icon>

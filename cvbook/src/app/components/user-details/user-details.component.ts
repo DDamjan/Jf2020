@@ -48,4 +48,8 @@ export class UserDetailsComponent implements OnInit {
   onToggleBookmarked() {
     this.isBookmarked = !this.isBookmarked;
   }
+
+  onReturn() {
+    this.router.navigate(['cvoverview']);
+  }
 }
