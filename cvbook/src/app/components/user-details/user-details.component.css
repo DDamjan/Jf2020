@@ -5,12 +5,9 @@
 .cards {
     align-items:  center;
     justify-content:  center;
-<<<<<<< HEAD
     background-color: #B5D6EB;
     min-height: 100%;
     overflow: hidden;
-=======
->>>>>>> 506f91ba027352968b0285004b8459330ec50727
 }
 
 .flexRow {
